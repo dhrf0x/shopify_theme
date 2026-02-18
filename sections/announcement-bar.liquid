@@ -1,0 +1,96 @@
+{% assign announcement_text = section.settings.announcement_text %}
+{% assign announcement_text_mobile = section.settings.announcement_text_mobile %}
+
+{% if template contains 'index' and section.settings.show_announcement_bar != 'hide' %}
+  {% assign enable_announcement_bar = true %}
+{% elsif section.settings.show_announcement_bar == 'all_pages' %}
+  {% assign enable_announcement_bar = true %}
+{% endif %}
+
+{% if enable_announcement_bar %}
+  <div class="announcement-bar {% if section.settings.announcement_link != blank %}announcement_clickable{% endif %} js-animate-appear-show"
+    data-section-id="{{ section.id }}"
+    data-section-type="announcement-bar"
+    style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+    {% if section.settings.announcement_link != blank %}
+      <a href="{{ section.settings.announcement_link }}" class="announcement__link"></a>
+    {% endif %}
+    <div class="row columns announcement__text-wrap text-{{ section.settings.text_alignment }}">
+      {% unless announcement_text == blank %}
+        <div class="announcement__text {% if announcement_text_mobile != blank %}show-for-medium{% endif %}">
+          {{ announcement_text }}
+        </div>
+      {% endunless %}
+      {% unless announcement_text_mobile == blank %}
+        <div class="announcement__text show-for-small-only">
+          {{ announcement_text_mobile }}
+        </div>
+      {% endunless %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "show_announcement_bar",
+      "label": "Show on pages",
+      "default": "home",
+      "options": [
+        { "value": "hide", "label": "Hide" },
+        { "value": "home", "label": "Homepage only" },
+        { "value": "all_pages", "label": "All pages" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "announcement_text",
+      "label": "Text (Desktop)",
+      "default": "<p>Add your announcement here</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "announcement_text_mobile",
+      "label": "Text (Mobile)",
+      "info": "Leave blank to use desktop text on mobile too"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Link (optional)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#111110"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}

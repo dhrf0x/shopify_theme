@@ -115,7 +115,7 @@ $trans-slow: all 0.42s cubic-bezier(0.4, 0, 0.2, 1);
 $color-body-bg: {{ settings.color_bg | default: '#f8f8f6' }};
 $color-body-title: {{ settings.color_title | default: '#111110' }};
 $color-body-text: {{ settings.color_text | default: '#333330' }};
-$color-border: darken({{ settings.color_bg | default: '#f8f8f6' }}, 6%);
+$color-border: rgba(0, 0, 0, 0.08);
 $color-sections-bg: {{ settings.color_sections_bg | default: '#111110' }};
 $color-sections-text: {{ settings.color_sections_text | default: '#fff' }};
 $color-secondary: {{ settings.color_secondary | default: '#6b6b68' }};
@@ -288,6 +288,21 @@ label {
   letter-spacing: 0.07em;
 }
 
+@media (prefers-color-scheme: dark) {
+  label {
+    color: $dark-text-primary;
+  }
+  select {
+    background-color: $dark-surface;
+    color: $dark-text-primary;
+    border-color: $dark-border-strong;
+  }
+  // General body copy in dark mode
+  p, li, span, td, th, dt, dd {
+    color: inherit;
+  }
+}
+
 .rte img { border-radius: $radius-lg; }
 
 .callout {
@@ -401,7 +416,7 @@ a, .pagination a {
     transition: $trans-fast;
     &::placeholder { color: $color-field-placeholder; }
     &:focus {
-      border-color: darken($color-field-border, 14%);
+      border-color: rgba(0, 0, 0, 0.28);
       box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
     }
   }
@@ -772,7 +787,7 @@ a, .pagination a {
       border-color: $color-footer-form-input-border;
       box-shadow: none;
       &::placeholder { color: $color-footer-form-input-text; opacity: 0.5; }
-      &:focus { background-color: lighten($color-footer-form-input-bg, 5%); border-color: lighten($color-footer-form-input-border, 10%); box-shadow: none; }
+      &:focus { background-color: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.28); box-shadow: none; }
     }
     .button, .button:active, .button:focus, .button:visited {
       background-color: $color-footer-form-btn-bg;
@@ -826,6 +841,7 @@ a, .pagination a {
   color: $color-sections-text;
   overflow: hidden;
   position: relative;
+  isolation: isolate; // creates stacking context so z-index works reliably
 
   &.hero-section_full-screen { min-height: 100vh; }
 
@@ -869,28 +885,34 @@ a, .pagination a {
   @media screen and (max-width: 46.87375em) { padding: 1.75rem 1.5rem; }
 }
 
-// Video background
+// Video background — covers full hero section
+.hero-section {
+  overflow: hidden; // contain the absolutely-positioned video
+}
+
 .hero-video-bg {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
+  background: #000; // fallback while video loads
 }
 
 .hero-video-iframe {
   position: absolute;
   top: 50%;
   left: 50%;
+  // Aspect-ratio trick: 16:9 → always wider/taller than container
   width: 100vw;
-  height: 56.25vw;
-  min-height: 100%;
-  min-width: 177.78vh;
+  height: 56.25vw; // 100vw ÷ 16 × 9
+  min-height: 100vh;
+  min-width: 177.78vh; // 100vh ÷ 9 × 16
   transform: translate(-50%, -50%);
-  border: none;
+  border: 0;
 }
 
 .hero-video-poster {
@@ -1116,7 +1138,7 @@ a, .pagination a {
     font-size: 14px;
     letter-spacing: 0.08em;
     border-radius: $radius-lg;
-    &:hover { background-color: darken($color-product-buy-bg, 10%); color: $color-product-buy-text; opacity: 1; transform: translateY(-1px); }
+    &:hover { background-color: rgba(0, 0, 0, 0.78); color: $color-product-buy-text; opacity: 1; transform: translateY(-1px); }
   }
 
   .product-description { color: $color-product-description; font-size: $product-description-size; line-height: 1.7; }
@@ -1131,9 +1153,24 @@ a, .pagination a {
 @media (prefers-color-scheme: dark) {
   .product-page {
     .product-vendor a { color: $dark-text-secondary; }
-    .swatch label { border-color: $dark-border-strong; }
-    .swatch .swatch-element__inner { background-color: $dark-bg-alt; }
-    .swatch input:checked + label { color: $dark-text-primary; }
+    .product-title { color: $dark-heading; }
+    .product-description { color: $dark-text-secondary; }
+    // Swatch + variant labels (Talla, Tejido, Grupo edad, etc.)
+    label { color: $dark-text-primary; }
+    .swatch label { border-color: $dark-border-strong; color: $dark-text-primary; }
+    .swatch .swatch-element__inner { background-color: $dark-bg-alt; color: $dark-text-primary; }
+    .swatch input:checked + label { color: $dark-text-primary; border-color: $dark-text-primary; }
+    // Select dropdowns for variant selection
+    select {
+      background-color: $dark-surface;
+      color: $dark-text-primary;
+      border-color: $dark-border-strong;
+    }
+    // Quantity label
+    label.quantity-selector { color: $dark-text-primary; }
+    // Product tabs / descriptions
+    .rte, .rte p, .rte li { color: $dark-text-secondary; }
+    .tabs-content { color: $dark-text-secondary; }
   }
 }
 
@@ -1348,8 +1385,36 @@ a, .pagination a {
 .text-shadow__intense .button, .text-shadow__intense button, .text-shadow__intense input { text-shadow: none; }
 
 /*============================================================================
-  Icon Font
+  Dark mode — global overrides for text elements that escape body color
 ==============================================================================*/
+@media (prefers-color-scheme: dark) {
+  // All uncolored text inherits from body (already dark-text-primary)
+  // These specific elements override light-mode hardcoded values:
+  .rte, .rte p, .rte h1, .rte h2, .rte h3, .rte h4, .rte h5, .rte h6 { color: $dark-text-secondary; }
+  .tabs-content { color: $dark-text-secondary; }
+  .page__header__description { color: $dark-text-secondary; }
+
+  // Table & account pages
+  table, tbody, tfoot, thead { border-color: $dark-border; background-color: $dark-bg-alt; }
+  tfoot, thead, tfoot td, tfoot th, thead td, thead th { color: $dark-text-primary; background: $dark-surface; }
+  tbody tr:nth-child(2n) { background-color: $dark-bg; }
+
+  // Form elements not covered by the main dark block
+  select { background-color: $dark-surface; color: $dark-text-primary; border-color: $dark-border-strong; }
+  input[type="checkbox"], input[type="radio"] { accent-color: $dark-text-primary; }
+
+  // Error / note callouts
+  .note { background-color: $dark-surface; border-color: $dark-border-strong; color: $dark-text-secondary; }
+
+  // Pagination
+  .pagination a, .pagination button { color: $dark-text-primary; }
+  .pagination .current { color: $dark-text-secondary; }
+  .pagination .disabled { color: $dark-text-tertiary; }
+
+  // Breadcrumbs
+  .breadcrumbs li { color: $dark-text-secondary; }
+  .breadcrumbs a { color: $dark-link; }
+}
 @font-face {
   font-family: 'icons';
   src:  url('icons.eot');
