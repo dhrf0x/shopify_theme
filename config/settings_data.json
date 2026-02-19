@@ -280,8 +280,9 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "show_bar": false,
-          "msg1": "",
+          "show_bar": true,
+          "visibility": "all",
+          "msg1": "TEST",
           "link1": "",
           "msg2": "",
           "link2": "",
@@ -440,6 +441,21 @@
           "enable_custom_styles": true,
           "text_color": "",
           "text_font_size": 18
+        }
+      },
+      "collection-tabs": {
+        "type": "collection-tabs",
+        "settings": {
+          "title": "Nuestras Colecciones",
+          "title_align": "center",
+          "collection_a": "",
+          "label_a": "OVERSIZE",
+          "collection_b": "",
+          "label_b": "ACID",
+          "products_count": 8,
+          "grid": "4",
+          "grid_mobile": "2",
+          "cta_text": "Ver colección completa"
         }
       }
     },
