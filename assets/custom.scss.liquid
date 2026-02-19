@@ -1444,22 +1444,12 @@ a, .pagination a {
 
 
 
-
 /* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
-   ║   overflow:clip hero fix + Gymshark search overlay           ║
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.3                      ║
+   ║   Hero absolute fix + search dark + all prior fixes          ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
-/* ─── FIX CRÍTICO: overflow:clip en PageContainer ────────────── */
-/* overflow:hidden crea un scroll container → offset horizontal  */
-/* overflow:clip NO crea scroll container → no offset            */
-#PageContainer {
-  overflow: clip !important;
-  overflow-clip-margin: 0 !important;
-}
-
 /* ─── 1. BASE GLOBAL ─────────────────────────────────────────── */
-html { overflow-x: hidden; scroll-behavior: smooth; }
 body, #PageContainer, .page-wrapper {
   background-color: $color-sections-bg !important;
   color: $color-sections-text !important;
@@ -1468,45 +1458,56 @@ h1, h2, h3, h4, h5, h6,
 .section-title, .section__title-style, .page-title {
   color: $color-sections-text !important;
 }
+
+/* Nombres de productos en colección */
 .product-loop-item .product-loop-title,
 .product-loop-item .product-loop-title a { color: $color-sections-text !important; }
 .product-loop-item .product-loop-price span,
 .product-loop-item .product-loop-price .money { color: $color-sections-text !important; }
 
-/* ─── 2. HERO ────────────────────────────────────────────────── */
+/* ─── 2. HERO — posicionamiento y legibilidad ────────────────── */
+/* El snippet usa position:absolute ahora, solo reforzamos estilos */
+.hero-section--gymshark {
+  overflow: hidden; /* contiene el video/imagen */
+}
+/* Gradiente para legibilidad del texto */
+.hero-section--gymshark::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 65%;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+.hero-gs__shell { z-index: 5 !important; }
+
 .hero-gs__title {
   color: #ffffff !important;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.85), 0 0 50px rgba(0,0,0,0.5) !important;
+  font-size: clamp(1.75rem, 4vw, 3.5rem) !important;
+  word-break: normal !important;
+  hyphens: none !important;
+  text-shadow:
+    0 2px 20px rgba(0,0,0,0.85),
+    0 0 50px rgba(0,0,0,0.5) !important;
 }
 .hero-gs__text, .hero-gs__text p {
   color: rgba(255,255,255,0.92) !important;
   text-shadow: 0 1px 8px rgba(0,0,0,0.7) !important;
 }
 .hero-gs__btn { color: #ffffff !important; }
-/* Gradiente para legibilidad */
-.hero-section--gymshark::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 65%;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.1) 70%, transparent 100%);
-  z-index: 3;
-  pointer-events: none;
-}
-.hero-gs__content { z-index: 6; }
 
 /* ─── 3. HEADER ──────────────────────────────────────────────── */
 .header-container {
-  position: relative;
   background-color: $color-sections-bg !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   box-shadow: 0 2px 24px rgba(0,0,0,0.4) !important;
 }
 #main-header .logo-wrap .header__title a,
 #main-header .menu-item-link,
-#header-right-menu .menu-item-link,
-#header-right-menu a { color: $color-sections-text !important; }
+#header-right-menu .menu-item-link { color: $color-sections-text !important; }
 #header-right-menu svg, #main-header svg { fill: $color-sections-text !important; }
+#header-right-menu a { color: $color-sections-text !important; }
 #main-header .main-menu > li > a {
   color: $color-sections-text !important;
   letter-spacing: 0.04em; font-weight: 600; transition: opacity 0.2s;
@@ -1524,152 +1525,112 @@ h1, h2, h3, h4, h5, h6,
   border-color: $color-sections-text transparent transparent !important;
 }
 
-/* Search toggle button */
-.header__search-toggle {
-  background: none !important;
-  border: none !important;
-  padding: 0 0.5rem !important;
-  cursor: pointer !important;
-  color: $color-sections-text !important;
-  font-size: 1.125rem !important;
-  line-height: 1 !important;
-  transition: opacity 0.2s !important;
-  display: flex; align-items: center;
-}
-.header__search-toggle:hover { opacity: 0.65 !important; }
-.header__search-toggle .icon { color: $color-sections-text !important; fill: $color-sections-text !important; }
-
-/* ─── 4. GYMSHARK SEARCH OVERLAY ─────────────────────────────── */
-.wf-search-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background-color: $color-sections-bg;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 12px 50px rgba(0,0,0,0.6);
-  z-index: 9999;
-  /* Estado cerrado */
-  transform: translateY(-105%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.25s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-.wf-search-overlay.is-open {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: all;
-}
-.wf-search-overlay__inner {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-.wf-search-form {
-  display: flex;
-  align-items: center;
-  height: 80px;
-  gap: 1rem;
-  border: none;
-}
-.wf-search-form__icon {
-  color: rgba(255,255,255,0.45);
-  font-size: 1.25rem;
-  flex-shrink: 0;
-}
-.wf-search-form__input {
-  flex: 1;
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1.5px solid rgba(255,255,255,0.25) !important;
-  border-radius: 0 !important;
-  color: #ffffff !important;
-  font-size: 1.375rem !important;
-  font-weight: 400 !important;
-  padding: 0.5rem 0.25rem !important;
-  outline: none !important;
-  box-shadow: none !important;
-  letter-spacing: 0.01em !important;
-  transition: border-color 0.2s !important;
-}
-.wf-search-form__input::placeholder {
-  color: rgba(255,255,255,0.3) !important;
-  font-weight: 300 !important;
-}
-.wf-search-form__input:focus {
-  border-bottom-color: rgba(255,255,255,0.75) !important;
-  box-shadow: none !important;
-}
-.wf-search-form__close {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none !important;
-  border: 1.5px solid rgba(255,255,255,0.2) !important;
-  color: rgba(255,255,255,0.55) !important;
-  padding: 0.4rem 0.875rem !important;
-  border-radius: 3px !important;
-  cursor: pointer !important;
-  font-size: 0.7rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  transition: color 0.2s, border-color 0.2s !important;
-  flex-shrink: 0;
-}
-.wf-search-form__close:hover {
-  color: #ffffff !important;
-  border-color: rgba(255,255,255,0.6) !important;
-}
-.wf-search-esc {
-  font-size: 0.65rem;
-  opacity: 0.7;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-/* Oscurecer el fondo cuando el search está abierto */
-body.wf-search-open::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 9998;
-  animation: wf-fade-in 0.25s ease both;
-}
-@keyframes wf-fade-in { from { opacity: 0; } to { opacity: 1; } }
-
-/* ─── 5. CART BADGE ──────────────────────────────────────────── */
+/* ─── 4. CART BADGE ──────────────────────────────────────────── */
 #header-right-menu .header__cart > a {
   position: relative !important; display: inline-flex !important; align-items: center !important;
 }
 .header__cart-count {
-  position: absolute !important; top: -8px !important; right: -10px !important;
-  min-width: 18px !important; height: 18px !important; border-radius: 10px !important;
+  position: absolute !important;
+  top: -8px !important; right: -10px !important;
+  min-width: 18px !important; height: 18px !important;
+  border-radius: 10px !important;
   display: flex !important; align-items: center !important; justify-content: center !important;
   padding: 0 4px !important; z-index: 10 !important;
   background-color: #e31b1b !important; color: #fff !important; line-height: 1 !important;
 }
 .header__cart-count span { font-size: 10px !important; font-weight: 700 !important; line-height: 1 !important; padding: 0 !important; color: #fff !important; }
 
+/* ─── 5. SEARCH — input y página de resultados ───────────────── */
+/* El input usa $color-field-bg = #fefefe — sobreescribir globalmente en dark */
+.search-page input[type="search"],
+.search-page input[type="text"],
+.search-page .search-bar input,
+.template-search input {
+  background-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+.search-page input[type="search"]::placeholder,
+.search-page input[type="text"]::placeholder,
+.template-search input::placeholder {
+  color: rgba(255,255,255,0.45) !important;
+}
+.search-page input[type="search"]:focus,
+.search-page input[type="text"]:focus,
+.template-search input:focus {
+  border-color: rgba(255,255,255,0.5) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Botón Buscar */
+.search-page .button,
+.search-page button[type="submit"],
+.template-search .button,
+.template-search button[type="submit"] {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 3px !important;
+  transition: background-color 0.2s, color 0.2s !important;
+}
+.search-page .button:hover,
+.search-page button[type="submit"]:hover,
+.template-search .button:hover,
+.template-search button[type="submit"]:hover {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Texto de resultados de búsqueda */
+.search-page .page-title,
+.search-page h1, .search-page h2 { color: $color-sections-text !important; }
+.search-page p, .search-page .search-no-results { color: rgba(255,255,255,0.65) !important; }
+
+/* Separador de resultados */
+.search-page hr,
+.template-search hr {
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
 /* ─── 6. MOBILE SIDEBAR ──────────────────────────────────────── */
 #mobileMenuSidebar, .off-canvas#mobileMenuSidebar {
-  background-color: $color-sections-bg !important; background: $color-sections-bg !important;
+  background-color: $color-sections-bg !important;
+  background: $color-sections-bg !important;
 }
 #mobileMenuSidebar a { color: $color-sections-text !important; }
 #mobileMenuSidebar .mobile-menu > li > a { color: $color-sections-text !important; }
 #mobileMenuSidebar h3, #mobileMenuSidebar h4 { color: $color-sections-text !important; }
 #mobileMenuSidebar .search-bar .input-group-field,
-#mobileMenuSidebar input[type="search"], #mobileMenuSidebar input[type="text"] {
-  background-color: rgba(255,255,255,0.08) !important; background: rgba(255,255,255,0.08) !important;
-  border-color: rgba(255,255,255,0.18) !important; color: $color-sections-text !important;
+#mobileMenuSidebar input[type="search"],
+#mobileMenuSidebar input[type="text"] {
+  background-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+  color: $color-sections-text !important;
 }
 #mobileMenuSidebar .search-bar .input-group-field::placeholder,
 #mobileMenuSidebar input::placeholder { color: rgba(255,255,255,0.45) !important; }
 #mobileMenuSidebar .mobile-search .button,
-#mobileMenuSidebar .search-bar .button { background-color: $color-sections-text !important; color: $color-sections-bg !important; }
+#mobileMenuSidebar .search-bar .button {
+  background-color: $color-sections-text !important;
+  color: $color-sections-bg !important;
+}
 #mobileMenuSidebar .submenu-toggle::after { border-color: $color-sections-text transparent transparent !important; }
 
 /* ─── 7. CART SIDEBAR ────────────────────────────────────────── */
-#cartSidebar { background-color: $color-sections-bg !important; border-left: 1px solid rgba(255,255,255,0.08) !important; box-shadow: -8px 0 40px rgba(0,0,0,0.5) !important; color: $color-sections-text !important; }
+#cartSidebar {
+  background-color: $color-sections-bg !important;
+  border-left: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.5) !important;
+  color: $color-sections-text !important;
+}
 #cartSidebar .cart-sidebar-title { color: $color-sections-text !important; font-weight: 800 !important; letter-spacing: 0.04em !important; text-transform: uppercase !important; }
 #cartSidebar .close-button, #cartSidebar .close-button svg { color: rgba(255,255,255,0.5) !important; fill: rgba(255,255,255,0.5) !important; }
 #cartSidebar .close-button:hover, #cartSidebar .close-button:hover svg { color: #fff !important; fill: #fff !important; }
@@ -1710,15 +1671,15 @@ body.wf-search-open::before {
 #AddToCart.disabled, #AddToCart[disabled] { opacity: 0.3 !important; cursor: not-allowed !important; }
 .social-sharing .share-title, .social-sharing .share-button { color: rgba(255,255,255,0.35) !important; font-size: 0.72rem !important; }
 
-/* ─── 9. CART PÁGINA ─────────────────────────────────────────── */
+/* ─── 9. CART PÁGINA COMPLETA ─────────────────────────────────── */
 .cart-page { background-color: $color-sections-bg; color: $color-sections-text; padding: 2rem 0 4rem; }
 .cart-page .page-title { color: $color-sections-text !important; font-weight: 800; margin-bottom: 2rem; }
 .cart-page .table-wrap, .cart-page table, .cart-page table.cart-items, .cart-page table.stack, .cart-page .cart-items { background: transparent !important; background-color: transparent !important; border: none !important; }
-.cart-page table thead, .cart-page table.cart-items thead { background: transparent !important; background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-.cart-page table thead th, .cart-page table.cart-items thead th { background: transparent !important; background-color: transparent !important; color: rgba(255,255,255,0.42) !important; font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.09em !important; text-transform: uppercase !important; padding: 0.75rem 0.5rem !important; }
-.cart-page table tbody tr, .cart-page table.cart-items tbody tr, .cart-page table tbody tr:nth-child(even), .cart-page table tbody tr:nth-child(odd) { background: transparent !important; background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; transition: background-color 0.15s; }
-.cart-page table tbody tr:hover { background: rgba(255,255,255,0.03) !important; background-color: rgba(255,255,255,0.03) !important; }
-.cart-page table tbody td, .cart-page table.cart-items tbody td { background: transparent !important; background-color: transparent !important; color: $color-sections-text !important; vertical-align: middle; padding: 1.25rem 0.5rem !important; }
+.cart-page table thead, .cart-page table.cart-items thead, .cart-page table.stack thead { background: transparent !important; background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
+.cart-page table thead th, .cart-page table.cart-items thead th, .cart-page table.stack thead th { background: transparent !important; background-color: transparent !important; color: rgba(255,255,255,0.42) !important; font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.09em !important; text-transform: uppercase !important; padding: 0.75rem 0.5rem !important; }
+.cart-page table tbody tr, .cart-page table.cart-items tbody tr, .cart-page table.stack tbody tr, .cart-page table tbody tr:nth-child(even), .cart-page table tbody tr:nth-child(odd) { background: transparent !important; background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; transition: background-color 0.15s; }
+.cart-page table tbody tr:hover, .cart-page table.cart-items tbody tr:hover { background: rgba(255,255,255,0.03) !important; background-color: rgba(255,255,255,0.03) !important; }
+.cart-page table tbody td, .cart-page table.cart-items tbody td, .cart-page table.stack tbody td { background: transparent !important; background-color: transparent !important; color: $color-sections-text !important; vertical-align: middle; padding: 1.25rem 0.5rem !important; }
 .cart-page .cart-items__img img { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
 .cart-page .cart-items__title { color: $color-sections-text !important; font-weight: 600; text-decoration: none; transition: opacity 0.15s; }
 .cart-page .cart-items__title:hover { opacity: 0.7; }
@@ -1738,30 +1699,30 @@ body.wf-search-open::before {
 .cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
 .cart-page p.rte-raw, .cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
 
-/* ─── 10. SEARCH PAGE (fallback) ─────────────────────────────── */
-.search-page, .collection-header, .collection-page, .blog-page,
-.article-page, .customer-page, .account-page { background-color: $color-sections-bg; color: $color-sections-text; }
-.search-page .row, .search-page .columns, .search-page .search,
-.search-page .results, .search-page .search__header,
-.template-search { background-color: $color-sections-bg !important; }
-.search-page input[type="search"], .search-page input[type="text"], .template-search input {
-  background-color: rgba(255,255,255,0.08) !important; background: rgba(255,255,255,0.08) !important;
-  border: 1.5px solid rgba(255,255,255,0.2) !important; color: $color-sections-text !important;
-  border-radius: 3px !important; box-shadow: none !important;
-}
-.search-page input::placeholder, .template-search input::placeholder { color: rgba(255,255,255,0.45) !important; }
-.search-page input:focus, .template-search input:focus { border-color: rgba(255,255,255,0.5) !important; outline: none !important; box-shadow: none !important; }
-.search-page .button, .search-page button[type="submit"],
-.template-search .button, .template-search button[type="submit"] { background-color: #ffffff !important; color: #111111 !important; border: 2px solid #ffffff !important; font-weight: 700 !important; letter-spacing: 0.05em !important; border-radius: 3px !important; transition: background-color 0.2s, color 0.2s !important; }
-.search-page .button:hover, .template-search .button:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
-.search-page h1, .search-page h2, .search-page .page-title { color: $color-sections-text !important; }
-.search-page p, .search-page .search-no-results { color: rgba(255,255,255,0.65) !important; }
-.search-page hr.search-hr, .template-search hr { border-color: rgba(255,255,255,0.1) !important; }
-
-/* ─── 11. FOOTER ─────────────────────────────────────────────── */
+/* ─── 10. FOOTER Y PÁGINAS ───────────────────────────────────── */
 .footer-section, .site-footer { border-top: 1px solid rgba(255,255,255,0.07) !important; }
+.collection-header, .collection-page, .blog-page, .article-page,
+.customer-page, .account-page, .search-page { background-color: $color-sections-bg; color: $color-sections-text; }
+/* Search: forzar TODO oscuro — .row y .columns heredan color-body-bg blanco */
+.search-page .row,
+.search-page .columns,
+.search-page .search,
+.search-page .results,
+.search-page .search__header,
+.template-search { background-color: $color-sections-bg !important; }
+.search-page hr.search-hr { border-color: rgba(255,255,255,0.1) !important; }
+/* Search: forzar TODO oscuro — .row y .columns heredan color-body-bg blanco */
+.search-page .row,
+.search-page .columns,
+.search-page .search,
+.search-page .results,
+.search-page .search__header,
+.search-page .search-hr,
+.template-search { background-color: $color-sections-bg !important; }
+.search-page hr.search-hr { border-color: rgba(255,255,255,0.1) !important; }
 
-/* ─── 12. ANIMACIONES & POLISH ───────────────────────────────── */
+/* ─── 11. ANIMACIONES & POLISH ───────────────────────────────── */
+html { scroll-behavior: smooth; overflow-x: hidden; } /* Prevent scroll offset that clips hero left edge */
 .column.column-block { transition: transform 0.22s ease; }
 .column.column-block:hover { transform: translateY(-3px); }
 .product-images img { animation: wf-fadein 0.4s ease both; }
@@ -1773,57 +1734,96 @@ body.wf-search-open::before {
 ::selection { background-color: rgba(255,255,255,0.18); color: #fff; }
 
 /* ═══════════════════════════════════════════════════════════════
-   MODO CLARO — OS light mode
+   MODO CLARO — se activa cuando el OS detecta light mode
    ═══════════════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: light) {
+
   body, #PageContainer, .page-wrapper { background-color: #f0f0f0 !important; color: #111111 !important; }
   h1,h2,h3,h4,h5,h6, .section-title, .section__title-style, .page-title { color: #111111 !important; }
+
+  /* Header */
   .header-container { background-color: #f0f0f0 !important; border-bottom-color: rgba(0,0,0,0.08) !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; }
-  #main-header .logo-wrap .header__title a, #main-header .menu-item-link,
-  #header-right-menu .menu-item-link, #header-right-menu a { color: #111111 !important; }
+  #main-header .logo-wrap .header__title a,
+  #main-header .menu-item-link,
+  #header-right-menu .menu-item-link,
+  #header-right-menu a { color: #111111 !important; }
   #header-right-menu svg, #main-header svg { fill: #111111 !important; }
   #main-header .main-menu > li > a { color: #111111 !important; }
-  #main-header .is-dropdown-submenu { background-color: #ffffff !important; border-color: rgba(0,0,0,0.1) !important; }
+  #main-header .is-dropdown-submenu { background-color: #ffffff !important; border-color: rgba(0,0,0,0.1) !important; box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important; }
   #main-header .is-dropdown-submenu a { color: #111111 !important; }
+  #main-header .is-dropdown-submenu a:hover { background-color: rgba(0,0,0,0.04) !important; }
   #main-header .dropdown.menu > li.is-dropdown-submenu-parent > a:after { border-color: #111111 transparent transparent !important; }
-  .header__search-toggle, .header__search-toggle .icon { color: #111111 !important; fill: #111111 !important; }
+
+  /* Ícono búsqueda (font-icon) y hamburger */
+  #header-right-menu .menu-item_search,
+  #header-right-menu .menu-item_search a,
+  #header-right-menu .menu-item_search .icon-search,
+  #header-right-menu .menu-item_search i { color: #111111 !important; }
   .burger-container #burger .bar { background-color: #111111 !important; }
-  .product-loop-item .product-loop-title, .product-loop-item .product-loop-title a,
-  .product-loop-item .product-loop-price span, .product-loop-item .product-loop-price .money { color: #111111 !important; }
-  /* Hero — texto siempre blanco con más sombra para contraste */
-  .hero-gs__title { color: #ffffff !important; text-shadow: 0 1px 0 rgba(0,0,0,1), 0 2px 20px rgba(0,0,0,1), 0 0 60px rgba(0,0,0,0.9) !important; }
+
+  /* Productos */
+  .product-loop-item .product-loop-title,
+  .product-loop-item .product-loop-title a,
+  .product-loop-item .product-loop-price span,
+  .product-loop-item .product-loop-price .money { color: #111111 !important; }
+
+  /* Hero — texto forzado blanco con shadows más fuertes para modo claro */
+  .hero-gs__title {
+    color: #ffffff !important;
+    text-shadow:
+      0 1px 0 rgba(0,0,0,0.95),
+      0 2px 20px rgba(0,0,0,1.0),
+      0 0 60px rgba(0,0,0,0.9),
+      0 4px 40px rgba(0,0,0,0.8) !important;
+  }
   .hero-gs__text, .hero-gs__text p { color: rgba(255,255,255,0.95) !important; text-shadow: 0 1px 6px rgba(0,0,0,0.95), 0 2px 16px rgba(0,0,0,0.85) !important; }
   .hero-section--gymshark::after { background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.25) 65%, transparent 100%) !important; }
-  /* Search overlay en claro */
-  .wf-search-overlay { background-color: #f0f0f0 !important; border-bottom-color: rgba(0,0,0,0.08) !important; }
-  .wf-search-form__input { color: #111111 !important; border-bottom-color: rgba(0,0,0,0.25) !important; }
-  .wf-search-form__input::placeholder { color: rgba(0,0,0,0.3) !important; }
-  .wf-search-form__input:focus { border-bottom-color: rgba(0,0,0,0.7) !important; }
-  .wf-search-form__icon { color: rgba(0,0,0,0.4) !important; }
-  .wf-search-form__close { color: rgba(0,0,0,0.5) !important; border-color: rgba(0,0,0,0.2) !important; }
-  .wf-search-form__close:hover { color: #111111 !important; border-color: rgba(0,0,0,0.5) !important; }
-  body.wf-search-open::before { background: rgba(0,0,0,0.3) !important; }
-  /* Search page en claro */
-  .search-page, .collection-header, .collection-page, .blog-page,
-  .article-page, .customer-page, .account-page { background-color: #f0f0f0; color: #111111; }
-  .search-page .row, .search-page .columns, .search-page .search,
-  .search-page .results, .search-page .search__header, .template-search { background-color: #f0f0f0 !important; }
-  .search-page input[type="search"], .search-page input[type="text"], .template-search input { background-color: #ffffff !important; border-color: rgba(0,0,0,0.2) !important; color: #111111 !important; }
-  .search-page .button, .template-search .button { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
+
+  /* Search en modo claro */
+  .search-page input[type="search"],
+  .search-page input[type="text"],
+  .template-search input {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0,0,0,0.2) !important;
+    color: #111111 !important;
+  }
+  .search-page input::placeholder, .template-search input::placeholder { color: rgba(0,0,0,0.4) !important; }
+  .search-page .button, .search-page button[type="submit"],
+  .template-search .button, .template-search button[type="submit"] {
+    background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important;
+  }
+  .search-page .button:hover, .template-search .button:hover { background-color: transparent !important; color: #111111 !important; }
+    /* Search inner wrappers en claro */
+  .search-page .row,
+  .search-page .columns,
+  .search-page .search,
+  .search-page .results,
+  .search-page .search__header,
+  .template-search { background-color: #f0f0f0 !important; }
+  .search-page hr.search-hr { border-color: rgba(0,0,0,0.1) !important; }
+
   .search-page h1, .search-page h2, .search-page .page-title { color: #111111 !important; }
-  /* Product page en claro */
+  .search-page p, .search-page .search-no-results { color: rgba(0,0,0,0.6) !important; }
+  .search-page hr, .template-search hr { border-color: rgba(0,0,0,0.1) !important; }
+
+  /* Product page */
   .product-page { background-color: #f0f0f0; }
   .product-page .product-title, .product-single .product-title { color: #111111 !important; }
   .product-page .product-vendor a { color: rgba(0,0,0,0.45) !important; }
   .product-page #ProductPrice .money, .product-page #ProductPrice { color: #111111 !important; }
-  .product-page .product__variants__wrap label { color: #111111 !important; }
+  .product-page #ComparePrice, .product-page #ComparePrice .money { color: rgba(0,0,0,0.35) !important; }
+  .product-page .product__variants__wrap label, .product-page label.quantity-selector { color: #111111 !important; }
   .product-page .product-description, .product-page .product-description p { color: rgba(0,0,0,0.6) !important; }
   .product-page .swatch label { border-color: rgba(0,0,0,0.22) !important; color: #111111 !important; }
   .product-page .swatch .swatch-element__inner { color: #111111 !important; }
+  .product-page .swatch label:hover { border-color: rgba(0,0,0,0.55) !important; background-color: rgba(0,0,0,0.04) !important; }
   .product-page .swatch input:checked + label { border-color: #111111 !important; background-color: #111111 !important; }
   .product-page .swatch input:checked + label .swatch-element__inner { color: #f0f0f0 !important; }
   #AddToCart { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
   #AddToCart:hover { background-color: transparent !important; color: #111111 !important; border-color: #111111 !important; }
+
+  /* Cart sidebar */
   #cartSidebar { background-color: #f0f0f0 !important; border-left-color: rgba(0,0,0,0.08) !important; }
   #cartSidebar .cart-sidebar-title { color: #111111 !important; }
   #cartSidebar .close-button, #cartSidebar .close-button svg { color: rgba(0,0,0,0.45) !important; fill: rgba(0,0,0,0.45) !important; }
@@ -1831,29 +1831,44 @@ body.wf-search-open::before {
   #cartSidebar .ajaxcart__product-meta, #cartSidebar label { color: rgba(0,0,0,0.45) !important; }
   #cartSidebar .ajaxcart__row { border-bottom-color: rgba(0,0,0,0.07) !important; }
   #cartSidebar .ajaxcart__qty-num { border-color: rgba(0,0,0,0.2) !important; color: #111111 !important; }
+  #cartSidebar .ajaxcart__qty-adjust { color: rgba(0,0,0,0.5) !important; }
   #cartSidebar .cart__product__price, #cartSidebar .cart__subtotal-price { color: #111111 !important; }
+  #cartSidebar .cart__shipping-text { color: rgba(0,0,0,0.38) !important; }
   #cartSidebar .button.cart__checkout, #cartSidebar .cart__checkout { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
   #cartSidebar .button.cart__checkout:hover, #cartSidebar .cart__checkout:hover { background-color: transparent !important; color: #111111 !important; }
+
+  /* Cart page */
   .cart-page { background-color: #f0f0f0; color: #111111; }
   .cart-page .page-title { color: #111111 !important; }
   .cart-page table thead { border-bottom-color: rgba(0,0,0,0.1) !important; }
   .cart-page table thead th { color: rgba(0,0,0,0.42) !important; }
   .cart-page table tbody tr { border-bottom-color: rgba(0,0,0,0.06) !important; }
-  .cart-page table tbody tr:hover { background: rgba(0,0,0,0.03) !important; }
+  .cart-page table tbody tr:hover { background: rgba(0,0,0,0.03) !important; background-color: rgba(0,0,0,0.03) !important; }
   .cart-page table tbody td { color: #111111 !important; }
   .cart-page .cart-items__title { color: #111111 !important; }
-  .cart-page .cart-subtotal .money { color: #111111 !important; }
+  .cart-page .cart-items__variant small { color: rgba(0,0,0,0.42) !important; }
+  .cart-page .cart-item-price .money, .cart-page .cart-item-total .money { color: #111111 !important; }
   .cart-page .cart-subtotal-title { color: rgba(0,0,0,0.5) !important; }
+  .cart-page .cart-subtotal .money { color: #111111 !important; }
+  .cart-page .cart-info em, .cart-page .cart-info p em { color: rgba(0,0,0,0.4) !important; }
+  .cart-page textarea { background: rgba(0,0,0,0.05) !important; background-color: rgba(0,0,0,0.05) !important; border-color: rgba(0,0,0,0.15) !important; color: #111111 !important; }
   .cart-page .update-cart { border-color: rgba(0,0,0,0.2) !important; color: rgba(0,0,0,0.55) !important; }
+  .cart-page .update-cart:hover { border-color: rgba(0,0,0,0.5) !important; color: #111111 !important; }
   .cart-page button[name="checkout"] { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
   .cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #111111 !important; }
+
+  /* Mobile sidebar */
   #mobileMenuSidebar, .off-canvas#mobileMenuSidebar { background-color: #f0f0f0 !important; background: #f0f0f0 !important; }
   #mobileMenuSidebar a, #mobileMenuSidebar .mobile-menu > li > a { color: #111111 !important; }
-  #mobileMenuSidebar .search-bar .input-group-field, #mobileMenuSidebar input[type="search"] { background-color: rgba(0,0,0,0.07) !important; border-color: rgba(0,0,0,0.18) !important; color: #111111 !important; }
+  #mobileMenuSidebar .search-bar .input-group-field, #mobileMenuSidebar input[type="search"] { background-color: rgba(0,0,0,0.07) !important; background: rgba(0,0,0,0.07) !important; border-color: rgba(0,0,0,0.18) !important; color: #111111 !important; }
   #mobileMenuSidebar .mobile-search .button { background-color: #111111 !important; color: #ffffff !important; }
   #mobileMenuSidebar .submenu-toggle::after { border-color: #111111 transparent transparent !important; }
+
+  /* Scrollbar y selección */
   ::-webkit-scrollbar-track { background: #f0f0f0; }
   ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.35); }
   ::selection { background-color: rgba(0,0,0,0.12); color: #111; }
   .footer-section, .site-footer { border-top-color: rgba(0,0,0,0.07) !important; }
+  .social-sharing .share-title, .social-sharing .share-button { color: rgba(0,0,0,0.35) !important; }
 }

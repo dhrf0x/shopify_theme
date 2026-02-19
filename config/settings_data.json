@@ -310,7 +310,7 @@
         "settings": {
           "title": "DROP 01/ 2026",
           "text": "<p>WF MUSCLE TEAM</p>",
-          "alignment": "left",
+          "alignment": "center",
           "text_alignment": "left",
           "text_width": "2-3",
           "mobile_centered": false,
