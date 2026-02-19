@@ -15,28 +15,90 @@
   {% assign logo_id = 'logo-white.png' %}
 {% endif %}
 
-{% comment %}
-  La Announcement Bar se renderiza como sección separada.
-  Este script ajusta el offset del header-overlay para que no tape la barra.
-{% endcomment %}
-{% if header_overlay != blank %}
-<script>
-  (function() {
-    function fixHeaderOverlayOffset() {
-      var bar = document.querySelector('.announcement-bar');
-      var header = document.querySelector('.header-container.header-overlay');
-      if (header) {
-        header.style.top = (bar && bar.offsetHeight > 0) ? bar.offsetHeight + 'px' : '0px';
-      }
+{% comment %} ── Announcement Bar integrada en header (renderiza en TODAS las páginas) ── {% endcomment %}
+{% assign wf_show_ann = false %}
+{% if section.settings.ann_enabled %}
+  {% if section.settings.ann_visibility == 'all' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.ann_visibility == 'home' and template == 'index' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.ann_visibility == 'not_home' and template != 'index' %}
+    {% assign wf_show_ann = true %}
+  {% endif %}
+{% endif %}
+
+{% if wf_show_ann %}
+  {% assign ann_messages = '' | split: '' %}
+  {% assign ann_links    = '' | split: '' %}
+  {% for i in (1..5) %}
+    {% assign _mk = 'ann_msg'  | append: i %}
+    {% assign _lk = 'ann_link' | append: i %}
+    {% assign _mv = section.settings[_mk] %}
+    {% if _mv != blank %}
+      {% assign ann_messages = ann_messages | push: _mv %}
+      {% assign ann_links    = ann_links    | push: section.settings[_lk] %}
+    {% endif %}
+  {% endfor %}
+  {% assign ann_total = ann_messages.size %}
+
+  <div class="wf-ann"
+    id="wf-ann-{{ section.id }}"
+    style="background:{{ section.settings.ann_bg }};color:{{ section.settings.ann_color }};font-size:{{ section.settings.ann_size }}px;">
+    {% if ann_total > 1 %}
+      <button class="wf-ann__btn wf-ann__btn--prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
+    {% endif %}
+    <div class="wf-ann__viewport">
+      <div class="wf-ann__track" id="wf-ann-track-{{ section.id }}">
+        {% for msg in ann_messages %}
+          <div class="wf-ann__slide{% if forloop.first %} is-active{% endif %}">
+            {% assign lnk = ann_links[forloop.index0] %}
+            {% if lnk != blank %}<a href="{{ lnk }}" style="color:inherit;text-decoration:underline;">{{ msg }}</a>
+            {% else %}{{ msg }}{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if ann_total > 1 %}
+      <button class="wf-ann__btn wf-ann__btn--next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
+    {% endif %}
+  </div>
+
+  <style>
+  .wf-ann { position:relative; width:100%; display:flex; align-items:center; padding:0.55rem 2.5rem; font-weight:500; line-height:1.4; overflow:hidden; }
+  .wf-ann__viewport { flex:1; overflow:hidden; text-align:center; }
+  .wf-ann__track { display:flex; will-change:transform; }
+  .wf-ann__slide { flex:0 0 100%; min-width:100%; padding:0 0.5rem; opacity:0; transform:translateY(5px); transition:opacity .35s ease,transform .35s ease; pointer-events:none; }
+  .wf-ann__slide.is-active { opacity:1; transform:translateY(0); pointer-events:auto; }
+  .wf-ann__btn { background:transparent; border:none; color:inherit; font-size:1.3rem; line-height:1; padding:0 0.5rem; cursor:pointer; opacity:.6; transition:opacity .2s; flex-shrink:0; }
+  .wf-ann__btn:hover { opacity:1; }
+  </style>
+
+  <script>
+  (function(){
+    var id = '{{ section.id }}';
+    var track = document.getElementById('wf-ann-track-' + id);
+    if (!track) return;
+    var slides = track.querySelectorAll('.wf-ann__slide');
+    var total = slides.length;
+    if (total < 2) return;
+    var cur = 0;
+    var spd = {{ section.settings.ann_speed | times: 1000 }};
+    var t;
+    function show(n) {
+      slides[cur].classList.remove('is-active');
+      cur = (n + total) % total;
+      slides[cur].classList.add('is-active');
+      track.style.transform = 'translateX(-' + (cur * 100) + '%)';
     }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fixHeaderOverlayOffset);
-    } else {
-      fixHeaderOverlayOffset();
-    }
-    window.addEventListener('resize', fixHeaderOverlayOffset);
+    function start() { t = setInterval(function(){ show(cur + 1); }, spd); }
+    function stop()  { clearInterval(t); }
+    var pb = document.getElementById('wf-ann-prev-' + id);
+    var nb = document.getElementById('wf-ann-next-' + id);
+    if (pb) pb.addEventListener('click', function(){ stop(); show(cur - 1); start(); });
+    if (nb) nb.addEventListener('click', function(){ stop(); show(cur + 1); start(); });
+    start();
   })();
-</script>
+  </script>
 {% endif %}
 
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
@@ -292,9 +354,17 @@
   }
 
   function buildCard(product) {
-    var img = product.featured_image
-      ? '<img src="' + product.featured_image.url.replace(/_(\d+x\d+)/, '') + '&width=160" alt="' + product.title + '" loading="lazy">'
-      : '<div class="wf-card__no-img"></div>';
+    var img;
+    if (product.featured_image && product.featured_image.url) {
+      // Shopify CDN: asegurar https y tamaño correcto
+      var rawUrl = product.featured_image.url;
+      if (rawUrl.indexOf('//') === 0) rawUrl = 'https:' + rawUrl;
+      // Insertar _320x antes de la extensión para sizing nativo de Shopify CDN
+      var sized = rawUrl.replace(/(\.jpg|\.(jpeg|png|gif|webp))(\?|$)/i, '_320x$1$3');
+      img = '<img src="' + sized + '" alt="' + product.title.replace(/"/g, '') + '" loading="lazy" onerror="this.style.display=\'none\'">';
+    } else {
+      img = '<div class="wf-card__no-img"></div>';
+    }
     var price = product.price_min ? ('<span class="wf-card__price">' + moneyFormat(product.price_min) + '</span>') : '';
     var sold = product.available === false ? '<span class="wf-card__badge">Agotado</span>' : '';
     return '<a href="/products/' + product.handle + '" class="wf-card">'
@@ -395,71 +465,31 @@
   {
     "name": "Header",
     "settings": [
-      {
-        "type": "header",
-        "content": "Announcement Bar"
-      },
-      {
-        "type": "select",
-        "id": "show_announcement_bar",
-        "label": "Show Announcement Bar",
-        "default": "home",
+      { "type": "header",   "content": "Barra de Anuncios" },
+      { "type": "checkbox", "id": "ann_enabled",    "label": "Activar barra de anuncios", "default": true },
+      { "type": "select",   "id": "ann_visibility", "label": "Mostrar en", "default": "all",
         "options": [
-          {
-            "value": "hide",
-            "label": "Hide"
-          },
-          {
-            "value": "home",
-            "label": "Only Homepage"
-          },
-          {
-            "value": "all_pages",
-            "label": "All Pages"
-          }
+          { "value": "all",      "label": "Todas las páginas"          },
+          { "value": "home",     "label": "Solo página principal"      },
+          { "value": "not_home", "label": "Todas excepto inicio"       }
         ]
       },
-      {
-        "type": "header",
-        "content": "Announcement Bar"
-      },
-      {
-        "type": "richtext",
-        "id": "announcement_text",
-        "label": "Announcement Text",
-        "default": "<p>Add your announcement here</p>"
-      },
-      {
-        "type": "richtext",
-        "id": "announcement_text_mobile",
-        "label": "Announcement Text (Mobile)",
-        "default": "<p>Add your announcement for mobile</p>"
-      },
-      {
-        "type": "select",
-        "id": "text_alignment",
-        "label": "Text Alignment",
-        "default": "center",
-        "options": [
-          {
-            "value": "left",
-            "label": "Left"
-          },
-          {
-            "value": "center",
-            "label": "Center"
-          },
-          {
-            "value": "right",
-            "label": "Right"
-          }
-        ]
-      },
-      {
-        "type": "url",
-        "id": "announcement_link",
-        "label": "Link"
-      },
+      { "type": "header", "content": "Mensajes (hasta 5)" },
+      { "type": "text", "id": "ann_msg1",  "label": "Mensaje 1", "default": "¡Envío gratis en pedidos mayores a $999!" },
+      { "type": "url",  "id": "ann_link1", "label": "Enlace 1 (opcional)" },
+      { "type": "text", "id": "ann_msg2",  "label": "Mensaje 2" },
+      { "type": "url",  "id": "ann_link2", "label": "Enlace 2 (opcional)" },
+      { "type": "text", "id": "ann_msg3",  "label": "Mensaje 3" },
+      { "type": "url",  "id": "ann_link3", "label": "Enlace 3 (opcional)" },
+      { "type": "text", "id": "ann_msg4",  "label": "Mensaje 4" },
+      { "type": "url",  "id": "ann_link4", "label": "Enlace 4 (opcional)" },
+      { "type": "text", "id": "ann_msg5",  "label": "Mensaje 5" },
+      { "type": "url",  "id": "ann_link5", "label": "Enlace 5 (opcional)" },
+      { "type": "header", "content": "Estilo de la barra" },
+      { "type": "color", "id": "ann_bg",    "label": "Color de fondo", "default": "#cc0000" },
+      { "type": "color", "id": "ann_color", "label": "Color de texto",  "default": "#ffffff" },
+      { "type": "range", "id": "ann_size",  "min": 10, "max": 18, "step": 1, "unit": "px", "label": "Tamaño de fuente", "default": 13 },
+      { "type": "range", "id": "ann_speed", "min": 2, "max": 12, "step": 1, "unit": "s",  "label": "Velocidad carousel", "default": 4 },
       {
         "type": "header",
         "content": "Desktop Header Settings"

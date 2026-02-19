@@ -2028,7 +2028,41 @@ body.wf-modal-open { overflow: hidden; }
 .cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
 .cart-page p.rte-raw, .cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
 
-/* ─── 10. SEARCH PAGE (fallback) ─────────────────────────────── */
+/* ─── 10. COLLECTION / BLOG / PAGE HEADER FIX ───────────────── */
+/* El collection-header hereda el dark bg — override para que sea transparente */
+.collection-header-wrap,
+.collection-header-wrap .section,
+.collection-header-wrap .content-section,
+.collection-header-wrap .section__background {
+  background-color: $color-sections-bg !important;
+}
+/* Cuando hay imagen de colección, darkening-overlay ya funciona */
+/* Cuando NO hay imagen, reducir la altura al mínimo */
+.collection-header-wrap .page__header {
+  min-height: 0 !important;
+}
+.collection-header-wrap .content-section {
+  min-height: 120px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+/* Título de colección */
+.collection-header-wrap .page__header__title {
+  color: $color-sections-text !important;
+  font-size: clamp(1.5rem, 3vw, 2.5rem) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  margin: 0 !important;
+  text-align: center;
+}
+.collection-header-wrap .page__header__description {
+  color: rgba(255,255,255,0.6) !important;
+  text-align: center;
+}
+
+/* ─── 10b. SEARCH PAGE (fallback) ───────────────────────────── */
 .search-page, .collection-header, .collection-page, .blog-page,
 .article-page, .customer-page, .account-page { background-color: $color-sections-bg; color: $color-sections-text; }
 .search-page .row, .search-page .columns, .search-page .search,
@@ -2205,6 +2239,10 @@ img.lazyloaded, img:not([loading]) { opacity: 1; }
   .wf-modal__hint { color: rgba(0,0,0,0.2) !important; border-top-color: rgba(0,0,0,0.06) !important; }
   .wf-modal__hint kbd { background: rgba(0,0,0,0.07) !important; border-color: rgba(0,0,0,0.12) !important; color: rgba(0,0,0,0.4) !important; }
   .wf-modal__loading span { background: rgba(0,0,0,0.25) !important; }
+  /* Collection header en claro */
+  .collection-header-wrap .content-section { background-color: #f0f0f0 !important; }
+  .collection-header-wrap .page__header__title { color: #111111 !important; }
+  .collection-header-wrap .page__header__description { color: rgba(0,0,0,0.6) !important; }
   /* Search page en claro */
   .search-page, .collection-header, .collection-page, .blog-page,
   .article-page, .customer-page, .account-page { background-color: #f0f0f0; color: #111111; }
