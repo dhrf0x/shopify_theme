@@ -1,17 +1,172 @@
 {% comment %}
-  La barra de anuncios ahora está integrada en la sección "Header".
-  Esta sección ya no renderiza nada — configura los mensajes desde Header > "Barra de Anuncios".
+  Barra de Anuncios — WF Urban Muscle v5.6
+  Esta sección se incluye en layout/theme.liquid → renderiza en TODAS las páginas.
+  Subir a: sections/announcement-bar.liquid
 {% endcomment %}
+
+{% comment %} ── Evaluar visibilidad ── {% endcomment %}
+{% assign wf_show_ann = false %}
+{% if section.settings.ann_enabled %}
+  {% if section.settings.ann_visibility == 'all' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.ann_visibility == 'home' and template == 'index' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.ann_visibility == 'not_home' and template != 'index' %}
+    {% assign wf_show_ann = true %}
+  {% endif %}
+{% endif %}
+
+{% comment %} ── Recolectar mensajes no vacíos ── {% endcomment %}
+{% assign ann_messages = '' | split: '' %}
+{% assign ann_links    = '' | split: '' %}
+{% for i in (1..5) %}
+  {% assign _mk = 'ann_msg'  | append: i %}
+  {% assign _lk = 'ann_link' | append: i %}
+  {% assign _mv = section.settings[_mk] %}
+  {% if _mv != blank %}
+    {% assign ann_messages = ann_messages | push: _mv %}
+    {% assign ann_links    = ann_links    | push: section.settings[_lk] %}
+  {% endif %}
+{% endfor %}
+{% assign ann_total = ann_messages.size %}
+
+{% if wf_show_ann and ann_total > 0 %}
+<div class="wf-ann"
+  id="wf-ann-{{ section.id }}"
+  style="background:{{ section.settings.ann_bg }};color:{{ section.settings.ann_color }};font-size:{{ section.settings.ann_size }}px;">
+
+  {% if ann_total > 1 %}
+    <button class="wf-ann__btn wf-ann__btn--prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
+  {% endif %}
+
+  <div class="wf-ann__viewport">
+    <div class="wf-ann__track" id="wf-ann-track-{{ section.id }}">
+      {% for msg in ann_messages %}
+        <div class="wf-ann__slide{% if forloop.first %} is-active{% endif %}">
+          {% assign lnk = ann_links[forloop.index0] %}
+          {% if lnk != blank %}<a href="{{ lnk }}" style="color:inherit;text-decoration:underline;">{{ msg }}</a>
+          {% else %}{{ msg }}{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if ann_total > 1 %}
+    <button class="wf-ann__btn wf-ann__btn--next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
+  {% endif %}
+</div>
+
+<style>
+.wf-ann {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 2.5rem;
+  font-weight: 500;
+  line-height: 1.4;
+  overflow: hidden;
+  z-index: 200;
+}
+.wf-ann__viewport { flex: 1; overflow: hidden; text-align: center; }
+.wf-ann__track    { display: flex; }
+.wf-ann__slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  padding: 0 0.5rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+}
+.wf-ann__slide.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.wf-ann__btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+.wf-ann__btn:hover { opacity: 1; }
+</style>
+
+{% if ann_total > 1 %}
+<script>
+(function(){
+  var id    = '{{ section.id }}';
+  var track = document.getElementById('wf-ann-track-' + id);
+  if (!track) return;
+  var slides = track.querySelectorAll('.wf-ann__slide');
+  var total  = slides.length;
+  var cur    = 0;
+  var spd    = {{ section.settings.ann_speed | times: 1000 }};
+  var t;
+  function show(n) {
+    slides[cur].classList.remove('is-active');
+    cur = (n + total) % total;
+    slides[cur].classList.add('is-active');
+    track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+  }
+  function start() { if (total > 1) t = setInterval(function(){ show(cur + 1); }, spd); }
+  function stop()  { clearInterval(t); }
+  var pb = document.getElementById('wf-ann-prev-' + id);
+  var nb = document.getElementById('wf-ann-next-' + id);
+  if (pb) pb.addEventListener('click', function(){ stop(); show(cur - 1); start(); });
+  if (nb) nb.addEventListener('click', function(){ stop(); show(cur + 1); start(); });
+  start();
+})();
+</script>
+{% endif %}
+{% endif %}
 
 {% schema %}
 {
-  "name": "Announcement Bar (legacy)",
+  "name": "Barra de Anuncios",
   "settings": [
+    { "type": "header",   "content": "Visibilidad" },
+    { "type": "checkbox", "id": "ann_enabled",    "label": "Activar barra",  "default": true },
     {
-      "type": "paragraph",
-      "content": "⚠️ Esta sección ya no se usa. La barra de anuncios ahora está integrada en el Header. Ve a Header → 'Barra de Anuncios' para configurarla."
+      "type": "select", "id": "ann_visibility", "label": "Mostrar en", "default": "all",
+      "options": [
+        { "value": "all",      "label": "Todas las páginas"     },
+        { "value": "home",     "label": "Solo página principal" },
+        { "value": "not_home", "label": "Todas excepto inicio"  }
+      ]
+    },
+    { "type": "header", "content": "Mensajes (hasta 5)" },
+    { "type": "text", "id": "ann_msg1",  "label": "Mensaje 1", "default": "¡Envío gratis en pedidos mayores a $999!" },
+    { "type": "url",  "id": "ann_link1", "label": "Enlace 1 (opcional)" },
+    { "type": "text", "id": "ann_msg2",  "label": "Mensaje 2" },
+    { "type": "url",  "id": "ann_link2", "label": "Enlace 2 (opcional)" },
+    { "type": "text", "id": "ann_msg3",  "label": "Mensaje 3" },
+    { "type": "url",  "id": "ann_link3", "label": "Enlace 3 (opcional)" },
+    { "type": "text", "id": "ann_msg4",  "label": "Mensaje 4" },
+    { "type": "url",  "id": "ann_link4", "label": "Enlace 4 (opcional)" },
+    { "type": "text", "id": "ann_msg5",  "label": "Mensaje 5" },
+    { "type": "url",  "id": "ann_link5", "label": "Enlace 5 (opcional)" },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "ann_bg",    "label": "Color de fondo", "default": "#cc0000" },
+    { "type": "color", "id": "ann_color", "label": "Color de texto",  "default": "#ffffff" },
+    {
+      "type": "range", "id": "ann_size",
+      "min": 10, "max": 18, "step": 1, "unit": "px",
+      "label": "Tamaño de fuente", "default": 13
+    },
+    {
+      "type": "range", "id": "ann_speed",
+      "min": 2, "max": 12, "step": 1, "unit": "s",
+      "label": "Velocidad carrusel", "default": 4
     }
   ],
-  "presets": [{ "name": "Announcement Bar", "category": "Header" }]
+  "presets": [{ "name": "Barra de Anuncios", "category": "Header" }]
 }
 {% endschema %}
