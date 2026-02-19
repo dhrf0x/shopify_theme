@@ -280,12 +280,17 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
+          "show_bar": true,
           "msg1": "ENVIO GRATIS A TALA!",
           "link1": "",
           "msg2": "ENVIO GRATIS A ROQUE ABARCA",
           "link2": "",
           "msg3": "",
           "link3": "",
+          "msg4": "",
+          "link4": "",
+          "msg5": "",
+          "link5": "",
           "speed": 4,
           "bg_color": "#ff0000",
           "text_color": "#ffffff",
@@ -302,7 +307,13 @@
           "announcement_link": "",
           "main_menu": "main-menu",
           "main_menu_alignment": "left",
-          "header_show_search": true
+          "header_show_search": true,
+          "label_hombres": "Hombres",
+          "link_hombres": "",
+          "menu_hombres": "",
+          "label_mujeres": "Mujeres",
+          "link_mujeres": "",
+          "menu_mujeres": ""
         }
       },
       "hero": {
@@ -338,8 +349,8 @@
           "title_alignment": "left",
           "text_alignment": "left",
           "is_carousel": true,
-          "collection": "",
-          "grid": "5",
+          "collection": "test-blank",
+          "grid": "4",
           "total": 5,
           "enable_custom_styles": true,
           "background_color": "",
