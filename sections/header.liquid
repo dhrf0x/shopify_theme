@@ -180,46 +180,74 @@
 </div>
 
 <script>
+// WF Search Overlay — event delegation, survives Foundation/Shopify re-init
 (function() {
-  var toggle = document.getElementById('wf-search-toggle');
-  var overlay = document.getElementById('wf-search-overlay');
-  var input   = document.getElementById('wf-search-input');
-  var close   = document.getElementById('wf-search-close');
-  var iconSearch = toggle ? toggle.querySelector('.wf-icon-search') : null;
-  var iconClose  = toggle ? toggle.querySelector('.wf-icon-close') : null;
+  function wfSearchInit() {
+    var overlay    = document.getElementById('wf-search-overlay');
+    var input      = document.getElementById('wf-search-input');
+    if (!overlay) return;
 
-  function openSearch() {
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    toggle.setAttribute('aria-expanded', 'true');
-    if (iconSearch) iconSearch.style.display = 'none';
-    if (iconClose)  iconClose.style.display  = '';
-    setTimeout(function() { input && input.focus(); }, 50);
-    document.body.classList.add('wf-search-open');
+    function getToggle()     { return document.getElementById('wf-search-toggle'); }
+    function getIconSearch() { var t = getToggle(); return t ? t.querySelector('.wf-icon-search') : null; }
+    function getIconClose()  { var t = getToggle(); return t ? t.querySelector('.wf-icon-close') : null; }
+
+    function openSearch() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      var t = getToggle();
+      if (t) t.setAttribute('aria-expanded', 'true');
+      var is = getIconSearch(); if (is) is.style.display = 'none';
+      var ic = getIconClose();  if (ic) ic.style.display = '';
+      setTimeout(function() { var i = document.getElementById('wf-search-input'); if(i) i.focus(); }, 80);
+      document.body.classList.add('wf-search-open');
+    }
+
+    function closeSearch() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      var t = getToggle();
+      if (t) t.setAttribute('aria-expanded', 'false');
+      var is = getIconSearch(); if (is) is.style.display = '';
+      var ic = getIconClose();  if (ic) ic.style.display = 'none';
+      document.body.classList.remove('wf-search-open');
+    }
+
+    // Event delegation — click anywhere in document
+    document.addEventListener('click', function(e) {
+      // Toggle button (or child of toggle)
+      var toggleBtn = e.target.closest('#wf-search-toggle');
+      if (toggleBtn) {
+        overlay.classList.contains('is-open') ? closeSearch() : openSearch();
+        return;
+      }
+      // Close button inside overlay
+      if (e.target.closest('#wf-search-close')) {
+        closeSearch();
+        return;
+      }
+      // Click on the dark backdrop (the overlay itself, not its inner content)
+      if (e.target === overlay) {
+        closeSearch();
+        return;
+      }
+    }, false);
+
+    // ESC key
+    document.addEventListener('keydown', function(e) {
+      if ((e.key === 'Escape' || e.keyCode === 27) && overlay.classList.contains('is-open')) {
+        closeSearch();
+      }
+    });
   }
 
-  function closeSearch() {
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    toggle.setAttribute('aria-expanded', 'false');
-    if (iconSearch) iconSearch.style.display = '';
-    if (iconClose)  iconClose.style.display  = 'none';
-    document.body.classList.remove('wf-search-open');
+  // Run after DOM + Shopify/Foundation scripts are ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wfSearchInit);
+  } else {
+    wfSearchInit();
   }
-
-  if (toggle) toggle.addEventListener('click', function() {
-    overlay.classList.contains('is-open') ? closeSearch() : openSearch();
-  });
-  if (close) close.addEventListener('click', closeSearch);
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeSearch();
-  });
-
-  // Click outside overlay closes it
-  if (overlay) overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) closeSearch();
-  });
+  // Also re-init on Shopify section reload (theme editor)
+  document.addEventListener('shopify:section:load', wfSearchInit);
 })();
 </script>
 {% endif %}
