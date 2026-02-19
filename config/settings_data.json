@@ -280,19 +280,19 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "show_bar": false,
+          "show_bar": true,
           "visibility": "all",
-          "msg1": "TEST",
+          "msg1": "¡Envío gratis en pedidos mayores a $999!",
           "link1": "",
-          "msg2": "",
+          "msg2": "¡Envío gratis en pedidos mayores a $999!",
           "link2": "",
-          "msg3": "",
+          "msg3": "¡Envío gratis en pedidos mayores a $999!",
           "link3": "",
-          "msg4": "",
+          "msg4": "¡Envío gratis en pedidos mayores a $999!",
           "link4": "",
           "msg5": "",
           "link5": "",
-          "speed": 4,
+          "speed": 3,
           "bg_color": "#ff0000",
           "text_color": "#ffffff",
           "font_size": 15
@@ -301,9 +301,9 @@
       "header": {
         "type": "header",
         "settings": {
-          "ann_enabled": true,
+          "ann_enabled": false,
           "ann_visibility": "all",
-          "ann_msg1": "¡Envío gratis en pedidos mayores a $999!",
+          "ann_msg1": "",
           "ann_link1": "",
           "ann_msg2": "",
           "ann_link2": "",
