@@ -1437,12 +1437,15 @@ a, .pagination a {
 
 
 
-/* ============================================================
-   TEMA UNIFICADO — Header, body y footer mismo color oscuro
-   Todo usa $color-sections-bg (#262b4d) como base
-   ============================================================ */
 
-/* ——— BODY / FONDO ——— */
+/* ╔═══════════════════════════════════════════════════════════════╗
+   ║   WF URBAN MUSCLE — SISTEMA DE DISEÑO UNIFICADO              ║
+   ║   Modo oscuro coherente + mejoras UX/UI completas            ║
+   ╚═══════════════════════════════════════════════════════════════╝ */
+
+/* ─────────────────────────────────────────────
+   1. BASE — Fondo y texto globales
+────────────────────────────────────────────── */
 body,
 #PageContainer,
 .page-wrapper {
@@ -1450,131 +1453,59 @@ body,
   color: $color-sections-text !important;
 }
 
-/* ——— HEADER: sobreescribe el blanco del preset ——— */
+/* ─────────────────────────────────────────────
+   2. HEADER — Mismo tono que el body
+────────────────────────────────────────────── */
 .header-container {
   background-color: $color-sections-bg !important;
-  /* Borde sutil para separar de la announcement bar */
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.35) !important;
 }
 
-/* Iconos y links del header en modo unificado */
+/* Links, logo e iconos */
 #main-header .logo-wrap .header__title a,
 #main-header .menu-item-link,
-#main-header .header__link,
-#header-right-menu .menu-item-link,
+#header-right-menu .menu-item-link {
+  color: $color-sections-text !important;
+}
 #header-right-menu svg,
 #main-header svg {
-  color: $color-sections-text !important;
   fill: $color-sections-text !important;
 }
-
-/* Menú desktop */
 #main-header .main-menu > li > a {
   color: $color-sections-text !important;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
 }
+#main-header .main-menu > li > a:hover { opacity: 0.65; }
 
-/* Dropdown del header */
+/* Dropdown */
 #main-header .is-dropdown-submenu {
-  background-color: #1e2240 !important;
+  background-color: #1d2040 !important;
   border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
 }
 #main-header .is-dropdown-submenu a {
   color: $color-sections-text !important;
+  transition: background-color 0.15s;
 }
 #main-header .is-dropdown-submenu a:hover {
   background-color: rgba(255,255,255,0.07) !important;
 }
-
-/* Flecha del dropdown */
 #main-header .dropdown.menu > li.is-dropdown-submenu-parent > a:after {
   border-color: $color-sections-text transparent transparent !important;
 }
 
-/* ——— ANUNCIO: mismo tono oscuro que header ——— */
-/* La .announcement-bar usa sus propios colores del schema — no tocar */
-
-/* ——— FOOTER: ya está en $color-footer-bg = #262b4d ——— */
-/* Borde para separar del body */
-.footer-section,
-.site-footer {
-  border-top: 1px solid rgba(255,255,255,0.08) !important;
+/* ─────────────────────────────────────────────
+   3. CART BADGE — Rojo fijo, siempre legible
+────────────────────────────────────────────── */
+#header-right-menu .header__cart > a {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
-
-/* ——— PRODUCT PAGE ——— */
-.product-page {
-  background-color: $color-sections-bg;
-  color: $color-sections-text;
-}
-
-/* Precio y nombre */
-.product-page #ProductTitle { color: $color-sections-text !important; }
-.product-page #ProductPrice,
-.product-page #ComparePrice { color: $color-sections-text !important; }
-
-/* Labels de variante */
-.product-page .product__variants__wrap label,
-.product-page label.quantity-selector,
-.product-page .swatch-label-text {
-  color: $color-sections-text !important;
-}
-
-/* Descripción */
-.product-page .product-description,
-.product-page .product-description p {
-  color: rgba(255,255,255,0.6) !important;
-}
-
-/* ——— VARIANTES: Gymshark style ——— */
-.product-page .swatch label {
-  background-color: transparent !important;
-  border: 1.5px solid rgba(255,255,255,0.22) !important;
-  color: $color-sections-text !important;
-  transition: border-color 0.15s, background-color 0.15s;
-}
-.product-page .swatch .swatch-element__inner {
-  background-color: transparent !important;
-  color: $color-sections-text !important;
-  font-weight: 500;
-}
-.product-page .swatch label:hover {
-  border-color: rgba(255,255,255,0.6) !important;
-  background-color: rgba(255,255,255,0.05) !important;
-}
-/* Seleccionado — sólido blanco */
-.product-page .swatch input:checked + label {
-  border-color: $color-sections-text !important;
-  background-color: $color-sections-text !important;
-}
-.product-page .swatch input:checked + label .swatch-element__inner {
-  background-color: transparent !important;
-  color: $color-sections-bg !important;
-  font-weight: 700;
-}
-.product-page .swatch .swatch-element.soldout label {
-  opacity: 0.28 !important;
-  text-decoration: line-through;
-}
-
-/* ——— BOTÓN AGREGAR AL CARRITO ——— */
-#AddToCart {
-  background-color: #ffffff !important;
-  color: #111111 !important;
-  border: 2px solid #ffffff !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.04em !important;
-}
-#AddToCart:hover {
-  background-color: transparent !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
-}
-#AddToCart.disabled,
-#AddToCart[disabled] {
-  opacity: 0.3 !important;
-  cursor: not-allowed !important;
-}
-
-/* ——— CART BADGE — siempre rojo, siempre visible ——— */
 .header__cart-count {
   position: absolute !important;
   top: -8px !important;
@@ -1598,19 +1529,203 @@ body,
   padding: 0 !important;
   color: #fff !important;
 }
-#header-right-menu .header__cart > a {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
+
+/* ─────────────────────────────────────────────
+   4. PRODUCT PAGE — Título y datos del producto
+────────────────────────────────────────────── */
+.product-page {
+  background-color: $color-sections-bg;
 }
 
-/* ——— COLECCIONES ——— */
+/* ★ FIX CRÍTICO: título del producto */
+.product-page .product-title,
+.product-page h1.product-title,
+.product-single .product-title {
+  color: $color-sections-text !important;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+/* Vendor */
+.product-page .product-vendor a {
+  color: rgba(255,255,255,0.55) !important;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Precio */
+.product-page #ProductPrice .money,
+.product-page #ProductPrice {
+  color: $color-sections-text !important;
+  font-weight: 700;
+}
+.product-page #ComparePrice,
+.product-page #ComparePrice .money {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+/* Labels de variante (TALLA, TEJIDO, etc.) */
+.product-page .product__variants__wrap label,
+.product-page label.quantity-selector,
+.product-page .swatch-label-text,
+.product-page .product__label {
+  color: $color-sections-text !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Descripción */
+.product-page .product-description,
+.product-page .product-description p,
+.product-page .product-description li {
+  color: rgba(255,255,255,0.6) !important;
+  line-height: 1.7 !important;
+}
+
+/* ─────────────────────────────────────────────
+   5. VARIANTES — Estilo minimal coherente
+────────────────────────────────────────────── */
+.product-page .swatch {
+  margin-bottom: 1.25rem;
+}
+.product-page .swatch label {
+  background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important;
+  border-radius: 3px !important;
+  transition: border-color 0.15s, background-color 0.15s;
+  cursor: pointer;
+}
+.product-page .swatch .swatch-element__inner {
+  background-color: transparent !important;
+  color: $color-sections-text !important;
+  font-weight: 500;
+  font-size: 12.5px !important;
+}
+.product-page .swatch label:hover {
+  border-color: rgba(255,255,255,0.55) !important;
+  background-color: rgba(255,255,255,0.05) !important;
+}
+/* Variante seleccionada */
+.product-page .swatch input:checked + label {
+  border-color: $color-sections-text !important;
+  background-color: $color-sections-text !important;
+}
+.product-page .swatch input:checked + label .swatch-element__inner {
+  background-color: transparent !important;
+  color: $color-sections-bg !important;
+  font-weight: 700;
+}
+/* Agotado */
+.product-page .swatch .swatch-element.soldout label {
+  opacity: 0.28 !important;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────
+   6. BOTÓN AGREGAR AL CARRITO — Icónico
+────────────────────────────────────────────── */
+#AddToCart {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 3px !important;
+  padding: 0.875rem 1.5rem !important;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+#AddToCart:hover {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+#AddToCart.disabled,
+#AddToCart[disabled] {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+/* ─────────────────────────────────────────────
+   7. THUMBNAILS DE PRODUCTO — contraste y hover
+────────────────────────────────────────────── */
+.product__thumbs .product__thumb {
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.product__thumbs .product__thumb:hover,
+.product__thumbs .product__thumb.active {
+  opacity: 1;
+  border-color: rgba(255,255,255,0.5);
+}
+
+/* ─────────────────────────────────────────────
+   8. SHARE BUTTONS
+────────────────────────────────────────────── */
+.social-sharing .share-button,
+.social-sharing .share-title {
+  color: rgba(255,255,255,0.4) !important;
+  font-size: 0.75rem !important;
+}
+.social-sharing a:hover .share-button {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+/* ─────────────────────────────────────────────
+   9. FOOTER — Separado del body
+────────────────────────────────────────────── */
+.footer-section,
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+/* ─────────────────────────────────────────────
+   10. COLLECTION / PÁGINAS GENERALES
+────────────────────────────────────────────── */
 .collection-header,
-.collection-page {
+.collection-page,
+.cart-page,
+.search-page,
+.blog-page,
+.article-page,
+.customer-page,
+.account-page {
   background-color: $color-sections-bg;
   color: $color-sections-text;
 }
 
-/* Textos generales en páginas internas */
 h1, h2, h3, h4, h5, h6 { color: $color-sections-text; }
 .page-title { color: $color-sections-text !important; }
+
+/* ─────────────────────────────────────────────
+   11. SCROLLBAR — acorde al tema oscuro
+────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: $color-sections-bg; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.18);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+
+/* ─────────────────────────────────────────────
+   12. SELECCIÓN DE TEXTO — color de marca
+────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(255,255,255,0.2);
+  color: #fff;
+}
