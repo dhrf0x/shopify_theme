@@ -1438,14 +1438,12 @@ a, .pagination a {
 
 
 
+
 /* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA DE DISEÑO UNIFICADO              ║
-   ║   Modo oscuro coherente + mejoras UX/UI completas            ║
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL UNIFICADO v4              ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
-/* ─────────────────────────────────────────────
-   1. BASE — Fondo y texto globales
-────────────────────────────────────────────── */
+/* ─── 1. BASE GLOBAL ─────────────────────────────────────────── */
 body,
 #PageContainer,
 .page-wrapper {
@@ -1453,44 +1451,44 @@ body,
   color: $color-sections-text !important;
 }
 
-/* ─────────────────────────────────────────────
-   2. HEADER — Mismo tono que el body
-────────────────────────────────────────────── */
+/* ─── 2. TIPOGRAFÍA GLOBAL — todos los títulos heredan color ──── */
+/* FIX: section-title, featured products, cualquier h* en secciones */
+.section-title,
+h1, h2, h3, h4, h5, h6,
+.section__title-style,
+.page-title {
+  color: $color-sections-text !important;
+}
+
+/* ─── 3. HEADER ──────────────────────────────────────────────── */
 .header-container {
   background-color: $color-sections-bg !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.35) !important;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.4) !important;
 }
-
-/* Links, logo e iconos */
 #main-header .logo-wrap .header__title a,
 #main-header .menu-item-link,
 #header-right-menu .menu-item-link {
   color: $color-sections-text !important;
 }
 #header-right-menu svg,
-#main-header svg {
-  fill: $color-sections-text !important;
-}
+#main-header svg { fill: $color-sections-text !important; }
+
 #main-header .main-menu > li > a {
   color: $color-sections-text !important;
   letter-spacing: 0.04em;
   font-weight: 600;
   transition: opacity 0.2s ease;
 }
-#main-header .main-menu > li > a:hover { opacity: 0.65; }
+#main-header .main-menu > li > a:hover { opacity: 0.6; }
 
-/* Dropdown */
 #main-header .is-dropdown-submenu {
   background-color: #1d2040 !important;
   border: 1px solid rgba(255,255,255,0.1) !important;
   border-radius: 4px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5) !important;
 }
-#main-header .is-dropdown-submenu a {
-  color: $color-sections-text !important;
-  transition: background-color 0.15s;
-}
+#main-header .is-dropdown-submenu a { color: $color-sections-text !important; }
 #main-header .is-dropdown-submenu a:hover {
   background-color: rgba(255,255,255,0.07) !important;
 }
@@ -1498,9 +1496,7 @@ body,
   border-color: $color-sections-text transparent transparent !important;
 }
 
-/* ─────────────────────────────────────────────
-   3. CART BADGE — Rojo fijo, siempre legible
-────────────────────────────────────────────── */
+/* ─── 4. CART BADGE ──────────────────────────────────────────── */
 #header-right-menu .header__cart > a {
   position: relative !important;
   display: inline-flex !important;
@@ -1530,89 +1526,56 @@ body,
   color: #fff !important;
 }
 
-/* ─────────────────────────────────────────────
-   4. PRODUCT PAGE — Título y datos del producto
-────────────────────────────────────────────── */
+/* ─── 5. PRODUCT PAGE ────────────────────────────────────────── */
 .product-page {
   background-color: $color-sections-bg;
 }
-
-/* ★ FIX CRÍTICO: título del producto */
 .product-page .product-title,
-.product-page h1.product-title,
 .product-single .product-title {
   color: $color-sections-text !important;
   font-weight: 800;
-  letter-spacing: 0.01em;
   line-height: 1.15;
 }
-
-/* Vendor */
 .product-page .product-vendor a {
-  color: rgba(255,255,255,0.55) !important;
-  text-decoration: none;
-  font-size: 0.8125rem;
-  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.5) !important;
+  font-size: 0.8rem;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
+  text-decoration: none;
 }
-
-/* Precio */
 .product-page #ProductPrice .money,
-.product-page #ProductPrice {
-  color: $color-sections-text !important;
-  font-weight: 700;
-}
+.product-page #ProductPrice { color: $color-sections-text !important; font-weight: 700; }
 .product-page #ComparePrice,
-.product-page #ComparePrice .money {
-  color: rgba(255,255,255,0.4) !important;
-}
+.product-page #ComparePrice .money { color: rgba(255,255,255,0.38) !important; }
 
-/* Labels de variante (TALLA, TEJIDO, etc.) */
 .product-page .product__variants__wrap label,
-.product-page label.quantity-selector,
-.product-page .swatch-label-text,
-.product-page .product__label {
+.product-page label.quantity-selector {
   color: $color-sections-text !important;
-  font-size: 0.75rem !important;
+  font-size: 0.72rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.09em !important;
   text-transform: uppercase !important;
-  margin-bottom: 0.5rem !important;
 }
-
-/* Descripción */
 .product-page .product-description,
-.product-page .product-description p,
-.product-page .product-description li {
-  color: rgba(255,255,255,0.6) !important;
-  line-height: 1.7 !important;
-}
+.product-page .product-description p { color: rgba(255,255,255,0.58) !important; line-height: 1.7 !important; }
 
-/* ─────────────────────────────────────────────
-   5. VARIANTES — Estilo minimal coherente
-────────────────────────────────────────────── */
-.product-page .swatch {
-  margin-bottom: 1.25rem;
-}
+/* Variantes */
 .product-page .swatch label {
   background-color: transparent !important;
   border: 1.5px solid rgba(255,255,255,0.2) !important;
   color: $color-sections-text !important;
   border-radius: 3px !important;
   transition: border-color 0.15s, background-color 0.15s;
-  cursor: pointer;
 }
 .product-page .swatch .swatch-element__inner {
   background-color: transparent !important;
   color: $color-sections-text !important;
   font-weight: 500;
-  font-size: 12.5px !important;
 }
 .product-page .swatch label:hover {
   border-color: rgba(255,255,255,0.55) !important;
   background-color: rgba(255,255,255,0.05) !important;
 }
-/* Variante seleccionada */
 .product-page .swatch input:checked + label {
   border-color: $color-sections-text !important;
   background-color: $color-sections-text !important;
@@ -1622,16 +1585,25 @@ body,
   color: $color-sections-bg !important;
   font-weight: 700;
 }
-/* Agotado */
 .product-page .swatch .swatch-element.soldout label {
-  opacity: 0.28 !important;
+  opacity: 0.25 !important;
   text-decoration: line-through;
   cursor: not-allowed;
 }
 
-/* ─────────────────────────────────────────────
-   6. BOTÓN AGREGAR AL CARRITO — Icónico
-────────────────────────────────────────────── */
+/* Thumbnails */
+.product__thumbs .product__thumb {
+  opacity: 0.5;
+  transition: opacity 0.2s, border-color 0.2s;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.product__thumbs .product__thumb:hover,
+.product__thumbs .product__thumb.active { opacity: 1; border-color: rgba(255,255,255,0.45); }
+
+/* Add to cart */
 #AddToCart {
   background-color: #ffffff !important;
   color: #111111 !important;
@@ -1641,7 +1613,6 @@ body,
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   border-radius: 3px !important;
-  padding: 0.875rem 1.5rem !important;
   width: 100%;
   transition: background-color 0.2s ease, color 0.2s ease !important;
 }
@@ -1650,82 +1621,236 @@ body,
   color: #ffffff !important;
   border-color: #ffffff !important;
 }
-#AddToCart.disabled,
-#AddToCart[disabled] {
-  opacity: 0.3 !important;
-  cursor: not-allowed !important;
+#AddToCart.disabled, #AddToCart[disabled] { opacity: 0.3 !important; cursor: not-allowed !important; }
+
+/* Share buttons */
+.social-sharing .share-title,
+.social-sharing .share-button { color: rgba(255,255,255,0.38) !important; font-size: 0.72rem !important; }
+
+/* ─── 6. CARRITO — rediseño dark completo ────────────────────── */
+.cart-page {
+  background-color: $color-sections-bg;
+  color: $color-sections-text;
+  padding: 2rem 0 4rem;
+}
+.cart-page .page-title {
+  color: $color-sections-text !important;
+  font-weight: 800;
+  font-size: 1.75rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 2rem;
 }
 
-/* ─────────────────────────────────────────────
-   7. THUMBNAILS DE PRODUCTO — contraste y hover
-────────────────────────────────────────────── */
-.product__thumbs .product__thumb {
-  opacity: 0.55;
-  transition: opacity 0.2s ease;
-  border: 1.5px solid transparent;
-  border-radius: 3px;
-  overflow: hidden;
-  cursor: pointer;
+/* Tabla */
+.cart-page table.cart-items {
+  background-color: transparent !important;
+  border: none !important;
+  width: 100%;
 }
-.product__thumbs .product__thumb:hover,
-.product__thumbs .product__thumb.active {
-  opacity: 1;
-  border-color: rgba(255,255,255,0.5);
+.cart-page table.cart-items thead {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+.cart-page table.cart-items thead th {
+  color: rgba(255,255,255,0.45) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  padding: 0.75rem 0.5rem !important;
+  background: transparent !important;
+}
+.cart-page table.cart-items tbody tr {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  transition: background-color 0.15s ease;
+}
+.cart-page table.cart-items tbody tr:hover {
+  background-color: rgba(255,255,255,0.03) !important;
+}
+.cart-page table.cart-items td {
+  background-color: transparent !important;
+  color: $color-sections-text !important;
+  vertical-align: middle;
+  padding: 1.25rem 0.5rem !important;
 }
 
-/* ─────────────────────────────────────────────
-   8. SHARE BUTTONS
-────────────────────────────────────────────── */
-.social-sharing .share-button,
-.social-sharing .share-title {
-  color: rgba(255,255,255,0.4) !important;
-  font-size: 0.75rem !important;
-}
-.social-sharing a:hover .share-button {
-  color: rgba(255,255,255,0.8) !important;
+/* Imagen del producto en carrito */
+.cart-page .cart-items__img img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* ─────────────────────────────────────────────
-   9. FOOTER — Separado del body
-────────────────────────────────────────────── */
-.footer-section,
-.site-footer {
+/* Nombre del producto */
+.cart-page .cart-items__title {
+  color: $color-sections-text !important;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.cart-page .cart-items__title:hover { opacity: 0.7; }
+.cart-page .cart-items__variant small { color: rgba(255,255,255,0.45) !important; }
+
+/* Botón Quitar */
+.cart-page .cart__remove small,
+.cart-page a.cart__remove {
+  color: rgba(255,255,255,0.3) !important;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.cart-page .cart__remove:hover small,
+.cart-page a.cart__remove:hover { color: #e31b1b !important; }
+
+/* Precio */
+.cart-page .cart-item-price .money,
+.cart-page .cart-item-total .money { color: $color-sections-text !important; font-weight: 600; }
+.cart-page .cart-item-original-price s .money { color: rgba(255,255,255,0.35) !important; }
+
+/* Input cantidad */
+.cart-page .cart-items__quantity input[type="number"],
+.cart-page input[name^="updates"] {
+  background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important;
+  border-radius: 3px !important;
+  text-align: center;
+  width: 60px;
+  padding: 0.4rem !important;
+  transition: border-color 0.15s;
+}
+.cart-page .cart-items__quantity input[type="number"]:focus,
+.cart-page input[name^="updates"]:focus {
+  border-color: rgba(255,255,255,0.55) !important;
+  outline: none;
+}
+
+/* Zona subtotal */
+.cart-page .cart-info {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.cart-page .cart-subtotal-title {
+  color: rgba(255,255,255,0.55) !important;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-right: 0.5rem;
+}
+.cart-page .cart-subtotal .money {
+  color: $color-sections-text !important;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+.cart-page .cart-subtotal__savings em { color: rgba(255,255,255,0.5) !important; }
+.cart-page .cart-info em,
+.cart-page .cart-info p em { color: rgba(255,255,255,0.38) !important; font-size: 0.8125rem; }
+
+/* Textarea nota */
+.cart-page textarea {
+  background-color: rgba(255,255,255,0.05) !important;
+  border: 1.5px solid rgba(255,255,255,0.15) !important;
+  color: $color-sections-text !important;
+  border-radius: 4px;
+}
+.cart-page textarea:focus {
+  border-color: rgba(255,255,255,0.45) !important;
+  outline: none;
+}
+
+/* Botones del carrito */
+.cart-page .update-cart {
+  background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.6) !important;
+  border-radius: 3px !important;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+  margin-right: 0.75rem;
+}
+.cart-page .update-cart:hover {
+  border-color: rgba(255,255,255,0.5) !important;
+  color: $color-sections-text !important;
+}
+
+/* Botón Finalizar pedido */
+.cart-page button[name="checkout"],
+.cart-page .button:not(.hollow):not(.update-cart) {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 3px !important;
+  transition: background-color 0.2s, color 0.2s !important;
+}
+.cart-page button[name="checkout"]:hover,
+.cart-page .button:not(.hollow):not(.update-cart):hover {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Carrito vacío */
+.cart-page p.rte-raw,
+.cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
+
+/* ─── 7. FOOTER ──────────────────────────────────────────────── */
+.footer-section, .site-footer {
   border-top: 1px solid rgba(255,255,255,0.07) !important;
 }
 
-/* ─────────────────────────────────────────────
-   10. COLLECTION / PÁGINAS GENERALES
-────────────────────────────────────────────── */
-.collection-header,
-.collection-page,
-.cart-page,
-.search-page,
-.blog-page,
-.article-page,
-.customer-page,
-.account-page {
+/* ─── 8. COLECCIONES Y OTRAS PÁGINAS ─────────────────────────── */
+.collection-header, .collection-page,
+.blog-page, .article-page,
+.customer-page, .account-page,
+.search-page {
   background-color: $color-sections-bg;
   color: $color-sections-text;
 }
 
-h1, h2, h3, h4, h5, h6 { color: $color-sections-text; }
-.page-title { color: $color-sections-text !important; }
+/* ─── 9. ANIMACIONES UX ──────────────────────────────────────── */
 
-/* ─────────────────────────────────────────────
-   11. SCROLLBAR — acorde al tema oscuro
-────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
+/* Fade-in para imágenes de producto al cargar */
+.product-images img,
+.product-image__slide img {
+  animation: wf-fadein 0.4s ease both;
+}
+
+/* Transición suave en tarjetas de colección */
+.column.column-block {
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+.column.column-block:hover { transform: translateY(-3px); }
+
+/* Animación del botón ATC al hacer click */
+#AddToCart:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Smooth scroll en toda la página */
+html { scroll-behavior: smooth; }
+
+@keyframes wf-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── 10. SCROLLBAR Y SELECCIÓN ──────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: $color-sections-bg; }
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.18);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.32); }
 
-/* ─────────────────────────────────────────────
-   12. SELECCIÓN DE TEXTO — color de marca
-────────────────────────────────────────────── */
-::selection {
-  background-color: rgba(255,255,255,0.2);
-  color: #fff;
-}
+::selection { background-color: rgba(255,255,255,0.18); color: #fff; }
