@@ -1,260 +1,168 @@
 {% comment %}
-  Announcement Bar con carousel rotativo
-  Subir a: sections/announcement-bar.liquid
+  Announcement Bar — WF Urban Muscle v2
+  • Toggle show/hide desde el editor
+  • Carousel rotativo con múltiples mensajes
 {% endcomment %}
 
-{% assign msg1 = section.settings.msg1 %}
-{% assign msg2 = section.settings.msg2 %}
-{% assign msg3 = section.settings.msg3 %}
+{% if section.settings.show_bar %}
+<div class="ann-bar"
+  style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};font-size:{{ section.settings.font_size }}px;"
+  id="ann-bar-{{ section.id }}">
 
-{% assign has_multiple = false %}
-{% if msg2 != blank %}{% assign has_multiple = true %}{% endif %}
+  {% assign messages = '' | split: '' %}
+  {% assign links    = '' | split: '' %}
+  {% for i in (1..5) %}
+    {% assign msg_key  = 'msg' | append: i %}
+    {% assign link_key = 'link' | append: i %}
+    {% assign msg_val  = section.settings[msg_key] %}
+    {% if msg_val != blank %}
+      {% assign messages = messages | push: msg_val %}
+      {% assign links    = links    | push: section.settings[link_key] %}
+    {% endif %}
+  {% endfor %}
 
-<div class="announcement-bar ann-carousel"
-  style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};font-size:{{ section.settings.font_size }}px;">
+  {% assign total = messages.size %}
 
-  {% if has_multiple %}
-    <div class="ann-carousel__track" id="ann-track-{{ section.id }}">
-      {% if msg1 != blank %}
-        <div class="ann-carousel__slide">
-          {% if section.settings.link1 != blank %}<a href="{{ section.settings.link1 }}" style="color:inherit;">{% endif %}
-            {{ msg1 }}
-          {% if section.settings.link1 != blank %}</a>{% endif %}
+  {% if total > 1 %}
+    <button class="ann-bar__btn ann-bar__btn--prev" id="ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
+  {% endif %}
+
+  <div class="ann-bar__viewport">
+    <div class="ann-bar__track" id="ann-track-{{ section.id }}">
+      {% for msg in messages %}
+        <div class="ann-bar__slide{% if forloop.first %} is-active{% endif %}">
+          {% assign lnk = links[forloop.index0] %}
+          {% if lnk != blank %}
+            <a href="{{ lnk }}" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">{{ msg }}</a>
+          {% else %}
+            {{ msg }}
+          {% endif %}
         </div>
-      {% endif %}
-      {% if msg2 != blank %}
-        <div class="ann-carousel__slide">
-          {% if section.settings.link2 != blank %}<a href="{{ section.settings.link2 }}" style="color:inherit;">{% endif %}
-            {{ msg2 }}
-          {% if section.settings.link2 != blank %}</a>{% endif %}
-        </div>
-      {% endif %}
-      {% if msg3 != blank %}
-        <div class="ann-carousel__slide">
-          {% if section.settings.link3 != blank %}<a href="{{ section.settings.link3 }}" style="color:inherit;">{% endif %}
-            {{ msg3 }}
-          {% if section.settings.link3 != blank %}</a>{% endif %}
-        </div>
-      {% endif %}
+      {% endfor %}
     </div>
-    <button class="ann-carousel__btn ann-carousel__btn--prev" onclick="annPrev('{{ section.id }}')" aria-label="Anterior">&#8249;</button>
-    <button class="ann-carousel__btn ann-carousel__btn--next" onclick="annNext('{{ section.id }}')" aria-label="Siguiente">&#8250;</button>
-  {% else %}
-    <div class="ann-carousel__static">
-      {% if section.settings.link1 != blank %}<a href="{{ section.settings.link1 }}" style="color:inherit;">{% endif %}
-        {{ msg1 }}
-      {% if section.settings.link1 != blank %}</a>{% endif %}
-    </div>
+  </div>
+
+  {% if total > 1 %}
+    <button class="ann-bar__btn ann-bar__btn--next" id="ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
   {% endif %}
 </div>
 
 <style>
-.ann-carousel {
+.ann-bar {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  text-align: center;
-  padding: 0.7rem 2.5rem;
-  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 2.5rem;
   font-weight: 500;
   line-height: 1.4;
+  overflow: hidden;
 }
-
-.ann-carousel__track {
+.ann-bar__viewport {
+  flex: 1;
+  overflow: hidden;
+  text-align: center;
+}
+.ann-bar__track {
   display: flex;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
-
-.ann-carousel__slide {
+.ann-bar__slide {
   flex: 0 0 100%;
   min-width: 100%;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
   pointer-events: none;
 }
-
-.ann-carousel__slide.ann--active {
+.ann-bar__slide.is-active {
   opacity: 1;
+  transform: translateY(0);
   pointer-events: auto;
 }
-
-.ann-carousel__slide a {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.ann-carousel__btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.ann-bar__btn {
   background: transparent;
   border: none;
   color: inherit;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   line-height: 1;
   padding: 0 0.5rem;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.6;
   transition: opacity 0.2s;
+  flex-shrink: 0;
 }
-.ann-carousel__btn:hover { opacity: 1; }
-.ann-carousel__btn--prev { left: 0.5rem; }
-.ann-carousel__btn--next { right: 0.5rem; }
-
-.ann-carousel__static {
-  width: 100%;
-}
-.ann-carousel__static a {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
+.ann-bar__btn:hover { opacity: 1; }
 </style>
 
 <script>
-(function() {
-  var ANN = window.AnnCarousel = window.AnnCarousel || {};
+(function(){
+  var id      = '{{ section.id }}';
+  var track   = document.getElementById('ann-track-' + id);
+  if (!track) return;
+  var slides  = track.querySelectorAll('.ann-bar__slide');
+  var total   = slides.length;
+  if (total < 2) return;
+  var current = 0;
+  var speed   = {{ section.settings.speed | times: 1000 }};
+  var timer;
 
-  function init(id) {
-    var track = document.getElementById('ann-track-' + id);
-    if (!track) return;
-
-    var slides = track.querySelectorAll('.ann-carousel__slide');
-    if (slides.length === 0) return;
-
-    var current = 0;
-    var total = slides.length;
-    var interval = {{ section.settings.speed | times: 1000 }};
-    var timer;
-
-    function show(idx) {
-      slides[current].classList.remove('ann--active');
-      current = (idx + total) % total;
-      slides[current].classList.add('ann--active');
-      track.style.transform = 'translateX(-' + (current * 100) + '%)';
-    }
-
-    function startAuto() {
-      timer = setInterval(function() { show(current + 1); }, interval);
-    }
-
-    function stopAuto() { clearInterval(timer); }
-
-    // Init first slide
-    slides[0].classList.add('ann--active');
-
-    ANN[id] = {
-      prev: function() { stopAuto(); show(current - 1); startAuto(); },
-      next: function() { stopAuto(); show(current + 1); startAuto(); }
-    };
-
-    startAuto();
+  function show(n) {
+    slides[current].classList.remove('is-active');
+    current = (n + total) % total;
+    slides[current].classList.add('is-active');
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
   }
+  function start() { timer = setInterval(function(){ show(current + 1); }, speed); }
+  function stop()  { clearInterval(timer); }
 
-  function annPrev(id) { if (ANN[id]) ANN[id].prev(); }
-  function annNext(id) { if (ANN[id]) ANN[id].next(); }
+  var btnP = document.getElementById('ann-prev-' + id);
+  var btnN = document.getElementById('ann-next-' + id);
+  if (btnP) btnP.addEventListener('click', function(){ stop(); show(current - 1); start(); });
+  if (btnN) btnN.addEventListener('click', function(){ stop(); show(current + 1); start(); });
 
-  window.annPrev = annPrev;
-  window.annNext = annNext;
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { init('{{ section.id }}'); });
-  } else {
-    init('{{ section.id }}');
-  }
+  start();
 })();
 </script>
+{% endif %}
 
 {% schema %}
 {
   "name": "Announcement Bar",
   "settings": [
     {
-      "type": "header",
-      "content": "Mensaje 1"
+      "type": "checkbox",
+      "id": "show_bar",
+      "label": "Mostrar barra de anuncios",
+      "default": true,
+      "info": "Desactiva para ocultar la barra completamente sin eliminar los mensajes."
     },
+    { "type": "header", "content": "Mensajes (hasta 5)" },
+    { "type": "text",  "id": "msg1",  "label": "Mensaje 1", "default": "¡Envío gratis en pedidos mayores a $999!" },
+    { "type": "url",   "id": "link1", "label": "Enlace 1 (opcional)" },
+    { "type": "text",  "id": "msg2",  "label": "Mensaje 2 (deja vacío para quitar carousel)" },
+    { "type": "url",   "id": "link2", "label": "Enlace 2 (opcional)" },
+    { "type": "text",  "id": "msg3",  "label": "Mensaje 3 (opcional)" },
+    { "type": "url",   "id": "link3", "label": "Enlace 3 (opcional)" },
+    { "type": "text",  "id": "msg4",  "label": "Mensaje 4 (opcional)" },
+    { "type": "url",   "id": "link4", "label": "Enlace 4 (opcional)" },
+    { "type": "text",  "id": "msg5",  "label": "Mensaje 5 (opcional)" },
+    { "type": "url",   "id": "link5", "label": "Enlace 5 (opcional)" },
+    { "type": "header", "content": "Estilo" },
     {
-      "type": "text",
-      "id": "msg1",
-      "label": "Mensaje 1",
-      "default": "¡Envío gratis en pedidos mayores a $999!"
+      "type": "range", "id": "speed",
+      "min": 2, "max": 12, "step": 1, "unit": "s",
+      "label": "Velocidad del carousel", "default": 4
     },
+    { "type": "color", "id": "bg_color",   "label": "Color de fondo",  "default": "#111110" },
+    { "type": "color", "id": "text_color", "label": "Color de texto",  "default": "#ffffff" },
     {
-      "type": "url",
-      "id": "link1",
-      "label": "Enlace 1 (opcional)"
-    },
-    {
-      "type": "header",
-      "content": "Mensaje 2"
-    },
-    {
-      "type": "text",
-      "id": "msg2",
-      "label": "Mensaje 2 (deja vacío para desactivar carousel)"
-    },
-    {
-      "type": "url",
-      "id": "link2",
-      "label": "Enlace 2 (opcional)"
-    },
-    {
-      "type": "header",
-      "content": "Mensaje 3"
-    },
-    {
-      "type": "text",
-      "id": "msg3",
-      "label": "Mensaje 3 (opcional)"
-    },
-    {
-      "type": "url",
-      "id": "link3",
-      "label": "Enlace 3 (opcional)"
-    },
-    {
-      "type": "header",
-      "content": "Estilo"
-    },
-    {
-      "type": "range",
-      "id": "speed",
-      "min": 2,
-      "max": 10,
-      "step": 1,
-      "unit": "s",
-      "label": "Velocidad del carousel",
-      "default": 4
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Color de fondo",
-      "default": "#111110"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Color de texto",
-      "default": "#ffffff"
-    },
-    {
-      "type": "range",
-      "id": "font_size",
-      "min": 10,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Tamaño de fuente",
-      "default": 13
+      "type": "range", "id": "font_size",
+      "min": 10, "max": 18, "step": 1, "unit": "px",
+      "label": "Tamaño de fuente", "default": 13
     }
   ],
-  "presets": [
-    {
-      "name": "Announcement Bar",
-      "category": "Header"
-    }
-  ]
+  "presets": [{ "name": "Announcement Bar", "category": "Header" }]
 }
 {% endschema %}

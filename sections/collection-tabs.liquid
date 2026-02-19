@@ -1,0 +1,263 @@
+{% comment %}
+  Collection Tabs — WF Urban Muscle
+  Muestra dos colecciones con tabs estilo YoungLA
+  Subir a: sections/collection-tabs.liquid
+{% endcomment %}
+
+{% assign col_a = collections[section.settings.collection_a] %}
+{% assign col_b = collections[section.settings.collection_b] %}
+{% assign limit = section.settings.products_count | default: 8 %}
+{% assign cols  = section.settings.grid | default: '4' %}
+
+{% if col_a != blank or col_b != blank %}
+<section class="wf-tabs-section section content-section" id="wf-tabs-{{ section.id }}">
+
+  {% if section.settings.title != blank %}
+    <h2 class="section-title wf-tabs-section__heading text-{{ section.settings.title_align }}">
+      {{ section.settings.title }}
+    </h2>
+  {% endif %}
+
+  <!-- Tab bar -->
+  <div class="wf-tabs__bar" role="tablist">
+    {% if col_a != blank %}
+      <button class="wf-tabs__tab is-active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="wf-panel-a-{{ section.id }}"
+        data-tab="a"
+        id="wf-tab-a-{{ section.id }}">
+        {{ section.settings.label_a | default: col_a.title }}
+      </button>
+    {% endif %}
+    {% if col_b != blank %}
+      <button class="wf-tabs__tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="wf-panel-b-{{ section.id }}"
+        data-tab="b"
+        id="wf-tab-b-{{ section.id }}">
+        {{ section.settings.label_b | default: col_b.title }}
+      </button>
+    {% endif %}
+  </div>
+
+  <!-- Panels -->
+  <div class="wf-tabs__panels">
+
+    {% if col_a != blank %}
+      <div class="wf-tabs__panel is-active"
+        role="tabpanel"
+        id="wf-panel-a-{{ section.id }}"
+        aria-labelledby="wf-tab-a-{{ section.id }}">
+        <div class="row small-up-2 medium-up-{{ section.settings.grid_mobile }} large-up-{{ cols }} wf-tabs__grid">
+          {% for product in col_a.products limit: limit %}
+            {% assign grid_item_width = 'column column-block' %}
+            {% include 'product-grid-item' %}
+          {% endfor %}
+        </div>
+        {% if col_a.products.size > limit %}
+          <div class="wf-tabs__cta">
+            <a href="{{ col_a.url }}" class="wf-tabs__cta-link">
+              {{ section.settings.cta_text | default: 'Ver colección completa' }} →
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if col_b != blank %}
+      <div class="wf-tabs__panel"
+        role="tabpanel"
+        id="wf-panel-b-{{ section.id }}"
+        aria-labelledby="wf-tab-b-{{ section.id }}"
+        hidden>
+        <div class="row small-up-2 medium-up-{{ section.settings.grid_mobile }} large-up-{{ cols }} wf-tabs__grid">
+          {% for product in col_b.products limit: limit %}
+            {% assign grid_item_width = 'column column-block' %}
+            {% include 'product-grid-item' %}
+          {% endfor %}
+        </div>
+        {% if col_b.products.size > limit %}
+          <div class="wf-tabs__cta">
+            <a href="{{ col_b.url }}" class="wf-tabs__cta-link">
+              {{ section.settings.cta_text | default: 'Ver colección completa' }} →
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endif %}
+
+<style>
+/* ── Tabs Section ───────────────────────────────────── */
+.wf-tabs-section {
+  padding: 3rem 0 4rem;
+}
+.wf-tabs-section__heading {
+  margin-bottom: 2rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+/* Tab bar */
+.wf-tabs__bar {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+}
+.wf-tabs__tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.75rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+.wf-tabs__tab:hover {
+  color: rgba(255,255,255,0.8);
+}
+.wf-tabs__tab.is-active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* Panels */
+.wf-tabs__panel {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: none;
+  display: none;
+}
+.wf-tabs__panel.is-active {
+  display: block;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: wf-panel-in 0.35s ease forwards;
+}
+@keyframes wf-panel-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Grid */
+.wf-tabs__grid {
+  margin-bottom: 2rem;
+}
+
+/* CTA */
+.wf-tabs__cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+.wf-tabs__cta-link {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(255,255,255,0.3);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.wf-tabs__cta-link:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  .wf-tabs__bar { border-bottom-color: rgba(0,0,0,0.1); }
+  .wf-tabs__tab { color: rgba(0,0,0,0.4); }
+  .wf-tabs__tab:hover { color: rgba(0,0,0,0.7); }
+  .wf-tabs__tab.is-active { color: #111111; border-bottom-color: #111111; }
+  .wf-tabs__cta-link { color: rgba(0,0,0,0.6); border-bottom-color: rgba(0,0,0,0.3); }
+  .wf-tabs__cta-link:hover { color: #111; border-color: #111; }
+}
+</style>
+
+<script>
+(function(){
+  var container = document.getElementById('wf-tabs-{{ section.id }}');
+  if (!container) return;
+  var tabs   = container.querySelectorAll('.wf-tabs__tab');
+  var panels = container.querySelectorAll('.wf-tabs__panel');
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var target = tab.getAttribute('data-tab');
+      tabs.forEach(function(t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function(p) {
+        p.classList.remove('is-active');
+        p.setAttribute('hidden', '');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      var panel = container.querySelector('#wf-panel-' + target + '-{{ section.id }}');
+      if (panel) {
+        panel.removeAttribute('hidden');
+        // Re-trigger animation
+        panel.classList.remove('is-active');
+        void panel.offsetWidth; // reflow
+        panel.classList.add('is-active');
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Tabs",
+  "settings": [
+    { "type": "header", "content": "Título" },
+    { "type": "text",   "id": "title",       "label": "Título de la sección",  "default": "Nuestras Colecciones" },
+    { "type": "select", "id": "title_align", "label": "Alineación del título", "default": "center",
+      "options": [{"value":"left","label":"Izquierda"},{"value":"center","label":"Centro"}]
+    },
+    { "type": "header", "content": "Colección A (izquierda)" },
+    { "type": "collection", "id": "collection_a", "label": "Colección A" },
+    { "type": "text", "id": "label_a", "label": "Etiqueta del tab A", "default": "OVERSIZE",
+      "info": "Deja vacío para usar el nombre de la colección" },
+    { "type": "header", "content": "Colección B (derecha)" },
+    { "type": "collection", "id": "collection_b", "label": "Colección B" },
+    { "type": "text", "id": "label_b", "label": "Etiqueta del tab B", "default": "ACID",
+      "info": "Deja vacío para usar el nombre de la colección" },
+    { "type": "header", "content": "Configuración del grid" },
+    {
+      "type": "range", "id": "products_count",
+      "min": 4, "max": 24, "step": 4,
+      "label": "Productos a mostrar por tab", "default": 8
+    },
+    {
+      "type": "select", "id": "grid", "label": "Columnas en desktop", "default": "4",
+      "options": [{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"},{"value":"5","label":"5"}]
+    },
+    {
+      "type": "select", "id": "grid_mobile", "label": "Columnas en tablet", "default": "2",
+      "options": [{"value":"1","label":"1"},{"value":"2","label":"2"},{"value":"3","label":"3"}]
+    },
+    { "type": "text", "id": "cta_text", "label": "Texto del botón 'Ver más'", "default": "Ver colección completa" }
+  ],
+  "presets": [{"name": "Collection Tabs", "category": "Collections"}]
+}
+{% endschema %}

@@ -40,106 +40,128 @@
 {% endif %}
 
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
-  <header id="main-header" class="main-header_menu-{{ section.settings.main_menu_alignment }}">
-    <div class="row">
-      <div class="small-3 medium-3 columns hide-for-large">
-        <div class="burger-container" data-toggle="mobileMenuSidebar">
+  <header id="main-header">
+    <div class="wf-header-inner">
+
+      <!-- ① LEFT: burger (mobile) + nav de género (desktop) -->
+      <div class="wf-header__left">
+        <!-- Burger solo en mobile/tablet -->
+        <div class="burger-container hide-for-large" data-toggle="mobileMenuSidebar">
           <div id="burger">
             <div class="bar topBar"></div>
             <div class="bar btmBar"></div>
           </div>
         </div>
-      </div>
-      <div class="small-6 medium-6 large-3 columns logo-container">
-          <div class="logo-wrap">
-            {% if settings.logo_use_image %}
-              {% if template.name == 'index' %}
-                <h1 itemscope itemtype="http://schema.org/Organization" class="header__title_img">
-                  <a href="/" itemprop="url" class="logo__link">
-                    <img width="{{settings.logo_max_width}}" class="logo__img" src="{{ logo_id | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
-                  </a>
-                </h1>
-              {% else %}
-                <div itemscope itemtype="http://schema.org/Organization">
-                  <a href="/" itemprop="url" class="logo__link">
-                    <img width="{{settings.logo_max_width}}" class="logo__img" src="{{ logo_id | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
-                  </a>
+
+        <!-- Menú de género en desktop -->
+        <nav class="wf-gender-nav show-for-large" aria-label="Navegación por género">
+          {% if section.settings.menu_hombres != blank %}
+            {% assign men_links = linklists[section.settings.menu_hombres].links %}
+            <div class="wf-gender-nav__item{% if men_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
+              <a href="{{ section.settings.link_hombres | default: '/collections' }}" class="wf-gender-nav__link">
+                {{ section.settings.label_hombres | default: 'Hombres' }}
+                {% if men_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
+              </a>
+              {% if men_links.size > 0 %}
+                <div class="wf-gender-nav__dropdown">
+                  {% for link in men_links %}
+                    <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
+                  {% endfor %}
                 </div>
               {% endif %}
-            {% else %}
-              <h1 class="header__title" itemscope itemtype="http://schema.org/Organization">
-                <a href="/" itemprop="url">{{ shop.name }}</a>
-              </h1>
-            {% endif %}
-          </div>
-      </div>
-      <div class="large-6 columns show-for-large primary-menu-container">
-        {% assign main_menu_id = section.settings.main_menu %}
-        {% if main_menu_id != blank %}
-          <ul id="primary-menu" class="dropdown menu text-{{ section.settings.main_menu_alignment }}">
+            </div>
+          {% endif %}
+
+          {% if section.settings.menu_mujeres != blank %}
+            {% assign women_links = linklists[section.settings.menu_mujeres].links %}
+            <div class="wf-gender-nav__item{% if women_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
+              <a href="{{ section.settings.link_mujeres | default: '/collections' }}" class="wf-gender-nav__link">
+                {{ section.settings.label_mujeres | default: 'Mujeres' }}
+                {% if women_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
+              </a>
+              {% if women_links.size > 0 %}
+                <div class="wf-gender-nav__dropdown">
+                  {% for link in women_links %}
+                    <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <!-- Menú principal adicional en desktop -->
+          {% assign main_menu_id = section.settings.main_menu %}
+          {% if main_menu_id != blank %}
             {% for link in linklists[main_menu_id].links %}
               {% assign child_list_handle = link.title | handleize %}
-
               {% if linklists[child_list_handle].links != blank %}
-                <li class="menu-item {% if link.active %} menu__active{% endif %} {% if linklists[child_list_handle].links.size != 0 %}menu-item_parent{% endif %}">
-                  <a href="{{ link.url }}" class="menu-item-link">{{ link.title }}</a>
-                  <ul class="sub-menu submenu">
+                <div class="wf-gender-nav__item wf-gender-nav__item--has-dropdown">
+                  <a href="{{ link.url }}" class="wf-gender-nav__link">
+                    {{ link.title }}<span class="wf-gender-nav__chevron">▾</span>
+                  </a>
+                  <div class="wf-gender-nav__dropdown">
                     {% for childlink in linklists[child_list_handle].links %}
-                      {% assign grand_child_list_handle = childlink.title | handleize %}
-                      {% if linklists[grand_child_list_handle].links != blank %}
-                        <li class="menu-item {% if childlink.active %} menu__active{% endif %}">
-                          <a href="{{ childlink.url }}" class="menu-item-link">{{ childlink.title | escape }}</a>
-                          <ul class="sub-menu submenu">
-                            {% for grand_childlink in linklists[grand_child_list_handle].links %}
-                              <li class="menu-item {% if grand_childlink.active %} menu__active{% endif %}">
-                                <a href="{{ grand_childlink.url }}" class="menu-item-link">{{ grand_childlink.title | escape }}</a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        </li>
-                      {% else %}
-                        <li class="menu-item {% if childlink.active %} menu__active{% endif %}">
-                          <a href="{{ childlink.url }}" class="menu-item-link">{{ childlink.title | escape }}</a>
-                        </li>
-                      {% endif %}
+                      <a href="{{ childlink.url }}" class="wf-gender-nav__dropdown-link">{{ childlink.title | escape }}</a>
                     {% endfor %}
-                  </ul>
-                </li>
+                  </div>
+                </div>
               {% else %}
-                <li class="menu-item {% if link.active %} menu__active{% endif %}">
-                  <a href="{{ link.url }}" class="menu-item-link">{{ link.title }}</a>
-                </li>
+                <div class="wf-gender-nav__item">
+                  <a href="{{ link.url }}" class="wf-gender-nav__link">{{ link.title }}</a>
+                </div>
               {% endif %}
             {% endfor %}
-          </ul>
-        {% endif %}
+          {% endif %}
+        </nav>
       </div>
-      <div class="small-3 medium-3 large-3 columns text-right right-menu-container">
+
+      <!-- ② CENTER: Logo -->
+      <div class="wf-header__center">
+        <div class="logo-wrap">
+          {% if settings.logo_use_image %}
+            {% if template.name == 'index' %}
+              <h1 itemscope itemtype="http://schema.org/Organization" class="header__title_img">
+                <a href="/" itemprop="url" class="logo__link">
+                  <img width="{{ settings.logo_max_width }}" class="logo__img" src="{{ logo_id | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                </a>
+              </h1>
+            {% else %}
+              <div itemscope itemtype="http://schema.org/Organization">
+                <a href="/" itemprop="url" class="logo__link">
+                  <img width="{{ settings.logo_max_width }}" class="logo__img" src="{{ logo_id | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                </a>
+              </div>
+            {% endif %}
+          {% else %}
+            <h1 class="header__title" itemscope itemtype="http://schema.org/Organization">
+              <a href="/" itemprop="url">{{ shop.name }}</a>
+            </h1>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- ③ RIGHT: iconos -->
+      <div class="wf-header__right">
         <ul id="header-right-menu" class="menu">
           {% if section.settings.header_show_search %}
             <li class="menu-item menu-item_search show-for-large">
               <button class="header__search-toggle" id="wf-search-toggle" aria-label="Buscar" aria-expanded="false">
-                <span class="icon icon-search wf-icon-search"></span>
-                <span class="icon icon-cross wf-icon-close" style="display:none"></span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               </button>
             </li>
           {% endif %}
 
           {% if shop.customer_accounts_enabled and settings.account_link %}
           <li class="menu-item menu-item_user show-for-large">
-            {% if customer %}
-            <a class="menu-item-link header__account-link" href="/account">
-            {% else %}
-            <a class="menu-item-link header__account-link" href="/account/login">
-            {% endif %}
-              <svg id="user-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g id="user-icon-g"><path id="head" d="M31.91,34.54a14,14,0,1,0-14-14A14,14,0,0,0,31.91,34.54Z"/><path id="shoulders" d="M9.46,57.46H54.54a1.7,1.7,0,0,0,1.71-1.71A16.31,16.31,0,0,0,40,39.46H24A16.31,16.31,0,0,0,7.75,55.75,1.7,1.7,0,0,0,9.46,57.46Z"/></g></svg>
+            <a class="menu-item-link header__account-link" href="{% if customer %}/account{% else %}/account/login{% endif %}">
+              <svg id="user-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g><path d="M31.91,34.54a14,14,0,1,0-14-14A14,14,0,0,0,31.91,34.54Z"/><path d="M9.46,57.46H54.54a1.7,1.7,0,0,0,1.71-1.71A16.31,16.31,0,0,0,40,39.46H24A16.31,16.31,0,0,0,7.75,55.75,1.7,1.7,0,0,0,9.46,57.46Z"/></g></svg>
             </a>
           </li>
           {% endif %}
 
           <li class="menu-item menu-item_cart header__cart" {% if settings.ajax_cart_method == "drawer" %}data-toggle="cartSidebar"{% endif %}>
             <a class="menu-item-link" {% if settings.ajax_cart_method != "drawer" %}href="/cart"{% endif %}>
-              <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path id="cart-icon-shape" data-name="cart" d="M55.06,38.32a2,2,0,0,0,1.77-1.64l3.77-21.17a2,2,0,0,0-1.88-2.35L12.12,11,6.63,6.46A2,2,0,1,0,4.09,9.54l5.53,4.55,7.81,25.52-2.59,4.93A3.55,3.55,0,0,0,18,49.74h2.71a4.64,4.64,0,1,0,5.74,0H46a4.64,4.64,0,1,0,5.74,0h4.68a2,2,0,0,0,0-4H18.73l2.13-4Z"/></svg>
+              <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M55.06,38.32a2,2,0,0,0,1.77-1.64l3.77-21.17a2,2,0,0,0-1.88-2.35L12.12,11,6.63,6.46A2,2,0,1,0,4.09,9.54l5.53,4.55,7.81,25.52-2.59,4.93A3.55,3.55,0,0,0,18,49.74h2.71a4.64,4.64,0,1,0,5.74,0H46a4.64,4.64,0,1,0,5.74,0h4.68a2,2,0,0,0,0-4H18.73l2.13-4Z"/></svg>
               <div class="header__cart-count {% if cart.item_count == 0 %}hidden-count{% endif %}">
                 <span id="CartCount">{{ cart.item_count }}</span>
               </div>
@@ -150,9 +172,29 @@
           </li>
         </ul>
       </div>
+
     </div>
   </header>
 </div>
+
+<script>
+// Scroll-aware header
+(function() {
+  var header = document.querySelector('.header-container');
+  if (!header) return;
+  var threshold = 60;
+  function onScroll() {
+    if (window.scrollY > threshold) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
 
 {% if section.settings.header_show_search %}
 <!-- ══ WF Search Modal — tiempo real ══ -->
@@ -449,7 +491,17 @@
         "id": "header_show_search",
         "label": "Display Search Icon",
         "default": true
-      }    
+      },
+      { "type": "header", "content": "Navegación — Hombres" },
+      { "type": "text", "id": "label_hombres", "label": "Etiqueta", "default": "Hombres" },
+      { "type": "url",  "id": "link_hombres",  "label": "Enlace (sin submenú)" },
+      { "type": "link_list", "id": "menu_hombres", "label": "Submenú Hombres",
+        "info": "Crea un menú en Shopify > Online Store > Navigation y selecciónalo aquí." },
+      { "type": "header", "content": "Navegación — Mujeres" },
+      { "type": "text", "id": "label_mujeres", "label": "Etiqueta", "default": "Mujeres" },
+      { "type": "url",  "id": "link_mujeres",  "label": "Enlace (sin submenú)" },
+      { "type": "link_list", "id": "menu_mujeres", "label": "Submenú Mujeres",
+        "info": "Crea un menú en Shopify > Online Store > Navigation y selecciónalo aquí." }
     ]
   }
 {% endschema %}
