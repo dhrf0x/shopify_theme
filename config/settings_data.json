@@ -280,7 +280,7 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "show_bar": true,
+          "show_bar": false,
           "msg1": "ENVIO GRATIS A TALA!",
           "link1": "",
           "msg2": "ENVIO GRATIS A ROQUE ABARCA",
