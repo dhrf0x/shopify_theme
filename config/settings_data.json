@@ -295,7 +295,7 @@
           "speed": 4,
           "bg_color": "#ff0000",
           "text_color": "#ffffff",
-          "font_size": 13
+          "font_size": 15
         }
       },
       "header": {
