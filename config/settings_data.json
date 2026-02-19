@@ -301,7 +301,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "show_announcement_bar": "hide",
+          "show_announcement_bar": "all_pages",
           "announcement_text": "<p>Add your announcement here</p>",
           "announcement_text_mobile": "<p>Add your announcement for mobile</p>",
           "text_alignment": "center",
@@ -311,7 +311,7 @@
           "header_show_search": true,
           "label_hombres": "Hombres",
           "link_hombres": "shopify://collections/test-blank",
-          "menu_hombres": "",
+          "menu_hombres": "menu-hombre",
           "label_mujeres": "Mujeres",
           "link_mujeres": "shopify://collections/oversize",
           "menu_mujeres": ""
