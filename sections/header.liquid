@@ -1,12 +1,3 @@
-{% assign announcement_text = section.settings.announcement_text %}
-{% assign announcement_text_mobile = section.settings.announcement_text_mobile %}
-
-{% if template contains 'index' and section.settings.show_announcement_bar != 'hide' %}
-  {% assign enable_announcement_bar = true %}
-{% elsif section.settings.show_announcement_bar == 'all_pages' %}
-  {% assign enable_announcement_bar = true %}
-{% endif %}
-
 {% if template contains 'index' and settings.header_overlay_home %}
   {% assign header_overlay = 'header-overlay' %}
 {% elsif template contains 'collection' and settings.header_overlay_collection %}
@@ -24,35 +15,18 @@
   {% assign logo_id = 'logo-white.png' %}
 {% endif %}
 
-{% if enable_announcement_bar %}
-  <div id="announcement-bar-{{ section.id }}" class="announcement-bar {% if section.settings.announcement_link != blank %}announcement_clickable{% endif %} js-animate-appear-show">
-    {% if section.settings.announcement_link != blank %}
-    <a href="{{ section.settings.announcement_link }}" class="announcement__link"></a>
-    {% endif %}
-    <div class="row columns announcement__text-wrap text-{{ section.settings.text_alignment }}">
-      {% unless announcement_text == blank %}
-        <div class="announcement__text {% if announcement_text_mobile != blank %}show-for-medium{% endif %}">
-          {{ announcement_text }}
-        </div>
-      {% endunless %}
-      {% unless announcement_text_mobile == blank %}
-        <div class="announcement__text show-for-small-only">
-          {{ announcement_text_mobile }}
-        </div>
-      {% endunless %}
-    </div>
-  </div>
-{% endif %}
-
-{% if header_overlay != blank and enable_announcement_bar %}
+{% comment %}
+  La Announcement Bar se renderiza como sección separada.
+  Este script ajusta el offset del header-overlay para que no tape la barra.
+{% endcomment %}
+{% if header_overlay != blank %}
 <script>
   (function() {
     function fixHeaderOverlayOffset() {
-      var bar = document.getElementById('announcement-bar-{{ section.id }}');
+      var bar = document.querySelector('.announcement-bar');
       var header = document.querySelector('.header-container.header-overlay');
-      if (bar && header) {
-        var barHeight = bar.offsetHeight;
-        header.style.top = barHeight + 'px';
+      if (header) {
+        header.style.top = (bar && bar.offsetHeight > 0) ? bar.offsetHeight + 'px' : '0px';
       }
     }
     if (document.readyState === 'loading') {
