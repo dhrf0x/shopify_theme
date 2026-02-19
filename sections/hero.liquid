@@ -1,268 +1,155 @@
-{% include 'hero', snippet_instance: section, snippet_type: 'section' %}
+{% if snippet_instance.settings.section_identifier != blank %}
+  {% assign section_id = snippet_instance.settings.section_identifier %}
+{% else %}
+  {%- capture section_id -%} section-{{-snippet_instance.id-}} {%- endcapture -%}
+{% endif %}
 
-{% schema %}
-  {
-    "name": "Hero",
-    "max_blocks": 3,
-    "settings": [
-      {
-        "type": "header",
-        "content": "Content Settings"
-      },
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Title",
-        "default": "Introduce Your Brand"
-      },
-      {
-        "type": "richtext",
-        "id": "text",
-        "label": "Text",
-        "default": "<p>Add a slogan text here.</p>"
-      },
-      {
-        "type": "select",
-        "id": "alignment",
-        "label": "Text Position",
-        "default": "center",
-        "options": [
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "right", "label": "Right" }
-        ]
-      },
-      {
-        "type": "select",
-        "id": "text_alignment",
-        "label": "Text Alignment",
-        "default": "center",
-        "options": [
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "right", "label": "Right" }
-        ]
-      },
-      {
-        "type": "select",
-        "id": "text_width",
-        "label": "Text Width",
-        "default": "2-3",
-        "options": [
-          { "value": "1-2", "label": "1/2" },
-          { "value": "1-3", "label": "1/3" },
-          { "value": "2-3", "label": "2/3" },
-          { "value": "3-4", "label": "3/4" }
-        ]
-      },
-      {
-        "type": "header",
-        "content": "Mobile Settings"
-      },
-      {
-        "type": "checkbox",
-        "id": "mobile_centered",
-        "label": "Centered Content",
-        "default": false
-      },
-      {
-        "type": "header",
-        "content": "Section Height"
-      },
-      {
-        "type": "checkbox",
-        "id": "full_height",
-        "label": "Full Screen Height",
-        "default": true
-      },
-      {
-        "type": "range",
-        "id": "mobile_height",
-        "min": 200,
-        "max": 800,
-        "step": 10,
-        "unit": "px",
-        "label": "Section Height (Mobile)",
-        "default": 400
-      },
-      {
-        "type": "range",
-        "id": "desktop_height",
-        "min": 200,
-        "max": 1000,
-        "step": 10,
-        "unit": "px",
-        "label": "Section Height (Desktop)",
-        "default": 600
-      },
-      {
-        "type": "header",
-        "content": "Video Background"
-      },
-      {
-        "type": "video_url",
-        "id": "video_url",
-        "label": "YouTube or Vimeo Video URL",
-        "accept": ["youtube", "vimeo"],
-        "info": "Plays as a silent looping background video. The image below is used as fallback."
-      },
-      {
-        "type": "header",
-        "content": "Glass Overlay on Text"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_glass_overlay",
-        "label": "Enable Glass Overlay",
-        "default": true
-      },
-      {
-        "type": "range",
-        "id": "glass_blur",
-        "min": 0,
-        "max": 40,
-        "step": 2,
-        "unit": "px",
-        "label": "Glass Blur Intensity",
-        "default": 16
-      },
-      {
-        "type": "header",
-        "content": "Content Style"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_custom_styles",
-        "label": "Enable Custom Styles",
-        "default": true
-      },
-      {
-        "type": "color",
-        "id": "title_color",
-        "label": "Title Color"
-      },
-      {
-        "type": "color",
-        "id": "text_color",
-        "label": "Text Color"
-      },
-      {
-        "type": "range",
-        "id": "title_font_size",
-        "min": 12,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "label": "Section Title Size",
-        "default": 52
-      },
-      {
-        "type": "range",
-        "id": "text_font_size",
-        "min": 12,
-        "max": 55,
-        "step": 1,
-        "unit": "px",
-        "label": "Text Font Size",
-        "default": 22
-      },
-      {
-        "type": "range",
-        "id": "spacing_top",
-        "min": 0,
-        "max": 400,
-        "step": 5,
-        "unit": "px",
-        "label": "Spacing: Top",
-        "default": 50
-      },
-      {
-        "type": "range",
-        "id": "spacing_bottom",
-        "min": 0,
-        "max": 400,
-        "step": 5,
-        "unit": "px",
-        "label": "Spacing: Bottom",
-        "default": 50
-      },
-      {
-        "type": "header",
-        "content": "Background Style"
-      },
-      {
-        "type": "color",
-        "id": "background_color",
-        "label": "Background Color"
-      },
-      {
-        "type": "image_picker",
-        "id": "background_image",
-        "label": "Background Image"
-      },
-      {
-        "type": "select",
-        "id": "background_image_style",
-        "label": "Background Image Style",
-        "default": "cover",
-        "options": [
-          { "value": "cover", "label": "Cover" },
-          { "value": "repeat", "label": "Repeat" }
-        ]
-      },
-      {
-        "type": "checkbox",
-        "id": "parallax",
-        "label": "Enable Parallax Effect",
-        "default": false
-      },
-      {
-        "type": "range",
-        "id": "darken",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "%",
-        "label": "Darken Background",
-        "default": 20
-      }
-    ],
-    "blocks": [
-      {
-        "type": "button",
-        "name": "Button",
-        "settings": [
-          { "type": "text", "id": "btn_text", "label": "Button Text" },
-          { "type": "url", "id": "btn_link", "label": "Button URL" },
-          {
-            "type": "header",
-            "content": "Button Style"
-          },
-          {
-            "type": "select",
-            "id": "btn_style",
-            "label": "Button Style",
-            "default": "full",
-            "options": [
-              { "value": "full", "label": "Filled" },
-              { "value": "hollow", "label": "Hollow" }
-            ]
-          },
-          {
-            "type": "color",
-            "id": "btn_bg_color",
-            "label": "Button Background Color",
-            "default": "#ffffff"
-          },
-          {
-            "type": "color",
-            "id": "btn_text_color",
-            "label": "Button Text Color",
-            "default": "#111111"
-          }
-        ]
-      }
-    ],
-    "presets": [{"name": "Hero", "category": "Hero"}]
+{% if snippet_instance.settings.enable_custom_styles %}
+  {% include 'section-styles', instance_settings: snippet_instance.settings %}
+{% endif %}
+
+{% assign bg_image = snippet_instance.settings.background_image %}
+{% assign bg_image_style = snippet_instance.settings.background_image_style %}
+{% if bg_image != blank and bg_image_style == 'cover' %} {% assign lazyload = 'lazyload' %} {% endif %}
+
+{%- capture section_attributes -%}
+  {% if snippet_type == 'section' %}
+    data-section-id="{{ snippet_instance.id }}" data-section-type="hero"
+  {% else %}
+    data-block-id="{{ snippet_instance.id }}" data-block-type="hero"
+  {% endif %}
+{%- endcapture -%}
+
+{% unless snippet_instance.settings.full_height %}
+  <style>
+  #{{section_id}} .content-section {
+    min-height: {{ snippet_instance.settings.mobile_height | append: 'px' }};
   }
-{% endschema %}
+  @media print, screen and (min-width: 1024px) {
+    #{{section_id}} .content-section {
+      min-height: {{ snippet_instance.settings.desktop_height | append: 'px' }};
+    }
+  }
+  </style>
+{% endunless %}
+
+{% if snippet_instance.settings.parallax and snippet_instance.settings.enable_custom_styles %}
+  {% assign parallax_class = 'section__content_parallax' %}
+{% endif %}
+
+<div id="{{section_id}}" class="section {{ parallax_class }}">
+  <div {{ section_attributes }}
+    class="{{ lazyload }} content-section hero-section hero-section--gymshark {% if snippet_instance.settings.full_height %}hero-section_full-screen{% endif %}"
+    {% if bg_image != blank and bg_image_style == 'cover' and snippet_instance.settings.enable_custom_styles %}
+      data-bgset="{% include 'bgset', image: bg_image %}"
+      data-sizes="auto"
+      data-parent-fit="cover"
+    {% endif %}>
+
+    <div class="background_darken"></div>
+
+    <div class="hero-gs__content hero-gs__content--{{ snippet_instance.settings.alignment }} js-animate-appear-show">
+      {% unless snippet_instance.settings.title == blank %}
+        <h2 class="hero-gs__title section__title-style">
+          {{ snippet_instance.settings.title | escape }}
+        </h2>
+      {% endunless %}
+      {% unless snippet_instance.settings.text == blank %}
+        <div class="hero-gs__text rte section__text-style">
+          {{ snippet_instance.settings.text }}
+        </div>
+      {% endunless %}
+      {% if snippet_type == 'section' %}
+        {% for block in snippet_instance.blocks %}
+          {% if block.settings.btn_link != blank %}
+            {% assign btn_id = block.id %}
+            <a {{ block.shopify_attributes }}
+               href="{{ block.settings.btn_link }}"
+               class="hero-gs__btn">
+              {{ block.settings.btn_text }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+/* ============================================================
+   HERO — Estilo Gymshark
+   ============================================================ */
+.hero-section--gymshark {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-gs__content {
+  position: relative;
+  z-index: 6;
+  padding: 2.5rem 1.5rem;
+  max-width: 420px;
+}
+
+/* Posición izquierda (default) */
+.hero-gs__content--left   { align-self: flex-end; margin-right: auto; }
+.hero-gs__content--center { align-self: flex-end; margin: 0 auto; text-align: center; }
+.hero-gs__content--right  { align-self: flex-end; margin-left: auto; text-align: right; }
+
+@media (min-width: 640px) {
+  .hero-gs__content {
+    padding: 3rem 2.5rem;
+    max-width: 520px;
+  }
+}
+
+.hero-gs__title {
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.hero-gs__text {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.hero-gs__text p {
+  margin-bottom: 0;
+}
+
+/* Botones estilo Gymshark — texto subrayado */
+.hero-gs__btn {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: inherit;
+  margin-right: 1.5rem;
+  margin-top: 0.25rem;
+  transition: opacity 0.2s ease;
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: 1.8;
+}
+
+.hero-gs__btn:hover {
+  opacity: 0.75;
+  color: inherit;
+  text-decoration: underline;
+}
+
+.hero-gs__btn:last-child { margin-right: 0; }
+</style>
