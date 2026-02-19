@@ -1436,107 +1436,137 @@ a, .pagination a {
 
 
 
+
 /* ============================================================
-   DARK MODE GLOBAL — Sistema de color coherente
-   Todas las variables del tema respetan color_sections_bg/text
+   TEMA UNIFICADO — Header, body y footer mismo color oscuro
+   Todo usa $color-sections-bg (#262b4d) como base
    ============================================================ */
 
-/* Body base */
-body {
+/* ——— BODY / FONDO ——— */
+body,
+#PageContainer,
+.page-wrapper {
   background-color: $color-sections-bg !important;
   color: $color-sections-text !important;
 }
 
-/* Cualquier página interna */
-#PageContainer,
-.page-wrapper {
-  background-color: $color-sections-bg;
+/* ——— HEADER: sobreescribe el blanco del preset ——— */
+.header-container {
+  background-color: $color-sections-bg !important;
+  /* Borde sutil para separar de la announcement bar */
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
 }
 
-/* Textos del body */
-h1, h2, h3, h4, h5, h6 {
-  color: $color-sections-text;
-}
-p, span, li, td, th, label {
-  color: $color-sections-text;
-}
-a {
-  color: $color-sections-text;
+/* Iconos y links del header en modo unificado */
+#main-header .logo-wrap .header__title a,
+#main-header .menu-item-link,
+#main-header .header__link,
+#header-right-menu .menu-item-link,
+#header-right-menu svg,
+#main-header svg {
+  color: $color-sections-text !important;
+  fill: $color-sections-text !important;
 }
 
-/* ============================================================
-   PRODUCT PAGE — Variantes y botones en armonía dark
-   ============================================================ */
+/* Menú desktop */
+#main-header .main-menu > li > a {
+  color: $color-sections-text !important;
+}
 
-/* Fondo de la página de producto */
+/* Dropdown del header */
+#main-header .is-dropdown-submenu {
+  background-color: #1e2240 !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+#main-header .is-dropdown-submenu a {
+  color: $color-sections-text !important;
+}
+#main-header .is-dropdown-submenu a:hover {
+  background-color: rgba(255,255,255,0.07) !important;
+}
+
+/* Flecha del dropdown */
+#main-header .dropdown.menu > li.is-dropdown-submenu-parent > a:after {
+  border-color: $color-sections-text transparent transparent !important;
+}
+
+/* ——— ANUNCIO: mismo tono oscuro que header ——— */
+/* La .announcement-bar usa sus propios colores del schema — no tocar */
+
+/* ——— FOOTER: ya está en $color-footer-bg = #262b4d ——— */
+/* Borde para separar del body */
+.footer-section,
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* ——— PRODUCT PAGE ——— */
 .product-page {
   background-color: $color-sections-bg;
   color: $color-sections-text;
 }
 
-/* Títulos y precio */
-.product-page #ProductTitle,
+/* Precio y nombre */
+.product-page #ProductTitle { color: $color-sections-text !important; }
 .product-page #ProductPrice,
+.product-page #ComparePrice { color: $color-sections-text !important; }
+
+/* Labels de variante */
 .product-page .product__variants__wrap label,
-.product-page label.quantity-selector {
-  color: $color-sections-text;
+.product-page label.quantity-selector,
+.product-page .swatch-label-text {
+  color: $color-sections-text !important;
 }
 
 /* Descripción */
 .product-page .product-description,
 .product-page .product-description p {
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6) !important;
 }
 
-/* ——— Botones de variante (talla, tejido, etc) ——— */
+/* ——— VARIANTES: Gymshark style ——— */
 .product-page .swatch label {
-  background-color: transparent;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  color: $color-sections-text;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.22) !important;
+  color: $color-sections-text !important;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 .product-page .swatch .swatch-element__inner {
-  background-color: transparent;
-  color: $color-sections-text;
-  font-size: 13px;
+  background-color: transparent !important;
+  color: $color-sections-text !important;
   font-weight: 500;
 }
-/* Hover */
 .product-page .swatch label:hover {
-  border-color: rgba(255,255,255,0.6);
-  background-color: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.6) !important;
+  background-color: rgba(255,255,255,0.05) !important;
 }
-/* Seleccionado */
+/* Seleccionado — sólido blanco */
 .product-page .swatch input:checked + label {
-  border-color: $color-sections-text;
-  background-color: $color-sections-text;
-  color: $color-sections-bg;
+  border-color: $color-sections-text !important;
+  background-color: $color-sections-text !important;
 }
 .product-page .swatch input:checked + label .swatch-element__inner {
-  background-color: transparent;
-  color: $color-sections-bg;
+  background-color: transparent !important;
+  color: $color-sections-bg !important;
   font-weight: 700;
 }
-/* Agotado */
 .product-page .swatch .swatch-element.soldout label {
-  opacity: 0.3;
+  opacity: 0.28 !important;
   text-decoration: line-through;
 }
 
-/* ——— Botón Agregar al carrito ——— */
+/* ——— BOTÓN AGREGAR AL CARRITO ——— */
 #AddToCart {
-  background-color: $color-sections-text !important;
-  color: $color-sections-bg !important;
-  border: 2px solid $color-sections-text !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
 }
 #AddToCart:hover {
   background-color: transparent !important;
-  color: $color-sections-text !important;
-  border-color: $color-sections-text !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
 }
 #AddToCart.disabled,
 #AddToCart[disabled] {
@@ -1544,23 +1574,7 @@ a {
   cursor: not-allowed !important;
 }
 
-/* ——— Selector de cantidad ——— */
-.product-page .quantity-selector,
-.product-page input[type="number"] {
-  background-color: transparent;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  color: $color-sections-text;
-}
-
-/* ——— Compartir en redes ——— */
-.product-page .social-sharing .share-title,
-.product-page .social-sharing a {
-  color: rgba(255,255,255,0.55);
-}
-
-/* ============================================================
-   CART BADGE — rojo siempre visible
-   ============================================================ */
+/* ——— CART BADGE — siempre rojo, siempre visible ——— */
 .header__cart-count {
   position: absolute !important;
   top: -8px !important;
@@ -1572,10 +1586,10 @@ a {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 4px !important;
-  line-height: 1 !important;
   z-index: 10 !important;
   background-color: #e31b1b !important;
   color: #fff !important;
+  line-height: 1 !important;
 }
 .header__cart-count span {
   font-size: 10px !important;
@@ -1590,12 +1604,13 @@ a {
   align-items: center !important;
 }
 
-/* ============================================================
-   COLECCIÓN — tarjetas de producto en dark
-   ============================================================ */
-.product-card,
-.product-card__inner,
-.loop-product {
-  background-color: transparent;
+/* ——— COLECCIONES ——— */
+.collection-header,
+.collection-page {
+  background-color: $color-sections-bg;
   color: $color-sections-text;
 }
+
+/* Textos generales en páginas internas */
+h1, h2, h3, h4, h5, h6 { color: $color-sections-text; }
+.page-title { color: $color-sections-text !important; }
