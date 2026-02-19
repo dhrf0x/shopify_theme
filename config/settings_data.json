@@ -323,9 +323,9 @@
           "spacing_top": 50,
           "spacing_bottom": 50,
           "background_color": "",
-          "video_url": "",
+          "video_url": "https://youtu.be/wnzZTY2d05w",
           "background_image_style": "cover",
-          "parallax": false,
+          "parallax": true,
           "darken": 0
         }
       },
