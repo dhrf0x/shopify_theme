@@ -1433,61 +1433,55 @@ a, .pagination a {
   content: "\e9c9";
 }
 
+
 /* ============================================================
-   FIX: Cart count badge — evita overflow visual
+   FIX: Cart badge — posición y visibilidad corregidas
    ============================================================ */
 #header-right-menu .header__cart {
   position: relative;
 }
 #header-right-menu .header__cart > a {
-  position: relative;
   display: inline-flex;
   align-items: center;
+  position: relative;
 }
 .header__cart-count {
   position: absolute !important;
-  top: -6px !important;
-  right: -8px !important;
+  top: -7px !important;
+  right: -10px !important;
   min-width: 18px !important;
   height: 18px !important;
   border-radius: 9px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 0 4px !important;
-  font-size: 10px !important;
-  font-weight: 700 !important;
+  padding: 0 3px !important;
   line-height: 1 !important;
-  z-index: 2 !important;
+  z-index: 3 !important;
 }
 .header__cart-count span {
-  padding: 0 !important;
   font-size: 10px !important;
   line-height: 1 !important;
+  padding: 0 !important;
 }
 
 /* ============================================================
-   FIX: Botón "Agregar al carrito" visible en dark mode
-   Usa el mismo tono que el header para contraste garantizado
+   FIX: Botón Agregar al Carrito — contraste en dark mode
+   Usa color-body-text / color-body-bg para contraste garantizado
+   independientemente del tema (claro u oscuro)
    ============================================================ */
-#AddToCart,
-.product-page #AddToCart {
-  background-color: $color-header-bg !important;
-  color: $color-header-main-menu !important;
-  border: 2px solid $color-header-main-menu !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
+#AddToCart {
+  background-color: $color-body-text;
+  color: $color-body-bg;
+  border: 2px solid $color-body-text;
 }
-
-#AddToCart:hover,
-.product-page #AddToCart:hover {
-  background-color: $color-header-main-menu !important;
-  color: $color-header-bg !important;
-  border-color: $color-header-main-menu !important;
+#AddToCart:hover {
+  background-color: transparent;
+  color: $color-body-text;
+  border-color: $color-body-text;
 }
-
-/* Si el botón está deshabilitado (sin stock) */
 #AddToCart.disabled,
 #AddToCart[disabled] {
-  opacity: 0.45 !important;
-  cursor: not-allowed !important;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
