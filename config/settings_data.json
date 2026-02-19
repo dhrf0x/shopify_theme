@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "presets": {
     "Polaris": {
@@ -198,12 +207,12 @@
   "current": {
     "color_bg": "#f8f8f6",
     "color_title": "#111110",
+    "enable_headings_underline": false,
     "color_text": "#333330",
-    "color_secondary": "#6b6b68",
+    "style_border_radius": 6,
     "color_sections_bg": "#111110",
     "color_sections_text": "#ffffff",
-    "style_border_radius": 6,
-    "enable_headings_underline": false,
+    "color_secondary": "#6b6b68",
     "color_link": "#111110",
     "link_style": "underline",
     "color_btn_bg": "#111110",
@@ -214,22 +223,6 @@
     "color_field_text": "#111110",
     "color_field_placeholder": "#a0a09d",
     "color_field_border": "#d8d8d4",
-    "color_header_bg": "rgba(248,248,246,0.82)",
-    "color_header_main_menu": "#111110",
-    "color_header_dropdown_bg": "rgba(255,255,255,0.90)",
-    "color_header_dropdown_menu": "#111110",
-    "color_header_cart_count_bg": "#111110",
-    "style_header_min_height": 64,
-    "header_overlay_home": true,
-    "header_overlay_collection": false,
-    "header_overlay_blogs": false,
-    "header_overlay_page": false,
-    "color_header_overlay_main_menu": "#ffffff",
-    "color_header_overlay_dropdown_bg": "rgba(15,15,13,0.92)",
-    "color_header_overlay_dropdown_menu": "#f0f0ee",
-    "color_header_overlay_cart_count_bg": "#ffffff",
-    "color_announcement_bar_bg": "#111110",
-    "color_announcement_bar_text": "#ffffff",
     "color_mobile_sidebar_bg": "#ffffff",
     "color_mobile_sidebar_link": "#111110",
     "color_mobile_sidebar_input_bg": "#f0f0ee",
@@ -242,6 +235,17 @@
     "color_cart_sidebar_price": "#111110",
     "color_cart_sidebar_checkout_btn_bg": "#111110",
     "color_cart_sidebar_checkout_btn_text": "#ffffff",
+    "color_announcement_bar_bg": "#111110",
+    "color_announcement_bar_text": "#ffffff",
+    "color_header_bg": "rgba(248,248,246,0.82)",
+    "color_header_main_menu": "#111110",
+    "color_header_dropdown_bg": "rgba(255,255,255,0.90)",
+    "color_header_dropdown_menu": "#111110",
+    "color_header_cart_count_bg": "#111110",
+    "color_header_overlay_main_menu": "#ffffff",
+    "color_header_overlay_dropdown_bg": "rgba(15,15,13,0.92)",
+    "color_header_overlay_dropdown_menu": "#f0f0ee",
+    "color_header_overlay_cart_count_bg": "#ffffff",
     "color_footer_bg": "#111110",
     "color_footer_title": "#ffffff",
     "color_footer_text": "rgba(255,255,255,0.65)",
@@ -257,13 +261,131 @@
     "color_badge_text": "#ffffff",
     "color_badge_sale_bg": "#111110",
     "color_badge_sold_out_bg": "#a0a09d",
-    "show_product_badges": true,
-    "display_secondary_image": true,
     "color_product_title": "#111110",
     "color_product_description": "#333330",
     "color_product_price": "#111110",
     "color_product_variant_border": "#111110",
     "color_product_buy_bg": "#111110",
-    "color_product_buy_text": "#ffffff"
+    "color_product_buy_text": "#ffffff",
+    "style_header_min_height": 64,
+    "header_overlay_home": true,
+    "header_overlay_collection": false,
+    "header_overlay_blogs": false,
+    "header_overlay_page": false,
+    "display_secondary_image": true,
+    "show_product_badges": true,
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "msg1": "¡Envío gratis en pedidos mayores a $999!",
+          "link1": "",
+          "msg2": "",
+          "link2": "",
+          "msg3": "",
+          "link3": "",
+          "speed": 4,
+          "bg_color": "#111110",
+          "text_color": "#ffffff",
+          "font_size": 13
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "show_announcement_bar": "home",
+          "announcement_text": "<p>Add your announcement here</p>",
+          "announcement_text_mobile": "<p>Add your announcement for mobile</p>",
+          "text_alignment": "center",
+          "announcement_link": "",
+          "main_menu": "main-menu",
+          "main_menu_alignment": "left",
+          "header_show_search": true
+        }
+      },
+      "hero": {
+        "type": "hero",
+        "settings": {
+          "title": "Introduce Your Brand",
+          "text": "<p>Add a slogan text here.</p>",
+          "alignment": "center",
+          "text_alignment": "center",
+          "text_width": "2-3",
+          "mobile_centered": false,
+          "full_height": true,
+          "mobile_height": 400,
+          "desktop_height": 600,
+          "enable_custom_styles": true,
+          "title_color": "",
+          "text_color": "",
+          "title_font_size": 52,
+          "text_font_size": 28,
+          "spacing_top": 50,
+          "spacing_bottom": 50,
+          "background_color": "",
+          "video_url": "",
+          "background_image_style": "cover",
+          "parallax": false,
+          "darken": 0
+        }
+      },
+      "featured-products": {
+        "type": "featured-products",
+        "settings": {
+          "title": "Featured Products",
+          "title_alignment": "center",
+          "text_alignment": "center",
+          "is_carousel": false,
+          "collection": "test-blank",
+          "grid": "4",
+          "total": 4,
+          "enable_custom_styles": true,
+          "background_color": "",
+          "title_color": "",
+          "title_font_size": 28,
+          "spacing_top": 50,
+          "spacing_bottom": 10
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "footer-menu",
+            "settings": {
+              "title": "Menu",
+              "menu_id": "footer"
+            }
+          },
+          "footer-1": {
+            "type": "text",
+            "settings": {
+              "title": "Custom Text",
+              "text": "<p>Add some text here.</p>",
+              "show_social_links": true
+            }
+          },
+          "footer-2": {
+            "type": "newsletter",
+            "settings": {
+              "title": "Join the newsletter",
+              "info": "<p>Add some text here.</p>",
+              "newsletter_form_action": "",
+              "button_text": "Subscribe"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "footer-1",
+          "footer-2"
+        ],
+        "settings": {
+          "show_payment_icons": true,
+          "footer_copyright": "<p>©</p>"
+        }
+      }
+    },
+    "content_for_index": []
   }
 }
