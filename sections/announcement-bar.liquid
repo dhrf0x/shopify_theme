@@ -4,7 +4,17 @@
   • Carousel rotativo con múltiples mensajes
 {% endcomment %}
 
+{% assign wf_show_ann = false %}
 {% if section.settings.show_bar %}
+  {% if section.settings.visibility == 'all' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.visibility == 'home' and template == 'index' %}
+    {% assign wf_show_ann = true %}
+  {% elsif section.settings.visibility == 'not_home' and template != 'index' %}
+    {% assign wf_show_ann = true %}
+  {% endif %}
+{% endif %}
+{% if wf_show_ann %}
 <div class="ann-bar"
   style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};font-size:{{ section.settings.font_size }}px;"
   id="ann-bar-{{ section.id }}">
@@ -134,9 +144,19 @@
     {
       "type": "checkbox",
       "id": "show_bar",
-      "label": "Mostrar barra de anuncios",
-      "default": true,
-      "info": "Desactiva para ocultar la barra completamente sin eliminar los mensajes."
+      "label": "Activar barra de anuncios",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Mostrar en",
+      "default": "all",
+      "options": [
+        { "value": "all",      "label": "Todas las páginas" },
+        { "value": "home",     "label": "Solo página principal" },
+        { "value": "not_home", "label": "Todas excepto inicio" }
+      ]
     },
     { "type": "header", "content": "Mensajes (hasta 5)" },
     { "type": "text",  "id": "msg1",  "label": "Mensaje 1", "default": "¡Envío gratis en pedidos mayores a $999!" },

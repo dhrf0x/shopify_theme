@@ -55,41 +55,44 @@
 
         <!-- Menú de género en desktop -->
         <nav class="wf-gender-nav show-for-large" aria-label="Navegación por género">
-          {% if section.settings.menu_hombres != blank %}
-            {% assign men_links = linklists[section.settings.menu_hombres].links %}
-            <div class="wf-gender-nav__item{% if men_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
-              <a href="{{ section.settings.link_hombres | default: '/collections' }}" class="wf-gender-nav__link">
-                {{ section.settings.label_hombres | default: 'Hombres' }}
-                {% if men_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
-              </a>
-              {% if men_links.size > 0 %}
-                <div class="wf-gender-nav__dropdown">
-                  {% for link in men_links %}
-                    <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-          {% endif %}
 
-          {% if section.settings.menu_mujeres != blank %}
-            {% assign women_links = linklists[section.settings.menu_mujeres].links %}
-            <div class="wf-gender-nav__item{% if women_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
-              <a href="{{ section.settings.link_mujeres | default: '/collections' }}" class="wf-gender-nav__link">
-                {{ section.settings.label_mujeres | default: 'Mujeres' }}
-                {% if women_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
-              </a>
-              {% if women_links.size > 0 %}
-                <div class="wf-gender-nav__dropdown">
-                  {% for link in women_links %}
-                    <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-          {% endif %}
+          {% comment %} ── HOMBRES — siempre visible si hay label configurado ── {% endcomment %}
+          {% assign men_label = section.settings.label_hombres | default: 'Hombres' %}
+          {% assign men_href  = section.settings.link_hombres  | default: '/collections' %}
+          {% assign men_menu  = section.settings.menu_hombres %}
+          {% assign men_links = linklists[men_menu].links %}
+          <div class="wf-gender-nav__item{% if men_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
+            <a href="{{ men_href }}" class="wf-gender-nav__link">
+              {{ men_label }}{% if men_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
+            </a>
+            {% if men_links.size > 0 %}
+              <div class="wf-gender-nav__dropdown">
+                {% for link in men_links %}
+                  <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
 
-          <!-- Menú principal adicional en desktop -->
+          {% comment %} ── MUJERES — siempre visible si hay label configurado ── {% endcomment %}
+          {% assign women_label = section.settings.label_mujeres | default: 'Mujeres' %}
+          {% assign women_href  = section.settings.link_mujeres  | default: '/collections' %}
+          {% assign women_menu  = section.settings.menu_mujeres %}
+          {% assign women_links = linklists[women_menu].links %}
+          <div class="wf-gender-nav__item{% if women_links.size > 0 %} wf-gender-nav__item--has-dropdown{% endif %}">
+            <a href="{{ women_href }}" class="wf-gender-nav__link">
+              {{ women_label }}{% if women_links.size > 0 %}<span class="wf-gender-nav__chevron">▾</span>{% endif %}
+            </a>
+            {% if women_links.size > 0 %}
+              <div class="wf-gender-nav__dropdown">
+                {% for link in women_links %}
+                  <a href="{{ link.url }}" class="wf-gender-nav__dropdown-link">{{ link.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          {% comment %} ── MENÚ PRINCIPAL adicional ── {% endcomment %}
           {% assign main_menu_id = section.settings.main_menu %}
           {% if main_menu_id != blank %}
             {% for link in linklists[main_menu_id].links %}
@@ -112,6 +115,7 @@
               {% endif %}
             {% endfor %}
           {% endif %}
+
         </nav>
       </div>
 
