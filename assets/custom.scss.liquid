@@ -1439,28 +1439,48 @@ a, .pagination a {
 
 
 
+
 /* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA VISUAL UNIFICADO v4              ║
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL UNIFICADO v5              ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
 /* ─── 1. BASE GLOBAL ─────────────────────────────────────────── */
-body,
-#PageContainer,
-.page-wrapper {
+body, #PageContainer, .page-wrapper {
   background-color: $color-sections-bg !important;
   color: $color-sections-text !important;
 }
 
-/* ─── 2. TIPOGRAFÍA GLOBAL — todos los títulos heredan color ──── */
-/* FIX: section-title, featured products, cualquier h* en secciones */
-.section-title,
-h1, h2, h3, h4, h5, h6,
-.section__title-style,
-.page-title {
+/* ─── 2. TIPOGRAFÍA — todos los títulos visibles ─────────────── */
+.section-title, h1, h2, h3, h4, h5, h6,
+.section__title-style, .page-title {
   color: $color-sections-text !important;
 }
 
-/* ─── 3. HEADER ──────────────────────────────────────────────── */
+/* ─── 3. HERO — texto legible en desktop y mobile ────────────── */
+.hero-gs__title {
+  font-size: clamp(2rem, 5vw, 4rem) !important;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5) !important;
+  color: #ffffff !important;
+}
+.hero-gs__text, .hero-gs__text p {
+  color: rgba(255,255,255,0.88) !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6) !important;
+}
+/* Gradiente en la zona del texto para más contraste */
+.hero-section--gymshark::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+.hero-gs__shell { z-index: 5; }
+
+/* ─── 4. HEADER ──────────────────────────────────────────────── */
 .header-container {
   background-color: $color-sections-bg !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
@@ -1468,20 +1488,15 @@ h1, h2, h3, h4, h5, h6,
 }
 #main-header .logo-wrap .header__title a,
 #main-header .menu-item-link,
-#header-right-menu .menu-item-link {
-  color: $color-sections-text !important;
-}
-#header-right-menu svg,
-#main-header svg { fill: $color-sections-text !important; }
-
+#header-right-menu .menu-item-link { color: $color-sections-text !important; }
+#header-right-menu svg, #main-header svg { fill: $color-sections-text !important; }
 #main-header .main-menu > li > a {
   color: $color-sections-text !important;
   letter-spacing: 0.04em;
   font-weight: 600;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s;
 }
 #main-header .main-menu > li > a:hover { opacity: 0.6; }
-
 #main-header .is-dropdown-submenu {
   background-color: #1d2040 !important;
   border: 1px solid rgba(255,255,255,0.1) !important;
@@ -1489,14 +1504,12 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: 0 12px 40px rgba(0,0,0,0.5) !important;
 }
 #main-header .is-dropdown-submenu a { color: $color-sections-text !important; }
-#main-header .is-dropdown-submenu a:hover {
-  background-color: rgba(255,255,255,0.07) !important;
-}
+#main-header .is-dropdown-submenu a:hover { background-color: rgba(255,255,255,0.07) !important; }
 #main-header .dropdown.menu > li.is-dropdown-submenu-parent > a:after {
   border-color: $color-sections-text transparent transparent !important;
 }
 
-/* ─── 4. CART BADGE ──────────────────────────────────────────── */
+/* ─── 5. CART BADGE ──────────────────────────────────────────── */
 #header-right-menu .header__cart > a {
   position: relative !important;
   display: inline-flex !important;
@@ -1504,60 +1517,141 @@ h1, h2, h3, h4, h5, h6,
 }
 .header__cart-count {
   position: absolute !important;
-  top: -8px !important;
-  right: -10px !important;
-  min-width: 18px !important;
-  height: 18px !important;
+  top: -8px !important; right: -10px !important;
+  min-width: 18px !important; height: 18px !important;
   border-radius: 10px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 4px !important;
-  z-index: 10 !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  padding: 0 4px !important; z-index: 10 !important;
   background-color: #e31b1b !important;
-  color: #fff !important;
-  line-height: 1 !important;
+  color: #fff !important; line-height: 1 !important;
 }
 .header__cart-count span {
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  line-height: 1 !important;
-  padding: 0 !important;
-  color: #fff !important;
+  font-size: 10px !important; font-weight: 700 !important;
+  line-height: 1 !important; padding: 0 !important; color: #fff !important;
 }
 
-/* ─── 5. PRODUCT PAGE ────────────────────────────────────────── */
-.product-page {
-  background-color: $color-sections-bg;
-}
-.product-page .product-title,
-.product-single .product-title {
+/* ─── 6. CARRITO SIDEBAR (ajax drawer) — tema unificado ──────── */
+#cartSidebar {
+  background-color: $color-sections-bg !important;
+  border-left: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.5) !important;
   color: $color-sections-text !important;
-  font-weight: 800;
-  line-height: 1.15;
+}
+
+/* Header del sidebar */
+#cartSidebar .cart-sidebar-title {
+  color: $color-sections-text !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  font-size: 1rem !important;
+  text-transform: uppercase !important;
+}
+#cartSidebar .close-button,
+#cartSidebar .close-button svg { color: rgba(255,255,255,0.5) !important; fill: rgba(255,255,255,0.5) !important; }
+#cartSidebar .close-button:hover,
+#cartSidebar .close-button:hover svg { color: #fff !important; fill: #fff !important; }
+
+/* Links y texto */
+#cartSidebar a { color: $color-sections-text !important; }
+#cartSidebar a.ajaxcart__product-name {
+  color: $color-sections-text !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+}
+#cartSidebar .ajaxcart__product-meta { color: rgba(255,255,255,0.45) !important; font-size: 0.8125rem !important; }
+#cartSidebar label { color: rgba(255,255,255,0.45) !important; }
+
+/* Imagen del producto */
+#cartSidebar .ajaxcart__product-image img {
+  border-radius: 4px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* Separador entre items */
+#cartSidebar .ajaxcart__row {
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  padding-bottom: 1rem !important;
+  padding-top: 1rem !important;
+}
+
+/* Cantidad — mismo estilo que variantes */
+#cartSidebar .ajaxcart__qty-num {
+  background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important;
+  border-radius: 3px !important;
+}
+#cartSidebar .ajaxcart__qty-adjust {
+  color: rgba(255,255,255,0.55) !important;
+  transition: color 0.15s;
+}
+#cartSidebar .ajaxcart__qty-adjust:hover { color: $color-sections-text !important; }
+#cartSidebar .ajaxcart__qty { border-radius: 3px !important; }
+
+/* Precios */
+#cartSidebar .cart__product__price,
+#cartSidebar .cart__subtotal-price { color: $color-sections-text !important; font-weight: 700 !important; }
+#cartSidebar .cart__subtotal-price { font-size: 1.2rem !important; }
+
+/* Texto de envío */
+#cartSidebar .cart__shipping-text {
+  color: rgba(255,255,255,0.38) !important;
+  font-size: 0.78rem !important;
+}
+
+/* Nota especial */
+#cartSidebar #CartSpecialInstructions {
+  background-color: rgba(255,255,255,0.05) !important;
+  border: 1.5px solid rgba(255,255,255,0.15) !important;
+  color: $color-sections-text !important;
+  border-radius: 4px !important;
+}
+
+/* ── BOTÓN FINALIZAR PEDIDO (sidebar) — blanco/negro consistente */
+#cartSidebar .button.cart__checkout,
+#cartSidebar .cart__checkout {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 3px !important;
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+  width: 100% !important;
+}
+#cartSidebar .button.cart__checkout:hover,
+#cartSidebar .cart__checkout:hover {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Botones de pago adicionales (PayPal, etc.) */
+#cartSidebar .additional-checkout-button { width: 100% !important; border-radius: 3px !important; overflow: hidden; }
+
+/* ─── 7. PRODUCT PAGE ────────────────────────────────────────── */
+.product-page { background-color: $color-sections-bg; }
+.product-page .product-title, .product-single .product-title {
+  color: $color-sections-text !important;
+  font-weight: 800; line-height: 1.15;
 }
 .product-page .product-vendor a {
   color: rgba(255,255,255,0.5) !important;
-  font-size: 0.8rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  text-decoration: none;
+  font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase; text-decoration: none;
 }
 .product-page #ProductPrice .money,
 .product-page #ProductPrice { color: $color-sections-text !important; font-weight: 700; }
-.product-page #ComparePrice,
-.product-page #ComparePrice .money { color: rgba(255,255,255,0.38) !important; }
-
-.product-page .product__variants__wrap label,
-.product-page label.quantity-selector {
+.product-page #ComparePrice, .product-page #ComparePrice .money { color: rgba(255,255,255,0.38) !important; }
+.product-page .product__variants__wrap label, .product-page label.quantity-selector {
   color: $color-sections-text !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.09em !important;
-  text-transform: uppercase !important;
+  font-size: 0.72rem !important; font-weight: 700 !important;
+  letter-spacing: 0.09em !important; text-transform: uppercase !important;
 }
-.product-page .product-description,
-.product-page .product-description p { color: rgba(255,255,255,0.58) !important; line-height: 1.7 !important; }
+.product-page .product-description, .product-page .product-description p {
+  color: rgba(255,255,255,0.58) !important; line-height: 1.7 !important;
+}
 
 /* Variantes */
 .product-page .swatch label {
@@ -1568,9 +1662,7 @@ h1, h2, h3, h4, h5, h6,
   transition: border-color 0.15s, background-color 0.15s;
 }
 .product-page .swatch .swatch-element__inner {
-  background-color: transparent !important;
-  color: $color-sections-text !important;
-  font-weight: 500;
+  background-color: transparent !important; color: $color-sections-text !important; font-weight: 500;
 }
 .product-page .swatch label:hover {
   border-color: rgba(255,255,255,0.55) !important;
@@ -1581,276 +1673,100 @@ h1, h2, h3, h4, h5, h6,
   background-color: $color-sections-text !important;
 }
 .product-page .swatch input:checked + label .swatch-element__inner {
-  background-color: transparent !important;
-  color: $color-sections-bg !important;
-  font-weight: 700;
+  background-color: transparent !important; color: $color-sections-bg !important; font-weight: 700;
 }
-.product-page .swatch .swatch-element.soldout label {
-  opacity: 0.25 !important;
-  text-decoration: line-through;
-  cursor: not-allowed;
-}
+.product-page .swatch .swatch-element.soldout label { opacity: 0.25 !important; text-decoration: line-through; cursor: not-allowed; }
 
 /* Thumbnails */
 .product__thumbs .product__thumb {
-  opacity: 0.5;
-  transition: opacity 0.2s, border-color 0.2s;
-  border: 1.5px solid transparent;
-  border-radius: 3px;
-  overflow: hidden;
-  cursor: pointer;
+  opacity: 0.5; transition: opacity 0.2s, border-color 0.2s;
+  border: 1.5px solid transparent; border-radius: 3px; overflow: hidden; cursor: pointer;
 }
 .product__thumbs .product__thumb:hover,
 .product__thumbs .product__thumb.active { opacity: 1; border-color: rgba(255,255,255,0.45); }
 
 /* Add to cart */
 #AddToCart {
-  background-color: #ffffff !important;
-  color: #111111 !important;
-  border: 2px solid #ffffff !important;
-  font-weight: 800 !important;
-  font-size: 0.875rem !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  border-radius: 3px !important;
-  width: 100%;
-  transition: background-color 0.2s ease, color 0.2s ease !important;
+  background-color: #ffffff !important; color: #111111 !important;
+  border: 2px solid #ffffff !important; font-weight: 800 !important;
+  font-size: 0.875rem !important; letter-spacing: 0.08em !important;
+  text-transform: uppercase !important; border-radius: 3px !important;
+  width: 100%; transition: background-color 0.2s ease, color 0.2s ease !important;
 }
-#AddToCart:hover {
-  background-color: transparent !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
-}
+#AddToCart:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
+#AddToCart:active { transform: scale(0.97); }
 #AddToCart.disabled, #AddToCart[disabled] { opacity: 0.3 !important; cursor: not-allowed !important; }
 
-/* Share buttons */
-.social-sharing .share-title,
-.social-sharing .share-button { color: rgba(255,255,255,0.38) !important; font-size: 0.72rem !important; }
+/* Share */
+.social-sharing .share-title, .social-sharing .share-button { color: rgba(255,255,255,0.35) !important; font-size: 0.72rem !important; }
 
-/* ─── 6. CARRITO — rediseño dark completo ────────────────────── */
-.cart-page {
-  background-color: $color-sections-bg;
-  color: $color-sections-text;
-  padding: 2rem 0 4rem;
-}
-.cart-page .page-title {
-  color: $color-sections-text !important;
-  font-weight: 800;
-  font-size: 1.75rem;
-  letter-spacing: 0.01em;
-  margin-bottom: 2rem;
-}
-
-/* Tabla */
-.cart-page table.cart-items {
-  background-color: transparent !important;
-  border: none !important;
-  width: 100%;
-}
-.cart-page table.cart-items thead {
-  background-color: transparent !important;
-  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-}
+/* ─── 8. CARRITO PÁGINA COMPLETA ─────────────────────────────── */
+.cart-page { background-color: $color-sections-bg; color: $color-sections-text; padding: 2rem 0 4rem; }
+.cart-page .page-title { color: $color-sections-text !important; font-weight: 800; margin-bottom: 2rem; }
+.cart-page table.cart-items { background-color: transparent !important; border: none !important; width: 100%; }
+.cart-page table.cart-items thead { background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
 .cart-page table.cart-items thead th {
-  color: rgba(255,255,255,0.45) !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.09em !important;
-  text-transform: uppercase !important;
-  padding: 0.75rem 0.5rem !important;
-  background: transparent !important;
+  color: rgba(255,255,255,0.42) !important;
+  font-size: 0.72rem !important; font-weight: 700 !important;
+  letter-spacing: 0.09em !important; text-transform: uppercase !important;
+  padding: 0.75rem 0.5rem !important; background: transparent !important;
 }
-.cart-page table.cart-items tbody tr {
-  background-color: transparent !important;
-  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-  transition: background-color 0.15s ease;
-}
-.cart-page table.cart-items tbody tr:hover {
-  background-color: rgba(255,255,255,0.03) !important;
-}
-.cart-page table.cart-items td {
-  background-color: transparent !important;
-  color: $color-sections-text !important;
-  vertical-align: middle;
-  padding: 1.25rem 0.5rem !important;
-}
-
-/* Imagen del producto en carrito */
-.cart-page .cart-items__img img {
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Nombre del producto */
-.cart-page .cart-items__title {
-  color: $color-sections-text !important;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
+.cart-page table.cart-items tbody tr { background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; transition: background-color 0.15s; }
+.cart-page table.cart-items tbody tr:hover { background-color: rgba(255,255,255,0.03) !important; }
+.cart-page table.cart-items td { background-color: transparent !important; color: $color-sections-text !important; vertical-align: middle; padding: 1.25rem 0.5rem !important; }
+.cart-page .cart-items__img img { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+.cart-page .cart-items__title { color: $color-sections-text !important; font-weight: 600; text-decoration: none; transition: opacity 0.15s; }
 .cart-page .cart-items__title:hover { opacity: 0.7; }
-.cart-page .cart-items__variant small { color: rgba(255,255,255,0.45) !important; }
-
-/* Botón Quitar */
-.cart-page .cart__remove small,
-.cart-page a.cart__remove {
-  color: rgba(255,255,255,0.3) !important;
-  font-size: 0.75rem;
-  text-decoration: underline;
-  transition: color 0.15s;
+.cart-page .cart-items__variant small { color: rgba(255,255,255,0.42) !important; }
+.cart-page a.cart__remove small, .cart-page a.cart__remove { color: rgba(255,255,255,0.28) !important; font-size: 0.75rem; transition: color 0.15s; }
+.cart-page a.cart__remove:hover small, .cart-page a.cart__remove:hover { color: #e31b1b !important; }
+.cart-page .cart-item-price .money, .cart-page .cart-item-total .money { color: $color-sections-text !important; font-weight: 600; }
+.cart-page .cart-items__quantity input[type="number"] {
+  background-color: transparent !important; border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important; border-radius: 3px !important; text-align: center; width: 60px; padding: 0.4rem !important;
 }
-.cart-page .cart__remove:hover small,
-.cart-page a.cart__remove:hover { color: #e31b1b !important; }
-
-/* Precio */
-.cart-page .cart-item-price .money,
-.cart-page .cart-item-total .money { color: $color-sections-text !important; font-weight: 600; }
-.cart-page .cart-item-original-price s .money { color: rgba(255,255,255,0.35) !important; }
-
-/* Input cantidad */
-.cart-page .cart-items__quantity input[type="number"],
-.cart-page input[name^="updates"] {
-  background-color: transparent !important;
-  border: 1.5px solid rgba(255,255,255,0.2) !important;
-  color: $color-sections-text !important;
-  border-radius: 3px !important;
-  text-align: center;
-  width: 60px;
-  padding: 0.4rem !important;
-  transition: border-color 0.15s;
-}
-.cart-page .cart-items__quantity input[type="number"]:focus,
-.cart-page input[name^="updates"]:focus {
-  border-color: rgba(255,255,255,0.55) !important;
-  outline: none;
-}
-
-/* Zona subtotal */
-.cart-page .cart-info {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-.cart-page .cart-subtotal-title {
-  color: rgba(255,255,255,0.55) !important;
-  font-size: 0.8125rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-right: 0.5rem;
-}
-.cart-page .cart-subtotal .money {
-  color: $color-sections-text !important;
-  font-weight: 800;
-  font-size: 1.5rem;
-}
-.cart-page .cart-subtotal__savings em { color: rgba(255,255,255,0.5) !important; }
-.cart-page .cart-info em,
-.cart-page .cart-info p em { color: rgba(255,255,255,0.38) !important; font-size: 0.8125rem; }
-
-/* Textarea nota */
-.cart-page textarea {
-  background-color: rgba(255,255,255,0.05) !important;
-  border: 1.5px solid rgba(255,255,255,0.15) !important;
-  color: $color-sections-text !important;
-  border-radius: 4px;
-}
-.cart-page textarea:focus {
-  border-color: rgba(255,255,255,0.45) !important;
-  outline: none;
-}
-
-/* Botones del carrito */
+.cart-page .cart-info { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.cart-page .cart-subtotal-title { color: rgba(255,255,255,0.5) !important; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.5rem; }
+.cart-page .cart-subtotal .money { color: $color-sections-text !important; font-weight: 800; font-size: 1.5rem; }
+.cart-page .cart-info em, .cart-page .cart-info p em { color: rgba(255,255,255,0.38) !important; font-size: 0.8125rem; }
+.cart-page textarea { background-color: rgba(255,255,255,0.05) !important; border: 1.5px solid rgba(255,255,255,0.15) !important; color: $color-sections-text !important; border-radius: 4px; }
 .cart-page .update-cart {
-  background-color: transparent !important;
-  border: 1.5px solid rgba(255,255,255,0.2) !important;
-  color: rgba(255,255,255,0.6) !important;
-  border-radius: 3px !important;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: border-color 0.2s, color 0.2s;
-  margin-right: 0.75rem;
+  background-color: transparent !important; border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.58) !important; border-radius: 3px !important;
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s; margin-right: 0.75rem;
 }
-.cart-page .update-cart:hover {
-  border-color: rgba(255,255,255,0.5) !important;
-  color: $color-sections-text !important;
-}
-
-/* Botón Finalizar pedido */
-.cart-page button[name="checkout"],
-.cart-page .button:not(.hollow):not(.update-cart) {
-  background-color: #ffffff !important;
-  color: #111111 !important;
-  border: 2px solid #ffffff !important;
-  font-weight: 800 !important;
-  font-size: 0.875rem !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  border-radius: 3px !important;
+.cart-page .update-cart:hover { border-color: rgba(255,255,255,0.5) !important; color: $color-sections-text !important; }
+.cart-page button[name="checkout"] {
+  background-color: #ffffff !important; color: #111111 !important;
+  border: 2px solid #ffffff !important; font-weight: 800 !important;
+  font-size: 0.875rem !important; letter-spacing: 0.08em !important;
+  text-transform: uppercase !important; border-radius: 3px !important;
   transition: background-color 0.2s, color 0.2s !important;
 }
-.cart-page button[name="checkout"]:hover,
-.cart-page .button:not(.hollow):not(.update-cart):hover {
-  background-color: transparent !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
-}
+.cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
+.cart-page p.rte-raw, .cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
 
-/* Carrito vacío */
-.cart-page p.rte-raw,
-.cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
+/* ─── 9. FOOTER ──────────────────────────────────────────────── */
+.footer-section, .site-footer { border-top: 1px solid rgba(255,255,255,0.07) !important; }
 
-/* ─── 7. FOOTER ──────────────────────────────────────────────── */
-.footer-section, .site-footer {
-  border-top: 1px solid rgba(255,255,255,0.07) !important;
-}
+/* ─── 10. PÁGINAS GENERALES ──────────────────────────────────── */
+.collection-header, .collection-page, .blog-page, .article-page,
+.customer-page, .account-page, .search-page { background-color: $color-sections-bg; color: $color-sections-text; }
 
-/* ─── 8. COLECCIONES Y OTRAS PÁGINAS ─────────────────────────── */
-.collection-header, .collection-page,
-.blog-page, .article-page,
-.customer-page, .account-page,
-.search-page {
-  background-color: $color-sections-bg;
-  color: $color-sections-text;
-}
-
-/* ─── 9. ANIMACIONES UX ──────────────────────────────────────── */
-
-/* Fade-in para imágenes de producto al cargar */
-.product-images img,
-.product-image__slide img {
-  animation: wf-fadein 0.4s ease both;
-}
-
-/* Transición suave en tarjetas de colección */
-.column.column-block {
-  transition: transform 0.22s ease, opacity 0.22s ease;
-}
-.column.column-block:hover { transform: translateY(-3px); }
-
-/* Animación del botón ATC al hacer click */
-#AddToCart:active {
-  transform: scale(0.97);
-  transition: transform 0.1s ease;
-}
-
-/* Smooth scroll en toda la página */
+/* ─── 11. ANIMACIONES UX ─────────────────────────────────────── */
 html { scroll-behavior: smooth; }
-
+.column.column-block { transition: transform 0.22s ease, opacity 0.22s ease; }
+.column.column-block:hover { transform: translateY(-3px); }
+.product-images img { animation: wf-fadein 0.4s ease both; }
 @keyframes wf-fadein {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── 10. SCROLLBAR Y SELECCIÓN ──────────────────────────────── */
+/* ─── 12. SCROLLBAR Y SELECCIÓN ──────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: $color-sections-bg; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.32); }
-
 ::selection { background-color: rgba(255,255,255,0.18); color: #fff; }
