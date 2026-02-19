@@ -41,6 +41,7 @@
   {% endfor %}
   {% assign ann_total = ann_messages.size %}
 
+  {% if ann_total > 0 %}
   <div class="wf-ann"
     id="wf-ann-{{ section.id }}"
     style="background:{{ section.settings.ann_bg }};color:{{ section.settings.ann_color }};font-size:{{ section.settings.ann_size }}px;">
@@ -99,6 +100,7 @@
     start();
   })();
   </script>
+  {% endif %}{%- comment -%}end if ann_total > 0{%- endcomment -%}
 {% endif %}
 
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
