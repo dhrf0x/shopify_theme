@@ -279,32 +279,15 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
-        "settings": {
-          "show_bar": true,
-          "visibility": "all",
-          "msg1": "¡Envío gratis en pedidos mayores a $999!",
-          "link1": "",
-          "msg2": "¡Envío gratis en pedidos mayores a $999!",
-          "link2": "",
-          "msg3": "¡Envío gratis en pedidos mayores a $999!",
-          "link3": "",
-          "msg4": "¡Envío gratis en pedidos mayores a $999!",
-          "link4": "",
-          "msg5": "",
-          "link5": "",
-          "speed": 3,
-          "bg_color": "#ff0000",
-          "text_color": "#ffffff",
-          "font_size": 15
-        }
+        "settings": {}
       },
       "header": {
         "type": "header",
         "settings": {
-          "ann_enabled": false,
+          "ann_enabled": true,
           "ann_visibility": "all",
-          "ann_msg1": "",
-          "ann_link1": "",
+          "ann_msg1": "SSADASDASASDSDSAD",
+          "ann_link1": "shopify://collections",
           "ann_msg2": "",
           "ann_link2": "",
           "ann_msg3": "",
@@ -315,7 +298,7 @@
           "ann_link5": "",
           "ann_bg": "#cc0000",
           "ann_color": "#ffffff",
-          "ann_size": 13,
+          "ann_size": 18,
           "ann_speed": 4,
           "main_menu": "main-menu",
           "main_menu_alignment": "left",
@@ -467,6 +450,20 @@
           "grid": "4",
           "grid_mobile": "2",
           "cta_text": "Ver colección completa"
+        }
+      },
+      "novedades": {
+        "type": "novedades",
+        "settings": {
+          "label": "Nuevos ingresos",
+          "title": "NOVEDADES",
+          "subtitle": "",
+          "collection": "test-blank",
+          "products_count": 4,
+          "grid": "4",
+          "grid_mobile": "2",
+          "cta_text": "Ver todos",
+          "cta_link": ""
         }
       }
     },
