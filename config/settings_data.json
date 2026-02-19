@@ -278,14 +278,14 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "msg1": "¡Envío gratis en pedidos mayores a $999!",
+          "msg1": "ENVIO GRATIS A TALA!",
           "link1": "",
-          "msg2": "",
+          "msg2": "ENVIO GRATIS A ROQUE ABARCA",
           "link2": "",
           "msg3": "",
           "link3": "",
           "speed": 4,
-          "bg_color": "#111110",
+          "bg_color": "#ff0000",
           "text_color": "#ffffff",
           "font_size": 13
         }
@@ -306,10 +306,10 @@
       "hero": {
         "type": "hero",
         "settings": {
-          "title": "Introduce Your Brand",
-          "text": "<p>Add a slogan text here.</p>",
-          "alignment": "center",
-          "text_alignment": "center",
+          "title": "DROP 01/ 2026",
+          "text": "<p>WF MUSCLE TEAM</p>",
+          "alignment": "left",
+          "text_alignment": "left",
           "text_width": "2-3",
           "mobile_centered": false,
           "full_height": true,
@@ -332,16 +332,16 @@
       "featured-products": {
         "type": "featured-products",
         "settings": {
-          "title": "Featured Products",
-          "title_alignment": "center",
-          "text_alignment": "center",
+          "title": "PRODUCTOS DESTACADOS",
+          "title_alignment": "left",
+          "text_alignment": "left",
           "is_carousel": true,
           "collection": "test-blank",
           "grid": "5",
           "total": 5,
           "enable_custom_styles": true,
           "background_color": "",
-          "title_color": "",
+          "title_color": "#ff0000",
           "title_font_size": 28,
           "spacing_top": 50,
           "spacing_bottom": 10
