@@ -200,10 +200,20 @@
         "label": "Background Image"
       },
     {
+      "type": "header",
+      "content": "Video de fondo"
+    },
+    {
       "type": "text",
       "id": "video_url",
-      "label": "Video URL (YouTube, Vimeo o .mp4)",
-      "info": "Pega la URL del video. Se reproduce automático, silenciado y en loop."
+      "label": "URL del video (YouTube, Vimeo o .mp4 externo)",
+      "info": "Ej: https://www.youtube.com/watch?v=XXXXX  —  Se reproduce automático, silenciado y en loop."
+    },
+    {
+      "type": "image_picker",
+      "id": "video_upload",
+      "label": "Subir archivo MP4 / WebM",
+      "info": "Sube el video desde tu computadora. Si usas URL de YouTube o Vimeo, deja este campo vacío."
     },
       {
         "type": "select",

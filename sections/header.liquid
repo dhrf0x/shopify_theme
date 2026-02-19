@@ -155,102 +155,195 @@
 </div>
 
 {% if section.settings.header_show_search %}
-<!-- ══ WF Search Overlay — Gymshark style ══ -->
-<div id="wf-search-overlay" class="wf-search-overlay" aria-hidden="true">
-  <div class="wf-search-overlay__inner">
-    <form action="/search" method="get" class="wf-search-form" role="search">
-      <input type="hidden" name="type" value="product">
-      <span class="icon icon-search wf-search-form__icon"></span>
+<!-- ══ WF Search Modal — tiempo real ══ -->
+<div id="wf-search-modal" class="wf-modal" role="dialog" aria-modal="true" aria-label="Buscar productos" aria-hidden="true">
+  <div class="wf-modal__backdrop" id="wf-modal-backdrop"></div>
+  <div class="wf-modal__box">
+    <!-- Cabecera del modal -->
+    <div class="wf-modal__header">
+      <span class="wf-modal__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
       <input
         type="search"
-        name="q"
         id="wf-search-input"
-        class="wf-search-form__input"
-        placeholder="Buscar en la tienda..."
+        class="wf-modal__input"
+        placeholder="Buscar productos..."
         autocomplete="off"
         autocorrect="off"
         spellcheck="false"
         aria-label="Buscar productos">
-      <button type="button" class="wf-search-form__close" id="wf-search-close" aria-label="Cerrar búsqueda">
-        <span class="icon icon-cross"></span>
-        <span class="wf-search-esc">ESC</span>
+      <button class="wf-modal__close" id="wf-search-close" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <span>ESC</span>
       </button>
-    </form>
+    </div>
+    <!-- Resultados en tiempo real -->
+    <div class="wf-modal__results" id="wf-search-results" aria-live="polite">
+      <div class="wf-modal__empty" id="wf-search-empty" style="display:none">
+        <p>Sin resultados para <strong id="wf-search-empty-term"></strong></p>
+      </div>
+      <div class="wf-modal__grid" id="wf-search-grid"></div>
+      <a class="wf-modal__see-all" id="wf-search-see-all" href="#" style="display:none">
+        Ver todos los resultados →
+      </a>
+    </div>
+    <div class="wf-modal__hint">
+      Presiona <kbd>ESC</kbd> para cerrar · <kbd>Enter</kbd> para buscar todo
+    </div>
   </div>
 </div>
 
 <script>
-// WF Search Overlay — event delegation, survives Foundation/Shopify re-init
 (function() {
-  function wfSearchInit() {
-    var overlay    = document.getElementById('wf-search-overlay');
-    var input      = document.getElementById('wf-search-input');
-    if (!overlay) return;
+  var DEBOUNCE_MS = 280;
+  var MAX_RESULTS = 6;
+  var timer = null;
+  var lastQuery = '';
 
-    function getToggle()     { return document.getElementById('wf-search-toggle'); }
-    function getIconSearch() { var t = getToggle(); return t ? t.querySelector('.wf-icon-search') : null; }
-    function getIconClose()  { var t = getToggle(); return t ? t.querySelector('.wf-icon-close') : null; }
+  function $(id) { return document.getElementById(id); }
 
-    function openSearch() {
-      overlay.classList.add('is-open');
-      overlay.setAttribute('aria-hidden', 'false');
-      var t = getToggle();
-      if (t) t.setAttribute('aria-expanded', 'true');
-      var is = getIconSearch(); if (is) is.style.display = 'none';
-      var ic = getIconClose();  if (ic) ic.style.display = '';
-      setTimeout(function() { var i = document.getElementById('wf-search-input'); if(i) i.focus(); }, 80);
-      document.body.classList.add('wf-search-open');
+  function openModal() {
+    var modal = $('wf-search-modal');
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('wf-modal-open');
+    setTimeout(function() {
+      var inp = $('wf-search-input');
+      if (inp) inp.focus();
+    }, 60);
+  }
+
+  function closeModal() {
+    var modal = $('wf-search-modal');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('wf-modal-open');
+    var inp = $('wf-search-input');
+    if (inp) inp.value = '';
+    clearResults();
+  }
+
+  function clearResults() {
+    var grid  = $('wf-search-grid');
+    var empty = $('wf-search-empty');
+    var seeAll = $('wf-search-see-all');
+    if (grid)   grid.innerHTML = '';
+    if (empty)  empty.style.display = 'none';
+    if (seeAll) seeAll.style.display = 'none';
+  }
+
+  function showLoading() {
+    var grid = $('wf-search-grid');
+    if (grid) grid.innerHTML = '<div class="wf-modal__loading"><span></span><span></span><span></span></div>';
+  }
+
+  function moneyFormat(cents) {
+    if (!cents) return '';
+    return '$' + (cents / 100).toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function buildCard(product) {
+    var img = product.featured_image
+      ? '<img src="' + product.featured_image.url.replace(/_(\d+x\d+)/, '') + '&width=160" alt="' + product.title + '" loading="lazy">'
+      : '<div class="wf-card__no-img"></div>';
+    var price = product.price_min ? ('<span class="wf-card__price">' + moneyFormat(product.price_min) + '</span>') : '';
+    var sold = product.available === false ? '<span class="wf-card__badge">Agotado</span>' : '';
+    return '<a href="/products/' + product.handle + '" class="wf-card">'
+      + '<div class="wf-card__img">' + img + sold + '</div>'
+      + '<div class="wf-card__info">'
+      + '<p class="wf-card__title">' + product.title + '</p>'
+      + price
+      + '</div></a>';
+  }
+
+  function renderResults(data, query) {
+    var grid   = $('wf-search-grid');
+    var empty  = $('wf-search-empty');
+    var seeAll = $('wf-search-see-all');
+    var term   = $('wf-search-empty-term');
+    if (!grid) return;
+
+    var products = (data.resources && data.resources.results && data.resources.results.products) || [];
+
+    if (products.length === 0) {
+      grid.innerHTML = '';
+      if (term) term.textContent = query;
+      if (empty) empty.style.display = '';
+      if (seeAll) seeAll.style.display = 'none';
+      return;
     }
 
-    function closeSearch() {
-      overlay.classList.remove('is-open');
-      overlay.setAttribute('aria-hidden', 'true');
-      var t = getToggle();
-      if (t) t.setAttribute('aria-expanded', 'false');
-      var is = getIconSearch(); if (is) is.style.display = '';
-      var ic = getIconClose();  if (ic) ic.style.display = 'none';
-      document.body.classList.remove('wf-search-open');
+    if (empty) empty.style.display = 'none';
+    var html = '';
+    var max = Math.min(products.length, MAX_RESULTS);
+    for (var i = 0; i < max; i++) {
+      html += buildCard(products[i]);
     }
+    grid.innerHTML = html;
 
-    // Event delegation — click anywhere in document
+    if (seeAll) {
+      seeAll.href = '/search?type=product&q=' + encodeURIComponent(query);
+      seeAll.style.display = products.length > MAX_RESULTS ? '' : '';
+      seeAll.style.display = '';
+    }
+  }
+
+  function doSearch(query) {
+    if (!query || query.length < 2) { clearResults(); return; }
+    if (query === lastQuery) return;
+    lastQuery = query;
+    showLoading();
+    fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product&resources[limit]=' + (MAX_RESULTS + 1) + '&resources[options][unavailable_products]=last')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { renderResults(data, query); })
+      .catch(function() {
+        var grid = $('wf-search-grid');
+        if (grid) grid.innerHTML = '<p class="wf-modal__error">Error al buscar. Intenta de nuevo.</p>';
+      });
+  }
+
+  function init() {
+    // Event delegation — no se rompe con Foundation re-init
     document.addEventListener('click', function(e) {
-      // Toggle button (or child of toggle)
-      var toggleBtn = e.target.closest('#wf-search-toggle');
-      if (toggleBtn) {
-        overlay.classList.contains('is-open') ? closeSearch() : openSearch();
-        return;
-      }
-      // Close button inside overlay
-      if (e.target.closest('#wf-search-close')) {
-        closeSearch();
-        return;
-      }
-      // Click on the dark backdrop (the overlay itself, not its inner content)
-      if (e.target === overlay) {
-        closeSearch();
-        return;
-      }
+      if (e.target.closest('#wf-search-toggle')) { openModal(); return; }
+      if (e.target.closest('#wf-search-close'))  { closeModal(); return; }
+      if (e.target.id === 'wf-modal-backdrop')    { closeModal(); return; }
+      // Navegar a resultados al hacer clic en "Ver todos"
     }, false);
 
-    // ESC key
     document.addEventListener('keydown', function(e) {
-      if ((e.key === 'Escape' || e.keyCode === 27) && overlay.classList.contains('is-open')) {
-        closeSearch();
+      if (e.key === 'Escape' || e.keyCode === 27) { closeModal(); }
+    });
+
+    document.addEventListener('input', function(e) {
+      if (e.target.id !== 'wf-search-input') return;
+      var q = e.target.value.trim();
+      clearTimeout(timer);
+      if (q.length < 2) { clearResults(); lastQuery = ''; return; }
+      timer = setTimeout(function() { doSearch(q); }, DEBOUNCE_MS);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.id !== 'wf-search-input') return;
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        window.location.href = '/search?type=product&q=' + encodeURIComponent(e.target.value.trim());
       }
     });
   }
 
-  // Run after DOM + Shopify/Foundation scripts are ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', wfSearchInit);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    wfSearchInit();
+    init();
   }
-  // Also re-init on Shopify section reload (theme editor)
-  document.addEventListener('shopify:section:load', wfSearchInit);
+  document.addEventListener('shopify:section:load', init);
 })();
 </script>
 {% endif %}
+
 
 {% schema %}
   {
