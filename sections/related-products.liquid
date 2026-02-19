@@ -1,24 +1,21 @@
 <div data-section-id="{{ section.id }}" data-section-type="related-products">
-  {% if section.settings.show_related_products == true %}
+  {% if section.settings.show_related_products %}
 
-    {% assign heading = section.settings.related_title %}
-    {% assign subheading = section.settings.related_subtitle %}
-    {% assign related_products_number = section.settings.related_products_number %}
+    {% assign heading              = section.settings.related_title %}
+    {% assign subheading           = section.settings.related_subtitle %}
+    {% assign related_products_number = section.settings.related_products_number | plus: 0 %}
+    {% assign exclusions           = 'frontpage,all' | split: ',' %}
 
-    {% assign same_vendor = false %}
-    {% assign same_type = false %}
-    {% assign exclusions = 'frontpage,all' | split: ',' %}
+    {% comment %} ——— Intenta encontrar colección del producto ——— {% endcomment %}
+    {% assign found_a_collection = false %}
 
     {% if product.metafields.c_f['Related Products'] %}
       {% assign collection = collections[product.metafields.c_f['Related Products']] %}
+      {% if collection and collection.all_products_count > 1 %}
+        {% assign found_a_collection = true %}
+      {% endif %}
     {% endif %}
 
-    {% assign found_a_collection = false %}
-    {% if collection and collection.all_products_count > 1 %}
-      {% unless exclusions contains collection.handle %}
-        {% assign found_a_collection = true %}
-      {% endunless %}
-    {% endif %}
     {% unless found_a_collection %}
       {% for c in product.collections %}
         {% unless exclusions contains c.handle or c.all_products_count < 2 %}
@@ -29,121 +26,127 @@
       {% endfor %}
     {% endunless %}
 
+    {% comment %} ——— Construye lista de productos ——— {% endcomment %}
+    {% assign rp_products = '' | split: '' %}
+
     {% if found_a_collection %}
-      {% assign counter = 0 %}
-      {% assign break_at = related_products_number | times: 1 %}
-      {% assign current_product = product %}
+      {% for p in collection.products %}
+        {% unless p.handle == product.handle %}
+          {% assign rp_products = rp_products | push: p %}
+          {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
 
-      {% capture related_items %}
-        {% for p in collection.products %}
-          {% unless p.handle == current_product.handle %}
-            {% unless same_vendor and current_product.vendor != p.vendor %}
-              {% unless same_type and current_product.type != p.type %}
+    {% comment %}
+      Fallback: si no hay colección o tiene pocos productos,
+      completa con los últimos productos de la tienda
+    {% endcomment %}
+    {% if rp_products.size < related_products_number %}
+      {% assign needed = related_products_number | minus: rp_products.size %}
+      {% assign collected_handles = '' %}
+      {% for p in rp_products %}
+        {% assign collected_handles = collected_handles | append: p.handle | append: ',' %}
+      {% endfor %}
+      {% assign collected_handles = collected_handles | append: product.handle %}
 
-                <div class="rp-gymshark__item">
-                  <a href="{{ p.url }}" class="rp-gymshark__link">
-                    <div class="rp-gymshark__img-wrap">
-                      {% if p.images.size > 0 %}
-                        <img
-                          src="{{ p.featured_image | img_url: '500x600', crop: 'center' }}"
-                          alt="{{ p.title | escape }}"
-                          class="rp-gymshark__img rp-gymshark__img--primary"
-                          loading="lazy"
-                        >
-                        {% if p.images.size > 1 %}
-                          <img
-                            src="{{ p.images[1] | img_url: '500x600', crop: 'center' }}"
-                            alt="{{ p.title | escape }}"
-                            class="rp-gymshark__img rp-gymshark__img--secondary"
-                            loading="lazy"
-                          >
-                        {% endif %}
-                      {% endif %}
-                      {% if p.tags contains 'new' or p.tags contains 'nuevo' or p.tags contains 'New' %}
-                        <span class="rp-gymshark__badge rp-gymshark__badge--new">NUEVO</span>
-                      {% elsif p.tags contains 'new-improved' or p.tags contains 'new_improved' %}
-                        <span class="rp-gymshark__badge rp-gymshark__badge--improved">NEW & IMPROVED</span>
-                      {% elsif p.tags contains 'sale' or p.tags contains 'oferta' %}
-                        <span class="rp-gymshark__badge rp-gymshark__badge--sale">OFERTA</span>
-                      {% endif %}
-                    </div>
-                    <div class="rp-gymshark__info">
-                      <p class="rp-gymshark__product-title">{{ p.title }}</p>
-                      {% if p.variants.first.title != 'Default Title' %}
-                        <p class="rp-gymshark__variant">{{ p.variants.first.title }}</p>
-                      {% endif %}
-                      <p class="rp-gymshark__price">
-                        {% if p.compare_at_price > p.price %}
-                          <span class="rp-gymshark__price--compare">{{ p.compare_at_price | money }}</span>
-                          <span class="rp-gymshark__price--sale">{{ p.price | money }}</span>
-                        {% else %}
-                          {{ p.price | money }}
-                        {% endif %}
-                      </p>
-                    </div>
-                  </a>
+      {% for p in collections.all.products %}
+        {% unless collected_handles contains p.handle %}
+          {% assign rp_products = rp_products | push: p %}
+          {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+
+    {% if rp_products.size > 0 %}
+      <section class="rp-gymshark js-animate-appear-show">
+        <div class="rp-gymshark__header">
+          {% unless heading == blank %}
+            <h2 class="rp-gymshark__title">{{ heading }}</h2>
+          {% endunless %}
+          {% unless subheading == blank %}
+            <p class="rp-gymshark__subtitle">{{ subheading }}</p>
+          {% endunless %}
+        </div>
+
+        <div class="rp-gymshark__grid rp-gymshark__grid--{{ related_products_number }}">
+          {% for p in rp_products %}
+            <div class="rp-gymshark__item">
+              <a href="{{ p.url }}" class="rp-gymshark__link">
+                <div class="rp-gymshark__img-wrap">
+                  {% if p.featured_image %}
+                    <img
+                      src="{{ p.featured_image | img_url: '480x600', crop: 'center' }}"
+                      alt="{{ p.title | escape }}"
+                      class="rp-gymshark__img rp-gymshark__img--primary"
+                      loading="lazy"
+                    >
+                    {% if p.images.size > 1 %}
+                      <img
+                        src="{{ p.images[1] | img_url: '480x600', crop: 'center' }}"
+                        alt="{{ p.title | escape }}"
+                        class="rp-gymshark__img rp-gymshark__img--secondary"
+                        loading="lazy"
+                      >
+                    {% endif %}
+                  {% endif %}
+
+                  {% assign is_new = false %}
+                  {% for tag in p.tags %}
+                    {% assign tag_lower = tag | downcase %}
+                    {% if tag_lower == 'nuevo' or tag_lower == 'new' %}
+                      {% assign is_new = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if is_new %}
+                    <span class="rp-gymshark__badge">NUEVO</span>
+                  {% elsif p.compare_at_price > p.price %}
+                    <span class="rp-gymshark__badge rp-gymshark__badge--sale">OFERTA</span>
+                  {% endif %}
                 </div>
 
-                {% assign counter = counter | plus: 1 %}
-                {% if counter == break_at %}
-                  {% break %}
-                {% endif %}
-              {% endunless %}
-            {% endunless %}
-          {% endunless %}
-        {% endfor %}
-      {% endcapture %}
-
-      {% assign related_items = related_items | strip %}
-
-      {% unless related_items == blank %}
-        <section class="rp-gymshark js-animate-appear-show">
-          <div class="rp-gymshark__header row columns">
-            {% unless heading == blank %}
-              <h2 class="rp-gymshark__title">{{ heading }}</h2>
-            {% endunless %}
-            {% unless subheading == blank %}
-              <p class="rp-gymshark__subtitle">{{ subheading }}</p>
-            {% endunless %}
-          </div>
-
-          <div class="rp-gymshark__grid rp-gymshark__grid--{{ related_products_number }}">
-            {{ related_items }}
-          </div>
-        </section>
-      {% endunless %}
-
+                <div class="rp-gymshark__info">
+                  <p class="rp-gymshark__product-title">{{ p.title }}</p>
+                  <p class="rp-gymshark__price">
+                    {% if p.compare_at_price > p.price %}
+                      <span class="rp-gymshark__price--compare">{{ p.compare_at_price | money }}</span>
+                      <span class="rp-gymshark__price--sale">{{ p.price | money }}</span>
+                    {% else %}
+                      {{ p.price | money }}
+                    {% endif %}
+                  </p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
     {% endif %}
+
   {% endif %}
 </div>
 
 <style>
 /* ============================================================
-   TAMBIÉN TE PUEDE GUSTAR - Estilo Gymshark
+   TAMBIÉN TE PUEDE GUSTAR — Gymshark style
    ============================================================ */
 .rp-gymshark {
   padding: 3rem 1.25rem 4rem;
   max-width: 1400px;
   margin: 0 auto;
-  border-top: 1px solid #ebebeb;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
-
-.rp-gymshark__header {
-  margin-bottom: 2rem;
-  padding: 0;
-}
-
+.rp-gymshark__header { margin-bottom: 1.75rem; }
 .rp-gymshark__title {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
 }
-
 .rp-gymshark__subtitle {
   font-size: 0.875rem;
-  color: #666;
+  opacity: 0.65;
   margin: 0;
 }
 
@@ -153,14 +156,11 @@
   gap: 0.75rem;
   grid-template-columns: repeat(2, 1fr);
 }
-
 @media (min-width: 640px) {
-  .rp-gymshark__grid--3 { grid-template-columns: repeat(3, 1fr); }
-  .rp-gymshark__grid--4 { grid-template-columns: repeat(4, 1fr); }
-  .rp-gymshark__grid--5 { grid-template-columns: repeat(3, 1fr); }
+  .rp-gymshark__grid--4,
+  .rp-gymshark__grid--5,
   .rp-gymshark__grid--6 { grid-template-columns: repeat(3, 1fr); }
 }
-
 @media (min-width: 1024px) {
   .rp-gymshark__grid--3 { grid-template-columns: repeat(3, 1fr); }
   .rp-gymshark__grid--4 { grid-template-columns: repeat(4, 1fr); }
@@ -169,30 +169,21 @@
 }
 
 /* Item */
-.rp-gymshark__item {
-  position: relative;
-}
-
 .rp-gymshark__link {
   display: block;
   color: inherit;
   text-decoration: none;
 }
-
-.rp-gymshark__link:hover {
-  color: inherit;
-  opacity: 1 !important;
-}
+.rp-gymshark__link:hover { opacity: 1 !important; color: inherit; }
 
 /* Image */
 .rp-gymshark__img-wrap {
   position: relative;
   overflow: hidden;
-  background: #f5f5f5;
+  background: rgba(255,255,255,0.06);
   aspect-ratio: 5 / 6;
   margin-bottom: 0.625rem;
 }
-
 .rp-gymshark__img {
   width: 100%;
   height: 100%;
@@ -200,101 +191,75 @@
   display: block;
   transition: opacity 0.35s ease;
 }
-
-.rp-gymshark__img--primary {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 1;
-}
-
-.rp-gymshark__img--secondary {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 2;
-  opacity: 0;
-}
-
+.rp-gymshark__img--primary  { position: absolute; inset: 0; z-index: 1; }
+.rp-gymshark__img--secondary { position: absolute; inset: 0; z-index: 2; opacity: 0; }
 @media (min-width: 1024px) {
   .rp-gymshark__link:hover .rp-gymshark__img--secondary { opacity: 1; }
-  .rp-gymshark__link:hover .rp-gymshark__img--primary { opacity: 0; }
+  .rp-gymshark__link:hover .rp-gymshark__img--primary   { opacity: 0; }
 }
 
 /* Badge */
 .rp-gymshark__badge {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 0; left: 0;
   z-index: 3;
   font-size: 0.5625rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.3rem 0.55rem;
-  background: #111;
-  color: #fff;
+  background: rgba(255,255,255,0.9);
+  color: #111;
 }
-
-.rp-gymshark__badge--sale { background: #e31b1b; }
-.rp-gymshark__badge--improved { background: #1a1a1a; }
+.rp-gymshark__badge--sale { background: #e31b1b; color: #fff; }
 
 /* Info */
-.rp-gymshark__info { padding: 0 0.125rem; }
-
 .rp-gymshark__product-title {
   font-size: 0.8125rem;
   font-weight: 600;
   margin-bottom: 0.125rem;
   line-height: 1.3;
 }
-
-.rp-gymshark__variant {
-  font-size: 0.75rem;
-  color: #888;
-  margin-bottom: 0.125rem;
-}
-
 .rp-gymshark__price {
   font-size: 0.8125rem;
   font-weight: 500;
   margin: 0;
 }
-
 .rp-gymshark__price--compare {
   text-decoration: line-through;
-  color: #999;
+  opacity: 0.5;
   margin-right: 0.375rem;
 }
-
 .rp-gymshark__price--sale { color: #e31b1b; }
 </style>
 
 {% schema %}
 {
-  "name": "Related products",
+  "name": "También te puede gustar",
   "settings": [
     {
       "type": "checkbox",
       "id": "show_related_products",
-      "label": "Enable Related Products",
+      "label": "Mostrar productos relacionados",
       "default": true
     },
     {
       "type": "text",
       "id": "related_title",
-      "label": "Section title",
+      "label": "Título",
       "default": "TAMBIÉN TE PUEDE GUSTAR"
     },
     {
       "type": "text",
       "id": "related_subtitle",
-      "label": "Section subtitle",
+      "label": "Subtítulo",
       "default": "Creemos que estos productos combinan perfectamente."
     },
     {
       "type": "select",
       "id": "related_products_number",
-      "label": "Number of Products",
-      "default": "5",
+      "label": "Número de productos",
+      "default": "4",
       "options": [
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" },

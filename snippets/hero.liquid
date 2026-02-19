@@ -1,16 +1,19 @@
 {% if snippet_instance.settings.section_identifier != blank %}
   {% assign section_id = snippet_instance.settings.section_identifier %}
 {% else %}
-  {%- capture section_id -%} section-{{-snippet_instance.id-}} {%- endcapture -%}
+  {%- capture section_id -%}section-{{-snippet_instance.id-}}{%- endcapture -%}
 {% endif %}
 
 {% if snippet_instance.settings.enable_custom_styles %}
   {% include 'section-styles', instance_settings: snippet_instance.settings %}
 {% endif %}
 
-{% assign bg_image = snippet_instance.settings.background_image %}
+{% assign bg_image      = snippet_instance.settings.background_image %}
 {% assign bg_image_style = snippet_instance.settings.background_image_style %}
-{% if bg_image != blank and bg_image_style == 'cover' %} {% assign lazyload = 'lazyload' %} {% endif %}
+{% assign video_url     = snippet_instance.settings.video_url %}
+{% if bg_image != blank and bg_image_style == 'cover' and video_url == blank %}
+  {% assign lazyload = 'lazyload' %}
+{% endif %}
 
 {%- capture section_attributes -%}
   {% if snippet_type == 'section' %}
@@ -21,135 +24,224 @@
 {%- endcapture -%}
 
 {% unless snippet_instance.settings.full_height %}
-  <style>
-  #{{section_id}} .content-section {
-    min-height: {{ snippet_instance.settings.mobile_height | append: 'px' }};
+<style>
+#{{section_id}} .hero-gs__shell {
+  min-height: {{ snippet_instance.settings.mobile_height | append: 'px' }};
+}
+@media (min-width: 1024px) {
+  #{{section_id}} .hero-gs__shell {
+    min-height: {{ snippet_instance.settings.desktop_height | append: 'px' }};
   }
-  @media print, screen and (min-width: 1024px) {
-    #{{section_id}} .content-section {
-      min-height: {{ snippet_instance.settings.desktop_height | append: 'px' }};
-    }
-  }
-  </style>
+}
+</style>
 {% endunless %}
 
 {% if snippet_instance.settings.parallax and snippet_instance.settings.enable_custom_styles %}
   {% assign parallax_class = 'section__content_parallax' %}
 {% endif %}
 
+{% comment %} Detect video type {% endcomment %}
+{% assign is_youtube = false %}
+{% assign is_vimeo   = false %}
+{% assign is_mp4     = false %}
+{% if video_url contains 'youtube.com' or video_url contains 'youtu.be' %}
+  {% assign is_youtube = true %}
+{% elsif video_url contains 'vimeo.com' %}
+  {% assign is_vimeo = true %}
+{% elsif video_url contains '.mp4' or video_url contains '.webm' %}
+  {% assign is_mp4 = true %}
+{% endif %}
+
+{% comment %} Extract YouTube ID {% endcomment %}
+{% if is_youtube %}
+  {% assign yt_id = video_url | split: 'v=' | last | split: '&' | first %}
+  {% if video_url contains 'youtu.be/' %}
+    {% assign yt_id = video_url | split: 'youtu.be/' | last | split: '?' | first %}
+  {% endif %}
+{% endif %}
+
+{% comment %} Extract Vimeo ID {% endcomment %}
+{% if is_vimeo %}
+  {% assign vimeo_id = video_url | split: 'vimeo.com/' | last | split: '?' | first %}
+{% endif %}
+
 <div id="{{section_id}}" class="section {{ parallax_class }}">
   <div {{ section_attributes }}
     class="{{ lazyload }} content-section hero-section hero-section--gymshark {% if snippet_instance.settings.full_height %}hero-section_full-screen{% endif %}"
-    {% if bg_image != blank and bg_image_style == 'cover' and snippet_instance.settings.enable_custom_styles %}
+    {% if bg_image != blank and bg_image_style == 'cover' and video_url == blank and snippet_instance.settings.enable_custom_styles %}
       data-bgset="{% include 'bgset', image: bg_image %}"
       data-sizes="auto"
       data-parent-fit="cover"
     {% endif %}>
 
+    {% comment %} ——— VIDEO BACKGROUND ——— {% endcomment %}
+    {% if video_url != blank %}
+      <div class="hero-gs__video-bg">
+        {% if is_youtube %}
+          <iframe
+            class="hero-gs__iframe"
+            src="https://www.youtube.com/embed/{{ yt_id }}?autoplay=1&mute=1&loop=1&playlist={{ yt_id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+          </iframe>
+        {% elsif is_vimeo %}
+          <iframe
+            class="hero-gs__iframe"
+            src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay=1&muted=1&loop=1&background=1&title=0&byline=0&portrait=0"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+          </iframe>
+        {% elsif is_mp4 %}
+          <video
+            class="hero-gs__mp4"
+            autoplay muted loop playsinline
+            src="{{ video_url }}">
+          </video>
+        {% endif %}
+        <div class="hero-gs__video-overlay"></div>
+      </div>
+    {% endif %}
+
     <div class="background_darken"></div>
 
-    <div class="hero-gs__content hero-gs__content--{{ snippet_instance.settings.alignment }} js-animate-appear-show">
-      {% unless snippet_instance.settings.title == blank %}
-        <h2 class="hero-gs__title section__title-style">
-          {{ snippet_instance.settings.title | escape }}
-        </h2>
-      {% endunless %}
-      {% unless snippet_instance.settings.text == blank %}
-        <div class="hero-gs__text rte section__text-style">
-          {{ snippet_instance.settings.text }}
-        </div>
-      {% endunless %}
-      {% if snippet_type == 'section' %}
-        {% for block in snippet_instance.blocks %}
-          {% if block.settings.btn_link != blank %}
-            {% assign btn_id = block.id %}
-            <a {{ block.shopify_attributes }}
-               href="{{ block.settings.btn_link }}"
-               class="hero-gs__btn">
-              {{ block.settings.btn_text }}
-            </a>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+    <div class="hero-gs__shell {% if snippet_instance.settings.full_height %}hero-gs__shell--full{% endif %}">
+      <div class="hero-gs__content hero-gs__content--{{ snippet_instance.settings.alignment }} js-animate-appear-show">
+        {% unless snippet_instance.settings.title == blank %}
+          <h2 class="hero-gs__title section__title-style">
+            {{ snippet_instance.settings.title | escape }}
+          </h2>
+        {% endunless %}
+        {% unless snippet_instance.settings.text == blank %}
+          <div class="hero-gs__text rte section__text-style">
+            {{ snippet_instance.settings.text }}
+          </div>
+        {% endunless %}
+        {% if snippet_type == 'section' %}
+          {% for block in snippet_instance.blocks %}
+            {% if block.settings.btn_link != blank %}
+              <a {{ block.shopify_attributes }}
+                 href="{{ block.settings.btn_link }}"
+                 class="hero-gs__btn">
+                {{ block.settings.btn_text }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
 
 <style>
 /* ============================================================
-   HERO — Estilo Gymshark
+   HERO — Gymshark style + video background
    ============================================================ */
 .hero-section--gymshark {
   position: relative;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Shell wraps content and sizes the section */
+.hero-gs__shell {
+  display: flex;
   align-items: flex-end;
-}
-
-.hero-gs__content {
+  width: 100%;
+  min-height: 400px;
   position: relative;
-  z-index: 6;
+  z-index: 4;
+}
+.hero-gs__shell--full {
+  min-height: 100vh;
+}
+
+/* Content block — bottom-left by default */
+.hero-gs__content {
   padding: 2.5rem 1.5rem;
-  max-width: 420px;
+  max-width: 520px;
+  width: 100%;
 }
-
-/* Posición izquierda (default) */
-.hero-gs__content--left   { align-self: flex-end; margin-right: auto; }
-.hero-gs__content--center { align-self: flex-end; margin: 0 auto; text-align: center; }
-.hero-gs__content--right  { align-self: flex-end; margin-left: auto; text-align: right; }
-
 @media (min-width: 640px) {
-  .hero-gs__content {
-    padding: 3rem 2.5rem;
-    max-width: 520px;
-  }
+  .hero-gs__content { padding: 3rem 2.5rem; }
 }
+
+.hero-gs__content--left   { margin-right: auto; }
+.hero-gs__content--center { margin: 0 auto; text-align: center; }
+.hero-gs__content--right  { margin-left: auto; text-align: right; }
 
 .hero-gs__title {
-  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  font-size: clamp(1.75rem, 4vw, 3.5rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.05;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   margin-bottom: 0.75rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.45);
 }
-
 .hero-gs__text {
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
-  line-height: 1.5;
+  font-size: clamp(0.875rem, 1.5vw, 1.0625rem);
+  line-height: 1.55;
   margin-bottom: 1.5rem;
   opacity: 0.9;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 5px rgba(0,0,0,0.35);
 }
+.hero-gs__text p { margin-bottom: 0; }
 
-.hero-gs__text p {
-  margin-bottom: 0;
-}
-
-/* Botones estilo Gymshark — texto subrayado */
 .hero-gs__btn {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-decoration: underline;
   text-underline-offset: 4px;
   color: inherit;
   margin-right: 1.5rem;
   margin-top: 0.25rem;
-  transition: opacity 0.2s ease;
-  border: none;
   background: transparent;
+  border: none;
   padding: 0;
   line-height: 1.8;
+  transition: opacity 0.2s;
 }
-
-.hero-gs__btn:hover {
-  opacity: 0.75;
-  color: inherit;
-  text-decoration: underline;
-}
-
+.hero-gs__btn:hover { opacity: 0.7; color: inherit; text-decoration: underline; }
 .hero-gs__btn:last-child { margin-right: 0; }
+
+/* ——— VIDEO BG ——— */
+.hero-gs__video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #000;
+}
+.hero-gs__iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 16:9 — fill container */
+  width: 100vw;
+  height: 56.25vw; /* 16:9 */
+  min-height: 100%;
+  min-width: 177.78vh; /* 16:9 */
+  border: 0;
+  pointer-events: none;
+}
+.hero-gs__mp4 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-gs__video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 2;
+}
 </style>

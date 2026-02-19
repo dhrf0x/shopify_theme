@@ -1434,54 +1434,101 @@ a, .pagination a {
 }
 
 
+
 /* ============================================================
-   FIX: Cart badge — posición y visibilidad corregidas
+   FIX 1 — Cart badge: siempre legible en cualquier modo
+   Fuerza contraste absoluto: fondo oscuro texto blanco
    ============================================================ */
-#header-right-menu .header__cart {
-  position: relative;
-}
-#header-right-menu .header__cart > a {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-}
 .header__cart-count {
   position: absolute !important;
-  top: -7px !important;
+  top: -8px !important;
   right: -10px !important;
   min-width: 18px !important;
   height: 18px !important;
-  border-radius: 9px !important;
+  border-radius: 10px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 0 3px !important;
+  padding: 0 4px !important;
   line-height: 1 !important;
-  z-index: 3 !important;
+  z-index: 10 !important;
+  /* Color fijo de alto contraste — visible sobre header oscuro y claro */
+  background-color: #e31b1b !important;
+  color: #fff !important;
 }
 .header__cart-count span {
   font-size: 10px !important;
+  font-weight: 700 !important;
   line-height: 1 !important;
   padding: 0 !important;
+  color: #fff !important;
+}
+/* Asegurar que el link del carrito tenga posición relativa para el badge */
+#header-right-menu .header__cart > a {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
 /* ============================================================
-   FIX: Botón Agregar al Carrito — contraste en dark mode
-   Usa color-body-text / color-body-bg para contraste garantizado
-   independientemente del tema (claro u oscuro)
+   FIX 2 — Dark mode global: body usa los colores de secciones/footer
+   Así el fondo oscuro se aplica a TODAS las páginas
+   ============================================================ */
+body {
+  background-color: $color-sections-bg !important;
+  color: $color-sections-text !important;
+}
+
+/* Páginas internas: product, collection, cart, account, etc. */
+.product-page,
+.collection-page,
+.cart-page,
+.search-page,
+.blog-page,
+.article-page,
+.page-template,
+.customer-page,
+.account-page {
+  background-color: $color-sections-bg;
+  color: $color-sections-text;
+}
+
+/* Inputs, selects, textareas en dark mode */
+input, select, textarea,
+[type="text"], [type="email"], [type="password"], [type="search"] {
+  background-color: $color-footer-form-input-bg;
+  color: $color-footer-form-input-text;
+  border-color: $color-footer-form-input-border;
+}
+
+/* Tablas y elementos de contenido */
+table, td, th, tbody, thead, tfoot {
+  background-color: transparent;
+  color: $color-sections-text;
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* ============================================================
+   FIX 3 — Botón "Agregar al carrito" visible en dark mode
+   Blanco sólido con texto oscuro — máximo contraste
    ============================================================ */
 #AddToCart {
-  background-color: $color-body-text;
-  color: $color-body-bg;
-  border: 2px solid $color-body-text;
+  background-color: $color-sections-text !important;
+  color: $color-sections-bg !important;
+  border: 2px solid $color-sections-text !important;
 }
 #AddToCart:hover {
-  background-color: transparent;
-  color: $color-body-text;
-  border-color: $color-body-text;
+  background-color: transparent !important;
+  color: $color-sections-text !important;
+  border-color: $color-sections-text !important;
 }
 #AddToCart.disabled,
 #AddToCart[disabled] {
-  opacity: 0.4;
-  cursor: not-allowed;
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Swatch/variante activo en dark mode */
+.swatch input:checked + label .swatch-element__inner {
+  border-color: $color-sections-text;
 }
