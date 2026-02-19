@@ -1917,4 +1917,46 @@ html { scroll-behavior: smooth; }
 
   /* Share */
   .social-sharing .share-title, .social-sharing .share-button { color: rgba(0,0,0,0.35) !important; }
+
+  /* ── FIX 1: Ícono de búsqueda (font-icon, no SVG) ── */
+  #header-right-menu .menu-item_search,
+  #header-right-menu .menu-item_search a,
+  #header-right-menu .menu-item_search .icon-search,
+  #header-right-menu .menu-item_search i,
+  #header-right-menu .menu-item_search:before,
+  .menu-item_search .icon-search:before {
+    color: #111111 !important;
+  }
+  /* Por si el ícono hereda del link */
+  #header-right-menu a { color: #111111 !important; }
+
+  /* ── FIX 2: Hamburger (barras del menú móvil) ── */
+  .burger-container #burger .bar {
+    background-color: #111111 !important;
+  }
+  /* El botón contenedor también */
+  .burger-container,
+  #burger,
+  .mobile-nav-toggle { color: #111111 !important; }
+
+  /* ── FIX 3: Texto del hero en modo claro ── */
+  /* El título puede quedar ilegible si el video/imagen es claro  */
+  /* Mantenemos blanco pero reforzamos el text-shadow */
+  .hero-gs__title {
+    color: #ffffff !important;
+    text-shadow:
+      0 1px 0 rgba(0,0,0,0.9),
+      0 2px 20px rgba(0,0,0,0.95),
+      0 0 60px rgba(0,0,0,0.8),
+      0 4px 40px rgba(0,0,0,0.7) !important;
+  }
+  .hero-gs__text, .hero-gs__text p {
+    color: rgba(255,255,255,0.95) !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 2px 16px rgba(0,0,0,0.8) !important;
+  }
+  /* El gradiente de fondo en modo claro lo hacemos más denso */
+  .hero-section--gymshark::after {
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.20) 70%, transparent 100%) !important;
+  }
+
 }
