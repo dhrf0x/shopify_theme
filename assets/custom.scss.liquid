@@ -1435,9 +1435,131 @@ a, .pagination a {
 
 
 
+
 /* ============================================================
-   FIX 1 — Cart badge: siempre legible en cualquier modo
-   Fuerza contraste absoluto: fondo oscuro texto blanco
+   DARK MODE GLOBAL — Sistema de color coherente
+   Todas las variables del tema respetan color_sections_bg/text
+   ============================================================ */
+
+/* Body base */
+body {
+  background-color: $color-sections-bg !important;
+  color: $color-sections-text !important;
+}
+
+/* Cualquier página interna */
+#PageContainer,
+.page-wrapper {
+  background-color: $color-sections-bg;
+}
+
+/* Textos del body */
+h1, h2, h3, h4, h5, h6 {
+  color: $color-sections-text;
+}
+p, span, li, td, th, label {
+  color: $color-sections-text;
+}
+a {
+  color: $color-sections-text;
+}
+
+/* ============================================================
+   PRODUCT PAGE — Variantes y botones en armonía dark
+   ============================================================ */
+
+/* Fondo de la página de producto */
+.product-page {
+  background-color: $color-sections-bg;
+  color: $color-sections-text;
+}
+
+/* Títulos y precio */
+.product-page #ProductTitle,
+.product-page #ProductPrice,
+.product-page .product__variants__wrap label,
+.product-page label.quantity-selector {
+  color: $color-sections-text;
+}
+
+/* Descripción */
+.product-page .product-description,
+.product-page .product-description p {
+  color: rgba(255,255,255,0.65);
+}
+
+/* ——— Botones de variante (talla, tejido, etc) ——— */
+.product-page .swatch label {
+  background-color: transparent;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: $color-sections-text;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.product-page .swatch .swatch-element__inner {
+  background-color: transparent;
+  color: $color-sections-text;
+  font-size: 13px;
+  font-weight: 500;
+}
+/* Hover */
+.product-page .swatch label:hover {
+  border-color: rgba(255,255,255,0.6);
+  background-color: rgba(255,255,255,0.06);
+}
+/* Seleccionado */
+.product-page .swatch input:checked + label {
+  border-color: $color-sections-text;
+  background-color: $color-sections-text;
+  color: $color-sections-bg;
+}
+.product-page .swatch input:checked + label .swatch-element__inner {
+  background-color: transparent;
+  color: $color-sections-bg;
+  font-weight: 700;
+}
+/* Agotado */
+.product-page .swatch .swatch-element.soldout label {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+/* ——— Botón Agregar al carrito ——— */
+#AddToCart {
+  background-color: $color-sections-text !important;
+  color: $color-sections-bg !important;
+  border: 2px solid $color-sections-text !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+#AddToCart:hover {
+  background-color: transparent !important;
+  color: $color-sections-text !important;
+  border-color: $color-sections-text !important;
+}
+#AddToCart.disabled,
+#AddToCart[disabled] {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+/* ——— Selector de cantidad ——— */
+.product-page .quantity-selector,
+.product-page input[type="number"] {
+  background-color: transparent;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: $color-sections-text;
+}
+
+/* ——— Compartir en redes ——— */
+.product-page .social-sharing .share-title,
+.product-page .social-sharing a {
+  color: rgba(255,255,255,0.55);
+}
+
+/* ============================================================
+   CART BADGE — rojo siempre visible
    ============================================================ */
 .header__cart-count {
   position: absolute !important;
@@ -1452,7 +1574,6 @@ a, .pagination a {
   padding: 0 4px !important;
   line-height: 1 !important;
   z-index: 10 !important;
-  /* Color fijo de alto contraste — visible sobre header oscuro y claro */
   background-color: #e31b1b !important;
   color: #fff !important;
 }
@@ -1463,7 +1584,6 @@ a, .pagination a {
   padding: 0 !important;
   color: #fff !important;
 }
-/* Asegurar que el link del carrito tenga posición relativa para el badge */
 #header-right-menu .header__cart > a {
   position: relative !important;
   display: inline-flex !important;
@@ -1471,64 +1591,11 @@ a, .pagination a {
 }
 
 /* ============================================================
-   FIX 2 — Dark mode global: body usa los colores de secciones/footer
-   Así el fondo oscuro se aplica a TODAS las páginas
+   COLECCIÓN — tarjetas de producto en dark
    ============================================================ */
-body {
-  background-color: $color-sections-bg !important;
-  color: $color-sections-text !important;
-}
-
-/* Páginas internas: product, collection, cart, account, etc. */
-.product-page,
-.collection-page,
-.cart-page,
-.search-page,
-.blog-page,
-.article-page,
-.page-template,
-.customer-page,
-.account-page {
-  background-color: $color-sections-bg;
-  color: $color-sections-text;
-}
-
-/* Inputs, selects, textareas en dark mode */
-input, select, textarea,
-[type="text"], [type="email"], [type="password"], [type="search"] {
-  background-color: $color-footer-form-input-bg;
-  color: $color-footer-form-input-text;
-  border-color: $color-footer-form-input-border;
-}
-
-/* Tablas y elementos de contenido */
-table, td, th, tbody, thead, tfoot {
+.product-card,
+.product-card__inner,
+.loop-product {
   background-color: transparent;
   color: $color-sections-text;
-  border-color: rgba(255,255,255,0.1);
-}
-
-/* ============================================================
-   FIX 3 — Botón "Agregar al carrito" visible en dark mode
-   Blanco sólido con texto oscuro — máximo contraste
-   ============================================================ */
-#AddToCart {
-  background-color: $color-sections-text !important;
-  color: $color-sections-bg !important;
-  border: 2px solid $color-sections-text !important;
-}
-#AddToCart:hover {
-  background-color: transparent !important;
-  color: $color-sections-text !important;
-  border-color: $color-sections-text !important;
-}
-#AddToCart.disabled,
-#AddToCart[disabled] {
-  opacity: 0.4 !important;
-  cursor: not-allowed !important;
-}
-
-/* Swatch/variante activo en dark mode */
-.swatch input:checked + label .swatch-element__inner {
-  border-color: $color-sections-text;
 }
