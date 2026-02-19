@@ -338,7 +338,7 @@
           "title_alignment": "left",
           "text_alignment": "left",
           "is_carousel": true,
-          "collection": "test-blank",
+          "collection": "",
           "grid": "5",
           "total": 5,
           "enable_custom_styles": true,
