@@ -1,172 +1,270 @@
-{% comment %}
-  Barra de Anuncios — WF Urban Muscle v5.6
-  Esta sección se incluye en layout/theme.liquid → renderiza en TODAS las páginas.
+{%- comment -%}
+  Barra de Anuncios — WF Urban Muscle
+  Incluida en layout/theme.liquid con: {% section 'announcement-bar' %}
   Subir a: sections/announcement-bar.liquid
-{% endcomment %}
+{%- endcomment -%}
 
-{% comment %} ── Evaluar visibilidad ── {% endcomment %}
-{% assign wf_show_ann = false %}
-{% if section.settings.ann_enabled %}
-  {% if section.settings.ann_visibility == 'all' %}
-    {% assign wf_show_ann = true %}
-  {% elsif section.settings.ann_visibility == 'home' and template == 'index' %}
-    {% assign wf_show_ann = true %}
-  {% elsif section.settings.ann_visibility == 'not_home' and template != 'index' %}
-    {% assign wf_show_ann = true %}
-  {% endif %}
-{% endif %}
+{%- comment -%} ── Visibilidad por página ── {%- endcomment -%}
+{%- assign _show = false -%}
+{%- if section.settings.ann_visibility == 'all' -%}
+  {%- assign _show = true -%}
+{%- elsif section.settings.ann_visibility == 'home' and template == 'index' -%}
+  {%- assign _show = true -%}
+{%- elsif section.settings.ann_visibility == 'not_home' and template != 'index' -%}
+  {%- assign _show = true -%}
+{%- endif -%}
 
-{% comment %} ── Recolectar mensajes no vacíos ── {% endcomment %}
-{% assign ann_messages = '' | split: '' %}
-{% assign ann_links    = '' | split: '' %}
-{% for i in (1..5) %}
-  {% assign _mk = 'ann_msg'  | append: i %}
-  {% assign _lk = 'ann_link' | append: i %}
-  {% assign _mv = section.settings[_mk] %}
-  {% if _mv != blank %}
-    {% assign ann_messages = ann_messages | push: _mv %}
-    {% assign ann_links    = ann_links    | push: section.settings[_lk] %}
-  {% endif %}
-{% endfor %}
-{% assign ann_total = ann_messages.size %}
+{%- comment -%} Si ann_enabled está desactivado, no mostrar {%- endcomment -%}
+{%- if section.settings.ann_enabled == false -%}
+  {%- assign _show = false -%}
+{%- endif -%}
 
-{% if wf_show_ann and ann_total > 0 %}
-<div class="wf-ann"
-  id="wf-ann-{{ section.id }}"
-  style="background:{{ section.settings.ann_bg }};color:{{ section.settings.ann_color }};font-size:{{ section.settings.ann_size }}px;">
+{%- comment -%} Recopilar mensajes no vacíos {%- endcomment -%}
+{%- assign _msgs = '' | split: '|' -%}
+{%- assign _urls = '' | split: '|' -%}
+{%- assign _m = section.settings.ann_msg1 -%}
+{%- if _m != blank -%}{%- assign _msgs = _msgs | push: _m -%}{%- assign _urls = _urls | push: section.settings.ann_link1 -%}{%- endif -%}
+{%- assign _m = section.settings.ann_msg2 -%}
+{%- if _m != blank -%}{%- assign _msgs = _msgs | push: _m -%}{%- assign _urls = _urls | push: section.settings.ann_link2 -%}{%- endif -%}
+{%- assign _m = section.settings.ann_msg3 -%}
+{%- if _m != blank -%}{%- assign _msgs = _msgs | push: _m -%}{%- assign _urls = _urls | push: section.settings.ann_link3 -%}{%- endif -%}
+{%- assign _m = section.settings.ann_msg4 -%}
+{%- if _m != blank -%}{%- assign _msgs = _msgs | push: _m -%}{%- assign _urls = _urls | push: section.settings.ann_link4 -%}{%- endif -%}
+{%- assign _m = section.settings.ann_msg5 -%}
+{%- if _m != blank -%}{%- assign _msgs = _msgs | push: _m -%}{%- assign _urls = _urls | push: section.settings.ann_link5 -%}{%- endif -%}
 
-  {% if ann_total > 1 %}
-    <button class="wf-ann__btn wf-ann__btn--prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
-  {% endif %}
+{%- assign _total = _msgs.size -%}
 
-  <div class="wf-ann__viewport">
-    <div class="wf-ann__track" id="wf-ann-track-{{ section.id }}">
-      {% for msg in ann_messages %}
-        <div class="wf-ann__slide{% if forloop.first %} is-active{% endif %}">
-          {% assign lnk = ann_links[forloop.index0] %}
-          {% if lnk != blank %}<a href="{{ lnk }}" style="color:inherit;text-decoration:underline;">{{ msg }}</a>
-          {% else %}{{ msg }}{% endif %}
-        </div>
-      {% endfor %}
-    </div>
+{%- if _show and _total > 0 -%}
+<div class="wf-ann" style="background:{{ section.settings.ann_bg }};color:{{ section.settings.ann_color }};font-size:{{ section.settings.ann_size }}px;">
+  {%- if _total > 1 -%}
+  <button class="wf-ann__nav wf-ann__nav--prev" onclick="wfAnnPrev('{{ section.id }}')" aria-label="Anterior">&#8249;</button>
+  {%- endif -%}
+
+  <div class="wf-ann__wrap">
+    {%- for _msg in _msgs -%}
+      {%- assign _url = _urls[forloop.index0] -%}
+      <span class="wf-ann__item{% if forloop.first %} active{% endif %}">
+        {%- if _url != blank -%}<a href="{{ _url }}" style="color:inherit;text-decoration:underline dotted;">{{ _msg }}</a>
+        {%- else -%}{{ _msg }}
+        {%- endif -%}
+      </span>
+    {%- endfor -%}
   </div>
 
-  {% if ann_total > 1 %}
-    <button class="wf-ann__btn wf-ann__btn--next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
-  {% endif %}
+  {%- if _total > 1 -%}
+  <button class="wf-ann__nav wf-ann__nav--next" onclick="wfAnnNext('{{ section.id }}')" aria-label="Siguiente">&#8250;</button>
+  {%- endif -%}
 </div>
 
 <style>
 .wf-ann {
-  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 0.55rem 2.5rem;
-  font-weight: 500;
-  line-height: 1.4;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 40px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-align: center;
+  position: relative;
+  z-index: 999;
+  box-sizing: border-box;
+}
+.wf-ann__wrap {
+  flex: 1;
   overflow: hidden;
-  z-index: 200;
+  text-align: center;
+  position: relative;
+  min-height: 1.4em;
 }
-.wf-ann__viewport { flex: 1; overflow: hidden; text-align: center; }
-.wf-ann__track    { display: flex; }
-.wf-ann__slide {
-  flex: 0 0 100%;
-  min-width: 100%;
-  padding: 0 0.5rem;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .3s ease, transform .3s ease;
-  pointer-events: none;
+.wf-ann__item {
+  display: none;
+  white-space: nowrap;
 }
-.wf-ann__slide.is-active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+.wf-ann__item.active {
+  display: inline;
 }
-.wf-ann__btn {
+.wf-ann__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   color: inherit;
-  font-size: 1.4rem;
+  font-size: 22px;
   line-height: 1;
-  padding: 0 0.5rem;
   cursor: pointer;
-  opacity: 0.6;
+  padding: 0 8px;
+  opacity: 0.65;
   transition: opacity 0.2s;
-  flex-shrink: 0;
+  z-index: 1;
 }
-.wf-ann__btn:hover { opacity: 1; }
+.wf-ann__nav:hover { opacity: 1; }
+.wf-ann__nav--prev { left: 6px; }
+.wf-ann__nav--next { right: 6px; }
 </style>
 
-{% if ann_total > 1 %}
 <script>
-(function(){
-  var id    = '{{ section.id }}';
-  var track = document.getElementById('wf-ann-track-' + id);
-  if (!track) return;
-  var slides = track.querySelectorAll('.wf-ann__slide');
-  var total  = slides.length;
-  var cur    = 0;
-  var spd    = {{ section.settings.ann_speed | times: 1000 }};
-  var t;
-  function show(n) {
-    slides[cur].classList.remove('is-active');
-    cur = (n + total) % total;
-    slides[cur].classList.add('is-active');
-    track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+(function() {
+  var _annStates = window._annStates || {};
+  window._annStates = _annStates;
+
+  function wfAnnInit(id, total, speed) {
+    _annStates[id] = { cur: 0, total: total };
+    if (total > 1) {
+      _annStates[id].timer = setInterval(function() { wfAnnGo(id, 1); }, speed * 1000);
+    }
   }
-  function start() { if (total > 1) t = setInterval(function(){ show(cur + 1); }, spd); }
-  function stop()  { clearInterval(t); }
-  var pb = document.getElementById('wf-ann-prev-' + id);
-  var nb = document.getElementById('wf-ann-next-' + id);
-  if (pb) pb.addEventListener('click', function(){ stop(); show(cur - 1); start(); });
-  if (nb) nb.addEventListener('click', function(){ stop(); show(cur + 1); start(); });
-  start();
+
+  function wfAnnGo(id, dir) {
+    var s = _annStates[id];
+    if (!s) return;
+    var items = document.querySelectorAll('.wf-ann__item');
+    if (!items.length) return;
+    items[s.cur].classList.remove('active');
+    s.cur = (s.cur + dir + s.total) % s.total;
+    items[s.cur].classList.add('active');
+  }
+
+  window.wfAnnPrev = function(id) {
+    clearInterval((_annStates[id] || {}).timer);
+    wfAnnGo(id, -1);
+  };
+  window.wfAnnNext = function(id) {
+    clearInterval((_annStates[id] || {}).timer);
+    wfAnnGo(id, 1);
+  };
+
+  wfAnnInit('{{ section.id }}', {{ _total }}, {{ section.settings.ann_speed | default: 4 }});
 })();
 </script>
-{% endif %}
-{% endif %}
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Barra de Anuncios",
   "settings": [
-    { "type": "header",   "content": "Visibilidad" },
-    { "type": "checkbox", "id": "ann_enabled",    "label": "Activar barra",  "default": true },
     {
-      "type": "select", "id": "ann_visibility", "label": "Mostrar en", "default": "all",
+      "type": "header",
+      "content": "— Activación —"
+    },
+    {
+      "type": "checkbox",
+      "id": "ann_enabled",
+      "label": "Activar barra de anuncios",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "ann_visibility",
+      "label": "Mostrar en",
+      "default": "all",
       "options": [
-        { "value": "all",      "label": "Todas las páginas"     },
-        { "value": "home",     "label": "Solo página principal" },
-        { "value": "not_home", "label": "Todas excepto inicio"  }
+        { "value": "all",      "label": "Todas las páginas"           },
+        { "value": "home",     "label": "Solo en la página de inicio" },
+        { "value": "not_home", "label": "En todas excepto el inicio"  }
       ]
     },
-    { "type": "header", "content": "Mensajes (hasta 5)" },
-    { "type": "text", "id": "ann_msg1",  "label": "Mensaje 1", "default": "¡Envío gratis en pedidos mayores a $999!" },
-    { "type": "url",  "id": "ann_link1", "label": "Enlace 1 (opcional)" },
-    { "type": "text", "id": "ann_msg2",  "label": "Mensaje 2" },
-    { "type": "url",  "id": "ann_link2", "label": "Enlace 2 (opcional)" },
-    { "type": "text", "id": "ann_msg3",  "label": "Mensaje 3" },
-    { "type": "url",  "id": "ann_link3", "label": "Enlace 3 (opcional)" },
-    { "type": "text", "id": "ann_msg4",  "label": "Mensaje 4" },
-    { "type": "url",  "id": "ann_link4", "label": "Enlace 4 (opcional)" },
-    { "type": "text", "id": "ann_msg5",  "label": "Mensaje 5" },
-    { "type": "url",  "id": "ann_link5", "label": "Enlace 5 (opcional)" },
-    { "type": "header", "content": "Estilo" },
-    { "type": "color", "id": "ann_bg",    "label": "Color de fondo", "default": "#cc0000" },
-    { "type": "color", "id": "ann_color", "label": "Color de texto",  "default": "#ffffff" },
     {
-      "type": "range", "id": "ann_size",
-      "min": 10, "max": 18, "step": 1, "unit": "px",
-      "label": "Tamaño de fuente", "default": 13
+      "type": "header",
+      "content": "— Mensajes (hasta 5) —"
     },
     {
-      "type": "range", "id": "ann_speed",
-      "min": 2, "max": 12, "step": 1, "unit": "s",
-      "label": "Velocidad carrusel", "default": 4
+      "type": "text",
+      "id": "ann_msg1",
+      "label": "Mensaje 1",
+      "default": "✦ Envío gratis en pedidos mayores a $999 ✦"
+    },
+    {
+      "type": "url",
+      "id": "ann_link1",
+      "label": "Enlace 1 (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "ann_msg2",
+      "label": "Mensaje 2"
+    },
+    {
+      "type": "url",
+      "id": "ann_link2",
+      "label": "Enlace 2 (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "ann_msg3",
+      "label": "Mensaje 3"
+    },
+    {
+      "type": "url",
+      "id": "ann_link3",
+      "label": "Enlace 3 (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "ann_msg4",
+      "label": "Mensaje 4"
+    },
+    {
+      "type": "url",
+      "id": "ann_link4",
+      "label": "Enlace 4 (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "ann_msg5",
+      "label": "Mensaje 5"
+    },
+    {
+      "type": "url",
+      "id": "ann_link5",
+      "label": "Enlace 5 (opcional)"
+    },
+    {
+      "type": "header",
+      "content": "— Estilo —"
+    },
+    {
+      "type": "color",
+      "id": "ann_bg",
+      "label": "Color de fondo",
+      "default": "#cc0000"
+    },
+    {
+      "type": "color",
+      "id": "ann_color",
+      "label": "Color del texto",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "ann_size",
+      "label": "Tamaño de fuente",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "ann_speed",
+      "label": "Velocidad del carrusel",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4
     }
   ],
-  "presets": [{ "name": "Barra de Anuncios", "category": "Header" }]
+  "presets": [
+    {
+      "name": "Barra de Anuncios",
+      "category": "Content"
+    }
+  ]
 }
 {% endschema %}

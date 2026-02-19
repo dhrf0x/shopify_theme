@@ -362,9 +362,8 @@ a, .pagination a {
 /*============================================================================
   Mobile Menu Sidebar
 ==============================================================================*/
-.off-canvas.is-closed {
-  visibility: visible;
-}
+/* .off-canvas.is-closed — NO override visibility: Foundation ya lo maneja con visibility:hidden */
+/* Fue visibility:visible aqui lo que causaba la banda oscura derecha (cart sidebar siempre visible) */
 #mobileMenuSidebar {
   background-color: $color-mobile-sidebar-bg;
   border-right: 1px solid darken($color-mobile-sidebar-bg, 4%);
