@@ -459,9 +459,9 @@
         "settings": {
           "title": "Nuestras Colecciones",
           "title_align": "center",
-          "collection_a": "",
+          "collection_a": "test-blank",
           "label_a": "OVERSIZE",
-          "collection_b": "",
+          "collection_b": "oversize",
           "label_b": "ACID",
           "products_count": 8,
           "grid": "4",
