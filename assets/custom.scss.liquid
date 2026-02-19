@@ -587,32 +587,47 @@ a, .pagination a {
 }
 
 /*============================================================================
-  Header — Glass
+  Header — Announcement Bar + Glass Header
 ==============================================================================*/
+// ── Announcement Bar ────────────────────────────────────────────────────────
+// Compact accent strip — visually distinct from the header below it
 .announcement-bar {
   display: block;
   position: relative;
+  z-index: 101;
   font-size: $announcement-text-size;
-  background: $color-announcement-bg;
-  color: $color-announcement-text;
-  transition: opacity 0.25s ease-in-out;
-  letter-spacing: 0.03em;
-  &.announcement_clickable:hover { opacity: 0.9; cursor: pointer; }
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  // Light mode: solid charcoal strip — clearly NOT the header
+  background: #111110;
+  color: #ffffff;
+  transition: opacity 0.22s ease;
+  // The bottom separator is the key divider line between bar and header
+  border-bottom: 2px solid rgba(255, 255, 255, 0.10);
+
+  &.announcement_clickable:hover { opacity: 0.88; cursor: pointer; }
   .announcement__link { position: absolute; display: block; z-index: 9; width: 100%; height: 100%; }
   .announcement__text-wrap {
     display: flex;
     align-items: center;
+    justify-content: center;
     a { color: inherit; text-decoration: underline; &:hover { text-decoration: none; } }
   }
-  .announcement__text { width: 100%; margin-top: 0.75rem; margin-bottom: 0.75rem; }
-  p { line-height: 1.4; margin-bottom: 0; }
+  // Slightly tighter height than header — feels like a ribbon
+  .announcement__text { width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+  p { line-height: 1.4; margin-bottom: 0; font-size: $announcement-text-size; }
 }
 
+// ── Navigation Header ────────────────────────────────────────────────────────
+// Glass panel — clearly separated from the announcement bar above it
 .header-container {
-  background-color: $light-header-bg;
-  -webkit-backdrop-filter: blur($blur-md) saturate(1.5);
-  backdrop-filter: blur($blur-md) saturate(1.5);
-  border-bottom: 1px solid $light-header-border;
+  // Light mode: bright frosted-glass navbar — very different from the dark bar above
+  background-color: rgba(252, 252, 250, 0.88);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -620,9 +635,22 @@ a, .pagination a {
 }
 
 @media (prefers-color-scheme: dark) {
+  // Dark announcement bar: pure ink — deepest element on the page
+  .announcement-bar {
+    background: #0c0c0a;
+    color: rgba(255, 255, 255, 0.82);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.07);
+  }
+  // Dark header: warm charcoal glass — noticeably lighter/warmer than the bar above
+  // and distinct from the #111110 page background
   .header-container {
-    background-color: $dark-header-bg;
-    border-bottom-color: $dark-header-border;
+    background-color: rgba(32, 31, 28, 0.94);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    backdrop-filter: blur(24px) saturate(1.4);
+    // Subtle inner highlight on the top edge reinforces the glass feel
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 }
 
@@ -761,6 +789,8 @@ a, .pagination a {
 #site-footer {
   background-color: $color-footer-bg;
   color: $color-footer-text;
+  // Subtle top separator so footer doesn't bleed into content
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
 
   .widget__title {
     color: $color-footer-title;
@@ -795,6 +825,22 @@ a, .pagination a {
       font-size: 14px;
       &:hover { opacity: 0.85; }
     }
+  }
+}
+
+// Dark mode footer: warm near-black — clearly framed from the #111110 body
+// Slightly warm undertone (not pure black) so it reads as intentional
+@media (prefers-color-scheme: dark) {
+  #site-footer {
+    background-color: #0e0d0b;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    // Faint warm top glow to visually separate from page content above
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 -1px 40px rgba(0, 0, 0, 0.25);
+    color: rgba(255, 255, 255, 0.55);
+    .widget__title { color: rgba(255, 255, 255, 0.88); }
+    a, .menu li a { color: rgba(255, 255, 255, 0.50); &:hover { color: rgba(255, 255, 255, 0.88); } }
+    .footer__copyright, .footer__copyright a { color: rgba(255, 255, 255, 0.28); }
+    .footer__copyright a:hover { color: rgba(255, 255, 255, 0.60); }
   }
 }
 
@@ -1415,6 +1461,221 @@ a, .pagination a {
   .breadcrumbs li { color: $dark-text-secondary; }
   .breadcrumbs a { color: $dark-link; }
 }
+
+/*============================================================================
+  Product Recommendations — Gymshark "You May Also Like" style
+==============================================================================*/
+.rp-section {
+  padding: 3.5rem 0 4rem;
+  overflow: hidden;
+  // Tinted background — clearly frames the section from the product page above
+  background-color: $light-bg-alt;
+  border-top: 1px solid $light-border;
+  margin-top: 3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-section {
+    background-color: #181816;
+    border-top-color: $dark-border;
+  }
+}
+
+.rp-section__header {
+  margin-bottom: 1.75rem;
+}
+
+.rp-section__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $light-text-tertiary;
+  margin-bottom: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-section__label { color: $dark-text-tertiary; }
+}
+
+.rp-section__title {
+  font-size: 1.625rem;
+  font-weight: $font-header-weight;
+  letter-spacing: -0.025em;
+  margin-bottom: 0;
+  color: $light-heading;
+  @media #{$medium-up} { font-size: 2rem; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-section__title { color: $dark-heading; }
+}
+
+// Horizontal scroll container — full bleed, cards peek on the right edge
+.rp-scroll-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  // Indent matches main grid gutter so first card aligns with page content
+  padding-left: 0.625rem;
+  @media #{$medium-up} { padding-left: 0.9375rem; }
+  @media #{$large-up} { padding-left: calc(max((100vw - 77.5rem) / 2, 0rem) + 0.9375rem); }
+  padding-bottom: 0.5rem;
+}
+
+.rp-track {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1.5rem;
+  width: max-content;
+
+  @media #{$medium-up} { gap: 1.25rem; }
+  @media #{$large-up} { gap: 1.5rem; }
+}
+
+.rp-card {
+  flex: 0 0 52vw;  // ~2.1 cards visible on mobile
+  max-width: 220px;
+  scroll-snap-align: start;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media #{$medium-up} {
+    flex: 0 0 220px;
+    &:hover { transform: translateY(-3px); }
+  }
+
+  @media #{$large-up} {
+    flex: 0 0 240px;
+    max-width: 260px;
+  }
+}
+
+.rp-card__image-wrap {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  background: $light-bg-alt;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 0.875rem;
+
+  .product-badge {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+    z-index: 2;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-card__image-wrap { background: $dark-bg-alt; }
+}
+
+.rp-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.32s ease;
+}
+
+.rp-card__img--secondary {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0;
+}
+
+@media #{$large-up} {
+  .rp-card__image-wrap--secondary {
+    &:hover .rp-card__img--primary { opacity: 0; transform: scale(1.04); }
+    &:hover .rp-card__img--secondary { opacity: 1; }
+  }
+  .rp-card__image-wrap:not(.rp-card__image-wrap--secondary) {
+    &:hover .rp-card__img { transform: scale(1.04); }
+  }
+}
+
+.rp-card__info { padding: 0 0.125rem; }
+
+.rp-card__title {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $light-text-primary;
+  line-height: 1.3;
+  margin-bottom: 0.375rem;
+  transition: opacity 0.18s ease;
+  &:hover { opacity: 0.7; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-card__title { color: $dark-text-primary; }
+}
+
+.rp-card__price {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $light-text-secondary;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-card__price { color: $dark-text-secondary; }
+}
+
+.rp-card__price--compare {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.rp-card__price--sale { font-weight: 600; }
+
+.rp-card__sold-out {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: $light-text-tertiary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-card__sold-out { color: $dark-text-tertiary; }
+}
+
+.rp-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $light-text-tertiary;
+  padding-left: 0.625rem;
+  .rp-scroll-hint__arrow {
+    display: inline-block;
+    animation: rp-scroll-hint-bounce 1.6s ease-in-out infinite;
+  }
+  @media #{$medium-up} { display: none; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .rp-scroll-hint { color: $dark-text-tertiary; }
+}
+
+@keyframes rp-scroll-hint-bounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
 @font-face {
   font-family: 'icons';
   src:  url('icons.eot');

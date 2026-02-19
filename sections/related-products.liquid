@@ -1,194 +1,178 @@
-<div data-section-id="{{ section.id }}" data-section-type="related-products">
-  {% if section.settings.show_related_products == true %}
+{% if section.settings.show_related_products %}
 
-    {% assign heading = section.settings.related_title %}
-    {% assign related_products_number = section.settings.related_products_number %}
+  {% assign related_products_number = section.settings.related_products_number | plus: 0 %}
+  {% assign exclusions = 'frontpage,all' | split: ',' %}
 
-    {% comment %}
-      Set either or both to true, if you want
-      to limit yourself to items with same vendor, and/or type.
-    {% endcomment %}
+  {% comment %} Find a relevant collection {% endcomment %}
+  {% assign found_a_collection = false %}
+  {% assign collection = blank %}
 
-    {% assign same_vendor = false %}
-    {% assign same_type = false %}
+  {% if product.metafields.c_f['Related Products'] %}
+    {% assign collection = collections[product.metafields.c_f['Related Products']] %}
+  {% endif %}
 
-    {% comment %}
-      Collections to ignore.
-      Never pick related items from those.
-    {% endcomment %}
+  {% if collection and collection.all_products_count > 1 %}
+    {% unless exclusions contains collection.handle %}
+      {% assign found_a_collection = true %}
+    {% endunless %}
+  {% endif %}
 
-    {% assign exclusions = 'frontpage,all' | split: ',' %}
-
-    {% comment %}
-      Looking for a relevant collection.
-    {% endcomment %}
-
-    {% if product.metafields.c_f['Related Products'] %}
-      {% assign collection = collections[product.metafields.c_f['Related Products']] %}
-    {% endif %}
-
-    {% assign found_a_collection = false %}
-    {% if collection and collection.all_products_count > 1 %}
-      {% unless exclusions contains collection.handle %}
+  {% unless found_a_collection %}
+    {% for c in product.collections %}
+      {% unless exclusions contains c.handle or c.all_products_count < 2 %}
         {% assign found_a_collection = true %}
+        {% assign collection = c %}
+        {% break %}
       {% endunless %}
-    {% endif %}
-    {% unless found_a_collection %}
-      {% for c in product.collections %}
-        {% unless exclusions contains c.handle or c.all_products_count < 2 %}
-          {% assign found_a_collection = true %}
-          {% assign collection = c %}
-          {% break %}
+    {% endfor %}
+  {% endunless %}
+
+  {% if found_a_collection %}
+    {% assign counter = 0 %}
+    {% assign current_product = product %}
+
+    {% capture related_items %}
+      {% for p in collection.products %}
+        {% unless p.handle == current_product.handle %}
+          {%- assign p_on_sale = false -%}
+          {%- if p.compare_at_price > p.price -%}{%- assign p_on_sale = true -%}{%- endif -%}
+          {%- assign p_sold_out = true -%}
+          {%- if p.available -%}{%- assign p_sold_out = false -%}{%- endif -%}
+
+          <div class="rp-card">
+            <a href="{{ p.url | within: collection }}" class="rp-card__image-wrap {% if settings.display_secondary_image and p.images.size > 1 %}rp-card__image-wrap--secondary{% endif %}">
+              {% if settings.show_product_badges %}
+                {% if p_sold_out %}
+                  <span class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</span>
+                {% elsif p_on_sale %}
+                  <span class="product-badge badge__sale">Sale</span>
+                {% endif %}
+              {% endif %}
+
+              {%- assign img_url = p.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+              <img class="lazyload rp-card__img rp-card__img--primary"
+                src="{{ p.featured_image | img_url: '600x' }}"
+                data-src="{{ img_url }}"
+                data-widths="[400, 600, 800]"
+                data-aspectratio="{{ p.featured_image.aspect_ratio }}"
+                data-sizes="auto"
+                alt="{{ p.featured_image.alt | escape }}">
+
+              {% if settings.display_secondary_image and p.images[1] != blank %}
+                {%- assign sec_img_url = p.images[1] | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload rp-card__img rp-card__img--secondary"
+                  src="{{ p.images[1] | img_url: '600x' }}"
+                  data-src="{{ sec_img_url }}"
+                  data-widths="[400, 600, 800]"
+                  data-aspectratio="{{ p.images[1].aspect_ratio }}"
+                  data-sizes="auto"
+                  alt="{{ p.images[1].alt | escape }}">
+              {% endif %}
+            </a>
+
+            <div class="rp-card__info">
+              <a href="{{ p.url | within: collection }}" class="rp-card__title">{{ p.title }}</a>
+              <div class="rp-card__price">
+                {% if p_on_sale %}
+                  <s class="rp-card__price--compare"><span class="money">{{ p.compare_at_price | money }}</span></s>
+                  <span class="rp-card__price--sale"><span class="money">{{ p.price | money }}</span></span>
+                {% else %}
+                  <span><span class="money">{{ p.price | money }}</span></span>
+                {% endif %}
+                {% if p_sold_out %}
+                  <span class="rp-card__sold-out">{{ 'products.product.sold_out' | t }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          {% assign counter = counter | plus: 1 %}
+          {% if counter == related_products_number %}{% break %}{% endif %}
         {% endunless %}
       {% endfor %}
-    {% endunless %}
+    {% endcapture %}
 
-    {% comment %}
-      If we have a relevant collection.
-    {% endcomment %}
+    {% assign related_items = related_items | strip %}
 
-    {% if found_a_collection %}
+    {% unless related_items == blank %}
+      <section class="rp-section js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="related-products">
 
-      {% assign counter = 0 %}
-      {% assign break_at = related_products_number | times: 1 %}
-      {% assign current_product = product %}
-
-      {% case related_products_number %}
-        {% when '3' %}
-          {% assign grid_settings = 'row small-up-1 medium-up-3 large-up-3' %}
-        {% when '4' %}
-          {% assign grid_settings = 'row small-up-2 medium-up-4 large-up-4' %}
-        {% when '5' %}
-          {% assign grid_settings = 'row small-up-2 medium-up-5 large-up-5' %}
-        {% when '6' %}
-          {% assign grid_settings = 'row small-up-2 medium-up-6 large-up-6' %}
-      {% endcase %}
-
-      {% capture related_items %}
-        {% assign grid_item_width = 'column column-block' %}
-        {% for product in collection.products %}
-          {% unless product.handle == current_product.handle %}
-             {% unless same_vendor and current_product.vendor != product.vendor %}
-               {% unless same_type and current_product.type != product.type %}
-
-                {% include 'product-grid-item' %}
-
-                 {% assign counter = counter | plus: 1 %}
-                 {% if counter == break_at %}
-                   {% break %}
-                 {% endif %}
-               {% endunless %}
-            {% endunless %}
+        <div class="row columns rp-section__header">
+          {% unless section.settings.section_label == blank %}
+            <span class="rp-section__label">{{ section.settings.section_label }}</span>
           {% endunless %}
-        {% endfor %}
-      {% endcapture %}
+          <h2 class="rp-section__title text-{{ section.settings.title_alignment }}">{{ section.settings.related_title }}</h2>
+        </div>
 
-      {% assign related_items = related_items | trim %}
-
-      {% unless related_items == blank %}
-        <aside class="related-products js-animate-appear-show" itemscope itemtype="http://schema.org/Product">
-          {% unless heading == blank %}
-            <div class="row columns">
-              <h2 style="font-size: {{ section.settings.title_font_size }}px;" class="section-title related-products-title text-{{ section.settings.title_alignment }}">{{ heading }}</h2>
-            </div>
-          {% endunless %}
-          <div class="{{ grid_settings }} featured__grid {% if section.settings.is_carousel %}featured-carousel{% endif %} text-{{ section.settings.text_alignment }}">
+        <div class="rp-scroll-container">
+          <div class="rp-track" data-count="{{ counter }}">
             {{ related_items }}
           </div>
-        </aside>
-      {% endunless %}
+        </div>
 
-    {% endif %}
+        {% if counter > 2 %}
+        <div class="row columns">
+          <div class="rp-scroll-hint" aria-hidden="true">
+            <span class="rp-scroll-hint__arrow">→</span>
+            <span>{{ section.settings.scroll_hint_text }}</span>
+          </div>
+        </div>
+        {% endif %}
+
+      </section>
+    {% endunless %}
+
   {% endif %}
-</div>
+{% endif %}
 
 {% schema %}
 {
-  "name": "Related products",
+  "name": "Recommendations",
   "settings": [
     {
       "type": "checkbox",
       "id": "show_related_products",
-      "label": "Enable Related Products",
+      "label": "Show recommendations",
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "is_carousel",
-      "label": "Mobile Carousel",
-      "default": false
+      "type": "text",
+      "id": "section_label",
+      "label": "Label (small text above title)",
+      "default": "COMPLETE THE LOOK"
     },
     {
       "type": "text",
       "id": "related_title",
       "label": "Section title",
-      "default": "Related Products"
+      "default": "You May Also Like"
     },
     {
       "type": "select",
       "id": "title_alignment",
-      "label": "Section Title Alignment",
+      "label": "Title alignment",
       "default": "left",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
       ]
     },
     {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "Text Alignment",
-      "default": "left",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        }
-      ]
+      "type": "text",
+      "id": "scroll_hint_text",
+      "label": "Scroll hint text",
+      "default": "Swipe to see more"
     },
     {
       "type": "select",
       "id": "related_products_number",
-      "label": "Number of Products",
-      "default": "4",
+      "label": "Number of products",
+      "default": "6",
       "options": [
-        {
-          "value": "3",
-          "label": "3"
-        },
-        {
-          "value": "4",
-          "label": "4"
-        },
-        {
-          "value": "5",
-          "label": "5"
-        },
-        {
-          "value": "6",
-          "label": "6"
-        }
+        { "value": "4", "label": "4" },
+        { "value": "6", "label": "6" },
+        { "value": "8", "label": "8" }
       ]
-    },
-    {
-      "type": "range",
-      "id": "title_font_size",
-      "min": 12,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "label": "Section Title Font Size",
-      "default": 28
     }
   ]
 }
