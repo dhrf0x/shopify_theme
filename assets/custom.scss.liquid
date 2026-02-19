@@ -1703,9 +1703,26 @@ h1, h2, h3, h4, h5, h6,
 .footer-section, .site-footer { border-top: 1px solid rgba(255,255,255,0.07) !important; }
 .collection-header, .collection-page, .blog-page, .article-page,
 .customer-page, .account-page, .search-page { background-color: $color-sections-bg; color: $color-sections-text; }
+/* Search: forzar TODO oscuro — .row y .columns heredan color-body-bg blanco */
+.search-page .row,
+.search-page .columns,
+.search-page .search,
+.search-page .results,
+.search-page .search__header,
+.template-search { background-color: $color-sections-bg !important; }
+.search-page hr.search-hr { border-color: rgba(255,255,255,0.1) !important; }
+/* Search: forzar TODO oscuro — .row y .columns heredan color-body-bg blanco */
+.search-page .row,
+.search-page .columns,
+.search-page .search,
+.search-page .results,
+.search-page .search__header,
+.search-page .search-hr,
+.template-search { background-color: $color-sections-bg !important; }
+.search-page hr.search-hr { border-color: rgba(255,255,255,0.1) !important; }
 
 /* ─── 11. ANIMACIONES & POLISH ───────────────────────────────── */
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; } /* Prevent scroll offset that clips hero left edge */
 .column.column-block { transition: transform 0.22s ease; }
 .column.column-block:hover { transform: translateY(-3px); }
 .product-images img { animation: wf-fadein 0.4s ease both; }
@@ -1777,6 +1794,15 @@ html { scroll-behavior: smooth; }
     background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important;
   }
   .search-page .button:hover, .template-search .button:hover { background-color: transparent !important; color: #111111 !important; }
+    /* Search inner wrappers en claro */
+  .search-page .row,
+  .search-page .columns,
+  .search-page .search,
+  .search-page .results,
+  .search-page .search__header,
+  .template-search { background-color: #f0f0f0 !important; }
+  .search-page hr.search-hr { border-color: rgba(0,0,0,0.1) !important; }
+
   .search-page h1, .search-page h2, .search-page .page-title { color: #111111 !important; }
   .search-page p, .search-page .search-no-results { color: rgba(0,0,0,0.6) !important; }
   .search-page hr, .template-search hr { border-color: rgba(0,0,0,0.1) !important; }
