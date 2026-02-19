@@ -300,7 +300,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "show_announcement_bar": "home",
+          "show_announcement_bar": "hide",
           "announcement_text": "<p>Add your announcement here</p>",
           "announcement_text_mobile": "<p>Add your announcement for mobile</p>",
           "text_alignment": "center",
@@ -396,6 +396,24 @@
         "settings": {
           "show_payment_icons": true,
           "footer_copyright": "<p>©</p>"
+        }
+      },
+      "product-template": {
+        "type": "product-template",
+        "settings": {
+          "images_width": "50",
+          "display_product_vendor": false,
+          "enable_lightbox": true,
+          "show_share_buttons": false
+        }
+      },
+      "related-products": {
+        "type": "related-products",
+        "settings": {
+          "show_related_products": true,
+          "related_title": "TAMBIÉN TE PUEDE GUSTAR",
+          "related_subtitle": "Creemos que estos productos combinan perfectamente.",
+          "related_products_number": "4"
         }
       }
     },
