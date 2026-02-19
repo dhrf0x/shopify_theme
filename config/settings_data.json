@@ -309,10 +309,10 @@
           "main_menu_alignment": "left",
           "header_show_search": true,
           "label_hombres": "Hombres",
-          "link_hombres": "",
+          "link_hombres": "shopify://collections/test-blank",
           "menu_hombres": "",
           "label_mujeres": "Mujeres",
-          "link_mujeres": "",
+          "link_mujeres": "shopify://collections/oversize",
           "menu_mujeres": ""
         }
       },
@@ -349,7 +349,7 @@
           "title_alignment": "left",
           "text_alignment": "left",
           "is_carousel": true,
-          "collection": "test-blank",
+          "collection": "",
           "grid": "4",
           "total": 5,
           "enable_custom_styles": true,
@@ -413,7 +413,33 @@
           "show_related_products": true,
           "related_title": "TAMBIÉN TE PUEDE GUSTAR",
           "related_subtitle": "Creemos que estos productos combinan perfectamente.",
-          "related_products_number": "4"
+          "related_products_number": "3"
+        }
+      },
+      "collection-header": {
+        "type": "collection-header",
+        "settings": {
+          "enable_custom_styles": true,
+          "height": 250,
+          "title_color": "",
+          "heading_color": "",
+          "alignment": "center",
+          "background_color": "",
+          "background_image_style": "cover",
+          "parallax": false,
+          "darken": 0
+        }
+      },
+      "list-collections": {
+        "type": "list-collections",
+        "settings": {
+          "display_type": "all",
+          "grid": "3",
+          "collection_title_uppercase": true,
+          "display_count": true,
+          "enable_custom_styles": true,
+          "text_color": "",
+          "text_font_size": 18
         }
       }
     },
