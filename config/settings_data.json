@@ -285,8 +285,8 @@
         "type": "header",
         "settings": {
           "ann_enabled": true,
-          "ann_visibility": "all",
-          "ann_msg1": "SSADASDASASDSDSAD",
+          "ann_visibility": "home",
+          "ann_msg1": "envios gratis",
           "ann_link1": "shopify://collections",
           "ann_msg2": "",
           "ann_link2": "",
