@@ -37,7 +37,7 @@
   {% assign parallax_class = 'section__content_parallax' %}
 {% endif %}
 
-<div id="{{section_id}}" class="section {{ parallax_class }}">
+<div id="{{section_id}}" class="section hero-section-wrapper {{ parallax_class }}">
   <div {{ section_attributes }}
     class="{{ lazyload }} content-section hero-section hero-section--gymshark {% if snippet_instance.settings.full_height %}hero-section_full-screen{% endif %}"
     {% if bg_image != blank and bg_image_style == 'cover' and snippet_instance.settings.enable_custom_styles %}
@@ -76,45 +76,48 @@
 </div>
 
 <style>
-/* ============================================================
-   HERO — Estilo Gymshark
-   ============================================================ */
+.hero-section-wrapper {
+  /* Isolate overflow at this level — clip no crea scroll container */
+  overflow: clip;
+  overflow-clip-margin: 0;
+  /* Fallback para browsers viejos */
+  clip-path: inset(0);
+}
+
 .hero-section--gymshark {
   position: relative;
-  /* No display:flex — usamos absolute para posicionamiento exacto */
+  display: flex;
+  align-items: flex-end;
+  /* SIN overflow:hidden — el clip del wrapper lo maneja */
 }
 
 .hero-gs__content {
-  position: absolute;
+  position: relative;
   z-index: 6;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem 1.5rem;
-  /* Sin max-width: el texto usa todo el ancho disponible con padding */
+  padding: 2rem 2rem 2.5rem;
+  width: 100%;
 }
 
-/* Posición izquierda (default) */
-.hero-gs__content--left   { text-align: left; }
-.hero-gs__content--center { text-align: center; }
-.hero-gs__content--right  { text-align: right; }
+.hero-gs__content--left   { align-self: flex-end; text-align: left; }
+.hero-gs__content--center { align-self: flex-end; text-align: center; }
+.hero-gs__content--right  { align-self: flex-end; text-align: right; }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .hero-gs__content {
-    padding: 2.5rem 3rem;
-    max-width: 60%;  /* limita en desktop para mantener legibilidad */
+    padding: 2.5rem 4rem 3rem;
+    max-width: 55%;
   }
   .hero-gs__content--center { margin: 0 auto; }
-  .hero-gs__content--right  { margin-left: auto; right: 0; left: auto; }
+  .hero-gs__content--right  { margin-left: auto; }
 }
 
 .hero-gs__title {
-  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  font-size: clamp(2rem, 4.5vw, 4rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.0;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.6rem;
   text-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
@@ -126,11 +129,8 @@
   text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
-.hero-gs__text p {
-  margin-bottom: 0;
-}
+.hero-gs__text p { margin-bottom: 0; }
 
-/* Botones estilo Gymshark — texto subrayado */
 .hero-gs__btn {
   display: inline-block;
   font-size: 0.875rem;

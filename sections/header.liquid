@@ -118,9 +118,10 @@
         <ul id="header-right-menu" class="menu">
           {% if section.settings.header_show_search %}
             <li class="menu-item menu-item_search show-for-large">
-              <a class="header__search-link" href="/search">
-                <span class="icon icon-search"></span>
-              </a>
+              <button class="header__search-toggle" id="wf-search-toggle" aria-label="Buscar" aria-expanded="false">
+                <span class="icon icon-search wf-icon-search"></span>
+                <span class="icon icon-cross wf-icon-close" style="display:none"></span>
+              </button>
             </li>
           {% endif %}
 
@@ -152,6 +153,76 @@
     </div>
   </header>
 </div>
+
+{% if section.settings.header_show_search %}
+<!-- ══ WF Search Overlay — Gymshark style ══ -->
+<div id="wf-search-overlay" class="wf-search-overlay" aria-hidden="true">
+  <div class="wf-search-overlay__inner">
+    <form action="/search" method="get" class="wf-search-form" role="search">
+      <input type="hidden" name="type" value="product">
+      <span class="icon icon-search wf-search-form__icon"></span>
+      <input
+        type="search"
+        name="q"
+        id="wf-search-input"
+        class="wf-search-form__input"
+        placeholder="Buscar en la tienda..."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-label="Buscar productos">
+      <button type="button" class="wf-search-form__close" id="wf-search-close" aria-label="Cerrar búsqueda">
+        <span class="icon icon-cross"></span>
+        <span class="wf-search-esc">ESC</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function() {
+  var toggle = document.getElementById('wf-search-toggle');
+  var overlay = document.getElementById('wf-search-overlay');
+  var input   = document.getElementById('wf-search-input');
+  var close   = document.getElementById('wf-search-close');
+  var iconSearch = toggle ? toggle.querySelector('.wf-icon-search') : null;
+  var iconClose  = toggle ? toggle.querySelector('.wf-icon-close') : null;
+
+  function openSearch() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    if (iconSearch) iconSearch.style.display = 'none';
+    if (iconClose)  iconClose.style.display  = '';
+    setTimeout(function() { input && input.focus(); }, 50);
+    document.body.classList.add('wf-search-open');
+  }
+
+  function closeSearch() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (iconSearch) iconSearch.style.display = '';
+    if (iconClose)  iconClose.style.display  = 'none';
+    document.body.classList.remove('wf-search-open');
+  }
+
+  if (toggle) toggle.addEventListener('click', function() {
+    overlay.classList.contains('is-open') ? closeSearch() : openSearch();
+  });
+  if (close) close.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  // Click outside overlay closes it
+  if (overlay) overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeSearch();
+  });
+})();
+</script>
+{% endif %}
 
 {% schema %}
   {
