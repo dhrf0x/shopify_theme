@@ -1442,8 +1442,10 @@ a, .pagination a {
 
 
 
+
 /* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.1 (stable)             ║
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.2                      ║
+   ║   Fixes: cart rows, hero D, product titles, mobile, OS mode  ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
 /* ─── 1. BASE GLOBAL ─────────────────────────────────────────── */
@@ -1453,31 +1455,53 @@ body, #PageContainer, .page-wrapper {
 }
 
 /* ─── 2. TIPOGRAFÍA ──────────────────────────────────────────── */
-.section-title, h1, h2, h3, h4, h5, h6,
-.section__title-style, .page-title {
+h1, h2, h3, h4, h5, h6,
+.section-title, .section__title-style, .page-title {
   color: $color-sections-text !important;
 }
 
-/* ─── 3. HERO ────────────────────────────────────────────────── */
+/* FIX 3: Nombres de productos en colección/featured — #2F3957 → blanco */
+.product-loop-item .product-loop-title,
+.product-loop-item .product-loop-title a {
+  color: $color-sections-text !important;
+}
+.product-loop-item .product-loop-price span,
+.product-loop-item .product-loop-price .money {
+  color: $color-sections-text !important;
+}
+
+/* ─── 4. HERO ────────────────────────────────────────────────── */
 .hero-section--gymshark::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 60%;
-  background: linear-gradient(to top, rgba(0,0,0,0.80) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
   z-index: 3;
   pointer-events: none;
 }
 .hero-gs__shell { z-index: 5 !important; }
+
+/* FIX: evita que el "D" quede oculto por padding insuficiente */
+.hero-gs__content {
+  padding-left: 2rem !important;
+  overflow: visible !important;
+}
+@media print, screen and (min-width: 640px) {
+  .hero-gs__content {
+    padding-left: 2.5rem !important;
+  }
+}
+
 .hero-gs__title {
   color: #ffffff !important;
-  /* FIX: tamaño que no corta palabras en desktop */
-  font-size: clamp(1.75rem, 3.5vw, 3.25rem) !important;
-  word-break: keep-all !important;
-  overflow-wrap: normal !important;
+  font-size: clamp(1.5rem, 3vw, 3rem) !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
   hyphens: none !important;
   white-space: normal !important;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 50px rgba(0,0,0,0.5) !important;
+  max-width: 100% !important;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.85), 0 0 50px rgba(0,0,0,0.5) !important;
 }
 .hero-gs__text, .hero-gs__text p {
   color: rgba(255,255,255,0.90) !important;
@@ -1485,7 +1509,7 @@ body, #PageContainer, .page-wrapper {
 }
 .hero-gs__btn { color: #ffffff !important; }
 
-/* ─── 4. HEADER ──────────────────────────────────────────────── */
+/* ─── 5. HEADER ──────────────────────────────────────────────── */
 .header-container {
   background-color: $color-sections-bg !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
@@ -1512,7 +1536,7 @@ body, #PageContainer, .page-wrapper {
   border-color: $color-sections-text transparent transparent !important;
 }
 
-/* ─── 5. CART BADGE ──────────────────────────────────────────── */
+/* ─── 6. CART BADGE ──────────────────────────────────────────── */
 #header-right-menu .header__cart > a {
   position: relative !important; display: inline-flex !important; align-items: center !important;
 }
@@ -1530,7 +1554,44 @@ body, #PageContainer, .page-wrapper {
   line-height: 1 !important; padding: 0 !important; color: #fff !important;
 }
 
-/* ─── 6. CART SIDEBAR ────────────────────────────────────────── */
+/* ─── 7. MOBILE SIDEBAR — FIX: el panel se presentaba blanco ─── */
+#mobileMenuSidebar,
+.off-canvas#mobileMenuSidebar {
+  background-color: $color-sections-bg !important;
+  background: $color-sections-bg !important;
+}
+#mobileMenuSidebar a { color: $color-sections-text !important; }
+#mobileMenuSidebar .mobile-menu > li > a { color: $color-sections-text !important; }
+#mobileMenuSidebar h3, #mobileMenuSidebar h4,
+#mobileMenuSidebar .mobile-menu-title { color: $color-sections-text !important; }
+/* Input de búsqueda en mobile */
+#mobileMenuSidebar .search-bar .input-group-field,
+#mobileMenuSidebar input[type="search"],
+#mobileMenuSidebar input[type="text"] {
+  background-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+  color: $color-sections-text !important;
+}
+#mobileMenuSidebar .search-bar .input-group-field::placeholder,
+#mobileMenuSidebar input::placeholder {
+  color: rgba(255,255,255,0.45) !important;
+}
+/* Botón buscar */
+#mobileMenuSidebar .mobile-search .button,
+#mobileMenuSidebar .search-bar .button {
+  background-color: $color-sections-text !important;
+  color: $color-sections-bg !important;
+}
+/* Cuenta label */
+#mobileMenuSidebar .mobile-account a,
+#mobileMenuSidebar .mobile-login { color: $color-sections-text !important; }
+/* Submenu toggle arrow */
+#mobileMenuSidebar .submenu-toggle::after {
+  border-color: $color-sections-text transparent transparent !important;
+}
+
+/* ─── 8. CART SIDEBAR ────────────────────────────────────────── */
 #cartSidebar {
   background-color: $color-sections-bg !important;
   border-left: 1px solid rgba(255,255,255,0.08) !important;
@@ -1547,7 +1608,7 @@ body, #PageContainer, .page-wrapper {
 #cartSidebar .close-button:hover svg { color: #fff !important; fill: #fff !important; }
 #cartSidebar a { color: $color-sections-text !important; }
 #cartSidebar a.ajaxcart__product-name { color: $color-sections-text !important; font-weight: 600 !important; }
-#cartSidebar .ajaxcart__product-meta { color: rgba(255,255,255,0.45) !important; font-size: 0.8125rem !important; }
+#cartSidebar .ajaxcart__product-meta { color: rgba(255,255,255,0.45) !important; }
 #cartSidebar label { color: rgba(255,255,255,0.45) !important; }
 #cartSidebar .ajaxcart__product-image img { border-radius: 4px !important; border: 1px solid rgba(255,255,255,0.1) !important; }
 #cartSidebar .ajaxcart__row { border-bottom: 1px solid rgba(255,255,255,0.07) !important; }
@@ -1577,7 +1638,7 @@ body, #PageContainer, .page-wrapper {
   background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important;
 }
 
-/* ─── 7. PRODUCT PAGE ────────────────────────────────────────── */
+/* ─── 9. PRODUCT PAGE ────────────────────────────────────────── */
 .product-page { background-color: $color-sections-bg; }
 .product-page .product-title, .product-single .product-title {
   color: $color-sections-text !important; font-weight: 800; line-height: 1.15;
@@ -1628,18 +1689,55 @@ body, #PageContainer, .page-wrapper {
 #AddToCart:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
 #AddToCart:active { transform: scale(0.97); }
 #AddToCart.disabled, #AddToCart[disabled] { opacity: 0.3 !important; cursor: not-allowed !important; }
-
 .social-sharing .share-title, .social-sharing .share-button { color: rgba(255,255,255,0.35) !important; font-size: 0.72rem !important; }
 
-/* ─── 8. CARRITO PÁGINA ──────────────────────────────────────── */
+/* ─── 10. CART PÁGINA — FIX: filas blancas por Foundation .stack */
+/* Necesitamos ser MÁS específicos que Foundation para ganar la cascade */
 .cart-page { background-color: $color-sections-bg; color: $color-sections-text; padding: 2rem 0 4rem; }
 .cart-page .page-title { color: $color-sections-text !important; font-weight: 800; margin-bottom: 2rem; }
-.cart-page table.cart-items { background-color: transparent !important; border: none !important; width: 100%; }
-.cart-page table.cart-items thead { background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-.cart-page table.cart-items thead th { color: rgba(255,255,255,0.42) !important; font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.09em !important; text-transform: uppercase !important; padding: 0.75rem 0.5rem !important; background: transparent !important; }
-.cart-page table.cart-items tbody tr { background-color: transparent !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; transition: background-color 0.15s; }
-.cart-page table.cart-items tbody tr:hover { background-color: rgba(255,255,255,0.03) !important; }
-.cart-page table.cart-items td { background-color: transparent !important; color: $color-sections-text !important; vertical-align: middle; padding: 1.25rem 0.5rem !important; }
+
+/* Eliminar todos los fondos blancos del table */
+.cart-page .table-wrap,
+.cart-page table,
+.cart-page table.cart-items,
+.cart-page table.stack,
+.cart-page .cart-items { background: transparent !important; background-color: transparent !important; border: none !important; }
+
+.cart-page table thead,
+.cart-page table.cart-items thead,
+.cart-page table.stack thead {
+  background: transparent !important; background-color: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+.cart-page table thead th,
+.cart-page table.cart-items thead th,
+.cart-page table.stack thead th {
+  background: transparent !important; background-color: transparent !important;
+  color: rgba(255,255,255,0.42) !important;
+  font-size: 0.72rem !important; font-weight: 700 !important;
+  letter-spacing: 0.09em !important; text-transform: uppercase !important;
+  padding: 0.75rem 0.5rem !important;
+}
+.cart-page table tbody tr,
+.cart-page table.cart-items tbody tr,
+.cart-page table.stack tbody tr,
+.cart-page table tbody tr:nth-child(even),
+.cart-page table tbody tr:nth-child(odd) {
+  background: transparent !important; background-color: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  transition: background-color 0.15s;
+}
+.cart-page table tbody tr:hover,
+.cart-page table.cart-items tbody tr:hover {
+  background: rgba(255,255,255,0.03) !important; background-color: rgba(255,255,255,0.03) !important;
+}
+.cart-page table tbody td,
+.cart-page table.cart-items tbody td,
+.cart-page table.stack tbody td {
+  background: transparent !important; background-color: transparent !important;
+  color: $color-sections-text !important;
+  vertical-align: middle; padding: 1.25rem 0.5rem !important;
+}
 .cart-page .cart-items__img img { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
 .cart-page .cart-items__title { color: $color-sections-text !important; font-weight: 600; text-decoration: none; transition: opacity 0.15s; }
 .cart-page .cart-items__title:hover { opacity: 0.7; }
@@ -1647,24 +1745,41 @@ body, #PageContainer, .page-wrapper {
 .cart-page a.cart__remove small, .cart-page a.cart__remove { color: rgba(255,255,255,0.28) !important; font-size: 0.75rem; transition: color 0.15s; }
 .cart-page a.cart__remove:hover small, .cart-page a.cart__remove:hover { color: #e31b1b !important; }
 .cart-page .cart-item-price .money, .cart-page .cart-item-total .money { color: $color-sections-text !important; font-weight: 600; }
-.cart-page .cart-items__quantity input[type="number"] { background-color: transparent !important; border: 1.5px solid rgba(255,255,255,0.2) !important; color: $color-sections-text !important; border-radius: 3px !important; text-align: center; width: 60px; padding: 0.4rem !important; }
+.cart-page .cart-items__quantity input[type="number"] {
+  background: transparent !important; background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: $color-sections-text !important; border-radius: 3px !important;
+  text-align: center; width: 60px; padding: 0.4rem !important;
+}
 .cart-page .cart-info { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
 .cart-page .cart-subtotal-title { color: rgba(255,255,255,0.5) !important; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.5rem; }
 .cart-page .cart-subtotal .money { color: $color-sections-text !important; font-weight: 800; font-size: 1.5rem; }
 .cart-page .cart-info em, .cart-page .cart-info p em { color: rgba(255,255,255,0.38) !important; font-size: 0.8125rem; }
-.cart-page textarea { background-color: rgba(255,255,255,0.05) !important; border: 1.5px solid rgba(255,255,255,0.15) !important; color: $color-sections-text !important; border-radius: 4px; }
-.cart-page .update-cart { background-color: transparent !important; border: 1.5px solid rgba(255,255,255,0.2) !important; color: rgba(255,255,255,0.58) !important; border-radius: 3px !important; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: border-color 0.2s, color 0.2s; margin-right: 0.75rem; }
+.cart-page textarea { background: rgba(255,255,255,0.05) !important; background-color: rgba(255,255,255,0.05) !important; border: 1.5px solid rgba(255,255,255,0.15) !important; color: $color-sections-text !important; border-radius: 4px; }
+.cart-page .update-cart {
+  background: transparent !important; background-color: transparent !important;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.58) !important; border-radius: 3px !important;
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s; margin-right: 0.75rem;
+}
 .cart-page .update-cart:hover { border-color: rgba(255,255,255,0.5) !important; color: $color-sections-text !important; }
-.cart-page button[name="checkout"] { background-color: #ffffff !important; color: #111111 !important; border: 2px solid #ffffff !important; font-weight: 800 !important; font-size: 0.875rem !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; border-radius: 3px !important; transition: background-color 0.2s, color 0.2s !important; }
+.cart-page button[name="checkout"] {
+  background-color: #ffffff !important; color: #111111 !important;
+  border: 2px solid #ffffff !important; font-weight: 800 !important;
+  font-size: 0.875rem !important; letter-spacing: 0.08em !important;
+  text-transform: uppercase !important; border-radius: 3px !important;
+  transition: background-color 0.2s, color 0.2s !important;
+}
 .cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #ffffff !important; border-color: #ffffff !important; }
 .cart-page p.rte-raw, .cart-page p.rte-raw a { color: rgba(255,255,255,0.55) !important; }
 
-/* ─── 9. FOOTER Y PÁGINAS ────────────────────────────────────── */
+/* ─── 11. FOOTER Y PÁGINAS INTERNAS ─────────────────────────── */
 .footer-section, .site-footer { border-top: 1px solid rgba(255,255,255,0.07) !important; }
 .collection-header, .collection-page, .blog-page, .article-page,
 .customer-page, .account-page, .search-page { background-color: $color-sections-bg; color: $color-sections-text; }
 
-/* ─── 10. ANIMACIONES & POLISH ───────────────────────────────── */
+/* ─── 12. ANIMACIONES & POLISH ───────────────────────────────── */
 html { scroll-behavior: smooth; }
 .column.column-block { transition: transform 0.22s ease; }
 .column.column-block:hover { transform: translateY(-3px); }
@@ -1675,3 +1790,131 @@ html { scroll-behavior: smooth; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.32); }
 ::selection { background-color: rgba(255,255,255,0.18); color: #fff; }
+
+/* ─── 13. OS LIGHT MODE — sobreescribe dark cuando el OS está en claro */
+@media (prefers-color-scheme: light) {
+
+  /* Base */
+  body, #PageContainer, .page-wrapper {
+    background-color: #f0f0f0 !important;
+    color: #111111 !important;
+  }
+  h1,h2,h3,h4,h5,h6, .section-title, .section__title-style, .page-title {
+    color: #111111 !important;
+  }
+
+  /* Header en claro */
+  .header-container {
+    background-color: #f0f0f0 !important;
+    border-bottom-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+  }
+  #main-header .logo-wrap .header__title a,
+  #main-header .menu-item-link,
+  #header-right-menu .menu-item-link { color: #111111 !important; }
+  #header-right-menu svg, #main-header svg { fill: #111111 !important; }
+  #main-header .main-menu > li > a { color: #111111 !important; }
+  #main-header .is-dropdown-submenu {
+    background-color: #ffffff !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+  }
+  #main-header .is-dropdown-submenu a { color: #111111 !important; }
+  #main-header .is-dropdown-submenu a:hover { background-color: rgba(0,0,0,0.04) !important; }
+  #main-header .dropdown.menu > li.is-dropdown-submenu-parent > a:after {
+    border-color: #111111 transparent transparent !important;
+  }
+
+  /* Productos en claro */
+  .product-loop-item .product-loop-title,
+  .product-loop-item .product-loop-title a,
+  .product-loop-item .product-loop-price span,
+  .product-loop-item .product-loop-price .money { color: #111111 !important; }
+
+  /* Product page en claro */
+  .product-page { background-color: #f0f0f0; }
+  .product-page .product-title, .product-single .product-title { color: #111111 !important; }
+  .product-page .product-vendor a { color: rgba(0,0,0,0.45) !important; }
+  .product-page #ProductPrice .money, .product-page #ProductPrice { color: #111111 !important; }
+  .product-page #ComparePrice, .product-page #ComparePrice .money { color: rgba(0,0,0,0.35) !important; }
+  .product-page .product__variants__wrap label, .product-page label.quantity-selector { color: #111111 !important; }
+  .product-page .product-description, .product-page .product-description p { color: rgba(0,0,0,0.6) !important; }
+
+  /* Variantes en claro */
+  .product-page .swatch label { border-color: rgba(0,0,0,0.22) !important; color: #111111 !important; }
+  .product-page .swatch .swatch-element__inner { color: #111111 !important; }
+  .product-page .swatch label:hover { border-color: rgba(0,0,0,0.55) !important; background-color: rgba(0,0,0,0.04) !important; }
+  .product-page .swatch input:checked + label { border-color: #111111 !important; background-color: #111111 !important; }
+  .product-page .swatch input:checked + label .swatch-element__inner { color: #f0f0f0 !important; }
+
+  /* ATC en claro */
+  #AddToCart { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
+  #AddToCart:hover { background-color: transparent !important; color: #111111 !important; border-color: #111111 !important; }
+
+  /* Cart sidebar en claro */
+  #cartSidebar {
+    background-color: #f0f0f0 !important;
+    border-left-color: rgba(0,0,0,0.08) !important;
+  }
+  #cartSidebar .cart-sidebar-title { color: #111111 !important; }
+  #cartSidebar .close-button, #cartSidebar .close-button svg { color: rgba(0,0,0,0.45) !important; fill: rgba(0,0,0,0.45) !important; }
+  #cartSidebar a, #cartSidebar a.ajaxcart__product-name { color: #111111 !important; }
+  #cartSidebar .ajaxcart__product-meta, #cartSidebar label { color: rgba(0,0,0,0.45) !important; }
+  #cartSidebar .ajaxcart__row { border-bottom-color: rgba(0,0,0,0.07) !important; }
+  #cartSidebar .ajaxcart__qty-num { border-color: rgba(0,0,0,0.2) !important; color: #111111 !important; }
+  #cartSidebar .ajaxcart__qty-adjust { color: rgba(0,0,0,0.5) !important; }
+  #cartSidebar .cart__product__price, #cartSidebar .cart__subtotal-price { color: #111111 !important; }
+  #cartSidebar .cart__shipping-text { color: rgba(0,0,0,0.38) !important; }
+  #cartSidebar .button.cart__checkout, #cartSidebar .cart__checkout {
+    background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important;
+  }
+  #cartSidebar .button.cart__checkout:hover, #cartSidebar .cart__checkout:hover {
+    background-color: transparent !important; color: #111111 !important;
+  }
+
+  /* Cart página en claro */
+  .cart-page { background-color: #f0f0f0; color: #111111; }
+  .cart-page .page-title { color: #111111 !important; }
+  .cart-page table thead { border-bottom-color: rgba(0,0,0,0.1) !important; }
+  .cart-page table thead th { color: rgba(0,0,0,0.42) !important; }
+  .cart-page table tbody tr { border-bottom-color: rgba(0,0,0,0.06) !important; }
+  .cart-page table tbody tr:hover { background: rgba(0,0,0,0.03) !important; background-color: rgba(0,0,0,0.03) !important; }
+  .cart-page table tbody td { color: #111111 !important; }
+  .cart-page .cart-items__title { color: #111111 !important; }
+  .cart-page .cart-items__variant small { color: rgba(0,0,0,0.42) !important; }
+  .cart-page .cart-item-price .money, .cart-page .cart-item-total .money { color: #111111 !important; }
+  .cart-page .cart-subtotal-title { color: rgba(0,0,0,0.5) !important; }
+  .cart-page .cart-subtotal .money { color: #111111 !important; }
+  .cart-page .cart-info em, .cart-page .cart-info p em { color: rgba(0,0,0,0.4) !important; }
+  .cart-page textarea { background: rgba(0,0,0,0.05) !important; background-color: rgba(0,0,0,0.05) !important; border-color: rgba(0,0,0,0.15) !important; color: #111111 !important; }
+  .cart-page .update-cart { border-color: rgba(0,0,0,0.2) !important; color: rgba(0,0,0,0.55) !important; }
+  .cart-page .update-cart:hover { border-color: rgba(0,0,0,0.5) !important; color: #111111 !important; }
+  .cart-page button[name="checkout"] { background-color: #111111 !important; color: #ffffff !important; border-color: #111111 !important; }
+  .cart-page button[name="checkout"]:hover { background-color: transparent !important; color: #111111 !important; }
+
+  /* Mobile sidebar en claro */
+  #mobileMenuSidebar, .off-canvas#mobileMenuSidebar {
+    background-color: #f0f0f0 !important; background: #f0f0f0 !important;
+  }
+  #mobileMenuSidebar a, #mobileMenuSidebar .mobile-menu > li > a { color: #111111 !important; }
+  #mobileMenuSidebar .search-bar .input-group-field, #mobileMenuSidebar input[type="search"] {
+    background-color: rgba(0,0,0,0.07) !important; background: rgba(0,0,0,0.07) !important;
+    border-color: rgba(0,0,0,0.18) !important; color: #111111 !important;
+  }
+  #mobileMenuSidebar .mobile-search .button {
+    background-color: #111111 !important; color: #ffffff !important;
+  }
+  #mobileMenuSidebar .submenu-toggle::after { border-color: #111111 transparent transparent !important; }
+
+  /* Scrollbar en claro */
+  ::-webkit-scrollbar-track { background: #f0f0f0; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.35); }
+  ::selection { background-color: rgba(0,0,0,0.12); color: #111; }
+
+  /* Footer en claro */
+  .footer-section, .site-footer { border-top-color: rgba(0,0,0,0.07) !important; }
+
+  /* Share */
+  .social-sharing .share-title, .social-sharing .share-button { color: rgba(0,0,0,0.35) !important; }
+}
