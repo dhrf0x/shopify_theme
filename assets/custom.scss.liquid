@@ -1450,20 +1450,30 @@ a, .pagination a {
    ║   overflow:clip hero fix + Gymshark search overlay           ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
-/* ─── FIX CRÍTICO: overflow:clip en PageContainer ────────────── */
-/* overflow:hidden crea un scroll container → offset horizontal  */
-/* overflow:clip NO crea scroll container → no offset            */
+/* ─── FIX CRÍTICO: overflow en html/body/PageContainer ────────── */
+/* overflow:hidden en #PageContainer crea scroll container con offset */
+/* Solución: clip en html para cortar sin crear scroll container      */
+html {
+  overflow-x: hidden !important;
+}
 #PageContainer {
   overflow: clip !important;
   overflow-clip-margin: 0 !important;
 }
+/* El .section wrapper del hero NO debe tener background oscuro */
+.hero-section-wrapper,
+.hero-section-wrapper > .section,
+#main-wrapper > .section:first-child {
+  background: transparent !important;
+}
 
 /* ─── 1. BASE GLOBAL ─────────────────────────────────────────── */
 html { overflow-x: hidden; scroll-behavior: smooth; }
-body, #PageContainer, .page-wrapper {
-  background-color: $color-sections-bg !important;
-  color: $color-sections-text !important;
-}
+/* NO poner background oscuro en body/PageContainer — causa el degradado negro en bordes */
+/* Cada sección gestiona su propio fondo */
+body { color: $color-body-text; }
+/* El wrapper principal hereda el color de las secciones, no fuerza oscuro */
+#PageContainer, .page-wrapper { background-color: transparent; }
 h1, h2, h3, h4, h5, h6,
 .section-title, .section__title-style, .page-title {
   color: $color-sections-text !important;
@@ -2175,8 +2185,11 @@ a { transition: color 0.18s ease, opacity 0.18s ease; }
 
 /* Smooth images */
 img { transition: opacity 0.3s ease; }
-img[loading] { opacity: 0; }
-img.lazyloaded, img:not([loading]) { opacity: 1; }
+/* Solo ocultar imágenes lazy (no eager ni sin atributo) */
+img[loading="lazy"]:not(.lazyloaded) { opacity: 0; }
+img.lazyloaded,
+img[loading="eager"],
+img:not([loading]) { opacity: 1; }
 
 /* Section entrance — IntersectionObserver fallback */
 .js-animate-appear-show { animation: wf-fadein 0.6s ease both; }
@@ -2193,7 +2206,11 @@ img.lazyloaded, img:not([loading]) { opacity: 1; }
    MODO CLARO — OS light mode
    ═══════════════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: light) {
-  body, #PageContainer, .page-wrapper { background-color: #f0f0f0 !important; color: #111111 !important; }
+  body { color: #111111 !important; }
+  #PageContainer, .page-wrapper { background-color: transparent !important; }
+  /* Las secciones claras necesitan su propio bg en light mode */
+  .wf-tabs-section, .collection-tabs-section,
+  .content-section:not(.hero-section):not(.hero-section--gymshark) { background-color: #f0f0f0 !important; }
   h1,h2,h3,h4,h5,h6, .section-title, .section__title-style, .page-title { color: #111111 !important; }
   .header-container { background-color: #f0f0f0 !important; border-bottom-color: rgba(0,0,0,0.08) !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; }
   .header-container.is-scrolled { background-color: rgba(240,240,240,0.96) !important; }

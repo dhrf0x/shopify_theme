@@ -356,12 +356,15 @@
   function buildCard(product) {
     var img;
     if (product.featured_image && product.featured_image.url) {
-      // Shopify CDN: asegurar https y tamaño correcto
+      // Asegurar protocolo https
       var rawUrl = product.featured_image.url;
       if (rawUrl.indexOf('//') === 0) rawUrl = 'https:' + rawUrl;
-      // Insertar _320x antes de la extensión para sizing nativo de Shopify CDN
-      var sized = rawUrl.replace(/(\.jpg|\.(jpeg|png|gif|webp))(\?|$)/i, '_320x$1$3');
-      img = '<img src="' + sized + '" alt="' + product.title.replace(/"/g, '') + '" loading="lazy" onerror="this.style.display=\'none\'">';
+      // Eliminar cualquier size suffix existente (_NNNxNNN)
+      rawUrl = rawUrl.replace(/_\d+x\d*(\.(?:jpg|jpeg|png|gif|webp))/i, '$1');
+      // Usar Shopify Image Transformation API (?width=) — funciona siempre
+      var sep = rawUrl.indexOf('?') !== -1 ? '&' : '?';
+      var sized = rawUrl + sep + 'width=320';
+      img = '<img src="' + sized + '" alt="' + product.title.replace(/"/g, '&quot;') + '" loading="eager">';
     } else {
       img = '<div class="wf-card__no-img"></div>';
     }

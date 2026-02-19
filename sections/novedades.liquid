@@ -1,0 +1,161 @@
+{% comment %}
+  Novedades / Productos Destacados — WF Urban Muscle
+  Sección fija en el index entre el Hero y las Colecciones.
+  Subir a: sections/novedades.liquid
+{% endcomment %}
+
+{% assign nov_collection = collections[section.settings.collection] %}
+{% assign nov_limit      = section.settings.products_count | default: 4 %}
+{% assign nov_cols_desk  = section.settings.grid           | default: '4' %}
+{% assign nov_cols_mob   = section.settings.grid_mobile    | default: '2' %}
+
+{% if nov_collection != blank and nov_collection.products.size > 0 %}
+<section class="wf-novedades section content-section" id="wf-nov-{{ section.id }}">
+
+  <div class="wf-novedades__header">
+    {% if section.settings.label != blank %}
+      <span class="wf-novedades__label">{{ section.settings.label }}</span>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h2 class="wf-novedades__title">{{ section.settings.title }}</h2>
+    {% endif %}
+    {% if section.settings.subtitle != blank %}
+      <p class="wf-novedades__sub">{{ section.settings.subtitle }}</p>
+    {% endif %}
+  </div>
+
+  <div class="row small-up-{{ nov_cols_mob }} medium-up-{{ nov_cols_mob }} large-up-{{ nov_cols_desk }} wf-novedades__grid">
+    {% for product in nov_collection.products limit: nov_limit %}
+      {% assign grid_item_width = 'column column-block' %}
+      {% include 'product-grid-item' %}
+    {% endfor %}
+  </div>
+
+  {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+    <div class="wf-novedades__cta">
+      <a href="{{ section.settings.cta_link }}" class="wf-novedades__btn">
+        {{ section.settings.cta_text }}
+      </a>
+    </div>
+  {% endif %}
+
+</section>
+{% endif %}
+
+<style>
+/* ── Novedades Section ─────────────────────────────────────────── */
+.wf-novedades {
+  padding: 4rem 0 3rem;
+  background-color: $color-sections-bg;
+}
+.wf-novedades__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+.wf-novedades__label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.6rem;
+  position: relative;
+  padding: 0 1.5rem;
+}
+.wf-novedades__label::before,
+.wf-novedades__label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+.wf-novedades__label::before { right: 100%; margin-right: -1rem; }
+.wf-novedades__label::after  { left:  100%; margin-left:  -1rem; }
+
+.wf-novedades__title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $color-sections-text;
+  margin: 0 0 0.5rem;
+}
+.wf-novedades__sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+.wf-novedades__grid {
+  margin-bottom: 2rem;
+}
+.wf-novedades__cta {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+.wf-novedades__btn {
+  display: inline-block;
+  padding: 0.75rem 2.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-sections-bg;
+  background-color: $color-sections-text;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.wf-novedades__btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+  color: $color-sections-bg;
+}
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  .wf-novedades { background-color: #f5f5f5; }
+  .wf-novedades__label { color: rgba(0,0,0,0.4); }
+  .wf-novedades__label::before,
+  .wf-novedades__label::after { background: rgba(0,0,0,0.15); }
+  .wf-novedades__title { color: #111; }
+  .wf-novedades__sub { color: rgba(0,0,0,0.5); }
+  .wf-novedades__btn { color: #fff; background-color: #111; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Novedades",
+  "settings": [
+    { "type": "header", "content": "Cabecera" },
+    { "type": "text", "id": "label",    "label": "Etiqueta pequeña", "default": "Nuevos ingresos" },
+    { "type": "text", "id": "title",    "label": "Título",           "default": "NOVEDADES" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo (opcional)" },
+    { "type": "header", "content": "Productos" },
+    { "type": "collection", "id": "collection", "label": "Colección a mostrar" },
+    {
+      "type": "range", "id": "products_count",
+      "min": 2, "max": 12, "step": 2, "label": "Cantidad de productos", "default": 4
+    },
+    {
+      "type": "select", "id": "grid", "label": "Columnas en desktop", "default": "4",
+      "options": [
+        {"value":"2","label":"2"},{"value":"3","label":"3"},
+        {"value":"4","label":"4"},{"value":"5","label":"5"}
+      ]
+    },
+    {
+      "type": "select", "id": "grid_mobile", "label": "Columnas en móvil", "default": "2",
+      "options": [{"value":"1","label":"1"},{"value":"2","label":"2"}]
+    },
+    { "type": "header", "content": "Botón CTA" },
+    { "type": "text", "id": "cta_text", "label": "Texto del botón", "default": "Ver todos" },
+    { "type": "url",  "id": "cta_link", "label": "Enlace del botón" }
+  ],
+  "presets": [{ "name": "Novedades", "category": "Products" }]
+}
+{% endschema %}
