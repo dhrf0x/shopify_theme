@@ -1,17 +1,12 @@
 {%- comment -%}
-  Barra de Anuncios — WF Urban Muscle v5.7
-  Sección standalone, incluida en layout/theme.liquid
+  Barra de Anuncios — WF Urban Muscle v5.8
   Subir a: sections/announcement-bar.liquid
 {%- endcomment -%}
 
-{%- comment -%} 
-  LÓGICA DE VISIBILIDAD - usa blank check en lugar de comparar con nil 
-{%- endcomment -%}
-{%- assign _vis = section.settings.ann_visibility | default: 'all' -%}
+{%- assign _vis     = section.settings.ann_visibility | default: 'all' -%}
 {%- assign _enabled = section.settings.ann_enabled -%}
-
-{%- assign _show = false -%}
-{%- if _vis == 'all' or _vis == blank or _vis == nil -%}
+{%- assign _show    = false -%}
+{%- if _vis == 'all' or _vis == blank -%}
   {%- assign _show = true -%}
 {%- elsif _vis == 'home' and template == 'index' -%}
   {%- assign _show = true -%}
@@ -20,69 +15,32 @@
 {%- endif -%}
 {%- unless _enabled -%}{%- assign _show = false -%}{%- endunless -%}
 
-{%- comment -%} Recolectar mensajes definidos {%- endcomment -%}
+{%- comment -%} Recolectar mensajes y URLs en arrays JSON para JS {%- endcomment -%}
 {%- assign _msgs = '' | split: ',' -%}
 {%- assign _urls = '' | split: ',' -%}
-
-{%- if section.settings.ann_msg1 != blank -%}
-  {%- assign _msgs = _msgs | push: section.settings.ann_msg1 -%}
-  {%- assign _urls = _urls | push: section.settings.ann_link1 -%}
-{%- endif -%}
-{%- if section.settings.ann_msg2 != blank -%}
-  {%- assign _msgs = _msgs | push: section.settings.ann_msg2 -%}
-  {%- assign _urls = _urls | push: section.settings.ann_link2 -%}
-{%- endif -%}
-{%- if section.settings.ann_msg3 != blank -%}
-  {%- assign _msgs = _msgs | push: section.settings.ann_msg3 -%}
-  {%- assign _urls = _urls | push: section.settings.ann_link3 -%}
-{%- endif -%}
-{%- if section.settings.ann_msg4 != blank -%}
-  {%- assign _msgs = _msgs | push: section.settings.ann_msg4 -%}
-  {%- assign _urls = _urls | push: section.settings.ann_link4 -%}
-{%- endif -%}
-{%- if section.settings.ann_msg5 != blank -%}
-  {%- assign _msgs = _msgs | push: section.settings.ann_msg5 -%}
-  {%- assign _urls = _urls | push: section.settings.ann_link5 -%}
-{%- endif -%}
+{%- if section.settings.ann_msg1 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg1 -%}{%- assign _urls = _urls | push: section.settings.ann_link1 -%}{%- endif -%}
+{%- if section.settings.ann_msg2 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg2 -%}{%- assign _urls = _urls | push: section.settings.ann_link2 -%}{%- endif -%}
+{%- if section.settings.ann_msg3 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg3 -%}{%- assign _urls = _urls | push: section.settings.ann_link3 -%}{%- endif -%}
+{%- if section.settings.ann_msg4 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg4 -%}{%- assign _urls = _urls | push: section.settings.ann_link4 -%}{%- endif -%}
+{%- if section.settings.ann_msg5 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg5 -%}{%- assign _urls = _urls | push: section.settings.ann_link5 -%}{%- endif -%}
 {%- assign _total = _msgs.size -%}
 
-{%- comment -%} 
-  RENDER: Solo renderiza si hay al menos un mensaje. 
-  Si no hay mensajes configurados, usa el mensaje por defecto del schema.
-{%- endcomment -%}
-{%- if _show -%}
+{%- if _show and _total > 0 -%}
+{%- assign _speed = section.settings.ann_speed | default: 4 -%}
 {%- assign _bg    = section.settings.ann_bg    | default: '#cc0000' -%}
 {%- assign _color = section.settings.ann_color | default: '#ffffff' -%}
 {%- assign _size  = section.settings.ann_size  | default: 13 -%}
-{%- assign _speed = section.settings.ann_speed | default: 4 -%}
 
 <div class="wf-ann" id="wf-ann-{{ section.id }}"
   style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;">
-
   {%- if _total > 1 -%}
-  <button class="wf-ann__nav wf-ann__prev"
-    onclick="window['wfAnnPrev_{{ section.id }}'] && window['wfAnnPrev_{{ section.id }}']()" aria-label="Anterior">&#8249;</button>
+  <button class="wf-ann__nav wf-ann__prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
   {%- endif -%}
-
-  <div class="wf-ann__track">
-    {%- if _total == 0 -%}
-      {%- comment -%} Mensaje de fallback cuando el schema default no ha cargado {%- endcomment -%}
-      <span class="wf-ann__slide active">{{ section.settings.ann_msg1 | default: '✦ Bienvenido a WF Urban Muscle ✦' }}</span>
-    {%- else -%}
-      {%- for _m in _msgs -%}
-        {%- assign _u = _urls[forloop.index0] -%}
-        <span class="wf-ann__slide{% if forloop.first %} active{% endif %}">
-          {%- if _u != blank -%}
-            <a href="{{ _u }}" style="color:inherit;text-decoration:underline;">{{ _m }}</a>
-          {%- else -%}{{ _m }}{%- endif -%}
-        </span>
-      {%- endfor -%}
-    {%- endif -%}
+  <div class="wf-ann__stage" id="wf-ann-stage-{{ section.id }}">
+    <span class="wf-ann__text" id="wf-ann-text-{{ section.id }}">{{ _msgs[0] }}</span>
   </div>
-
   {%- if _total > 1 -%}
-  <button class="wf-ann__nav wf-ann__next"
-    onclick="window['wfAnnNext_{{ section.id }}'] && window['wfAnnNext_{{ section.id }}']()" aria-label="Siguiente">&#8250;</button>
+  <button class="wf-ann__nav wf-ann__next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
   {%- endif -%}
 </div>
 
@@ -93,15 +51,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
-  padding: 7px 44px;
+  min-height: 38px;
+  padding: 8px 48px;
   text-align: center;
   font-weight: 600;
   letter-spacing: 0.03em;
   box-sizing: border-box;
   z-index: 10;
 }
-.wf-ann__track {
+.wf-ann__stage {
   flex: 1;
   display: flex;
   align-items: center;
@@ -109,82 +67,120 @@
   overflow: hidden;
   min-height: 1.4em;
 }
-.wf-ann__slide { display: none; }
-.wf-ann__slide.active { display: inline; }
+.wf-ann__text {
+  display: inline-block;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.wf-ann__text.wf-fade-out {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.wf-ann__text.wf-fade-in {
+  opacity: 0;
+  transform: translateY(6px);
+}
 .wf-ann__nav {
   position: absolute;
   top: 50%; transform: translateY(-50%);
   background: none; border: none;
-  color: inherit; font-size: 20px; line-height: 1;
-  cursor: pointer; padding: 0 8px; opacity: 0.6;
+  color: inherit; font-size: 22px; line-height: 1;
+  cursor: pointer; padding: 0 10px; opacity: 0.55;
   transition: opacity 0.2s;
+  flex-shrink: 0;
 }
 .wf-ann__nav:hover { opacity: 1; }
-.wf-ann__prev { left: 8px; }
-.wf-ann__next { right: 8px; }
+.wf-ann__prev { left: 6px; }
+.wf-ann__next { right: 6px; }
 </style>
 
-{%- if _total > 1 -%}
 <script>
 (function() {
-  // Carrusel autocontenido — ID único por sección
-  var annId    = '{{ section.id }}';
-  var speed    = {{ _speed | times: 1000 }};
-  var total    = {{ _total }};
-  var current  = 0;
-  var timer    = null;
-  var slides   = null;
+  var sid   = '{{ section.id }}';
+  var speed = {{ _speed }} * 1000;
 
-  function getSlides() {
-    return document.querySelectorAll('#wf-ann-' + annId + ' .wf-ann__slide');
+  // Mensajes y URLs embebidos directamente como arrays JS
+  var msgs = [
+    {%- for _m in _msgs -%}
+      {{ _m | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+  var urls = [
+    {%- for _u in _urls -%}
+      {{ _u | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+  var total   = msgs.length;
+  var current = 0;
+  var timer   = null;
+
+  // Referencias DOM — se resuelven una sola vez
+  var textEl = document.getElementById('wf-ann-text-' + sid);
+  var prevBtn = document.getElementById('wf-ann-prev-' + sid);
+  var nextBtn = document.getElementById('wf-ann-next-' + sid);
+
+  function setSlide(idx, direction) {
+    if (!textEl || total < 2) return;
+    current = ((idx % total) + total) % total;
+    var outClass = direction >= 0 ? 'wf-fade-out' : 'wf-fade-out';
+    var inClass  = 'wf-fade-in';
+
+    // Fade out
+    textEl.classList.add('wf-fade-out');
+
+    setTimeout(function() {
+      // Cambiar contenido
+      var msg = msgs[current];
+      var url = urls[current];
+      if (url) {
+        textEl.innerHTML = '<a href="' + url + '" style="color:inherit;text-decoration:underline;">' + msg + '</a>';
+      } else {
+        textEl.textContent = msg;
+      }
+      // Preparar fade in desde abajo
+      textEl.classList.remove('wf-fade-out');
+      textEl.classList.add('wf-fade-in');
+
+      // Forzar reflow para que la transición se aplique
+      void textEl.offsetHeight;
+
+      // Fade in
+      textEl.classList.remove('wf-fade-in');
+    }, 350);
   }
 
-  function showSlide(n) {
-    if (!slides || !slides.length) slides = getSlides();
-    if (!slides.length) return;
-    slides[current].classList.remove('active');
-    current = ((n % total) + total) % total;
-    slides[current].classList.add('active');
-  }
+  function next() { setSlide(current + 1,  1); }
+  function prev() { setSlide(current - 1, -1); }
 
   function startAuto() {
     stopAuto();
-    timer = setInterval(function() {
-      showSlide(current + 1);
-    }, speed);
+    if (total > 1) timer = setInterval(next, speed);
   }
-
   function stopAuto() {
-    if (timer) { clearInterval(timer); timer = null; }
+    clearInterval(timer);
+    timer = null;
   }
 
-  // Exponer navegación manual al onclick del HTML
-  window['wfAnnPrev_' + annId] = function() { stopAuto(); showSlide(current - 1); startAuto(); };
-  window['wfAnnNext_' + annId] = function() { stopAuto(); showSlide(current + 1); startAuto(); };
+  // Botones manuales
+  if (prevBtn) prevBtn.addEventListener('click', function() { stopAuto(); prev(); startAuto(); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { stopAuto(); next(); startAuto(); });
 
-  // Arrancar cuando el DOM esté listo
-  function init() {
-    slides = getSlides();
-    if (!slides.length) return;
-    // Asegurar estado inicial correcto
-    for (var i = 0; i < slides.length; i++) slides[i].classList.remove('active');
-    slides[0].classList.add('active');
-    current = 0;
-    startAuto();
-  }
+  // Arrancar carrusel
+  if (total > 1) startAuto();
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  // Reiniciar si Shopify recarga la sección en el editor
+  // Reiniciar en el editor de Shopify
   document.addEventListener('shopify:section:load', function(e) {
-    if (e.detail && e.detail.sectionId === annId) { stopAuto(); init(); }
+    if (e.detail && e.detail.sectionId === sid) {
+      stopAuto();
+      textEl  = document.getElementById('wf-ann-text-' + sid);
+      prevBtn = document.getElementById('wf-ann-prev-' + sid);
+      nextBtn = document.getElementById('wf-ann-next-' + sid);
+      current = 0;
+      if (textEl) textEl.textContent = msgs[0];
+      if (total > 1) startAuto();
+    }
   });
 })();
 </script>
-{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -200,7 +196,7 @@
       "default": "all",
       "options": [
         { "value": "all",      "label": "Todas las páginas" },
-        { "value": "home",     "label": "Solo inicio"       },
+        { "value": "home",     "label": "Solo inicio" },
         { "value": "not_home", "label": "Todas excepto inicio" }
       ]
     },
@@ -219,7 +215,7 @@
     { "type": "color", "id": "ann_bg",    "label": "Fondo",    "default": "#cc0000" },
     { "type": "color", "id": "ann_color", "label": "Texto",    "default": "#ffffff" },
     { "type": "range", "id": "ann_size",  "label": "Tamaño fuente", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
-    { "type": "range", "id": "ann_speed", "label": "Velocidad carrusel", "min": 2, "max": 10, "step": 1, "unit": "s",  "default": 4  }
+    { "type": "range", "id": "ann_speed", "label": "Velocidad carrusel", "min": 2, "max": 10, "step": 1, "unit": "s",  "default": 4 }
   ],
   "presets": [{ "name": "Barra de Anuncios", "category": "Content" }]
 }
