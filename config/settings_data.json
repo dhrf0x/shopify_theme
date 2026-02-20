@@ -276,6 +276,9 @@
     "favicon_enable": false,
     "display_secondary_image": true,
     "show_product_badges": true,
+    "collection_row_mobile": "2",
+    "collection_row_tablet": "2",
+    "collection_row_desktop": "3",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -286,10 +289,26 @@
               "text": "✦ Envío gratis en pedidos mayores a $999",
               "link": ""
             }
+          },
+          "message_newdrops": {
+            "type": "message",
+            "settings": {
+              "text": "✦ Nuevos drops disponibles — Explora la colección",
+              "link": ""
+            }
+          },
+          "message_cupon": {
+            "type": "message",
+            "settings": {
+              "text": "✦ Usa el cupón WFURBAN10 en tu primer compra",
+              "link": ""
+            }
           }
         },
         "block_order": [
-          "message_gDNiVY"
+          "message_gDNiVY",
+          "message_newdrops",
+          "message_cupon"
         ],
         "settings": {
           "show_bar": true,
