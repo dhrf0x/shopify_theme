@@ -24,7 +24,7 @@
     {% endif %}
   {% endif %}
 
-  <a href="{{ product.url | within: collection }}" class="product-loop-image {% if settings.display_secondary_image %}secondary-image-enabled{% endif %}">
+  <a href="{{ product.url | within: collection }}" class="product-loop-image secondary-image-enabled">
     {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
     {% unless product.featured_image == blank %}
       <img class="lazyload product-image_featured" src="{{ product.featured_image | img_url: '300x300' }}"
@@ -34,17 +34,17 @@
         data-sizes="auto"
         alt="{{ product.featured_image.alt | escape }}">
 
-      {% if settings.display_secondary_image %}
-        {%- assign secondary_img = product.images[1] -%}
-        {% unless secondary_img == blank %}
-          <div class="lazyload product-image_secondary"
-            style="background-image: url('{{ secondary_img | img_url: 'large' }}');"
-            data-bgset="{% include 'bgset', image: secondary_img %}"
-            data-sizes="auto"
-            data-parent-fit="cover">
-          </div>
-        {% endunless %}
-      {% endif %}
+      {%- comment -%} Siempre mostrar segunda imagen si existe (hover swap) {%- endcomment -%}
+      {%- assign secondary_img = product.images[1] -%}
+      {% unless secondary_img == blank %}
+        <img
+          class="product-image_secondary"
+          src="{{ secondary_img | img_url: '600x' }}"
+          alt="{{ product.title | escape }}"
+          loading="lazy"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s ease;"
+        >
+      {% endunless %}
     {% endunless %}
   </a>
 

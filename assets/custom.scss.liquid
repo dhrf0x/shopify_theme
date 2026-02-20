@@ -572,9 +572,6 @@ a, .pagination a {
 
 .header-container {
   background-color: $color-header-bg;
-  position: sticky;
-  top: 0;
-  z-index: 500;
   will-change: transform;
 }
 
@@ -646,9 +643,10 @@ a, .pagination a {
 
 .header-container.header-overlay {
   background-color: transparent;
-  position: absolute;
+  position: sticky !important;
+  top: 0 !important;
   width: 100%;
-  z-index: 10;
+  z-index: 500 !important;
   #main-header {
     .logo-wrap .header__title a { color: $color-header-overlay-main-menu; }
     .header__cart-count { background-color: $color-header-overlay-cart-count-bg; }
@@ -1025,11 +1023,23 @@ a, .pagination a {
     display: block;
     position: relative;
   }
-  /* Forzar hover swap visible — secondary-image siempre activado */
-  .product-loop-image {
-    &.secondary-image-enabled { position: relative; }
-    &.secondary-image-enabled .product-image_secondary { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease; }
-    &.secondary-image-enabled:hover .product-image_secondary { opacity: 1 !important; }
+  /* Hover swap — segunda imagen al pasar el mouse */
+  .product-loop-image.secondary-image-enabled {
+    position: relative;
+    display: block;
+    /* El img principal necesita display:block y width:100% */
+    img.product-image_featured { display: block; width: 100%; position: relative; z-index: 1; }
+    img.product-image_secondary {
+      position: absolute !important;
+      top: 0 !important; left: 0 !important;
+      width: 100% !important; height: 100% !important;
+      object-fit: cover !important;
+      opacity: 0 !important;
+      z-index: 2;
+      transition: opacity 0.45s ease !important;
+      pointer-events: none;
+    }
+    &:hover img.product-image_secondary { opacity: 1 !important; }
   }
   .product-loop-title {
     color: $color-collection-product-title;
@@ -1549,11 +1559,29 @@ h1, h2, h3, h4, h5, h6,
 
 /* ─── 3. HEADER ──────────────────────────────────────────────── */
 .header-container {
-  position: relative;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 500 !important;
   background-color: $color-sections-bg !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   box-shadow: 0 2px 20px rgba(0,0,0,0.35) !important;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+/* Overlay (home con hero) — sticky también, semitransparente */
+.header-container.header-overlay {
+  position: sticky !important;
+  top: 0 !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+/* Al hacer scroll sobre overlay, recuperar background */
+.header-container.header-overlay.is-scrolled {
+  background-color: rgba(10,10,10,0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 2px 30px rgba(0,0,0,0.6) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
 }
 /* Header scrolled — ligero efecto blur */
 .header-container.is-scrolled {
