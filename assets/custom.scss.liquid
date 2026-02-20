@@ -369,6 +369,28 @@ a, .pagination a {
   z-index: 100 !important;
 }
 
+/* Gender nav items en el menú mobile */
+.mobile-menu .wf-mobile-gender > a {
+  font-size: $mobile-menu-link-size;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1.25rem;
+  color: $color-mobile-sidebar-link;
+  display: block;
+}
+.mobile-menu .wf-mobile-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 0.5rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+  .mobile-menu .wf-mobile-divider { background: rgba(0,0,0,0.08); }
+}
+
 #mobileMenuSidebar {
   background-color: $color-mobile-sidebar-bg;
   border-right: 1px solid darken($color-mobile-sidebar-bg, 4%);

@@ -10,7 +10,7 @@
 {% assign cols  = section.settings.grid | default: '4' %}
 
 {% if col_a != blank or col_b != blank %}
-<section class="wf-tabs-section section content-section" id="wf-tabs-{{ section.id }}">
+<section class="wf-tabs-section section content-section" id="wf-tabs-{{ section.id }}" style="background-color:{{ settings.color_sections_bg }};">
 
   {% if section.settings.title != blank %}
     <h2 class="section-title wf-tabs-section__heading text-{{ section.settings.title_align }}">
@@ -183,10 +183,12 @@
 
 /* Light mode overrides */
 @media (prefers-color-scheme: light) {
+  #wf-tabs-{{ section.id }} { background-color: #f5f5f5 !important; }
   .wf-tabs__bar { border-bottom-color: rgba(0,0,0,0.1); }
   .wf-tabs__tab { color: rgba(0,0,0,0.4); }
   .wf-tabs__tab:hover { color: rgba(0,0,0,0.7); }
   .wf-tabs__tab.is-active { color: #111111; border-bottom-color: #111111; }
+  .wf-tabs__tab .section-title { color: #111111; }
   .wf-tabs__cta-link { color: rgba(0,0,0,0.6); border-bottom-color: rgba(0,0,0,0.3); }
   .wf-tabs__cta-link:hover { color: #111; border-color: #111; }
 }

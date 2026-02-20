@@ -1,11 +1,71 @@
+{%- comment -%}
+  Mobile Menu Sidebar — WF Urban Muscle
+  Incluye navegación Hombres/Mujeres del header (sections['header'])
+  Subir a: snippets/mobile-menu-sidebar.liquid
+{%- endcomment -%}
+
+{%- comment -%} Leer configuración del header para Hombres/Mujeres {%- endcomment -%}
+{%- assign hdr = sections['header'] -%}
+{%- assign men_label  = hdr.settings.label_hombres  | default: 'Hombres' -%}
+{%- assign men_href   = hdr.settings.link_hombres   | default: '/collections' -%}
+{%- assign men_menu   = hdr.settings.menu_hombres -%}
+{%- assign men_links  = linklists[men_menu].links -%}
+{%- assign women_label = hdr.settings.label_mujeres | default: 'Mujeres' -%}
+{%- assign women_href  = hdr.settings.link_mujeres  | default: '/collections' -%}
+{%- assign women_menu  = hdr.settings.menu_mujeres -%}
+{%- assign women_links = linklists[women_menu].links -%}
+
 <div class="off-canvas position-left" id="mobileMenuSidebar" data-off-canvas data-transition="overlap">
   <ul class="vertical menu accordion-menu mobile-menu" data-accordion-menu data-submenu-toggle="true">
+
     {% if settings.show_mobile_sidebar_search %}
       <li class="mobile-search">
         {% include 'search-bar' %}
       </li>
     {% endif %}
 
+    {%- comment -%} ── HOMBRES ── {%- endcomment -%}
+    {%- if men_label != blank -%}
+      {%- if men_links.size > 0 -%}
+        <li class="wf-mobile-gender">
+          <a href="{{ men_href }}">{{ men_label }}</a>
+          <ul class="menu vertical nested">
+            {%- for link in men_links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </li>
+      {%- else -%}
+        <li class="wf-mobile-gender">
+          <a href="{{ men_href }}">{{ men_label }}</a>
+        </li>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%} ── MUJERES ── {%- endcomment -%}
+    {%- if women_label != blank -%}
+      {%- if women_links.size > 0 -%}
+        <li class="wf-mobile-gender">
+          <a href="{{ women_href }}">{{ women_label }}</a>
+          <ul class="menu vertical nested">
+            {%- for link in women_links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </li>
+      {%- else -%}
+        <li class="wf-mobile-gender">
+          <a href="{{ women_href }}">{{ women_label }}</a>
+        </li>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%} ── DIVISOR visual si hay nav de género ── {%- endcomment -%}
+    {%- if men_label != blank or women_label != blank -%}
+      <li class="wf-mobile-divider" role="separator"></li>
+    {%- endif -%}
+
+    {%- comment -%} ── MENÚ PRINCIPAL (mobile_menu global) ── {%- endcomment -%}
     {% assign mobile_menu_id = settings.mobile_menu %}
     {% if mobile_menu_id != blank %}
       {% for link in linklists[mobile_menu_id].links %}
@@ -16,7 +76,6 @@
             <ul class="menu vertical nested">
               {% for childlink in linklists[child_list_handle].links %}
                 {% assign grand_child_list_handle = childlink.title | handleize %}
-
                 {% if linklists[grand_child_list_handle].links != blank %}
                   <li class="{% if link.active %} __active{% endif %} has-grandchild">
                     <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
@@ -46,13 +105,14 @@
 
     {% if shop.customer_accounts_enabled and settings.account_link %}
       <li class="{% if template == 'customers/account' or template == 'customers/login' %} mobile-menu__active{% endif %}">
-      {% if customer %}
-        <a class="mobile-menu__link" href="/account">{{ 'layout.customer.account' | t }}</a>
-      {% else %}
-        <a class="mobile-menu__link" href="/account/login">{{ 'layout.customer.account' | t }}</a>
-      {% endif %}
+        {% if customer %}
+          <a class="mobile-menu__link" href="/account">{{ 'layout.customer.account' | t }}</a>
+        {% else %}
+          <a class="mobile-menu__link" href="/account/login">{{ 'layout.customer.account' | t }}</a>
+        {% endif %}
       </li>
     {% endif %}
+
   </ul>
 
   {% if settings.show_mobile_sidebar_social %}
