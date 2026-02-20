@@ -46,7 +46,7 @@
 /* ── Novedades Section ─────────────────────────────────────────── */
 .wf-novedades {
   padding: 4rem 0 3rem;
-  background-color: $color-sections-bg;
+  background-color: {{ settings.color_sections_bg }};
 }
 .wf-novedades__header {
   text-align: center;
@@ -81,7 +81,7 @@
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: $color-sections-text;
+  color: {{ settings.color_sections_text }};
   margin: 0 0 0.5rem;
 }
 .wf-novedades__sub {
@@ -104,8 +104,8 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $color-sections-bg;
-  background-color: $color-sections-text;
+  color: {{ settings.color_sections_bg }};
+  background-color: {{ settings.color_sections_text }};
   text-decoration: none;
   border-radius: 3px;
   transition: opacity 0.2s ease, transform 0.15s ease;
@@ -113,7 +113,7 @@
 .wf-novedades__btn:hover {
   opacity: 0.85;
   transform: translateY(-1px);
-  color: $color-sections-bg;
+  color: {{ settings.color_sections_bg }};
 }
 /* Light mode */
 @media (prefers-color-scheme: light) {
