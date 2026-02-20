@@ -1,6 +1,7 @@
 {%- comment -%}
-  Barra de Anuncios v5.9 — WF Urban Muscle
-  Carrusel 100% CSS con @keyframes — sin JavaScript para la rotación
+  Barra de Anuncios v6.0 — WF Urban Muscle
+  Live site: carrusel CSS puro con @keyframes
+  Editor Shopify: JS detecta Shopify.designMode y muestra slides estáticos
   Subir a: sections/announcement-bar.liquid
 {%- endcomment -%}
 
@@ -36,58 +37,41 @@
 {%- assign _bg    = section.settings.ann_bg    | default: '#cc0000' -%}
 {%- assign _color = section.settings.ann_color | default: '#ffffff' -%}
 {%- assign _size  = section.settings.ann_size  | default: 13 -%}
-
-{%- comment -%}
-  Matemáticas para los keyframes CSS:
-  - _cycle  = duración total del ciclo completo (N mensajes × segundos cada uno)
-  - _pct    = % del ciclo que ocupa cada mensaje (100 / N, entero)
-  - El keyframe describe "aparezco al inicio de mi ventana, me quedo, desaparezco al final"
-  - Cada slide usa el MISMO keyframe pero con animation-delay = índice × _speed
-{%- endcomment -%}
 {%- assign _sid   = section.id -%}
 {%- assign _cycle = _total | times: _speed -%}
 
-{%- comment -%} Calcular porcentajes del keyframe según cuántos mensajes hay {%- endcomment -%}
-{%- if _total == 1 -%}
-  {%- assign _pct_in   = 3 -%}
-  {%- assign _pct_hold = 97 -%}
-  {%- assign _pct_out  = 100 -%}
+{%- comment -%} Porcentajes del keyframe por número de mensajes {%- endcomment -%}
+{%- if _total <= 1 -%}
+  {%- assign _pct_in = 3 -%}{%- assign _pct_hold = 97 -%}{%- assign _pct_out = 100 -%}
 {%- elsif _total == 2 -%}
-  {%- assign _pct_in   = 4 -%}
-  {%- assign _pct_hold = 44 -%}
-  {%- assign _pct_out  = 50 -%}
+  {%- assign _pct_in = 4 -%}{%- assign _pct_hold = 44 -%}{%- assign _pct_out = 50 -%}
 {%- else -%}
-  {%- comment -%} 3 mensajes: cada uno ocupa 33% del ciclo {%- endcomment -%}
-  {%- assign _pct_in   = 3 -%}
-  {%- assign _pct_hold = 29 -%}
-  {%- assign _pct_out  = 33 -%}
+  {%- assign _pct_in = 3 -%}{%- assign _pct_hold = 29 -%}{%- assign _pct_out = 33 -%}
 {%- endif -%}
 
 <div class="wf-ann" id="wf-ann-{{ _sid }}"
   style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;">
-
-  <div class="wf-ann__wrap">
-    {%- for _m in _msgs -%}
-      {%- assign _u = _urls[forloop.index0] -%}
-      <span class="wf-ann__slide wf-ann__slide--{{ forloop.index }}">
-        {%- if _u != blank -%}
-          <a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
-        {%- else -%}{{ _m }}{%- endif -%}
-      </span>
-    {%- endfor -%}
+  <div class="wf-ann__wrap" id="wf-ann-wrap-{{ _sid }}">
+    {%- if _total == 0 -%}
+      <span class="wf-ann__slide wf-ann__slide--static">{{ section.settings.ann_msg1 | default: '✦ Bienvenido a WF Urban Muscle ✦' }}</span>
+    {%- else -%}
+      {%- for _m in _msgs -%}
+        {%- assign _u = _urls[forloop.index0] -%}
+        <span class="wf-ann__slide wf-ann__slide--{{ forloop.index }}">
+          {%- if _u != blank -%}<a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
+          {%- else -%}{{ _m }}{%- endif -%}
+        </span>
+      {%- endfor -%}
+    {%- endif -%}
   </div>
-
 </div>
 
 <style>
-/* ── Barra contenedor ── */
 #wf-ann-{{ _sid }} {
   position: relative;
   width: 100%;
-  min-height: 38px;
   display: flex;
   align-items: stretch;
-  justify-content: center;
   text-align: center;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -104,46 +88,83 @@
   justify-content: center;
   padding: 8px 16px;
 }
-
-/* ── Slides — apilados, todos en position:absolute ── */
+/* Todos los slides apilados, invisibles por defecto */
 #wf-ann-{{ _sid }} .wf-ann__slide {
   position: absolute;
-  left: 0; right: 0;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 8px;
   opacity: 0;
-  {%- if _total > 1 -%}
+}
+/* Slide estático (0 mensajes configurados) */
+#wf-ann-{{ _sid }} .wf-ann__slide--static {
+  opacity: 1;
+  position: relative;
+}
+{%- if _total == 1 -%}
+/* Un solo mensaje: siempre visible */
+#wf-ann-{{ _sid }} .wf-ann__slide--1 { opacity: 1; position: relative; }
+{%- elsif _total > 1 -%}
+/* Animación escalonada para el site live */
+#wf-ann-{{ _sid }} .wf-ann__slide {
   animation: wfAnn{{ _sid }} {{ _cycle }}s linear infinite;
   animation-fill-mode: backwards;
-  {%- endif -%}
 }
-
-{%- if _total == 1 -%}
-/* Un solo mensaje: siempre visible, sin animación */
-#wf-ann-{{ _sid }} .wf-ann__slide--1 { opacity: 1; position: relative; }
-{%- else -%}
-/* Delays escalonados: cada slide empieza su ventana en i × _speed segundos */
 #wf-ann-{{ _sid }} .wf-ann__slide--1 { animation-delay: 0s; }
-{%- if _total >= 2 -%}
 #wf-ann-{{ _sid }} .wf-ann__slide--2 { animation-delay: {{ _speed }}s; }
-{%- endif -%}
 {%- if _total >= 3 -%}
 #wf-ann-{{ _sid }} .wf-ann__slide--3 { animation-delay: {{ _speed | times: 2 }}s; }
 {%- endif -%}
+
+@keyframes wfAnn{{ _sid }} {
+  0%               { opacity: 0; transform: translateY(5px); }
+  {{ _pct_in }}%   { opacity: 1; transform: translateY(0); }
+  {{ _pct_hold }}% { opacity: 1; transform: translateY(0); }
+  {{ _pct_out }}%  { opacity: 0; transform: translateY(-5px); }
+  {{ _pct_out | plus: 1 }}% { opacity: 0; }
+  100%             { opacity: 0; }
+}
 {%- endif -%}
 
-/* ── Keyframe: aparezco → me quedo → desaparezco → invisible ── */
-@keyframes wfAnn{{ _sid }} {
-  0%                   { opacity: 0; transform: translateY(5px); }
-  {{ _pct_in }}%       { opacity: 1; transform: translateY(0); }
-  {{ _pct_hold }}%     { opacity: 1; transform: translateY(0); }
-  {{ _pct_out }}%      { opacity: 0; transform: translateY(-5px); }
-  {{ _pct_out | plus: 1 }}% { opacity: 0; transform: translateY(0); }
-  100%                 { opacity: 0; transform: translateY(0); }
+/* ── Editor: cuando is-editor está activo, desactivar animación y mostrar todos estáticos ── */
+#wf-ann-{{ _sid }}.is-editor .wf-ann__slide {
+  animation: none !important;
+  opacity: 1 !important;
+  position: relative !important;
+}
+/* En el editor mostrar slides en fila (apilados verticalmente para no solapar) */
+#wf-ann-{{ _sid }}.is-editor .wf-ann__wrap {
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 16px;
 }
 </style>
+
+<script>
+(function() {
+  var sid  = '{{ _sid }}';
+  var bar  = document.getElementById('wf-ann-' + sid);
+  if (!bar) return;
+
+  // Si estamos en el editor de Shopify, desactivar animación CSS
+  // y mostrar todos los slides visibles para que el usuario pueda previsualizar
+  if (window.Shopify && window.Shopify.designMode) {
+    bar.classList.add('is-editor');
+  }
+
+  // Reiniciar al cambiar settings en el editor
+  document.addEventListener('shopify:section:load', function(e) {
+    if (!e.detail || e.detail.sectionId !== sid) return;
+    var b = document.getElementById('wf-ann-' + sid);
+    if (!b) return;
+    if (window.Shopify && window.Shopify.designMode) {
+      b.classList.add('is-editor');
+    }
+  });
+})();
+</script>
 
 {%- endif -%}
 
@@ -151,7 +172,7 @@
 {
   "name": "Barra de Anuncios",
   "settings": [
-    { "type": "header",   "content": "— Activación —" },
+    { "type": "header", "content": "— Activación —" },
     { "type": "checkbox", "id": "ann_enabled", "label": "Activar barra", "default": true },
     {
       "type": "select", "id": "ann_visibility", "label": "Mostrar en", "default": "all",
@@ -171,8 +192,8 @@
     { "type": "header", "content": "— Estilo —" },
     { "type": "color", "id": "ann_bg",    "label": "Fondo",  "default": "#cc0000" },
     { "type": "color", "id": "ann_color", "label": "Texto",  "default": "#ffffff" },
-    { "type": "range", "id": "ann_size",  "label": "Tamaño fuente",     "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
-    { "type": "range", "id": "ann_speed", "label": "Segundos por mensaje", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4 }
+    { "type": "range", "id": "ann_size",  "label": "Tamaño fuente",        "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
+    { "type": "range", "id": "ann_speed", "label": "Segundos por mensaje", "min": 2,  "max": 10, "step": 1, "unit": "s",  "default": 4  }
   ],
   "presets": [{ "name": "Barra de Anuncios", "category": "Content" }]
 }
