@@ -13,7 +13,8 @@
 {%- elsif _vis == 'not_home' and template != 'index' -%}
   {%- assign _show = true -%}
 {%- endif -%}
-{%- unless _enabled -%}{%- assign _show = false -%}{%- endunless -%}
+{%- comment -%} nil = no configurado = mostrar. Solo false explícito oculta {%- endcomment -%}
+{%- if _enabled == false -%}{%- assign _show = false -%}{%- endif -%}
 
 {%- comment -%} Recolectar mensajes y URLs en arrays JSON para JS {%- endcomment -%}
 {%- assign _msgs = '' | split: ',' -%}
@@ -25,7 +26,7 @@
 {%- if section.settings.ann_msg5 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg5 -%}{%- assign _urls = _urls | push: section.settings.ann_link5 -%}{%- endif -%}
 {%- assign _total = _msgs.size -%}
 
-{%- if _show and _total > 0 -%}
+{%- if _show -%}
 {%- assign _speed = section.settings.ann_speed | default: 4 -%}
 {%- assign _bg    = section.settings.ann_bg    | default: '#cc0000' -%}
 {%- assign _color = section.settings.ann_color | default: '#ffffff' -%}
@@ -37,7 +38,9 @@
   <button class="wf-ann__nav wf-ann__prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
   {%- endif -%}
   <div class="wf-ann__stage" id="wf-ann-stage-{{ section.id }}">
-    <span class="wf-ann__text" id="wf-ann-text-{{ section.id }}">{{ _msgs[0] }}</span>
+    <span class="wf-ann__text" id="wf-ann-text-{{ section.id }}">
+      {%- if _total > 0 -%}{{ _msgs[0] }}{%- else -%}{{ section.settings.ann_msg1 | default: '✦ Envío gratis en pedidos mayores a $999 ✦' }}{%- endif -%}
+    </span>
   </div>
   {%- if _total > 1 -%}
   <button class="wf-ann__nav wf-ann__next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
