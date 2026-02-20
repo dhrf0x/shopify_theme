@@ -279,26 +279,6 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
-        "blocks": {
-          "message_97UjcH": {
-            "type": "message",
-            "settings": {
-              "text": "✦ Envío gratis en pedidos mayores a $999",
-              "link": ""
-            }
-          },
-          "message_iCQfFp": {
-            "type": "message",
-            "settings": {
-              "text": "ENVIO GRATIS EN COMPRAS DE 999$",
-              "link": ""
-            }
-          }
-        },
-        "block_order": [
-          "message_97UjcH",
-          "message_iCQfFp"
-        ],
         "settings": {
           "show_bar": true,
           "ann_visibility": "all",
