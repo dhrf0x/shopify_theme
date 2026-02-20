@@ -280,7 +280,7 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "ann_enabled": true,
+          "ann_enabled": false,
           "ann_visibility": "all",
           "ann_msg1": "",
           "ann_link1": "",
