@@ -272,7 +272,7 @@
     "header_overlay_collection": false,
     "header_overlay_blogs": false,
     "header_overlay_page": false,
-    "logo_use_image": true,
+    "logo_use_image": false,
     "favicon_enable": false,
     "display_secondary_image": true,
     "show_product_badges": true,
