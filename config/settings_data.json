@@ -279,19 +279,25 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
+        "blocks": {
+          "message_iCQfFp": {
+            "type": "message",
+            "settings": {
+              "text": "ENVIO GRATIS EN COMPRAS DE 999$",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "message_iCQfFp"
+        ],
         "settings": {
-          "ann_enabled": true,
+          "show_bar": true,
           "ann_visibility": "all",
-          "ann_msg1": "",
-          "ann_link1": "",
-          "ann_msg2": "",
-          "ann_link2": "",
-          "ann_msg3": "",
-          "ann_link3": "",
-          "ann_bg": "#bc1313",
-          "ann_color": "#ffffff",
-          "ann_size": 11,
-          "ann_speed": 3
+          "background_color": "#cc0000",
+          "text_color": "#ffffff",
+          "font_size": 13,
+          "scroll_speed": 22
         }
       },
       "header": {
