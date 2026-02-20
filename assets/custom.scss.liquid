@@ -572,6 +572,10 @@ a, .pagination a {
 
 .header-container {
   background-color: $color-header-bg;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  will-change: transform;
 }
 
 .header-container, .page-wrapper, .announcement-bar {
@@ -1018,6 +1022,14 @@ a, .pagination a {
   .product-loop-image {
     border-radius: $border-radius;
     overflow: hidden;
+    display: block;
+    position: relative;
+  }
+  /* Forzar hover swap visible — secondary-image siempre activado */
+  .product-loop-image {
+    &.secondary-image-enabled { position: relative; }
+    &.secondary-image-enabled .product-image_secondary { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease; }
+    &.secondary-image-enabled:hover .product-image_secondary { opacity: 1 !important; }
   }
   .product-loop-title {
     color: $color-collection-product-title;
@@ -1509,6 +1521,10 @@ h1, h2, h3, h4, h5, h6,
 .product-loop-item .product-loop-price span,
 .product-loop-item .product-loop-price .money { color: $color-sections-text !important; }
 
+/* ─── 1b. OCULTAR sold-out inline en product cards ── */
+/* Solo mantener el badge .badge__sold-out de arriba, no el span inline */
+.product-loop-price .is-sold-out { display: none !important; }
+
 /* ─── 2. HERO ────────────────────────────────────────────────── */
 .hero-gs__title {
   color: #ffffff !important;
@@ -1717,20 +1733,20 @@ h1, h2, h3, h4, h5, h6,
 }
 body.wf-modal-open { overflow: hidden; }
 
-/* Caja del modal */
+/* Caja del modal — redesign premium */
 .wf-modal__box {
-  background: #111111;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04);
+  background: #0d0d0d;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 32px 100px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.03);
   width: 100%;
-  max-width: 680px;
-  max-height: calc(100vh - 80px);
+  max-width: 760px;
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform: translateY(-12px) scale(0.98);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(-20px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
 }
 .wf-modal.is-open .wf-modal__box {
   transform: translateY(0) scale(1);
@@ -1740,13 +1756,13 @@ body.wf-modal-open { overflow: hidden; }
 .wf-modal__header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
 }
 .wf-modal__icon {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.35);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -1758,14 +1774,15 @@ body.wf-modal-open { overflow: hidden; }
   outline: none !important;
   box-shadow: none !important;
   color: #ffffff !important;
-  font-size: 1.125rem !important;
-  font-weight: 400 !important;
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
   padding: 0 !important;
   margin: 0 !important;
   line-height: 1.4 !important;
+  letter-spacing: 0.01em !important;
 }
 .wf-modal__input::placeholder {
-  color: rgba(255,255,255,0.28) !important;
+  color: rgba(255,255,255,0.2) !important;
   font-weight: 300 !important;
 }
 .wf-modal__close {
@@ -1805,9 +1822,9 @@ body.wf-modal-open { overflow: hidden; }
 .wf-modal__results::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
 
 .wf-modal__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 @media (max-width: 480px) {
   .wf-modal__grid { grid-template-columns: repeat(2, 1fr); }
@@ -1816,26 +1833,33 @@ body.wf-modal-open { overflow: hidden; }
 /* Cards de producto */
 .wf-card {
   display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   text-decoration: none !important;
-  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  transition: background 0.15s;
   color: #fff !important;
+  border-radius: 0;
+  background: transparent;
+  border-top: none; border-left: none; border-right: none;
 }
+.wf-card:first-child { padding-top: 0.25rem; }
+.wf-card:last-child { border-bottom: none; }
 .wf-card:hover {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.18);
-  transform: translateY(-2px);
+  background: transparent;
   color: #fff !important;
 }
+.wf-card:hover .wf-card__title { opacity: 0.75; }
 .wf-card__img {
   position: relative;
-  aspect-ratio: 1/1;
+  width: 64px;
+  height: 72px;
+  flex-shrink: 0;
   overflow: hidden;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
 }
 .wf-card__img img {
   width: 100%;
@@ -1864,23 +1888,25 @@ body.wf-modal-open { overflow: hidden; }
   border-radius: 3px;
 }
 .wf-card__info {
-  padding: 0.6rem 0.75rem 0.75rem;
+  flex: 1;
+  padding: 0;
+  min-width: 0;
 }
 .wf-card__title {
-  font-size: 0.78rem;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
   color: rgba(255,255,255,0.9) !important;
-  margin: 0 0 0.25rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  margin: 0 0 0.3rem;
+  transition: opacity 0.15s;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .wf-card__price {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #ffffff !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.55) !important;
 }
 
 /* Ver todos */
