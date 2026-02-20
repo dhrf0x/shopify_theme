@@ -1,29 +1,34 @@
 {%- comment -%}
-  Barra de Anuncios — WF Urban Muscle v5.8
+  Barra de Anuncios v5.9 — WF Urban Muscle
+  Carrusel 100% CSS con @keyframes — sin JavaScript para la rotación
   Subir a: sections/announcement-bar.liquid
 {%- endcomment -%}
 
+{%- comment -%}── Visibilidad ──{%- endcomment -%}
 {%- assign _vis     = section.settings.ann_visibility | default: 'all' -%}
 {%- assign _enabled = section.settings.ann_enabled -%}
 {%- assign _show    = false -%}
-{%- if _vis == 'all' or _vis == blank -%}
-  {%- assign _show = true -%}
-{%- elsif _vis == 'home' and template == 'index' -%}
-  {%- assign _show = true -%}
-{%- elsif _vis == 'not_home' and template != 'index' -%}
-  {%- assign _show = true -%}
+{%- if _vis == 'all' or _vis == blank or _vis == nil -%}{%- assign _show = true -%}
+{%- elsif _vis == 'home' and template == 'index' -%}{%- assign _show = true -%}
+{%- elsif _vis == 'not_home' and template != 'index' -%}{%- assign _show = true -%}
 {%- endif -%}
-{%- comment -%} nil = no configurado = mostrar. Solo false explícito oculta {%- endcomment -%}
 {%- if _enabled == false -%}{%- assign _show = false -%}{%- endif -%}
 
-{%- comment -%} Recolectar mensajes y URLs en arrays JSON para JS {%- endcomment -%}
+{%- comment -%}── Mensajes ──{%- endcomment -%}
 {%- assign _msgs = '' | split: ',' -%}
 {%- assign _urls = '' | split: ',' -%}
-{%- if section.settings.ann_msg1 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg1 -%}{%- assign _urls = _urls | push: section.settings.ann_link1 -%}{%- endif -%}
-{%- if section.settings.ann_msg2 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg2 -%}{%- assign _urls = _urls | push: section.settings.ann_link2 -%}{%- endif -%}
-{%- if section.settings.ann_msg3 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg3 -%}{%- assign _urls = _urls | push: section.settings.ann_link3 -%}{%- endif -%}
-{%- if section.settings.ann_msg4 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg4 -%}{%- assign _urls = _urls | push: section.settings.ann_link4 -%}{%- endif -%}
-{%- if section.settings.ann_msg5 != blank -%}{%- assign _msgs = _msgs | push: section.settings.ann_msg5 -%}{%- assign _urls = _urls | push: section.settings.ann_link5 -%}{%- endif -%}
+{%- if section.settings.ann_msg1 != blank -%}
+  {%- assign _msgs = _msgs | push: section.settings.ann_msg1 -%}
+  {%- assign _urls = _urls | push: section.settings.ann_link1 -%}
+{%- endif -%}
+{%- if section.settings.ann_msg2 != blank -%}
+  {%- assign _msgs = _msgs | push: section.settings.ann_msg2 -%}
+  {%- assign _urls = _urls | push: section.settings.ann_link2 -%}
+{%- endif -%}
+{%- if section.settings.ann_msg3 != blank -%}
+  {%- assign _msgs = _msgs | push: section.settings.ann_msg3 -%}
+  {%- assign _urls = _urls | push: section.settings.ann_link3 -%}
+{%- endif -%}
 {%- assign _total = _msgs.size -%}
 
 {%- if _show -%}
@@ -32,158 +37,114 @@
 {%- assign _color = section.settings.ann_color | default: '#ffffff' -%}
 {%- assign _size  = section.settings.ann_size  | default: 13 -%}
 
-<div class="wf-ann" id="wf-ann-{{ section.id }}"
+{%- comment -%}
+  Matemáticas para los keyframes CSS:
+  - _cycle  = duración total del ciclo completo (N mensajes × segundos cada uno)
+  - _pct    = % del ciclo que ocupa cada mensaje (100 / N, entero)
+  - El keyframe describe "aparezco al inicio de mi ventana, me quedo, desaparezco al final"
+  - Cada slide usa el MISMO keyframe pero con animation-delay = índice × _speed
+{%- endcomment -%}
+{%- assign _sid   = section.id -%}
+{%- assign _cycle = _total | times: _speed -%}
+
+{%- comment -%} Calcular porcentajes del keyframe según cuántos mensajes hay {%- endcomment -%}
+{%- if _total == 1 -%}
+  {%- assign _pct_in   = 3 -%}
+  {%- assign _pct_hold = 97 -%}
+  {%- assign _pct_out  = 100 -%}
+{%- elsif _total == 2 -%}
+  {%- assign _pct_in   = 4 -%}
+  {%- assign _pct_hold = 44 -%}
+  {%- assign _pct_out  = 50 -%}
+{%- else -%}
+  {%- comment -%} 3 mensajes: cada uno ocupa 33% del ciclo {%- endcomment -%}
+  {%- assign _pct_in   = 3 -%}
+  {%- assign _pct_hold = 29 -%}
+  {%- assign _pct_out  = 33 -%}
+{%- endif -%}
+
+<div class="wf-ann" id="wf-ann-{{ _sid }}"
   style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;">
-  {%- if _total > 1 -%}
-  <button class="wf-ann__nav wf-ann__prev" id="wf-ann-prev-{{ section.id }}" aria-label="Anterior">&#8249;</button>
-  {%- endif -%}
-  <div class="wf-ann__stage" id="wf-ann-stage-{{ section.id }}">
-    <span class="wf-ann__text" id="wf-ann-text-{{ section.id }}">
-      {%- if _total > 0 -%}{{ _msgs[0] }}{%- else -%}{{ section.settings.ann_msg1 | default: '✦ Envío gratis en pedidos mayores a $999 ✦' }}{%- endif -%}
-    </span>
+
+  <div class="wf-ann__wrap">
+    {%- for _m in _msgs -%}
+      {%- assign _u = _urls[forloop.index0] -%}
+      <span class="wf-ann__slide wf-ann__slide--{{ forloop.index }}">
+        {%- if _u != blank -%}
+          <a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
+        {%- else -%}{{ _m }}{%- endif -%}
+      </span>
+    {%- endfor -%}
   </div>
-  {%- if _total > 1 -%}
-  <button class="wf-ann__nav wf-ann__next" id="wf-ann-next-{{ section.id }}" aria-label="Siguiente">&#8250;</button>
-  {%- endif -%}
+
 </div>
 
 <style>
-.wf-ann {
+/* ── Barra contenedor ── */
+#wf-ann-{{ _sid }} {
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 38px;
-  padding: 8px 48px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
   text-align: center;
   font-weight: 600;
   letter-spacing: 0.03em;
   box-sizing: border-box;
   z-index: 10;
+  overflow: hidden;
 }
-.wf-ann__stage {
+#wf-ann-{{ _sid }} .wf-ann__wrap {
   flex: 1;
+  position: relative;
+  min-height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  min-height: 1.4em;
+  padding: 8px 16px;
 }
-.wf-ann__text {
-  display: inline-block;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-.wf-ann__text.wf-fade-out {
-  opacity: 0;
-  transform: translateY(-6px);
-}
-.wf-ann__text.wf-fade-in {
-  opacity: 0;
-  transform: translateY(6px);
-}
-.wf-ann__nav {
+
+/* ── Slides — apilados, todos en position:absolute ── */
+#wf-ann-{{ _sid }} .wf-ann__slide {
   position: absolute;
-  top: 50%; transform: translateY(-50%);
-  background: none; border: none;
-  color: inherit; font-size: 22px; line-height: 1;
-  cursor: pointer; padding: 0 10px; opacity: 0.55;
-  transition: opacity 0.2s;
-  flex-shrink: 0;
+  left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  opacity: 0;
+  {%- if _total > 1 -%}
+  animation: wfAnn{{ _sid }} {{ _cycle }}s linear infinite;
+  animation-fill-mode: backwards;
+  {%- endif -%}
 }
-.wf-ann__nav:hover { opacity: 1; }
-.wf-ann__prev { left: 6px; }
-.wf-ann__next { right: 6px; }
+
+{%- if _total == 1 -%}
+/* Un solo mensaje: siempre visible, sin animación */
+#wf-ann-{{ _sid }} .wf-ann__slide--1 { opacity: 1; position: relative; }
+{%- else -%}
+/* Delays escalonados: cada slide empieza su ventana en i × _speed segundos */
+#wf-ann-{{ _sid }} .wf-ann__slide--1 { animation-delay: 0s; }
+{%- if _total >= 2 -%}
+#wf-ann-{{ _sid }} .wf-ann__slide--2 { animation-delay: {{ _speed }}s; }
+{%- endif -%}
+{%- if _total >= 3 -%}
+#wf-ann-{{ _sid }} .wf-ann__slide--3 { animation-delay: {{ _speed | times: 2 }}s; }
+{%- endif -%}
+{%- endif -%}
+
+/* ── Keyframe: aparezco → me quedo → desaparezco → invisible ── */
+@keyframes wfAnn{{ _sid }} {
+  0%                   { opacity: 0; transform: translateY(5px); }
+  {{ _pct_in }}%       { opacity: 1; transform: translateY(0); }
+  {{ _pct_hold }}%     { opacity: 1; transform: translateY(0); }
+  {{ _pct_out }}%      { opacity: 0; transform: translateY(-5px); }
+  {{ _pct_out | plus: 1 }}% { opacity: 0; transform: translateY(0); }
+  100%                 { opacity: 0; transform: translateY(0); }
+}
 </style>
 
-<script>
-(function() {
-  var sid   = '{{ section.id }}';
-  var speed = {{ _speed }} * 1000;
-
-  // Mensajes y URLs embebidos directamente como arrays JS
-  var msgs = [
-    {%- for _m in _msgs -%}
-      {{ _m | json }}{%- unless forloop.last -%},{%- endunless -%}
-    {%- endfor -%}
-  ];
-  var urls = [
-    {%- for _u in _urls -%}
-      {{ _u | json }}{%- unless forloop.last -%},{%- endunless -%}
-    {%- endfor -%}
-  ];
-  var total   = msgs.length;
-  var current = 0;
-  var timer   = null;
-
-  // Referencias DOM — se resuelven una sola vez
-  var textEl = document.getElementById('wf-ann-text-' + sid);
-  var prevBtn = document.getElementById('wf-ann-prev-' + sid);
-  var nextBtn = document.getElementById('wf-ann-next-' + sid);
-
-  function setSlide(idx, direction) {
-    if (!textEl || total < 2) return;
-    current = ((idx % total) + total) % total;
-    var outClass = direction >= 0 ? 'wf-fade-out' : 'wf-fade-out';
-    var inClass  = 'wf-fade-in';
-
-    // Fade out
-    textEl.classList.add('wf-fade-out');
-
-    setTimeout(function() {
-      // Cambiar contenido
-      var msg = msgs[current];
-      var url = urls[current];
-      if (url) {
-        textEl.innerHTML = '<a href="' + url + '" style="color:inherit;text-decoration:underline;">' + msg + '</a>';
-      } else {
-        textEl.textContent = msg;
-      }
-      // Preparar fade in desde abajo
-      textEl.classList.remove('wf-fade-out');
-      textEl.classList.add('wf-fade-in');
-
-      // Forzar reflow para que la transición se aplique
-      void textEl.offsetHeight;
-
-      // Fade in
-      textEl.classList.remove('wf-fade-in');
-    }, 350);
-  }
-
-  function next() { setSlide(current + 1,  1); }
-  function prev() { setSlide(current - 1, -1); }
-
-  function startAuto() {
-    stopAuto();
-    if (total > 1) timer = setInterval(next, speed);
-  }
-  function stopAuto() {
-    clearInterval(timer);
-    timer = null;
-  }
-
-  // Botones manuales
-  if (prevBtn) prevBtn.addEventListener('click', function() { stopAuto(); prev(); startAuto(); });
-  if (nextBtn) nextBtn.addEventListener('click', function() { stopAuto(); next(); startAuto(); });
-
-  // Arrancar carrusel
-  if (total > 1) startAuto();
-
-  // Reiniciar en el editor de Shopify
-  document.addEventListener('shopify:section:load', function(e) {
-    if (e.detail && e.detail.sectionId === sid) {
-      stopAuto();
-      textEl  = document.getElementById('wf-ann-text-' + sid);
-      prevBtn = document.getElementById('wf-ann-prev-' + sid);
-      nextBtn = document.getElementById('wf-ann-next-' + sid);
-      current = 0;
-      if (textEl) textEl.textContent = msgs[0];
-      if (total > 1) startAuto();
-    }
-  });
-})();
-</script>
 {%- endif -%}
 
 {% schema %}
@@ -191,34 +152,27 @@
   "name": "Barra de Anuncios",
   "settings": [
     { "type": "header",   "content": "— Activación —" },
-    { "type": "checkbox", "id": "ann_enabled",    "label": "Activar barra", "default": true },
+    { "type": "checkbox", "id": "ann_enabled", "label": "Activar barra", "default": true },
     {
-      "type": "select",
-      "id": "ann_visibility",
-      "label": "Mostrar en",
-      "default": "all",
+      "type": "select", "id": "ann_visibility", "label": "Mostrar en", "default": "all",
       "options": [
         { "value": "all",      "label": "Todas las páginas" },
         { "value": "home",     "label": "Solo inicio" },
         { "value": "not_home", "label": "Todas excepto inicio" }
       ]
     },
-    { "type": "header", "content": "— Mensajes (hasta 5) —" },
+    { "type": "header", "content": "— Mensajes (hasta 3) —" },
     { "type": "text", "id": "ann_msg1", "label": "Mensaje 1", "default": "✦ Envío gratis en pedidos mayores a $999 ✦" },
     { "type": "url",  "id": "ann_link1", "label": "Enlace 1 (opcional)" },
     { "type": "text", "id": "ann_msg2", "label": "Mensaje 2" },
     { "type": "url",  "id": "ann_link2", "label": "Enlace 2 (opcional)" },
     { "type": "text", "id": "ann_msg3", "label": "Mensaje 3" },
     { "type": "url",  "id": "ann_link3", "label": "Enlace 3 (opcional)" },
-    { "type": "text", "id": "ann_msg4", "label": "Mensaje 4" },
-    { "type": "url",  "id": "ann_link4", "label": "Enlace 4 (opcional)" },
-    { "type": "text", "id": "ann_msg5", "label": "Mensaje 5" },
-    { "type": "url",  "id": "ann_link5", "label": "Enlace 5 (opcional)" },
     { "type": "header", "content": "— Estilo —" },
-    { "type": "color", "id": "ann_bg",    "label": "Fondo",    "default": "#cc0000" },
-    { "type": "color", "id": "ann_color", "label": "Texto",    "default": "#ffffff" },
-    { "type": "range", "id": "ann_size",  "label": "Tamaño fuente", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
-    { "type": "range", "id": "ann_speed", "label": "Velocidad carrusel", "min": 2, "max": 10, "step": 1, "unit": "s",  "default": 4 }
+    { "type": "color", "id": "ann_bg",    "label": "Fondo",  "default": "#cc0000" },
+    { "type": "color", "id": "ann_color", "label": "Texto",  "default": "#ffffff" },
+    { "type": "range", "id": "ann_size",  "label": "Tamaño fuente",     "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
+    { "type": "range", "id": "ann_speed", "label": "Segundos por mensaje", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4 }
   ],
   "presets": [{ "name": "Barra de Anuncios", "category": "Content" }]
 }
