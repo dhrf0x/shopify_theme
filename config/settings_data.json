@@ -282,9 +282,9 @@
         "settings": {
           "ann_enabled": true,
           "ann_visibility": "all",
-          "ann_msg1": "Envío gratis en pedidos mayores a $999",
+          "ann_msg1": "",
           "ann_link1": "",
-          "ann_msg2": "Envío gratis",
+          "ann_msg2": "",
           "ann_link2": "",
           "ann_msg3": "",
           "ann_link3": "",
