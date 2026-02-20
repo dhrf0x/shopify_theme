@@ -282,7 +282,7 @@
         "settings": {
           "ann_enabled": true,
           "ann_visibility": "all",
-          "ann_msg1": "Envio gratis en la compra de $999",
+          "ann_msg1": "",
           "ann_link1": "shopify://collections/oversize",
           "ann_msg2": "",
           "ann_link2": "",
