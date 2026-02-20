@@ -61,7 +61,7 @@
 
   {%- if _total > 1 -%}
   <button class="wf-ann__nav wf-ann__prev"
-    onclick="wfAnnNav('{{ section.id }}', -1)" aria-label="Anterior">&#8249;</button>
+    onclick="window['wfAnnPrev_{{ section.id }}'] && window['wfAnnPrev_{{ section.id }}']()" aria-label="Anterior">&#8249;</button>
   {%- endif -%}
 
   <div class="wf-ann__track">
@@ -82,7 +82,7 @@
 
   {%- if _total > 1 -%}
   <button class="wf-ann__nav wf-ann__next"
-    onclick="wfAnnNav('{{ section.id }}', 1)" aria-label="Siguiente">&#8250;</button>
+    onclick="window['wfAnnNext_{{ section.id }}'] && window['wfAnnNext_{{ section.id }}']()" aria-label="Siguiente">&#8250;</button>
   {%- endif -%}
 </div>
 
@@ -126,28 +126,63 @@
 
 {%- if _total > 1 -%}
 <script>
-(function(){
-  var _s = window._wfAnn = window._wfAnn || {};
-  _s['{{ section.id }}'] = { cur: 0, total: {{ _total }} };
-  function tick(id) {
-    var s = _s[id]; if (!s) return;
-    var els = document.querySelectorAll('#wf-ann-' + id + ' .wf-ann__slide');
-    if (!els.length) return;
-    els[s.cur].classList.remove('active');
-    s.cur = (s.cur + 1) % s.total;
-    els[s.cur].classList.add('active');
+(function() {
+  // Carrusel autocontenido — ID único por sección
+  var annId    = '{{ section.id }}';
+  var speed    = {{ _speed | times: 1000 }};
+  var total    = {{ _total }};
+  var current  = 0;
+  var timer    = null;
+  var slides   = null;
+
+  function getSlides() {
+    return document.querySelectorAll('#wf-ann-' + annId + ' .wf-ann__slide');
   }
-  _s['{{ section.id }}'].timer = setInterval(function(){ tick('{{ section.id }}'); }, {{ _speed | times: 1000 }});
+
+  function showSlide(n) {
+    if (!slides || !slides.length) slides = getSlides();
+    if (!slides.length) return;
+    slides[current].classList.remove('active');
+    current = ((n % total) + total) % total;
+    slides[current].classList.add('active');
+  }
+
+  function startAuto() {
+    stopAuto();
+    timer = setInterval(function() {
+      showSlide(current + 1);
+    }, speed);
+  }
+
+  function stopAuto() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  // Exponer navegación manual al onclick del HTML
+  window['wfAnnPrev_' + annId] = function() { stopAuto(); showSlide(current - 1); startAuto(); };
+  window['wfAnnNext_' + annId] = function() { stopAuto(); showSlide(current + 1); startAuto(); };
+
+  // Arrancar cuando el DOM esté listo
+  function init() {
+    slides = getSlides();
+    if (!slides.length) return;
+    // Asegurar estado inicial correcto
+    for (var i = 0; i < slides.length; i++) slides[i].classList.remove('active');
+    slides[0].classList.add('active');
+    current = 0;
+    startAuto();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  // Reiniciar si Shopify recarga la sección en el editor
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.detail && e.detail.sectionId === annId) { stopAuto(); init(); }
+  });
 })();
-window.wfAnnNav = window.wfAnnNav || function(id, dir) {
-  var s = window._wfAnn && window._wfAnn[id]; if (!s) return;
-  clearInterval(s.timer);
-  var els = document.querySelectorAll('#wf-ann-' + id + ' .wf-ann__slide');
-  if (!els.length) return;
-  els[s.cur].classList.remove('active');
-  s.cur = ((s.cur + dir) % s.total + s.total) % s.total;
-  els[s.cur].classList.add('active');
-};
 </script>
 {%- endif -%}
 {%- endif -%}
