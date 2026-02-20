@@ -284,7 +284,7 @@
             "type": "message",
             "settings": {
               "text": "ENVIO GRATIS EN COMPRAS DE 999$",
-              "link": ""
+              "link": "shopify://collections"
             }
           }
         },
