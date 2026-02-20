@@ -322,7 +322,8 @@
           "spacing_top": 50,
           "spacing_bottom": 50,
           "background_color": "",
-          "video_url": "https://youtu.be/wnzZTY2d05w",
+          "video_url": "",
+          "video_upload": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
           "background_image_style": "cover",
           "parallax": true,
           "darken": 0
