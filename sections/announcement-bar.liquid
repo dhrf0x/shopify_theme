@@ -1,11 +1,9 @@
 {%- comment -%}
-  Barra de Anuncios v6.0 — WF Urban Muscle
-  Live site: carrusel CSS puro con @keyframes
-  Editor Shopify: JS detecta Shopify.designMode y muestra slides estáticos
+  Barra de Anuncios v7.0 — WF Urban Muscle
+  Ticker horizontal estilo Gymshark — scroll continuo CSS, sin opacity toggling
   Subir a: sections/announcement-bar.liquid
 {%- endcomment -%}
 
-{%- comment -%}── Visibilidad ──{%- endcomment -%}
 {%- assign _vis     = section.settings.ann_visibility | default: 'all' -%}
 {%- assign _enabled = section.settings.ann_enabled -%}
 {%- assign _show    = false -%}
@@ -15,7 +13,6 @@
 {%- endif -%}
 {%- if _enabled == false -%}{%- assign _show = false -%}{%- endif -%}
 
-{%- comment -%}── Mensajes ──{%- endcomment -%}
 {%- assign _msgs = '' | split: ',' -%}
 {%- assign _urls = '' | split: ',' -%}
 {%- if section.settings.ann_msg1 != blank -%}
@@ -31,6 +28,10 @@
   {%- assign _urls = _urls | push: section.settings.ann_link3 -%}
 {%- endif -%}
 {%- assign _total = _msgs.size -%}
+{%- if _total == 0 -%}
+  {%- assign _msgs = _msgs | push: section.settings.ann_msg1 | default: '✦ Bienvenido a WF Urban Muscle ✦' -%}
+  {%- assign _total = 1 -%}
+{%- endif -%}
 
 {%- if _show -%}
 {%- assign _speed = section.settings.ann_speed | default: 4 -%}
@@ -38,129 +39,152 @@
 {%- assign _color = section.settings.ann_color | default: '#ffffff' -%}
 {%- assign _size  = section.settings.ann_size  | default: 13 -%}
 {%- assign _sid   = section.id -%}
-{%- assign _cycle = _total | times: _speed -%}
 
-{%- comment -%} Porcentajes del keyframe por número de mensajes {%- endcomment -%}
-{%- if _total <= 1 -%}
-  {%- assign _pct_in = 3 -%}{%- assign _pct_hold = 97 -%}{%- assign _pct_out = 100 -%}
-{%- elsif _total == 2 -%}
-  {%- assign _pct_in = 4 -%}{%- assign _pct_hold = 44 -%}{%- assign _pct_out = 50 -%}
-{%- else -%}
-  {%- assign _pct_in = 3 -%}{%- assign _pct_hold = 29 -%}{%- assign _pct_out = 33 -%}
-{%- endif -%}
+{%- comment -%}
+  Separador entre mensajes en el ticker
+  Velocidad del ticker: _total * _speed segundos para recorrer una copia completa
+  Duplicamos los mensajes para seamless loop
+{%- endcomment -%}
+{%- assign _ticker_speed = _total | times: _speed -%}
 
-<div class="wf-ann" id="wf-ann-{{ _sid }}"
-  style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;">
-  <div class="wf-ann__wrap" id="wf-ann-wrap-{{ _sid }}">
-    {%- if _total == 0 -%}
-      <span class="wf-ann__slide wf-ann__slide--static">{{ section.settings.ann_msg1 | default: '✦ Bienvenido a WF Urban Muscle ✦' }}</span>
+<div class="wf-ann wf-ann--{{ _sid }}"
+     style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;"
+     data-total="{{ _total }}"
+     data-single="{% if _total == 1 %}true{% else %}false{% endif %}">
+
+  <div class="wf-ann__viewport">
+    {%- comment -%} Si solo hay 1 mensaje: centrado estático, sin scroll {%- endcomment -%}
+    {%- if _total == 1 -%}
+      <div class="wf-ann__static">
+        {%- assign _u = _urls[0] -%}
+        {%- if _u != blank -%}
+          <a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _msgs[0] }}</a>
+        {%- else -%}{{ _msgs[0] }}{%- endif -%}
+      </div>
     {%- else -%}
-      {%- for _m in _msgs -%}
-        {%- assign _u = _urls[forloop.index0] -%}
-        <span class="wf-ann__slide wf-ann__slide--{{ forloop.index }}">
-          {%- if _u != blank -%}<a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
-          {%- else -%}{{ _m }}{%- endif -%}
-        </span>
-      {%- endfor -%}
+      {%- comment -%} Ticker: track duplicado para loop continuo {%- endcomment -%}
+      <div class="wf-ann__track" id="wf-ann-track-{{ _sid }}" aria-live="polite">
+        {%- comment -%} Primera copia {%- endcomment -%}
+        {%- for _m in _msgs -%}
+          {%- assign _u = _urls[forloop.index0] -%}
+          <span class="wf-ann__item">
+            <span class="wf-ann__dot" aria-hidden="true">✦</span>
+            {%- if _u != blank -%}
+              <a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
+            {%- else -%}{{ _m }}{%- endif -%}
+          </span>
+        {%- endfor -%}
+        {%- comment -%} Segunda copia (clon para seamless loop) {%- endcomment -%}
+        {%- for _m in _msgs -%}
+          {%- assign _u = _urls[forloop.index0] -%}
+          <span class="wf-ann__item" aria-hidden="true">
+            <span class="wf-ann__dot">✦</span>
+            {%- if _u != blank -%}
+              <a href="{{ _u }}" style="color:inherit;text-decoration:underline dotted;">{{ _m }}</a>
+            {%- else -%}{{ _m }}{%- endif -%}
+          </span>
+        {%- endfor -%}
+      </div>
     {%- endif -%}
   </div>
+
 </div>
 
 <style>
-#wf-ann-{{ _sid }} {
-  position: relative;
+/* ── Barra ── */
+.wf-ann--{{ _sid }} {
   width: 100%;
-  display: flex;
-  align-items: stretch;
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  box-sizing: border-box;
-  z-index: 10;
-  overflow: hidden;
-}
-#wf-ann-{{ _sid }} .wf-ann__wrap {
-  flex: 1;
-  position: relative;
   min-height: 38px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-}
-/* Todos los slides apilados, invisibles por defecto */
-#wf-ann-{{ _sid }} .wf-ann__slide {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8px;
-  opacity: 0;
-}
-/* Slide estático (0 mensajes configurados) */
-#wf-ann-{{ _sid }} .wf-ann__slide--static {
-  opacity: 1;
+  box-sizing: border-box;
+  z-index: 10;
+  overflow: hidden;
   position: relative;
 }
-{%- if _total == 1 -%}
-/* Un solo mensaje: siempre visible */
-#wf-ann-{{ _sid }} .wf-ann__slide--1 { opacity: 1; position: relative; }
-{%- elsif _total > 1 -%}
-/* Animación escalonada para el site live */
-#wf-ann-{{ _sid }} .wf-ann__slide {
-  animation: wfAnn{{ _sid }} {{ _cycle }}s linear infinite;
-  animation-fill-mode: backwards;
-}
-#wf-ann-{{ _sid }} .wf-ann__slide--1 { animation-delay: 0s; }
-#wf-ann-{{ _sid }} .wf-ann__slide--2 { animation-delay: {{ _speed }}s; }
-{%- if _total >= 3 -%}
-#wf-ann-{{ _sid }} .wf-ann__slide--3 { animation-delay: {{ _speed | times: 2 }}s; }
-{%- endif -%}
 
-@keyframes wfAnn{{ _sid }} {
-  0%               { opacity: 0; transform: translateY(5px); }
-  {{ _pct_in }}%   { opacity: 1; transform: translateY(0); }
-  {{ _pct_hold }}% { opacity: 1; transform: translateY(0); }
-  {{ _pct_out }}%  { opacity: 0; transform: translateY(-5px); }
-  {{ _pct_out | plus: 1 }}% { opacity: 0; }
-  100%             { opacity: 0; }
+/* ── Viewport: contiene el track, overflow oculto ── */
+.wf-ann--{{ _sid }} .wf-ann__viewport {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
-{%- endif -%}
 
-/* ── Editor: cuando is-editor está activo, desactivar animación y mostrar todos estáticos ── */
-#wf-ann-{{ _sid }}.is-editor .wf-ann__slide {
+/* ── 1 mensaje: centrado estático ── */
+.wf-ann--{{ _sid }} .wf-ann__static {
+  width: 100%;
+  text-align: center;
+  padding: 0 16px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── Track: fila de mensajes, scroll continuo ── */
+.wf-ann--{{ _sid }} .wf-ann__track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  animation: wfTicker{{ _sid }} {{ _ticker_speed }}s linear infinite;
+}
+
+/* Pausa on hover */
+.wf-ann--{{ _sid }}:hover .wf-ann__track {
+  animation-play-state: paused;
+}
+
+.wf-ann--{{ _sid }} .wf-ann__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0 2.5em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.wf-ann--{{ _sid }} .wf-ann__dot {
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+
+/* ── Keyframe: translate -50% = una copia completa (loop perfecto) ── */
+@keyframes wfTicker{{ _sid }} {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Editor Shopify: mostrar todos estáticos ── */
+.wf-ann--{{ _sid }}.is-editor .wf-ann__track {
   animation: none !important;
-  opacity: 1 !important;
-  position: relative !important;
+  flex-wrap: wrap;
+  white-space: normal;
 }
-/* En el editor mostrar slides en fila (apilados verticalmente para no solapar) */
-#wf-ann-{{ _sid }}.is-editor .wf-ann__wrap {
-  flex-direction: column;
-  gap: 2px;
-  padding: 6px 16px;
+.wf-ann--{{ _sid }}.is-editor .wf-ann__item {
+  padding: 4px 12px;
+}
+.wf-ann--{{ _sid }}.is-editor .wf-ann__viewport {
+  -webkit-mask-image: none;
+  mask-image: none;
+  height: auto;
+  flex-wrap: wrap;
 }
 </style>
 
 <script>
 (function() {
-  var sid  = '{{ _sid }}';
-  var bar  = document.getElementById('wf-ann-' + sid);
+  var bar = document.querySelector('.wf-ann--{{ _sid }}');
   if (!bar) return;
-
-  // Si estamos en el editor de Shopify, desactivar animación CSS
-  // y mostrar todos los slides visibles para que el usuario pueda previsualizar
   if (window.Shopify && window.Shopify.designMode) {
     bar.classList.add('is-editor');
   }
-
-  // Reiniciar al cambiar settings en el editor
   document.addEventListener('shopify:section:load', function(e) {
-    if (!e.detail || e.detail.sectionId !== sid) return;
-    var b = document.getElementById('wf-ann-' + sid);
-    if (!b) return;
-    if (window.Shopify && window.Shopify.designMode) {
-      b.classList.add('is-editor');
+    if (e.detail && e.detail.sectionId === '{{ _sid }}') {
+      var b = document.querySelector('.wf-ann--{{ _sid }}');
+      if (b && window.Shopify && window.Shopify.designMode) b.classList.add('is-editor');
     }
   });
 })();
@@ -193,7 +217,7 @@
     { "type": "color", "id": "ann_bg",    "label": "Fondo",  "default": "#cc0000" },
     { "type": "color", "id": "ann_color", "label": "Texto",  "default": "#ffffff" },
     { "type": "range", "id": "ann_size",  "label": "Tamaño fuente",        "min": 10, "max": 18, "step": 1, "unit": "px", "default": 13 },
-    { "type": "range", "id": "ann_speed", "label": "Segundos por mensaje", "min": 2,  "max": 10, "step": 1, "unit": "s",  "default": 4  }
+    { "type": "range", "id": "ann_speed", "label": "Velocidad (seg/mensaje)", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 5 }
   ],
   "presets": [{ "name": "Barra de Anuncios", "category": "Content" }]
 }
