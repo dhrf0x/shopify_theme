@@ -364,6 +364,11 @@ a, .pagination a {
 ==============================================================================*/
 /* .off-canvas.is-closed — NO override visibility: Foundation ya lo maneja con visibility:hidden */
 /* Fue visibility:visible aqui lo que causaba la banda oscura derecha (cart sidebar siempre visible) */
+/* Off-canvas panels must cover announcement bar on mobile */
+.off-canvas.is-transition-overlap {
+  z-index: 100 !important;
+}
+
 #mobileMenuSidebar {
   background-color: $color-mobile-sidebar-bg;
   border-right: 1px solid darken($color-mobile-sidebar-bg, 4%);
@@ -1692,10 +1697,10 @@ body.wf-modal-open { overflow: hidden; }
 
 /* Caja del modal */
 .wf-modal__box {
-  background: #1a1a2e;
+  background: #111111;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04);
   width: 100%;
   max-width: 680px;
   max-height: calc(100vh - 80px);
@@ -2232,6 +2237,23 @@ img:not([loading]) { opacity: 1; }
   .header__search-toggle svg { stroke: #111111 !important; fill: none !important; }
   .product-loop-item .product-loop-title, .product-loop-item .product-loop-title a,
   .product-loop-item .product-loop-price span, .product-loop-item .product-loop-price .money { color: #111111 !important; }
+
+  /* ── Colecciones — modo claro ── */
+  .collection-page { background-color: #f5f5f5 !important; color: #111111 !important; }
+  .collection-nav { background-color: #f0f0f0 !important; }
+  .collection-nav__title, .blog-tags-nav__title { color: #111111 !important; }
+  .collection-nav .menu a { color: #444444 !important; }
+  .collection-nav .menu .__active a { color: #111111 !important; }
+  .collection-sorting select,
+  .collection-sorting .select-wrapper { background-color: #ffffff !important; color: #111111 !important; border-color: rgba(0,0,0,0.15) !important; }
+  .pagination .page a, .pagination .prev a, .pagination .next a { color: #111111 !important; border-color: rgba(0,0,0,0.15) !important; }
+  .pagination .page.current, .pagination .page.current a { color: #ffffff !important; background-color: #111111 !important; }
+  /* Filtros de tags y colecciones */
+  .collection-nav_tags .menu a, .collection-nav_collections .menu a { color: rgba(0,0,0,0.6) !important; }
+  .collection-nav_tags .__active a, .collection-nav_collections .__active a { color: #111111 !important; }
+  /* Product image placeholder */
+  .collection__products-grid .product-loop-image { background-color: #e8e8e8 !important; }
+
   /* Hero — texto siempre blanco con más sombra para contraste */
   .hero-gs__title { color: #ffffff !important; text-shadow: 0 1px 0 rgba(0,0,0,1), 0 2px 20px rgba(0,0,0,1), 0 0 60px rgba(0,0,0,0.9) !important; }
   .hero-gs__text, .hero-gs__text p { color: rgba(255,255,255,0.95) !important; text-shadow: 0 1px 6px rgba(0,0,0,0.95), 0 2px 16px rgba(0,0,0,0.85) !important; }
@@ -2251,12 +2273,19 @@ img:not([loading]) { opacity: 1; }
   .wf-novedades .product-loop-price .money { color: #111111 !important; }
 
   /* Search modal en claro */
-  .wf-modal__box { background: #ffffff !important; border-color: rgba(0,0,0,0.1) !important; box-shadow: 0 24px 80px rgba(0,0,0,0.2) !important; }
+  .wf-modal__box { background: #f8f8f8 !important; border-color: rgba(0,0,0,0.1) !important; box-shadow: 0 24px 80px rgba(0,0,0,0.2) !important; }
   .wf-modal__header { border-bottom-color: rgba(0,0,0,0.08) !important; }
   .wf-modal__icon { color: rgba(0,0,0,0.35) !important; }
   .wf-modal__input { color: #111111 !important; }
   .wf-modal__input::placeholder { color: rgba(0,0,0,0.3) !important; }
   .wf-modal__close { background: rgba(0,0,0,0.05) !important; border-color: rgba(0,0,0,0.12) !important; color: rgba(0,0,0,0.5) !important; }
+  .wf-card { background: rgba(0,0,0,0.04) !important; border-color: rgba(0,0,0,0.08) !important; }
+  .wf-card__title { color: #111111 !important; }
+  .wf-card__price { color: #111111 !important; }
+  .wf-modal__hint { color: rgba(0,0,0,0.35) !important; border-top-color: rgba(0,0,0,0.06) !important; }
+  .wf-modal__hint kbd { background: rgba(0,0,0,0.08) !important; color: rgba(0,0,0,0.5) !important; border-color: rgba(0,0,0,0.12) !important; }
+  .wf-modal__see-all { color: #111111 !important; border-top-color: rgba(0,0,0,0.06) !important; }
+  .wf-modal__see-all:hover { background: rgba(0,0,0,0.04) !important; }
   .wf-modal__close:hover { background: rgba(0,0,0,0.1) !important; color: #111111 !important; }
   .wf-modal__backdrop { background: rgba(0,0,0,0.4) !important; }
   .wf-card { background: rgba(0,0,0,0.04) !important; border-color: rgba(0,0,0,0.08) !important; }
