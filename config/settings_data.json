@@ -280,17 +280,17 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "ann_enabled": false,
+          "ann_enabled": true,
           "ann_visibility": "all",
-          "ann_msg1": "",
-          "ann_link1": "",
+          "ann_msg1": "Envio gratis en la compra de $999",
+          "ann_link1": "shopify://collections/oversize",
           "ann_msg2": "",
           "ann_link2": "",
           "ann_msg3": "",
           "ann_link3": "",
           "ann_bg": "#bc1313",
           "ann_color": "#ffffff",
-          "ann_size": 13,
+          "ann_size": 11,
           "ann_speed": 3
         }
       },
