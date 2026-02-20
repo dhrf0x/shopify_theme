@@ -279,6 +279,18 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
+        "blocks": {
+          "message_gDNiVY": {
+            "type": "message",
+            "settings": {
+              "text": "✦ Envío gratis en pedidos mayores a $999",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "message_gDNiVY"
+        ],
         "settings": {
           "show_bar": true,
           "ann_visibility": "all",
