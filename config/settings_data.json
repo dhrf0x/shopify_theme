@@ -295,10 +295,10 @@
           "main_menu_alignment": "left",
           "header_show_search": true,
           "label_hombres": "Hombres",
-          "link_hombres": "shopify://collections/test-blank",
-          "menu_hombres": "menu-hombre",
+          "link_hombres": "shopify://collections",
+          "menu_hombres": "",
           "label_mujeres": "Mujeres",
-          "link_mujeres": "shopify://collections/oversize",
+          "link_mujeres": "shopify://collections",
           "menu_mujeres": ""
         }
       },
@@ -360,16 +360,15 @@
             "type": "text",
             "settings": {
               "title": "Custom Text",
-              "text": "<p>Add some text here.</p>",
-              "show_social_links": true
+              "text": "<p>Add some text here.</p>"
             }
           },
           "footer-2": {
             "type": "newsletter",
             "settings": {
               "title": "Join the newsletter",
-              "info": "<p>Add some text here.</p>",
-              "newsletter_form_action": "",
+              "description": "Drops exclusivos, descuentos y novedades directo a tu correo.",
+              "placeholder": "Tu correo electrónico",
               "button_text": "Subscribe"
             }
           }
