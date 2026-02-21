@@ -13,53 +13,56 @@
   {% assign sold_out = false %}
 {% endif %}
 
+{%- comment ─── Opción de talla ─── -%}
+{%- assign qa_size_option = nil -%}
+{%- for option in product.options_with_values -%}
+  {%- assign opt_lower = option.name | downcase -%}
+  {%- if opt_lower == 'talla' or opt_lower == 'size' or opt_lower == 'talle' -%}
+    {%- assign qa_size_option = option -%}
+  {%- endif -%}
+{%- endfor -%}
+
 <div class="{{ grid_item_width }} product-loop-item">
+
+  {%- comment ─── Badges ─── -%}
   {% if settings.show_product_badges %}
     {% if sold_out %}
       <div class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</div>
     {% endif %}
-
     {% if on_sale and sold_out == false and discount_percentage > 0 %}
-      <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }} </div>
+      <div class="product-badge badge__sale">-{{ discount_percentage }}%</div>
     {% endif %}
   {% endif %}
 
+  {%- comment ─── Imagen + hover imagen secundaria ─── -%}
   <a href="{{ product.url | within: collection }}" class="product-loop-image secondary-image-enabled">
     {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
     {% unless product.featured_image == blank %}
-      <img class="lazyload product-image_featured" src="{{ product.featured_image | img_url: '300x300' }}"
-        data-src="{{ img_url }}"
-        data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
-        data-aspectratio="{{ product.featured_image.aspect_ratio }}"
-        data-sizes="auto"
-        alt="{{ product.featured_image.alt | escape }}">
-
-      {%- comment -%} Siempre mostrar segunda imagen si existe (hover swap) {%- endcomment -%}
+      <img class="lazyload product-image_featured"
+           src="{{ product.featured_image | img_url: '300x300' }}"
+           data-src="{{ img_url }}"
+           data-widths="[180, 360, 540, 720, 900, 1080]"
+           data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+           data-sizes="auto"
+           alt="{{ product.featured_image.alt | escape }}">
       {%- assign secondary_img = product.images[1] -%}
       {% unless secondary_img == blank %}
-        <img
-          class="product-image_secondary"
-          src="{{ secondary_img | img_url: '600x' }}"
-          alt="{{ product.title | escape }}"
-          loading="lazy"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s ease;"
-        >
+        <img class="product-image_secondary"
+             src="{{ secondary_img | img_url: '600x' }}"
+             alt="{{ product.title | escape }}"
+             loading="lazy">
       {% endunless %}
     {% endunless %}
   </a>
 
+  {%- comment ─── Título ─── -%}
   <a class="product-loop-title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
 
+  {%- comment ─── Precio ─── -%}
   <a href="{{ product.url | within: collection }}" class="product-loop-price">
     {% if on_sale %}
-      <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
       <s><span class="money">{{ product.compare_at_price | money }}</span></s>
-      {% if product.price_varies %}
-        {% assign sale_price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
-        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
-      {% else %}
-        <span class="money">{{ product.price | money }}</span>
-      {% endif %}
+      <span class="money sale-price">{{ product.price | money }}</span>
     {% else %}
       {% if product.price_varies %}
         {% assign price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
@@ -68,16 +71,82 @@
         <span class="money">{{ product.price | money }}</span>
       {% endif %}
     {% endif %}
-    {% if sold_out %}
-      <span class="is-sold-out">{{ 'products.product.sold_out' | t }}</span>
-    {% endif %}
+    {% if sold_out %}<span class="is-sold-out">{{ 'products.product.sold_out' | t }}</span>{% endif %}
   </a>
 
+  {%- comment ─── ATC section — visible siempre ─── -%}
+  {% unless sold_out %}
+    <div class="wf-atc-section" data-product-id="{{ product.id }}">
+
+      {%- comment ─── Selector de talla ─── -%}
+      {%- if qa_size_option -%}
+        <div class="wf-atc-sizes">
+          {%- assign size_order = 'XS,S,M,L,XL,XXL,2XL,3XL,4XL' | split: ',' -%}
+          {%- for ordered in size_order -%}
+            {%- if qa_size_option.values contains ordered -%}
+              {%- assign sv_available = false -%}
+              {%- assign sv_id = nil -%}
+              {%- for variant in product.variants -%}
+                {%- for ov in variant.options -%}
+                  {%- if ov == ordered and variant.available -%}
+                    {%- assign sv_available = true -%}
+                    {%- assign sv_id = variant.id -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+              <button class="wf-atc-size{% unless sv_available %} is-oos{% endunless %}"
+                      data-variant="{{ sv_id }}"
+                      {% unless sv_available %}disabled title="Agotado"{% endunless %}>
+                {{ ordered }}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- for val in qa_size_option.values -%}
+            {%- unless size_order contains val -%}
+              {%- assign sv_available = false -%}
+              {%- assign sv_id = nil -%}
+              {%- for variant in product.variants -%}
+                {%- for ov in variant.options -%}
+                  {%- if ov == val and variant.available -%}
+                    {%- assign sv_available = true -%}
+                    {%- assign sv_id = variant.id -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+              <button class="wf-atc-size{% unless sv_available %} is-oos{% endunless %}"
+                      data-variant="{{ sv_id }}"
+                      {% unless sv_available %}disabled title="Agotado"{% endunless %}>
+                {{ val }}
+              </button>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment ─── Botón ATC ─── -%}
+      {%- if qa_size_option -%}
+        <button class="wf-atc-btn wf-atc-btn--needs-size" disabled data-product="{{ product.id }}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Selecciona tu talla
+        </button>
+      {%- else -%}
+        <button class="wf-atc-btn"
+                data-variant="{{ product.first_available_variant.id }}"
+                data-product="{{ product.id }}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Añadir al carrito
+        </button>
+      {%- endif -%}
+
+    </div>
+  {% endunless %}
+
   {% if settings.add_spr_markup %}
-   <div class="spr-badge__wrap">
+    <div class="spr-badge__wrap">
       <a href="{{ product.url | within: collection }}#shopify-product-reviews">
         <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
       </a>
     </div>
   {% endif %}
+
 </div>

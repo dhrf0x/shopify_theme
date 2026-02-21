@@ -1,107 +1,836 @@
+{%- comment -%}
+  Collection v4.0 — WF Urban Muscle
+  Sidebar filters + product count + sort + ATC button
+{%- endcomment -%}
+
 {% paginate collection.products by settings.collection_items_count %}
 
+{%- comment ─── HEADER ─── -%}
 <div class="collection-header-wrap">
   {% section 'collection-header' %}
 </div>
-<div class="collection-page text-{{ settings.collection_text_alignment }}">
-  {% if settings.collection_display_collections and collections.size %}
-    <div class="collection-nav collection-nav_collections row js-animate-appear-show">
-      {% unless settings.collection_nav_title == blank %}
-        <h4 class="collection-nav__title columns">{{ settings.collection_nav_title }}</h4>
-      {% endunless %}
-      <ul class="menu">
-        {% for the_collection in collections %}
-          {% if the_collection.handle and the_collection.handle != 'frontpage' %}
-            <li{% if the_collection.handle == collection.handle %} class="__active"{% endif %}>
-              <a href="{{ the_collection.url }}">
-                {{ the_collection.title }}
+
+{%- comment ─── LAYOUT ─── -%}
+<div class="wf-collection-page">
+
+  {%- comment ─── SIDEBAR ─── -%}
+  <aside class="wf-filters" id="wf-filters" aria-label="Filtros">
+
+    {%- comment ─── Chips filtros activos ─── -%}
+    {%- assign has_active = false -%}
+    {%- for filter in collection.filters -%}
+      {%- if filter.type == 'price_range' -%}
+        {%- if filter.min_value.value or filter.max_value.value -%}{%- assign has_active = true -%}{%- endif -%}
+      {%- else -%}
+        {%- for v in filter.active_values -%}{%- assign has_active = true -%}{%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if current_tags.size > 0 -%}{%- assign has_active = true -%}{%- endif -%}
+
+    {%- if has_active -%}
+      <div class="wf-filters__active">
+        <div class="wf-filters__active-header">
+          <span class="wf-filters__active-title">Filtros activos</span>
+          <a href="{{ collection.url }}" class="wf-filters__clear-all">Eliminar todo</a>
+        </div>
+        <div class="wf-filters__chips">
+          {%- for filter in collection.filters -%}
+            {%- for v in filter.active_values -%}
+              <a href="{{ v.url_to_remove }}" class="wf-filters__chip">
+                {{ v.label }}
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"/></svg>
               </a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  {% if settings.collection_display_types and shop.types.size %}
-    <div class="collection-nav collection-nav_types row js-animate-appear-show">
-      {% unless settings.collection_types_nav_title == blank %}
-        <h4 class="collection-nav__title columns">{{ settings.collection_types_nav_title }}</h4>
-      {% endunless %}
-      <ul class="menu">
-        {% for product_type in shop.types %}
-        <li {% if product_type == collection.title %} class="__active"{% endif %}>
-          {{ product_type | link_to_type }}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  {% if settings.collection_display_tags %}
-    {% if collection.handle != 'all' and collection.all_tags.size > 0 %}
-      <div class="collection-nav collection-nav_tags row js-animate-appear-show">
-        <h4 class="collection-nav__title columns">{{ 'collections.sidebar.tags' | t }}</h4>
-        <ul class="menu">
-          <li{% unless current_tags %} class="__active"{% endunless %}>
-            {% if collection.handle %}
-              <a href="/collections/{{ collection.handle }}">
-                {{ 'collections.sidebar.all_of_tags' | t }}
-              </a>
-            {% endif %}
-          </li>
-
-          {% for tag in collection.all_tags %}
-            <li class="{% if current_tags contains tag %}__active{% endif %}">
-              {{ tag | capitalize | link_to_tag: tag  }}
-            </li>
-          {% endfor %}
-        </ul>
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- for tag in current_tags -%}
+            {%- assign tag_url = tag | link_to_remove_tag: tag | split: 'href="' | last | split: '"' | first -%}
+            <a href="{{ tag_url }}" class="wf-filters__chip">
+              {{ tag | replace: '_', ' ' | capitalize }}
+              <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"/></svg>
+            </a>
+          {%- endfor -%}
+        </div>
       </div>
-    {% endif %}
-  {% endif %}
+    {%- endif -%}
 
-  {% if settings.collection_display_sorting %}
-  <div class="collection-nav collection-nav_sort row js-animate-appear-show">
-    <h4 class="collection-nav__title columns">{{ 'collections.sorting.title' | t }}</h4>
-    <div class="columns">
-      {% include 'collection-sorting' %}
+    {%- comment ─── Ordenar por ─── -%}
+    <div class="wf-acc" id="acc-sort">
+      <button class="wf-acc__head is-open" aria-expanded="true" data-acc="acc-sort-body">
+        <span>Ordenar por</span>
+        <svg class="wf-acc__chevron" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="wf-acc__body" id="acc-sort-body">
+        <div class="wf-sort-options">
+          {%- assign cur_sort = collection.sort_by | default: collection.default_sort_by -%}
+          {%- assign sort_items = 'manual:Relevancia,best-selling:Más vendidos,price-ascending:Precio: Menor a Mayor,price-descending:Precio: Mayor a Menor,created-descending:Más nuevo,title-ascending:A - Z,title-descending:Z - A' | split: ',' -%}
+          {%- for item in sort_items -%}
+            {%- assign parts = item | split: ':' -%}
+            {%- assign sv = parts[0] -%}
+            {%- assign sl = parts[1] | append: parts[2] -%}
+            <label class="wf-sort-option">
+              <input type="radio" name="sort_by" value="{{ sv }}" {% if cur_sort == sv %}checked{% endif %} onchange="wfSortBy(this.value)">
+              <span class="wf-sort-option__dot"></span>
+              <span>{{ sl }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      </div>
     </div>
-  </div>
-  {% endif %}
 
-  <div class="collection__grid">
-    <div class="collection-content js-animate-appear-show">
+    {%- comment ─── Filtros nativos de Shopify (storefront filters) ─── -%}
+    {%- for filter in collection.filters -%}
+      <div class="wf-acc">
+        <button class="wf-acc__head{% if filter.active_values.size > 0 %} has-active{% endif %}"
+                aria-expanded="false" data-acc="acc-f-{{ forloop.index }}">
+          <span>
+            {{ filter.label }}
+            {%- if filter.active_values.size > 0 -%}
+              <span class="wf-acc__badge">{{ filter.active_values.size }}</span>
+            {%- endif -%}
+          </span>
+          <svg class="wf-acc__chevron" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 4l4 4 4-4"/></svg>
+        </button>
+        <div class="wf-acc__body is-closed" id="acc-f-{{ forloop.index }}">
+
+          {%- if filter.type == 'price_range' -%}
+            <div class="wf-price-range">
+              <div class="wf-price-inputs">
+                <div class="wf-price-input-wrap">
+                  <span class="wf-price-label">Mín $</span>
+                  <input type="text" inputmode="numeric" placeholder="{{ filter.range_min | divided_by: 100 }}"
+                         value="{% if filter.min_value.value %}{{ filter.min_value.value | divided_by: 100 | round }}{% endif %}"
+                         data-price-min class="wf-price-input">
+                </div>
+                <span class="wf-price-sep">—</span>
+                <div class="wf-price-input-wrap">
+                  <span class="wf-price-label">Máx $</span>
+                  <input type="text" inputmode="numeric" placeholder="{{ filter.range_max | divided_by: 100 }}"
+                         value="{% if filter.max_value.value %}{{ filter.max_value.value | divided_by: 100 | round }}{% endif %}"
+                         data-price-max class="wf-price-input">
+                </div>
+              </div>
+              <button type="button" class="wf-price-apply" onclick="wfPriceApply(this)">Aplicar</button>
+            </div>
+
+          {%- elsif filter.label == 'Talla' or filter.label == 'talla' or filter.label == 'Size' or filter.label == 'size' -%}
+            <div class="wf-size-grid">
+              {%- for value in filter.values -%}
+                {%- if value.count > 0 or value.active -%}
+                  <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                     class="wf-size-btn{% if value.active %} is-active{% endif %}{% if value.count == 0 %} is-unavailable{% endif %}">
+                    {{ value.label }}
+                  </a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+          {%- elsif filter.label == 'Color' or filter.label == 'color' or filter.label == 'Colour' -%}
+            <ul class="wf-filter-list">
+              {%- for value in filter.values -%}
+                {%- if value.count > 0 or value.active -%}
+                  <li>
+                    <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                       class="wf-filter-link wf-filter-link--color{% if value.active %} is-active{% endif %}">
+                      <span class="wf-color-dot" style="background:{{ value.label | downcase | replace: ' ','' }};"></span>
+                      {{ value.label }}
+                      <span class="wf-filter-count">({{ value.count }})</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- else -%}
+            <ul class="wf-filter-list">
+              {%- for value in filter.values -%}
+                {%- if value.count > 0 or value.active -%}
+                  <li>
+                    <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                       class="wf-filter-link{% if value.active %} is-active{% endif %}">
+                      {{ value.label }}
+                      <span class="wf-filter-count">({{ value.count }})</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+        </div>
+      </div>
+    {%- endfor -%}
+
+    {%- comment ─── Fallback: tags si no hay storefront filters ─── -%}
+    {%- if collection.filters.size == 0 and collection.all_tags.size > 0 -%}
+      <div class="wf-acc">
+        <button class="wf-acc__head" aria-expanded="false" data-acc="acc-tags">
+          <span>Filtrar por</span>
+          <svg class="wf-acc__chevron" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 4l4 4 4-4"/></svg>
+        </button>
+        <div class="wf-acc__body is-closed" id="acc-tags">
+          <ul class="wf-filter-list">
+            {%- for tag in collection.all_tags -%}
+              {%- assign is_active = false -%}
+              {%- if current_tags contains tag -%}{%- assign is_active = true -%}{%- endif -%}
+              {%- if is_active -%}
+                {%- assign tag_remove_url = tag | link_to_remove_tag: tag | split: 'href="' | last | split: '"' | first -%}
+              {%- endif -%}
+              <li>
+                <a href="{% if is_active %}{{ tag_remove_url }}{% else %}{{ collection.url }}/{{ tag | url_encode }}{% endif %}"
+                   class="wf-filter-link{% if is_active %} is-active{% endif %}">
+                  {{ tag | replace: '_', ' ' | capitalize }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endif -%}
+
+  </aside>
+
+  {%- comment ─── CONTENIDO PRINCIPAL ─── -%}
+  <div class="wf-collection-main">
+
+    {%- comment ─── Barra superior: toggle mobile + count ─── -%}
+    <div class="wf-collection-bar">
+      <button class="wf-filters-toggle hide-for-large" id="wf-filters-toggle" aria-expanded="false">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 3h14M4 8h8M7 13h2"/></svg>
+        Filtrar
+        {%- assign active_count = 0 -%}
+        {%- for filter in collection.filters -%}
+          {%- assign active_count = active_count | plus: filter.active_values.size -%}
+        {%- endfor -%}
+        {%- assign active_count = active_count | plus: current_tags.size -%}
+        {%- if active_count > 0 -%}
+          <span class="wf-filters-toggle__badge">{{ active_count }}</span>
+        {%- endif -%}
+      </button>
+      <p class="wf-collection-count">
+        {{ collection.products_count }}&nbsp;{% if collection.products_count == 1 %}producto{% else %}productos{% endif %}
+      </p>
+    </div>
+
+    {%- comment ─── Grid de productos ─── -%}
+    <div class="collection-content">
       {% for product in collection.products %}
         {% if forloop.index == 1 %}
-        <div class="row small-up-{{ settings.collection_row_mobile }} medium-up-{{ settings.collection_row_tablet }} large-up-{{ settings.collection_row_desktop }} collection__products-grid">
+          <div class="row small-up-{{ settings.collection_row_mobile }} medium-up-{{ settings.collection_row_tablet }} large-up-{{ settings.collection_row_desktop }} collection__products-grid">
         {% endif %}
           {% assign grid_item_width = 'column column-block' %}
           {% include 'product-grid-item' %}
         {% if forloop.last %}
-        </div>
+          </div>
         {% endif %}
       {% else %}
-        {% if collection.handle == 'all' and current_tags == '' %}
+        {% if collection.handle == 'all' %}
           {% unless emptyState %}
             {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
             {% assign emptyState = true %}
           {% endunless %}
           {% include 'onboarding-empty-collection' %}
         {% else %}
-          <div class="row columns">
-            <p>{{ 'collections.general.no_matches' | t }}</p>
+          <div class="wf-no-results">
+            <p>No hay productos con los filtros seleccionados.</p>
+            <a href="{{ collection.url }}" class="wf-no-results__clear">Ver todos los productos</a>
           </div>
         {% endif %}
       {% endfor %}
 
       {% if paginate.pages > 1 %}
         <div class="pagination">
-          {{ paginate | default_pagination | replace: '&laquo; Previous', '<span class="icon icon-angle-left"></span>' | replace: 'Next &raquo;', '<span class="icon icon-angle-right"></span>' }}
+          {{ paginate | default_pagination
+            | replace: '&laquo; Previous', '<span class="icon icon-angle-left"></span>'
+            | replace: 'Next &raquo;', '<span class="icon icon-angle-right"></span>' }}
         </div>
       {% endif %}
     </div>
+
   </div>
 </div>
+
+{%- comment ─── Overlay mobile ─── -%}
+<div class="wf-filters-overlay" id="wf-filters-overlay"></div>
+
+<style>
+/* ══════════════════════════════════════════════════════
+   COLLECTION PAGE — WF Urban Muscle v4.0
+   ══════════════════════════════════════════════════════ */
+
+/* ── Layout ── */
+.wf-collection-page {
+  display: flex;
+  align-items: flex-start;
+  max-width: 100%;
+  min-height: 60vh;
+}
+
+/* ── Sidebar ── */
+.wf-filters {
+  width: 256px;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 1rem 0 2rem;
+  position: sticky;
+  top: 64px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  background: transparent;
+}
+.wf-filters::-webkit-scrollbar { width: 3px; }
+.wf-filters::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* ── Main ── */
+.wf-collection-main {
+  flex: 1;
+  min-width: 0;
+  padding: 1rem 1.5rem 3rem 1.5rem;
+}
+
+/* ── Barra superior ── */
+.wf-collection-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 1.25rem;
+}
+.wf-collection-count {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* ── Chips filtros activos ── */
+.wf-filters__active {
+  padding: 0.75rem 1rem 0.875rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.wf-filters__active-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.wf-filters__active-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.wf-filters__clear-all {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4) !important;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.wf-filters__clear-all:hover { color: #fff !important; }
+.wf-filters__chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.wf-filters__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(255,255,255,0.9);
+  color: #111 !important;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 50px;
+  text-decoration: none !important;
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+}
+.wf-filters__chip:hover { background: #fff; color: #111 !important; }
+
+/* ── Acordión ── */
+.wf-acc {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.wf-acc__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  gap: 0.5rem;
+}
+.wf-acc__head:hover { background: rgba(255,255,255,0.04); color: #fff; }
+.wf-acc__chevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  stroke: rgba(255,255,255,0.4);
+}
+.wf-acc__head.is-open .wf-acc__chevron,
+.wf-acc__head[aria-expanded="true"] .wf-acc__chevron { transform: rotate(180deg); }
+.wf-acc__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #111;
+  font-size: 0.58rem;
+  font-weight: 800;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 50px;
+  margin-left: 0.3rem;
+  letter-spacing: 0;
+}
+
+/* ── Cuerpo acordión ── */
+.wf-acc__body {
+  overflow: hidden;
+  max-height: 600px;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding-bottom: 0.5rem;
+}
+.wf-acc__body.is-closed {
+  max-height: 0 !important;
+  padding-bottom: 0;
+}
+
+/* ── Lista genérica ── */
+.wf-filter-list { list-style: none; margin: 0; padding: 0 0.5rem; }
+.wf-filter-list li { margin: 0; }
+.wf-filter-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5) !important;
+  text-decoration: none !important;
+  transition: color 0.15s, background 0.15s;
+  border-radius: 4px;
+}
+.wf-filter-link:hover { color: rgba(255,255,255,0.9) !important; background: rgba(255,255,255,0.05); }
+.wf-filter-link.is-active { color: #fff !important; font-weight: 700; }
+.wf-filter-count { font-size: 0.68rem; color: rgba(255,255,255,0.25); font-weight: 400; margin-left: 0.25rem; flex-shrink: 0; }
+
+/* ── Color swatch ── */
+.wf-filter-link--color { gap: 0.5rem; justify-content: flex-start; }
+.wf-color-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: #555;
+}
+.wf-filter-link--color .wf-filter-count { margin-left: auto; }
+
+/* ── Tallas ── */
+.wf-size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.25rem 1rem 0.5rem;
+}
+.wf-size-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 32px;
+  padding: 0 0.6rem;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.5) !important;
+  text-decoration: none !important;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.wf-size-btn:hover { border-color: rgba(255,255,255,0.7); color: #fff !important; }
+.wf-size-btn.is-active { background: #fff; border-color: #fff; color: #111 !important; }
+.wf-size-btn.is-unavailable { opacity: 0.2; pointer-events: none; }
+
+/* ── Sort ── */
+.wf-sort-options {
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.wf-sort-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.wf-sort-option:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+.wf-sort-option input[type="radio"] { display: none; }
+.wf-sort-option__dot {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  position: relative;
+  transition: border-color 0.15s;
+}
+.wf-sort-option:has(input:checked) .wf-sort-option__dot { border-color: #fff; }
+.wf-sort-option:has(input:checked) .wf-sort-option__dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #fff;
+}
+.wf-sort-option:has(input:checked) { color: #fff; font-weight: 600; }
+
+/* ── Precio range ── */
+.wf-price-range { padding: 0.25rem 1rem 0.75rem; }
+.wf-price-inputs { display: flex; align-items: stretch; gap: 0.5rem; margin-bottom: 0.75rem; }
+.wf-price-input-wrap { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+.wf-price-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.wf-price-input {
+  width: 100%;
+  border: 1.5px solid rgba(255,255,255,0.15) !important;
+  border-radius: 4px !important;
+  background: rgba(255,255,255,0.05) !important;
+  padding: 0.4rem 0.55rem !important;
+  font-size: 0.8rem !important;
+  color: #fff !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  appearance: none;
+}
+.wf-price-input:focus { border-color: rgba(255,255,255,0.5) !important; outline: none !important; box-shadow: none !important; }
+.wf-price-sep { color: rgba(255,255,255,0.2); font-size: 0.75rem; flex-shrink: 0; align-self: flex-end; padding-bottom: 0.5rem; padding-top: 1rem; }
+.wf-price-apply {
+  width: 100%;
+  padding: 0.5rem;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wf-price-apply:hover { background: #ddd; }
+
+/* ── Toggle mobile ── */
+.wf-filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: none;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  transition: border-color 0.15s;
+}
+.wf-filters-toggle:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+.wf-filters-toggle__badge {
+  background: #fff;
+  color: #111;
+  font-size: 0.58rem;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Overlay mobile ── */
+.wf-filters-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 299; }
+.wf-filters-overlay.is-active { display: block; }
+
+/* ── Sin resultados ── */
+.wf-no-results { padding: 3rem 1rem; text-align: center; }
+.wf-no-results p { color: rgba(255,255,255,0.4); margin-bottom: 1rem; font-size: 0.9rem; }
+.wf-no-results__clear {
+  display: inline-block; padding: 0.55rem 1.5rem;
+  background: #fff; color: #111 !important; font-size: 0.78rem;
+  font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  border-radius: 3px; text-decoration: none !important; transition: background 0.15s;
+}
+.wf-no-results__clear:hover { background: #e0e0e0; }
+
+/* ── Mobile drawer ── */
+@media (max-width: 63.9375em) {
+  .wf-filters {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 288px;
+    max-width: 85vw;
+    max-height: 100vh;
+    border-right: none;
+    box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+    z-index: 300;
+    padding-top: 3.5rem;
+    background: #111110;
+    transform: translateX(-110%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .wf-filters.is-open { transform: translateX(0); }
+  .wf-collection-main { padding: 1rem 1rem 3rem; }
+}
+
+/* ── Light mode ── */
+@media (prefers-color-scheme: light) {
+  .wf-filters { border-right-color: rgba(0,0,0,0.08); background: transparent; }
+  .wf-acc { border-bottom-color: rgba(0,0,0,0.08); }
+  .wf-acc__head { color: rgba(0,0,0,0.75); }
+  .wf-acc__head:hover { background: rgba(0,0,0,0.04); color: #111; }
+  .wf-acc__chevron { stroke: rgba(0,0,0,0.4); }
+  .wf-acc__badge { background: #111; color: #fff; }
+  .wf-filters__active { border-bottom-color: rgba(0,0,0,0.08); }
+  .wf-filters__active-title { color: rgba(0,0,0,0.35); }
+  .wf-filters__clear-all { color: rgba(0,0,0,0.45) !important; }
+  .wf-filters__clear-all:hover { color: #111 !important; }
+  .wf-filters__chip { background: #111; color: #fff !important; }
+  .wf-filter-link { color: rgba(0,0,0,0.55) !important; }
+  .wf-filter-link:hover { color: #111 !important; background: rgba(0,0,0,0.04); }
+  .wf-filter-link.is-active { color: #111 !important; }
+  .wf-filter-count { color: rgba(0,0,0,0.3); }
+  .wf-color-dot { border-color: rgba(0,0,0,0.15); }
+  .wf-size-btn { border-color: rgba(0,0,0,0.18); color: rgba(0,0,0,0.55) !important; }
+  .wf-size-btn:hover { border-color: #111; color: #111 !important; }
+  .wf-size-btn.is-active { background: #111; border-color: #111; color: #fff !important; }
+  .wf-sort-option { color: rgba(0,0,0,0.5); }
+  .wf-sort-option:hover { background: rgba(0,0,0,0.04); color: #111; }
+  .wf-sort-option__dot { border-color: rgba(0,0,0,0.25); }
+  .wf-sort-option:has(input:checked) .wf-sort-option__dot { border-color: #111; }
+  .wf-sort-option:has(input:checked) .wf-sort-option__dot::after { background: #111; }
+  .wf-sort-option:has(input:checked) { color: #111; }
+  .wf-price-label { color: rgba(0,0,0,0.35); }
+  .wf-price-input { border-color: rgba(0,0,0,0.15) !important; background: #fff !important; color: #111 !important; }
+  .wf-price-input:focus { border-color: #111 !important; }
+  .wf-price-sep { color: rgba(0,0,0,0.25); }
+  .wf-price-apply { background: #111; color: #fff; }
+  .wf-price-apply:hover { background: #333; }
+  .wf-collection-bar { border-bottom-color: rgba(0,0,0,0.08); }
+  .wf-collection-count { color: rgba(0,0,0,0.4); }
+  .wf-filters-toggle { border-color: rgba(0,0,0,0.2); color: rgba(0,0,0,0.7); }
+  .wf-filters-toggle:hover { border-color: #111; color: #111; }
+  .wf-filters-toggle__badge { background: #111; color: #fff; }
+  .wf-no-results p { color: rgba(0,0,0,0.45); }
+  @media (max-width: 63.9375em) {
+    .wf-filters { background: #fff; }
+  }
+}
+</style>
+
+<script>
+(function() {
+  /* Sort */
+  window.wfSortBy = function(val) {
+    var p = new URLSearchParams(window.location.search);
+    p.set('sort_by', val);
+    p.set('page', '1');
+    window.location.href = window.location.pathname + '?' + p.toString();
+  };
+
+  /* Price filter */
+  window.wfPriceApply = function(btn) {
+    var c = btn.closest('.wf-price-range');
+    var minEl = c.querySelector('[data-price-min]');
+    var maxEl = c.querySelector('[data-price-max]');
+    var minVal = minEl ? minEl.value.replace(/[^0-9]/g, '') : '';
+    var maxVal = maxEl ? maxEl.value.replace(/[^0-9]/g, '') : '';
+    var p = new URLSearchParams(window.location.search);
+    minVal ? p.set('filter.v.price.gte', minVal) : p.delete('filter.v.price.gte');
+    maxVal ? p.set('filter.v.price.lte', maxVal) : p.delete('filter.v.price.lte');
+    p.set('page', '1');
+    window.location.href = window.location.pathname + '?' + p.toString();
+  };
+
+  /* Acordiones */
+  document.querySelectorAll('.wf-acc__head').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var bodyId = this.getAttribute('data-acc');
+      var body = document.getElementById(bodyId);
+      if (!body) return;
+      var isOpen = !body.classList.contains('is-closed');
+      body.classList.toggle('is-closed', isOpen);
+      this.classList.toggle('is-open', !isOpen);
+      this.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
+  /* Mobile drawer */
+  var toggle  = document.getElementById('wf-filters-toggle');
+  var sidebar = document.getElementById('wf-filters');
+  var overlay = document.getElementById('wf-filters-overlay');
+
+  function openFilters() {
+    sidebar && sidebar.classList.add('is-open');
+    overlay && overlay.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+    toggle  && toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeFilters() {
+    sidebar && sidebar.classList.remove('is-open');
+    overlay && overlay.classList.remove('is-active');
+    document.body.style.overflow = '';
+    toggle  && toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle  && toggle.addEventListener('click', openFilters);
+  overlay && overlay.addEventListener('click', closeFilters);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFilters();
+  });
+})();
+</script>
+
+<script>
+// ── WF ATC Section — botón añadir al carrito en tarjetas ──
+(function() {
+  var CART_URL = '/cart/add.js';
+
+  // Toast
+  function showToast(msg) {
+    var toast = document.getElementById('wf-cart-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'wf-cart-toast';
+      toast.className = 'wf-cart-toast';
+      toast.innerHTML = '<svg class="wf-cart-toast__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span></span>';
+      document.body.appendChild(toast);
+    }
+    toast.querySelector('span').textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function() { toast.classList.remove('is-visible'); }, 2800);
+  }
+
+  function addToCart(variantId, btn) {
+    if (!variantId) return;
+    btn.classList.add('is-loading');
+    fetch(CART_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.classList.remove('is-loading');
+      if (data.status) {
+        btn.textContent = 'Error';
+        setTimeout(function() { resetBtn(btn); }, 1500);
+      } else {
+        btn.classList.add('is-added');
+        btn.textContent = '✓ Añadido';
+        showToast(data.title + ' añadido al carrito');
+        // Actualizar contador
+        fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
+          var count = document.getElementById('CartCount');
+          if (count) {
+            count.textContent = cart.item_count;
+            var wrapper = count.closest('.header__cart-count');
+            if (wrapper) wrapper.classList.toggle('hidden-count', cart.item_count === 0);
+          }
+        });
+        setTimeout(function() {
+          btn.classList.remove('is-added');
+          resetBtn(btn);
+        }, 2000);
+      }
+    })
+    .catch(function() {
+      btn.classList.remove('is-loading');
+      btn.textContent = 'Error';
+      setTimeout(function() { resetBtn(btn); }, 1500);
+    });
+  }
+
+  function resetBtn(btn) {
+    var section = btn.closest('.wf-atc-section');
+    if (!section) return;
+    // Deselect all sizes
+    section.querySelectorAll('.wf-atc-size.is-selected').forEach(function(s) {
+      s.classList.remove('is-selected');
+    });
+    if (btn.classList.contains('wf-atc-btn--needs-size')) {
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Selecciona tu talla';
+      btn.classList.remove('is-ready');
+      btn.disabled = true;
+    } else {
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Añadir al carrito';
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    // Size button click
+    var sizeBtn = e.target.closest('.wf-atc-size');
+    if (sizeBtn && !sizeBtn.disabled) {
+      var section = sizeBtn.closest('.wf-atc-section');
+      if (!section) return;
+      // Toggle selection
+      var alreadySelected = sizeBtn.classList.contains('is-selected');
+      section.querySelectorAll('.wf-atc-size').forEach(function(s) { s.classList.remove('is-selected'); });
+      if (!alreadySelected) {
+        sizeBtn.classList.add('is-selected');
+        // Enable ATC button
+        var atcBtn = section.querySelector('.wf-atc-btn--needs-size');
+        if (atcBtn) {
+          var variantId = sizeBtn.getAttribute('data-variant');
+          atcBtn.setAttribute('data-variant', variantId);
+          atcBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Añadir al carrito';
+          atcBtn.classList.add('is-ready');
+          atcBtn.disabled = false;
+        }
+      } else {
+        // Deselected — reset button
+        var atcBtn = section.querySelector('.wf-atc-btn--needs-size');
+        if (atcBtn) {
+          atcBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Selecciona tu talla';
+          atcBtn.classList.remove('is-ready');
+          atcBtn.disabled = true;
+        }
+      }
+      return;
+    }
+
+    // ATC button click
+    var atcBtn = e.target.closest('.wf-atc-btn:not([disabled])');
+    if (atcBtn) {
+      var variantId = atcBtn.getAttribute('data-variant');
+      if (variantId) {
+        addToCart(variantId, atcBtn);
+      }
+    }
+  });
+})();
+</script>
 
 {% endpaginate %}
