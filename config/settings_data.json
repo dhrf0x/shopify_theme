@@ -492,9 +492,46 @@
       "wf-carousel": {
         "type": "wf-carousel",
         "blocks": {
+          "slide_RkAjGQ": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
+          "slide_7kVcMC": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
+          "slide_YApHXH": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
+          "slide_byGftc": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
           "slide_pLeLfr": {
             "type": "slide",
             "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
               "link": ""
@@ -502,10 +539,14 @@
           }
         },
         "block_order": [
+          "slide_RkAjGQ",
+          "slide_7kVcMC",
+          "slide_YApHXH",
+          "slide_byGftc",
           "slide_pLeLfr"
         ],
         "settings": {
-          "title": "Compra por Categoría",
+          "title": "TOP VENTAS",
           "link_text": "Ver todo",
           "link_url": "shopify://collections/all"
         }
