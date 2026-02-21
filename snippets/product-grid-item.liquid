@@ -13,7 +13,7 @@
   {% assign sold_out = false %}
 {% endif %}
 
-{%- comment -%} VALIDACIÓN: Mostrar botones SOLO en /collections/ {%- endcomment -%}
+{%- comment -%} VALIDACIÓN: Mostrar botones SOLO en colecciones {%- endcomment -%}
 {% assign is_collection_page = false %}
 {% if template == 'collection' or template.name == 'collection' %}
   {% assign is_collection_page = true %}
@@ -22,12 +22,14 @@
 <div class="{{ grid_item_width }} product-loop-item wf-product-card">
   
   <div class="wf-card-image-wrap">
+    
     {% if settings.show_product_badges %}
       {% if sold_out %}
         <div class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</div>
       {% endif %}
+
       {% if on_sale and sold_out == false and discount_percentage > 0 %}
-        <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }}</div>
+        <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }} </div>
       {% endif %}
     {% endif %}
 
@@ -48,44 +50,45 @@
       {% endunless %}
     </a>
 
-    {%- comment -%} OVERLAY HÍBRIDO (AHORA CON FORMS NATIVOS) {%- endcomment -%}
+    {%- comment -%} EL DISEÑO ORIGINAL QUE TE GUSTÓ (INTEGRADO CON AJAX) {%- endcomment -%}
     {% if is_collection_page %}
-      <div class="wf-gs-overlay">
+      <div class="wf-quickadd wf-atc-section">
         {% if product.available %}
           {% if product.variants.size > 1 %}
-            <div class="wf-gs-sizes-title">+ Añadir rápido</div>
-            <div class="wf-gs-sizes">
-              {% for variant in product.variants %}
-                {%- comment -%} ENVUELTO EN FORM PARA ACTIVAR EL CARRITO LATERAL {%- endcomment -%}
-                <form method="post" action="/cart/add" class="wf-gs-form">
-                  <input type="hidden" name="id" value="{{ variant.id }}">
-                  <input type="hidden" name="quantity" value="1">
-                  <button type="submit" class="wf-gs-size-btn" {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
-                    {{ variant.title | escape }}
-                  </button>
-                </form>
-              {% endfor %}
+            <p class="wf-quickadd__hint">Selecciona tu talla</p>
+            <div class="wf-quickadd__sizes wf-atc-sizes">
+              {%- for variant in product.variants -%}
+                <button type="button" class="wf-quickadd__size js-qa-size {% unless variant.available %}is-oos{% endunless %}"
+                        data-variant="{{ variant.id }}"
+                        {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }}
+                </button>
+              {%- endfor -%}
             </div>
+            <button type="button" class="wf-quickadd__btn js-qa-btn js-qa-needs-size" disabled>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Selecciona tu talla
+            </button>
           {% else %}
-            <form method="post" action="/cart/add" class="wf-gs-form wf-gs-form--full">
-              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-              <input type="hidden" name="quantity" value="1">
-              <button type="submit" class="wf-gs-add-btn">
-                + Añadir al carrito
-              </button>
-            </form>
+            <button type="button" class="wf-quickadd__btn js-qa-btn is-ready" data-variant="{{ product.variants.first.id }}" style="margin-top:auto;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Añadir al carrito
+            </button>
           {% endif %}
         {% else %}
-          <div class="wf-gs-oos-btn">Agotado</div>
+          <button type="button" class="wf-quickadd__btn" disabled style="margin-top:auto;">
+            Agotado
+          </button>
         {% endif %}
       </div>
     {% endif %}
 
   </div>
 
-  <div class="wf-card-info">
-    <a class="product-loop-title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-    <a href="{{ product.url | within: collection }}" class="product-loop-price">
+  <div class="wf-card-info" style="padding-top: 0.75rem;">
+    <a class="product-loop-title" href="{{ product.url | within: collection }}" style="margin-bottom: 0.2rem; display: block; font-weight:600; font-size:0.9rem;">{{ product.title }}</a>
+
+    <a href="{{ product.url | within: collection }}" class="product-loop-price" style="display: block; margin-bottom: 0.75rem; color: rgba(255,255,255,0.6); font-size:0.85rem;">
       {% if on_sale %}
         <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
         <s><span class="money">{{ product.compare_at_price | money }}</span></s>
@@ -93,7 +96,7 @@
           {% assign sale_price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
           {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
         {% else %}
-          <span class="money wf-price-sale">{{ product.price | money }}</span>
+          <span class="money wf-price-sale" style="color:#E22120; font-weight:700;">{{ product.price | money }}</span>
         {% endif %}
       {% else %}
         {% if product.price_varies %}
@@ -116,53 +119,78 @@
 </div>
 
 <script>
-  /* Interceptor AJAX para los botones Gymshark */
-  if (!window.wfGymsharkAjax) {
-    window.wfGymsharkAjax = true;
+  /* Interceptor AJAX para el primer diseño (Panel Deslizante) */
+  if (!window.wfQuickAddOriginalInit) {
+    window.wfQuickAddOriginalInit = true;
 
-    document.addEventListener('submit', function(e) {
-      if (e.target.matches('.wf-gs-form')) {
-        e.preventDefault(); // Evita la redirección a myshopify.com/cart
+    document.addEventListener('click', function(e) {
+      
+      // 1. Manejar clic en las tallas
+      var sizeBtn = e.target.closest('.js-qa-size');
+      if (sizeBtn && !sizeBtn.disabled) {
+        var section = sizeBtn.closest('.wf-quickadd');
+        var atcBtn = section.querySelector('.js-qa-needs-size');
+        if (!atcBtn) return;
         
-        var form = e.target;
-        var btn = form.querySelector('button');
-        var originalText = btn.innerText;
+        var wasSelected = sizeBtn.classList.contains('is-selected');
+        
+        // Limpiar otras selecciones
+        section.querySelectorAll('.js-qa-size').forEach(function(b) { b.classList.remove('is-selected'); });
+        
+        if (!wasSelected) {
+          sizeBtn.classList.add('is-selected');
+          atcBtn.setAttribute('data-variant', sizeBtn.getAttribute('data-variant'));
+          atcBtn.disabled = false;
+          atcBtn.classList.add('is-ready');
+          atcBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Añadir al carrito';
+        } else {
+          atcBtn.disabled = true;
+          atcBtn.classList.remove('is-ready');
+          atcBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Selecciona tu talla';
+        }
+      }
 
-        // 1. Estado de carga visual
-        btn.innerHTML = '<span style="opacity:0.5;">...</span>';
-        btn.disabled = true;
+      // 2. Manejar clic en "Añadir al carrito"
+      var atcBtnClick = e.target.closest('.js-qa-btn:not([disabled])');
+      if (atcBtnClick) {
+        var variantId = atcBtnClick.getAttribute('data-variant');
+        var originalText = atcBtnClick.innerHTML;
+        
+        atcBtnClick.innerHTML = 'Añadiendo...';
+        atcBtnClick.disabled = true;
 
-        // 2. Enviar producto al carrito en segundo plano
         fetch('/cart/add.js', {
           method: 'POST',
-          body: new FormData(form)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
         })
         .then(function(res) { return res.json(); })
         .then(function(data) {
-          // Mostrar éxito en el cuadrito
-          btn.innerHTML = '✓';
+          atcBtnClick.innerHTML = '✓ Añadido';
           setTimeout(function() { 
-            btn.innerText = originalText; 
-            btn.disabled = false; 
+            // Reset visual state
+            var section = atcBtnClick.closest('.wf-quickadd');
+            if (atcBtnClick.classList.contains('js-qa-needs-size')) {
+              section.querySelectorAll('.js-qa-size').forEach(function(b) { b.classList.remove('is-selected'); });
+              atcBtnClick.disabled = true;
+              atcBtnClick.classList.remove('is-ready');
+              atcBtnClick.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Selecciona tu talla';
+            } else {
+              atcBtnClick.innerHTML = originalText;
+              atcBtnClick.disabled = false;
+            }
           }, 2000);
 
-          // 3. Actualizar la información del carrito usando tu archivo nativo ajax-cart.js
-          if (window.ajaxCart) {
-            window.ajaxCart.load();
-          }
-
-          // 4. Desplegar el sidebar automáticamente
-          // Buscamos el icono del carrito en la barra de navegación y simulamos un clic
-          var cartHeaderIcon = document.querySelector('a[href="/cart"], .js-drawer-open-right');
-          if (cartHeaderIcon) {
-            cartHeaderIcon.click();
-          }
+          // Actualizar y abrir sidebar
+          if (window.ajaxCart) { window.ajaxCart.load(); }
+          var cartIcon = document.querySelector('a[href="/cart"], .js-drawer-open-right');
+          if (cartIcon) cartIcon.click();
         })
-        .catch(function(err) {
-          btn.innerText = 'X';
+        .catch(function() {
+          atcBtnClick.innerHTML = 'Error';
           setTimeout(function() { 
-            btn.innerText = originalText; 
-            btn.disabled = false; 
+            atcBtnClick.innerHTML = originalText; 
+            atcBtnClick.disabled = false; 
           }, 2000);
         });
       }
