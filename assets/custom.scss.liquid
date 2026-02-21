@@ -3152,3 +3152,237 @@ img:not([loading]) { opacity: 1; }
   .wf-fav-price { color: rgba(0,0,0,0.6); }
 }
 /* ⬆️ FIN BLOQUE WF: FAVORITOS EN CARRITO ⬆️ */
+
+/* ========================================== */
+/* ⬇️ INICIO BLOQUE WF: SPLIT LOGIN PAGE ⬇️ */
+/* ========================================== */
+
+/* Rompemos las reglas globales para que ocupe el 100% de la pantalla */
+.customer-page, .login-page { padding: 0 !important; }
+main.main-content { padding: 0 !important; }
+
+.wf-split-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); /* Descuenta el header */
+  background: $color-sections-bg;
+}
+
+@media (min-width: 768px) {
+  .wf-split-screen { flex-direction: row; }
+}
+
+/* --- Panel de la Imagen --- */
+.wf-split-image-panel {
+  position: relative;
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .wf-split-image-panel {
+    width: 50%;
+    height: auto;
+    padding: 4rem;
+  }
+}
+
+.wf-split-image-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.wf-split-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
+  z-index: 2;
+}
+
+.wf-split-brand-text {
+  position: relative;
+  z-index: 3;
+  color: #fff;
+}
+.wf-split-brand-text h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: #fff !important;
+}
+.wf-split-brand-text p {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* --- Panel del Formulario --- */
+.wf-split-form-panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .wf-split-form-panel {
+    width: 50%;
+    padding: 4rem;
+  }
+}
+
+.wf-form-container {
+  width: 100%;
+  max-width: 400px; /* Ancho elegante para formularios */
+}
+
+.wf-form-header {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+.wf-form-header .page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+  color: $color-sections-text;
+}
+.wf-form-header p {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+}
+
+.wf-input-group {
+  margin-bottom: 1.5rem;
+}
+.wf-input-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.5rem;
+}
+.wf-input-group input {
+  width: 100%;
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+  padding: 1rem !important;
+  border-radius: 4px !important;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: none !important;
+}
+.wf-input-group input:focus {
+  border-color: rgba(255,255,255,0.5) !important;
+  background: rgba(255,255,255,0.08) !important;
+  outline: none;
+}
+
+.wf-form-actions { margin-top: 2rem; }
+.wf-actions-stacked { display: flex; flex-direction: column; gap: 1rem; }
+
+/* Botones Premium */
+.wf-btn-primary {
+  width: 100%;
+  padding: 1rem;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s;
+}
+.wf-btn-primary:hover {
+  background: #e5e5e5;
+  transform: scale(1.02);
+}
+
+.wf-btn-secondary {
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.wf-btn-secondary:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.05);
+}
+
+.wf-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.wf-form-footer a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+}
+.wf-form-footer a:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+.wf-divider {
+  border-color: rgba(255,255,255,0.1);
+  margin: 3rem 0 2rem;
+}
+.wf-guest-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+/* Modo Claro Nativo */
+@media (prefers-color-scheme: light) {
+  .wf-split-screen { background: #f0f0f0; }
+  .wf-form-header .page-title { color: #111; }
+  .wf-form-header p { color: rgba(0,0,0,0.6); }
+  .wf-input-group label { color: rgba(0,0,0,0.6); }
+  .wf-input-group input { 
+    background: #fff !important; 
+    border-color: rgba(0,0,0,0.1) !important; 
+    color: #111 !important; 
+  }
+  .wf-input-group input:focus { border-color: rgba(0,0,0,0.4) !important; }
+  .wf-btn-primary { background: #111; color: #fff; }
+  .wf-btn-primary:hover { background: #333; }
+  .wf-btn-secondary { color: #111; border-color: rgba(0,0,0,0.2); }
+  .wf-btn-secondary:hover { border-color: #111; background: rgba(0,0,0,0.05); }
+  .wf-form-footer a { color: rgba(0,0,0,0.5); }
+  .wf-form-footer a:hover { color: #111; border-color: #111; }
+  .wf-divider { border-color: rgba(0,0,0,0.1); }
+}
+/* ⬆️ FIN BLOQUE WF: SPLIT LOGIN PAGE ⬆️ */
