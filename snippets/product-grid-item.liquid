@@ -114,22 +114,16 @@
 </div>
 
 <script>
-  /* Interceptor AJAX para las tallas (Sin bug de Overlay) */
+  /* Interceptor AJAX para las tallas (Seguro Anti-Burbujeo) */
   if (!window.wfQuickAddDirectInit) {
     window.wfQuickAddDirectInit = true;
 
     document.addEventListener('click', function(e) {
-      
-      // 1. EL SEGURO DEL OVERLAY (Elimina el fondo blanco fantasma)
-      if (e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay')) {
-        document.body.classList.remove('is-transition-overlap', 'is-moved', 'cart-open');
-        document.querySelectorAll('.off-canvas').forEach(function(el) { el.classList.remove('is-open'); });
-      }
-
       var btn = e.target.closest('.js-qa-direct-add');
       if (!btn || btn.disabled) return;
 
       e.preventDefault();
+      e.stopPropagation(); // <-- LA CLAVE: Evita el corto circuito con el JS nativo de tu tema
       
       var variantId = btn.getAttribute('data-variant');
       if (!variantId) return;
@@ -138,6 +132,7 @@
       btn.innerHTML = '<span style="opacity:0.5;">...</span>';
       btn.disabled = true;
 
+      // Enviar producto al carrito invisiblemente
       fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -152,29 +147,24 @@
           btn.disabled = false; 
         }, 2000);
 
-        // Actualizamos el carrito usando tu archivo nativo ajax-cart.js
+        // Reconstruir el carrito usando tu archivo nativo ajax-cart.js
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') {
           window.ajaxCart.load();
         }
 
-        // Actualizamos burbuja de cantidad
+        // Actualizar el número de artículos
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
 
-        // 2. ABRIR SIDEBAR CON RETRASO (Previene la condición de carrera)
+        // Abrir el Sidebar fluidamente con un pequeño retraso para sincronizar animaciones
         setTimeout(function() {
-          var isDrawerOpen = document.body.classList.contains('is-moved') || document.body.classList.contains('cart-open') || document.querySelector('.off-canvas.is-open');
-          
-          if (!isDrawerOpen) {
-            var cartIcons = document.querySelectorAll('a[href="/cart"], #cart-icon, .site-header__cart-toggle, .js-drawer-open-right');
-            for (var i = 0; i < cartIcons.length; i++) {
-              cartIcons[i].click();
-              break; 
-            }
-          }
-        }, 200); // 200ms de respiro para que el CSS de tu tema no se trabe
+           var cartIcon = document.querySelector('.site-header__cart-toggle, #cart-icon, .js-drawer-open-right, a[href="/cart"]');
+           if (cartIcon) {
+             cartIcon.click();
+           }
+        }, 150);
 
       })
       .catch(function() {
