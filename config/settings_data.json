@@ -575,6 +575,14 @@
           "link_text": "Ver todo",
           "link_url": "shopify://collections/all"
         }
+      },
+      "login-split": {
+        "type": "login-split",
+        "settings": {
+          "bg_image": "shopify://shop_images/6bc6d063-47e9-4607-add5-9be7d57fd32f.jpg",
+          "brand_title": "WF URBAN MUSCLE",
+          "brand_subtitle": ""
+        }
       }
     },
     "content_for_index": []
