@@ -114,12 +114,18 @@
 </div>
 
 <script>
-  /* Interceptor AJAX para las tallas (Sin redirigir y abriendo el Sidebar) */
+  /* Interceptor AJAX para las tallas (Sin bug de Overlay) */
   if (!window.wfQuickAddDirectInit) {
     window.wfQuickAddDirectInit = true;
 
     document.addEventListener('click', function(e) {
       
+      // 1. EL SEGURO DEL OVERLAY (Elimina el fondo blanco fantasma)
+      if (e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay')) {
+        document.body.classList.remove('is-transition-overlap', 'is-moved', 'cart-open');
+        document.querySelectorAll('.off-canvas').forEach(function(el) { el.classList.remove('is-open'); });
+      }
+
       var btn = e.target.closest('.js-qa-direct-add');
       if (!btn || btn.disabled) return;
 
@@ -140,31 +146,35 @@
       .then(function(res) { return res.json(); })
       .then(function(data) {
         
-        // 1. Mostrar palomita de éxito en la talla
         btn.innerHTML = '✓';
         setTimeout(function() { 
           btn.innerHTML = originalText; 
           btn.disabled = false; 
         }, 2000);
 
-        // 2. Reconstruir el interior del carrito usando el JS nativo de tu tema
+        // Actualizamos el carrito usando tu archivo nativo ajax-cart.js
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') {
           window.ajaxCart.load();
         }
 
-        // 3. LA MAGIA PARA DESPLEGAR EL SIDEBAR
-        // Esto busca el icono de carrito en el Header de Shopify y le da clic automáticamente
-        var cartIcons = document.querySelectorAll('a[href="/cart"], #cart-icon, .site-header__cart-toggle, .js-drawer-open-right');
-        for (var i = 0; i < cartIcons.length; i++) {
-          cartIcons[i].click();
-          break; // Con un solo clic basta
-        }
-
-        // 4. Actualizar el numerito (burbuja) de cuántos artículos hay
+        // Actualizamos burbuja de cantidad
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
+
+        // 2. ABRIR SIDEBAR CON RETRASO (Previene la condición de carrera)
+        setTimeout(function() {
+          var isDrawerOpen = document.body.classList.contains('is-moved') || document.body.classList.contains('cart-open') || document.querySelector('.off-canvas.is-open');
+          
+          if (!isDrawerOpen) {
+            var cartIcons = document.querySelectorAll('a[href="/cart"], #cart-icon, .site-header__cart-toggle, .js-drawer-open-right');
+            for (var i = 0; i < cartIcons.length; i++) {
+              cartIcons[i].click();
+              break; 
+            }
+          }
+        }, 200); // 200ms de respiro para que el CSS de tu tema no se trabe
 
       })
       .catch(function() {
