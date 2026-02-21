@@ -2499,20 +2499,56 @@ body.wf-modal-open { overflow: hidden; }
   font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
   font-weight: 600; color: rgba(255,255,255,0.45); margin: 0; text-align: center;
 }
+/* ========================================== */
+/* ⬇️ INICIO BLOQUE WF: BOTONES CUADRADOS ⬇️ */
+/* ========================================== */
+
+/* 1. Contenedor de las tallas (Mantiene el orden) */
 .wf-quickadd__sizes {
-  display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: center;
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; /* Un poco más de separación para que los cuadrados respiren */
+  justify-content: center;
+  width: 100%;
 }
+
+/* 2. Botones simétricos (Cuadrados perfectos) */
 .wf-quickadd__size {
-  min-width: 32px; height: 28px; padding: 0 0.45rem;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.28);
-  border-radius: 3px; color: #fff !important;
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em;
-  cursor: pointer; transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: unset !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important; /* Cambia a 0px si los quieres completamente cuadrados sin esquinas suaves */
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #111 !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important; 
 }
-.wf-quickadd__size:hover { background: #fff; border-color: #fff; color: #111 !important; transform: scale(1.06); }
-.wf-quickadd__size.is-loading { opacity: 0.5; pointer-events: none; }
-.wf-quickadd__size.is-added { background: #22c55e; border-color: #22c55e; color: #fff !important; }
+
+/* 3. Efecto al pasar el mouse */
+.wf-quickadd__size:hover:not([disabled]) {
+  background: #111 !important;
+  color: #fff !important;
+  transform: scale(1.1); /* Efecto pop */
+}
+
+/* 4. Tallas Agotadas */
+.wf-quickadd__size[disabled] {
+  opacity: 0.4 !important;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ⬆️ FIN BLOQUE WF: BOTONES CUADRADOS ⬆️ */
+
 .wf-quickadd__btn {
   display: flex; align-items: center; justify-content: center; gap: 0.45rem;
   width: 100%; padding: 0.5rem;
