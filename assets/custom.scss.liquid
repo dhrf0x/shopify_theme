@@ -362,35 +362,9 @@ a, .pagination a {
 /*============================================================================
   Mobile Menu Sidebar
 ==============================================================================*/
-/* .off-canvas.is-closed — NO override visibility: Foundation ya lo maneja con visibility:hidden */
-/* Fue visibility:visible aqui lo que causaba la banda oscura derecha (cart sidebar siempre visible) */
-/* Off-canvas panels must cover announcement bar on mobile */
-.off-canvas.is-transition-overlap {
-  z-index: 100 !important;
+.off-canvas.is-closed {
+  visibility: visible;
 }
-
-/* Gender nav items en el menú mobile */
-.mobile-menu .wf-mobile-gender > a {
-  font-size: $mobile-menu-link-size;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 1.25rem;
-  color: $color-mobile-sidebar-link;
-  display: block;
-}
-.mobile-menu .wf-mobile-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.08);
-  margin: 0.5rem 1.25rem;
-  padding: 0;
-  list-style: none;
-}
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-  .mobile-menu .wf-mobile-divider { background: rgba(0,0,0,0.08); }
-}
-
 #mobileMenuSidebar {
   background-color: $color-mobile-sidebar-bg;
   border-right: 1px solid darken($color-mobile-sidebar-bg, 4%);
@@ -572,7 +546,6 @@ a, .pagination a {
 
 .header-container {
   background-color: $color-header-bg;
-  will-change: transform;
 }
 
 .header-container, .page-wrapper, .announcement-bar {
@@ -645,9 +618,7 @@ a, .pagination a {
   background-color: transparent;
   position: absolute;
   width: 100%;
-  z-index: 100;
-  box-shadow: none !important;
-  border-bottom-color: transparent !important;
+  z-index: 10;
   #main-header {
     .logo-wrap .header__title a { color: $color-header-overlay-main-menu; }
     .header__cart-count { background-color: $color-header-overlay-cart-count-bg; }
@@ -1018,50 +989,18 @@ a, .pagination a {
   Product Loop
 ==============================================================================*/
 .product-loop-item {
-  margin-bottom: 2.5rem;
   .product-loop-image {
     border-radius: $border-radius;
     overflow: hidden;
-    display: block;
-    position: relative;
-  }
-  /* Hover swap — segunda imagen al pasar el mouse */
-  .product-loop-image.secondary-image-enabled {
-    position: relative;
-    display: block;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    /* img principal */
-    img.product-image_featured {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: relative;
-      z-index: 1;
-      transition: transform 0.5s ease;
-    }
-    img.product-image_secondary {
-      position: absolute !important;
-      top: 0 !important; left: 0 !important;
-      width: 100% !important; height: 100% !important;
-      object-fit: cover !important;
-      opacity: 0 !important;
-      z-index: 2;
-      transition: opacity 0.45s ease !important;
-      pointer-events: none;
-    }
-    &:hover img.product-image_secondary { opacity: 1 !important; }
-    &:hover img.product-image_featured   { transform: scale(1.03); }
   }
   .product-loop-title {
     color: $color-collection-product-title;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: $loop-product-title-size;
+    font-weight: $loop-product-title-weight;
     text-transform: $loop-product-title-transform;
     display: block;
-    margin-bottom: 5px;
-    line-height: 1.25;
+    margin-bottom: 4px;
+    line-height: 1.2;
   }
   .product-loop-price {
     color: $color-collection-product-price;
@@ -1072,7 +1011,7 @@ a, .pagination a {
       opacity: 0.6;
     }
     span {
-      font-size: 0.9rem;
+      font-size: $loop-product-price-size;
       font-weight: $loop-product-price-weight;
     }
   }
@@ -1494,20 +1433,90 @@ a, .pagination a {
   content: "\e9c9";
 }
 
+/* ─── OVERRIDES: replaces original theme inline rules ────────── */
 
+/* Fix 1: Off-canvas visibility — Foundation manages this, 
+   original theme's visibility:visible caused dark band on right */
+.off-canvas.is-closed { visibility: hidden; }
 
+/* Fix 2: Off-canvas z-index to cover announcement bar */
+.off-canvas.is-transition-overlap { z-index: 100 !important; }
 
+/* Fix 3: header-container.header-overlay needs higher z-index
+   and no box-shadow/border in transparent state */
+.header-container.header-overlay {
+  z-index: 100;
+  box-shadow: none !important;
+  border-bottom-color: transparent !important;
+}
 
+/* Fix 4: Mobile gender nav items */
+.mobile-menu .wf-mobile-gender > a {
+  font-size: $mobile-menu-link-size;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1.25rem;
+  color: $color-mobile-sidebar-link;
+  display: block;
+}
+.mobile-menu .wf-mobile-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 0.5rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+@media (prefers-color-scheme: light) {
+  .mobile-menu .wf-mobile-divider { background: rgba(0,0,0,0.08); }
+}
 
+/* Fix 5: Product card — hover image swap + 3:4 aspect ratio */
+.product-loop-item { margin-bottom: 2.5rem; }
+.product-loop-item .product-loop-image {
+  display: block;
+  position: relative;
+}
+.product-loop-image.secondary-image-enabled {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+.product-loop-image.secondary-image-enabled img.product-image_featured {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s ease;
+}
+.product-loop-image.secondary-image-enabled img.product-image_secondary {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0 !important;
+  z-index: 2;
+  transition: opacity 0.45s ease !important;
+  pointer-events: none;
+}
+.product-loop-image.secondary-image-enabled:hover img.product-image_secondary { opacity: 1 !important; }
+.product-loop-image.secondary-image-enabled:hover img.product-image_featured   { transform: scale(1.03); }
 
+/* Fix 6: Product card title/price sizing */
+.product-loop-item .product-loop-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  line-height: 1.25;
+}
+.product-loop-item .product-loop-price span {
+  font-size: 0.9rem;
+}
 
-
-
-
-
-
-/* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
+║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
    ║   overflow:clip hero fix + Gymshark search overlay           ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
@@ -1591,11 +1600,6 @@ h1, h2, h3, h4, h5, h6,
   background-color: $color-sections-bg !important;
   box-shadow: 0 2px 20px rgba(0,0,0,0.5) !important;
   border-bottom-color: rgba(255,255,255,0.1) !important;
-}
-
-/* OVERLAY base: empieza DEBAJO del anuncio, no encima */
-.header-container.header-overlay:not(.is-fixed) {
-  top: var(--ann-h);
 }
 
 /* OVERLAY (homepage hero): absolute sobre el hero, luego fixed al scrollear */
@@ -2624,7 +2628,7 @@ img:not([loading]) { opacity: 1; }
   .content-section:not(.hero-section):not(.hero-section--gymshark) { background-color: #f0f0f0 !important; }
   h1,h2,h3,h4,h5,h6, .section-title, .section__title-style, .page-title { color: #111111 !important; }
   .header-container { background-color: #f0f0f0 !important; border-bottom-color: rgba(0,0,0,0.08) !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; }
-  .header-container:not(.header-overlay).is-scrolled { background-color: rgba(240,240,240,0.96) !important; }
+  .header-container:not(.header-overlay).is-scrolled { background-color: #f0f0f0 !important; }
   .header-container.header-overlay.is-fixed { background-color: #f0f0f0 !important; box-shadow: 0 2px 16px rgba(0,0,0,0.1) !important; border-bottom-color: rgba(0,0,0,0.08) !important; }
   #header-right-menu a, .header__title a, .header__title_img a { color: #111111 !important; }
   #header-right-menu svg, #main-header svg { fill: #111111 !important; }
@@ -2773,7 +2777,6 @@ img:not([loading]) { opacity: 1; }
   ::selection { background-color: rgba(0,0,0,0.12); color: #111; }
   .footer-section, .site-footer { border-top-color: rgba(0,0,0,0.07) !important; }
 }
-
 
 /* ═══════════════════════════════════════════════════════
    ATC SECTION — Botón añadir al carrito en tarjetas
