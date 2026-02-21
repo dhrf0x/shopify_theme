@@ -3217,4 +3217,40 @@ img:not([loading]) { opacity: 1; }
   .placeholder-svg { background: #e0e0e0; }
   /* El degradado de la foto sigue oscuro para que las letras blancas resalten bien */
 }
+
+/* Botón de Favoritos (Corazón) */
+.wf-carousel-heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.wf-carousel-heart:hover {
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+  transform: scale(1.1);
+}
+/* Clase para cuando el usuario le dé clic (se rellenará de negro o rojo) */
+.wf-carousel-heart.is-active svg {
+  fill: #111;
+  stroke: #111;
+}
+.wf-carousel-heart svg {
+  width: 16px;
+  height: 16px;
+  transition: fill 0.2s, stroke 0.2s;
+}
 /* ⬆️ FIN BLOQUE WF: CARRUSEL PREMIUM ⬆️ */
