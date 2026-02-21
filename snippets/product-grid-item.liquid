@@ -114,7 +114,6 @@
 </div>
 
 <script>
-  /* Interceptor AJAX para las tallas (Seguro Anti-Burbujeo) */
   if (!window.wfQuickAddDirectInit) {
     window.wfQuickAddDirectInit = true;
 
@@ -123,8 +122,6 @@
       if (!btn || btn.disabled) return;
 
       e.preventDefault();
-      e.stopPropagation(); // <-- LA CLAVE: Evita el corto circuito con el JS nativo de tu tema
-      
       var variantId = btn.getAttribute('data-variant');
       if (!variantId) return;
 
@@ -132,7 +129,6 @@
       btn.innerHTML = '<span style="opacity:0.5;">...</span>';
       btn.disabled = true;
 
-      // Enviar producto al carrito invisiblemente
       fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -140,39 +136,28 @@
       })
       .then(function(res) { return res.json(); })
       .then(function(data) {
-        
         btn.innerHTML = '✓';
-        setTimeout(function() { 
-          btn.innerHTML = originalText; 
-          btn.disabled = false; 
-        }, 2000);
+        setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
 
-        // Reconstruir el carrito usando tu archivo nativo ajax-cart.js
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') {
           window.ajaxCart.load();
         }
 
-        // Actualizar el número de artículos
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
 
-        // Abrir el Sidebar fluidamente con un pequeño retraso para sincronizar animaciones
         setTimeout(function() {
            var cartIcon = document.querySelector('.site-header__cart-toggle, #cart-icon, .js-drawer-open-right, a[href="/cart"]');
-           if (cartIcon) {
+           if (cartIcon && !document.body.classList.contains('is-moved')) {
              cartIcon.click();
            }
-        }, 150);
-
+        }, 300);
       })
       .catch(function() {
         btn.innerHTML = 'X';
-        setTimeout(function() { 
-          btn.innerHTML = originalText; 
-          btn.disabled = false; 
-        }, 2000);
+        setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
       });
     });
   }
