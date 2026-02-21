@@ -2500,30 +2500,51 @@ body.wf-modal-open { overflow: hidden; }
   font-weight: 600; color: rgba(255,255,255,0.45); margin: 0; text-align: center;
 }
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: BOTONES SIMÉTRICOS ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: QUICK ADD 1-CLIC (CUADRADOS) ⬇️ */
 /* ========================================== */
 
-/* Contenedor principal */
+/* 1. El Contenedor / Overlay que sube al hacer hover */
+.wf-quickadd {
+  position: absolute;
+  bottom: 0; 
+  left: 0; 
+  right: 0;
+  padding: 30px 10px 15px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+  transform: translateY(15px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+.product-loop-item:hover .wf-quickadd {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* 2. Contenedor de las tallas */
 .wf-quickadd__sizes {
   display: flex; 
   flex-wrap: wrap; 
-  gap: 6px; 
+  gap: 8px; 
   justify-content: center;
   width: 100%;
 }
 
-/* Botones geométricamente perfectos */
+/* 3. Botones Simétricos (Cuadrados Perfectos) */
 .wf-quickadd__size {
   width: 38px !important;
   height: 38px !important;
   min-width: unset !important;
   padding: 0 !important;
   margin: 0 !important;
-  box-sizing: border-box !important; /* Mantiene la geometría intacta */
+  box-sizing: border-box !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 4px !important; /* Si quieres cuadrado afilado usa 0px */
+  border-radius: 4px !important; /* Esquinas sutiles, usa 0px si los quieres filosos */
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: 1px solid rgba(0,0,0,0.1) !important;
@@ -2537,16 +2558,63 @@ body.wf-modal-open { overflow: hidden; }
 .wf-quickadd__size:hover:not([disabled]) {
   background: #111 !important;
   color: #fff !important;
-  transform: scale(1.1); 
+  transform: scale(1.1); /* Efecto Pop */
 }
 
-.wf-quickadd__size[disabled] {
+/* 4. Botón inferior (Para productos sin tallas) */
+.wf-quickadd__btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #111 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wf-quickadd__btn:hover:not([disabled]) {
+  background: #111 !important; 
+  color: #fff !important;
+}
+
+/* 5. Tallas / Productos Agotados */
+.wf-quickadd__size[disabled],
+.wf-quickadd__btn[disabled] {
   opacity: 0.4 !important;
   text-decoration: line-through;
   cursor: not-allowed;
   transform: none !important;
 }
-/* ⬆️ FIN BLOQUE WF: BOTONES SIMÉTRICOS ⬆️ */
+
+/* Adaptación Mobile (Cristalino sin hover) */
+@media (max-width: 768px) {
+  .wf-quickadd {
+    opacity: 1; 
+    transform: translateY(0);
+    background: transparent; 
+    padding-bottom: 12px;
+  }
+  .wf-quickadd__size {
+    background: rgba(255, 255, 255, 0.85) !important; 
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* Modo claro nativo */
+@media (prefers-color-scheme: light) {
+  .wf-quickadd__size { border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: none !important; }
+}
+/* ⬆️ FIN BLOQUE WF: QUICK ADD 1-CLIC (CUADRADOS) ⬆️ */
+
 .wf-quickadd__btn {
   display: flex; align-items: center; justify-content: center; gap: 0.45rem;
   width: 100%; padding: 0.5rem;
