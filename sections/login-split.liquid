@@ -4,10 +4,10 @@
   <div class="wf-split-image-panel">
     <div class="wf-split-overlay"></div>
     
-    {% if section.settings.bg_image != blank %}
-      <img src="{{ section.settings.bg_image | img_url: 'master' }}" alt="{{ section.settings.brand_title | escape }}" loading="lazy">
+{% if section.settings.bg_image != blank %}
+      <img src="{{ section.settings.bg_image | img_url: '1500x' }}" alt="{{ section.settings.brand_title | escape }}">
     {% else %}
-      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Urban Muscle Lifestyle" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Urban Muscle Lifestyle">
     {% endif %}
     
     <div class="wf-split-brand-text">
