@@ -2500,28 +2500,30 @@ body.wf-modal-open { overflow: hidden; }
   font-weight: 600; color: rgba(255,255,255,0.45); margin: 0; text-align: center;
 }
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: BOTONES CUADRADOS ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: BOTONES SIMÉTRICOS ⬇️ */
 /* ========================================== */
 
-/* 1. Contenedor de las tallas (Mantiene el orden) */
+/* Contenedor principal */
 .wf-quickadd__sizes {
   display: flex; 
   flex-wrap: wrap; 
-  gap: 8px; /* Un poco más de separación para que los cuadrados respiren */
+  gap: 6px; 
   justify-content: center;
   width: 100%;
 }
 
-/* 2. Botones simétricos (Cuadrados perfectos) */
+/* Botones geométricamente perfectos */
 .wf-quickadd__size {
   width: 38px !important;
   height: 38px !important;
   min-width: unset !important;
   padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important; /* Mantiene la geometría intacta */
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 4px !important; /* Cambia a 0px si los quieres completamente cuadrados sin esquinas suaves */
+  border-radius: 4px !important; /* Si quieres cuadrado afilado usa 0px */
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: 1px solid rgba(0,0,0,0.1) !important;
@@ -2532,23 +2534,19 @@ body.wf-modal-open { overflow: hidden; }
   box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important; 
 }
 
-/* 3. Efecto al pasar el mouse */
 .wf-quickadd__size:hover:not([disabled]) {
   background: #111 !important;
   color: #fff !important;
-  transform: scale(1.1); /* Efecto pop */
+  transform: scale(1.1); 
 }
 
-/* 4. Tallas Agotadas */
 .wf-quickadd__size[disabled] {
   opacity: 0.4 !important;
   text-decoration: line-through;
   cursor: not-allowed;
   transform: none !important;
 }
-
-/* ⬆️ FIN BLOQUE WF: BOTONES CUADRADOS ⬆️ */
-
+/* ⬆️ FIN BLOQUE WF: BOTONES SIMÉTRICOS ⬆️ */
 .wf-quickadd__btn {
   display: flex; align-items: center; justify-content: center; gap: 0.45rem;
   width: 100%; padding: 0.5rem;
