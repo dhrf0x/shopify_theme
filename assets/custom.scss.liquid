@@ -3256,90 +3256,43 @@ img:not([loading]) { opacity: 1; }
 /* ⬆️ FIN BLOQUE WF: CARRUSEL PREMIUM ⬆️ */
 
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: FAVORITOS EN CARRITO ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: TOAST FAVORITOS ⬇️ */
 /* ========================================== */
 
-.wf-cart-favorites {
-  padding: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 1.5rem;
-}
-.wf-cart-fav-title {
+.wf-fav-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px); /* Oculto abajo */
+  background: rgba(17, 17, 17, 0.95);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
   font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.25rem;
-  color: rgba(255,255,255,0.5);
-}
-.wf-cart-fav-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.wf-fav-item {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-.wf-fav-img-link {
-  flex: 0 0 64px;
-  height: 85px;
-  border-radius: 4px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.wf-fav-img-link img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-.wf-fav-img-link:hover img {
-  transform: scale(1.05);
-}
-.wf-fav-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.wf-fav-title {
-  font-size: 0.85rem;
   font-weight: 700;
-  color: #fff !important;
-  text-decoration: none !important;
-  margin-bottom: 0.2rem;
-  line-height: 1.2;
-  transition: opacity 0.2s;
-}
-.wf-fav-title:hover { opacity: 0.7; }
-.wf-fav-price {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 0.4rem;
-  font-weight: 600;
-}
-.wf-fav-remove {
-  font-size: 0.65rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #E22120; /* Tu color rojo nativo */
-  background: transparent;
-  border: none;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-  font-weight: 800;
-  transition: opacity 0.2s;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
 }
-.wf-fav-remove:hover { opacity: 0.6; }
 
-/* Modo Claro Nativo */
-@media (prefers-color-scheme: light) {
-  .wf-cart-favorites { border-top-color: rgba(0,0,0,0.08); }
-  .wf-cart-fav-title { color: rgba(0,0,0,0.4); }
-  .wf-fav-title { color: #111 !important; }
-  .wf-fav-price { color: rgba(0,0,0,0.6); }
+.wf-fav-toast.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
-/* ⬆️ FIN BLOQUE WF: FAVORITOS EN CARRITO ⬆️ */
+
+.wf-fav-toast svg {
+  width: 14px;
+  height: 14px;
+  fill: #E22120; /* Tu color rojo nativo para el corazón */
+  stroke: #E22120;
+}
+/* ⬆️ FIN BLOQUE WF: TOAST FAVORITOS ⬆️ */
