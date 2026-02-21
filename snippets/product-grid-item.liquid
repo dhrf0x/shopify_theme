@@ -50,35 +50,29 @@
       {% endunless %}
     </a>
 
-    {%- comment -%} DISEÑO LIMPIO: SOLO TALLAS (1 CLIC = AÑADIR) {%- endcomment -%}
+{%- comment -%} DISEÑO UNIFICADO: 1 CLIC (SIEMPRE CUADRADOS) {%- endcomment -%}
     {% if is_collection_page %}
       <div class="wf-quickadd wf-atc-section">
-        {% if product.available %}
-          {% if product.variants.size > 1 %}
-            <div class="wf-quickadd__sizes wf-atc-sizes" style="padding-bottom: 0;">
-              {%- for variant in product.variants -%}
-                <button type="button" class="wf-quickadd__size js-qa-direct-add {% unless variant.available %}is-oos{% endunless %}"
-                        data-variant="{{ variant.id }}"
-                        {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
-                  {{ variant.title }}
-                </button>
-              {%- endfor -%}
-            </div>
-          {% else %}
-            <button type="button" class="wf-quickadd__btn js-qa-direct-add is-ready" data-variant="{{ product.variants.first.id }}" style="margin-top:auto;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              Añadir al carrito
+        <div class="wf-quickadd__sizes wf-atc-sizes" style="padding-bottom: 0;">
+          {%- for variant in product.variants -%}
+            
+            {%- comment -%} Filtro inteligente para mantener el cuadrado simétrico {%- endcomment -%}
+            {%- assign var_title_down = variant.title | downcase -%}
+            {%- assign final_title = variant.title -%}
+            {%- if var_title_down contains 'default' or var_title_down contains 'unitalla' or var_title_down == 'os' or var_title_down contains 'unica' or var_title_down contains 'única' -%}
+              {%- assign final_title = 'U' -%}
+            {%- endif -%}
+
+            <button type="button" class="wf-quickadd__size js-qa-direct-add {% unless variant.available %}is-oos{% endunless %}"
+                    data-variant="{{ variant.id }}"
+                    {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
+              {{ final_title }}
             </button>
-          {% endif %}
-        {% else %}
-          <button type="button" class="wf-quickadd__btn" disabled style="margin-top:auto;">
-            Agotado
-          </button>
-        {% endif %}
+
+          {%- endfor -%}
+        </div>
       </div>
     {% endif %}
-
-  </div>
 
   <div class="wf-card-info" style="padding-top: 0.75rem;">
     <a class="product-loop-title" href="{{ product.url | within: collection }}" style="margin-bottom: 0.2rem; display: block; font-weight:600; font-size:0.9rem;">{{ product.title }}</a>
