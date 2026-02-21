@@ -1513,8 +1513,8 @@ a, .pagination a {
 .product-loop-item .product-loop-price span { font-size: 0.9rem; }
 
 /* ╔═══════════════════════════════════════════════════════════════╗
-   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                       ║
-   ║   overflow:clip hero fix +  search overlay            ║
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
+   ║   overflow:clip hero fix +  search overlay           ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
 /* ─── FIX CRÍTICO: overflow en html/body/PageContainer ────────── */
@@ -1823,6 +1823,122 @@ h1, h2, h3, h4, h5, h6,
   pointer-events: all;
 }
 body.mega-open { overflow: visible; }
+
+/* ═══════════════════════════════════════
+   QUICK ADD TO CART — overlay en tarjetas
+   ═══════════════════════════════════════ */
+.product-loop-image { position: relative; overflow: hidden; }
+.wf-quick-add {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem 0.625rem 0.875rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  transform: translateY(105%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.product-loop-image:hover .wf-quick-add,
+.product-loop-item:hover .wf-quick-add {
+  transform: translateY(0);
+}
+/* Tallas */
+.wf-quick-add__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+}
+.wf-quick-add__size {
+  min-width: 34px;
+  height: 30px;
+  padding: 0 0.5rem;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 3px;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  backdrop-filter: blur(4px);
+}
+.wf-quick-add__size:hover:not(:disabled) {
+  background: rgba(255,255,255,0.9);
+  border-color: transparent;
+  color: #111;
+  transform: scale(1.05);
+}
+.wf-quick-add__size.is-selected {
+  background: #fff;
+  border-color: transparent;
+  color: #111;
+}
+.wf-quick-add__size.is-sold-out {
+  opacity: 0.3;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+/* Botón principal */
+.wf-quick-add__btn {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.wf-quick-add__btn:hover:not(:disabled) {
+  background: #111;
+  color: #fff;
+}
+.wf-quick-add__btn--select {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.6);
+  cursor: default;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.wf-quick-add__btn--select:disabled {
+  pointer-events: none;
+}
+.wf-quick-add__btn--select.is-ready {
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  pointer-events: all;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.wf-quick-add__btn.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.wf-quick-add__btn.is-added {
+  background: #22c55e;
+  color: #fff;
+}
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .wf-quick-add { transition: none; }
+  .wf-mega-product { transition: none; }
+}
 
 /* Search toggle */
 .header__search-toggle {
@@ -2359,6 +2475,89 @@ body.wf-modal-open { overflow: hidden; }
   border-radius: 0;
 }
 
+/* ── Quick Add overlay ── */
+.wf-quickadd {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0.6rem 0.6rem 0.75rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 65%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  z-index: 10;
+}
+.wf-product-card:hover .wf-quickadd {
+  transform: translateY(0);
+}
+.wf-quickadd__hint {
+  font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 600; color: rgba(255,255,255,0.45); margin: 0; text-align: center;
+}
+.wf-quickadd__sizes {
+  display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: center;
+}
+.wf-quickadd__size {
+  min-width: 32px; height: 28px; padding: 0 0.45rem;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 3px; color: #fff !important;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.wf-quickadd__size:hover { background: #fff; border-color: #fff; color: #111 !important; transform: scale(1.06); }
+.wf-quickadd__size.is-loading { opacity: 0.5; pointer-events: none; }
+.wf-quickadd__size.is-added { background: #22c55e; border-color: #22c55e; color: #fff !important; }
+.wf-quickadd__btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+  width: 100%; padding: 0.5rem;
+  background: #fff; color: #111 !important;
+  border: none; border-radius: 4px;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.15s, transform 0.1s;
+}
+.wf-quickadd__btn:hover { background: #e8e8e8; transform: scale(1.02); }
+.wf-quickadd__btn.is-loading { opacity: 0.6; pointer-events: none; }
+.wf-quickadd__btn.is-added { background: #22c55e; color: #fff !important; }
+
+/* Toast de confirmación */
+.wf-cart-toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: #111; color: #fff;
+  font-size: 0.78rem; font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px; box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  z-index: 9999;
+  display: flex; align-items: center; gap: 0.6rem;
+  transform: translateY(120px); opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  pointer-events: none;
+}
+.wf-cart-toast.is-visible { transform: translateY(0); opacity: 1; }
+.wf-cart-toast__check { color: #22c55e; }
+
+/* Overlay sutil al hacer hover */
+.product-loop-item .product-loop-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background 0.3s ease;
+  pointer-events: none;
+  border-radius: 4px;
+}
+.product-loop-item:hover .product-loop-image::after {
+  background: rgba(0,0,0,0.08);
+}
+
+/* Título y precio: fade-up sutil al hover */
+.product-loop-item .product-loop-title,
+.product-loop-item .product-loop-price {
+  transition: opacity 0.2s ease;
+}
+.product-loop-item:hover .product-loop-title { opacity: 0.85; }
+
 /* Page load fade-in */
 @keyframes wf-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 @keyframes wf-fadein-fast { from { opacity:0; } to { opacity:1; } }
@@ -2577,6 +2776,110 @@ img:not([loading]) { opacity: 1; }
   .footer-section, .site-footer { border-top-color: rgba(0,0,0,0.07) !important; }
 }
 
+/* ═══════════════════════════════════════════════════════
+   ATC SECTION — Botón añadir al carrito en tarjetas
+   ═══════════════════════════════════════════════════════ */
+.wf-atc-section {
+  padding: 0.5rem 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+/* Tallas */
+.wf-atc-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.wf-atc-size {
+  min-width: 34px;
+  height: 28px;
+  padding: 0 0.45rem;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 3px;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
+}
+.wf-atc-size:hover:not(:disabled) {
+  border-color: rgba(255,255,255,0.7);
+  color: #fff;
+  transform: scale(1.06);
+}
+.wf-atc-size.is-selected {
+  background: #fff;
+  border-color: #fff;
+  color: #111;
+}
+.wf-atc-size.is-oos {
+  opacity: 0.2;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Botón principal */
+.wf-atc-btn {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  background: #fff;
+  color: #111;
+  border: 2px solid #fff;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+}
+.wf-atc-btn:hover:not(:disabled) {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.wf-atc-btn:active { transform: scale(0.97); }
+.wf-atc-btn--needs-size {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4);
+  border-color: rgba(255,255,255,0.12);
+  cursor: default;
+  font-size: 0.63rem;
+}
+.wf-atc-btn--needs-size.is-ready {
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+  cursor: pointer;
+  font-size: 0.68rem;
+}
+.wf-atc-btn--needs-size.is-ready:hover {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.wf-atc-btn.is-loading { opacity: 0.6; pointer-events: none; }
+.wf-atc-btn.is-added { background: #22c55e; border-color: #22c55e; color: #fff; }
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  .wf-atc-size { border-color: rgba(0,0,0,0.18); color: rgba(0,0,0,0.55); }
+  .wf-atc-size:hover:not(:disabled) { border-color: #111; color: #111; }
+  .wf-atc-size.is-selected { background: #111; border-color: #111; color: #fff; }
+  .wf-atc-btn { background: #111; color: #fff; border-color: #111; }
+  .wf-atc-btn:hover:not(:disabled) { background: transparent; color: #111; border-color: #111; }
+  .wf-atc-btn--needs-size { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.35); border-color: rgba(0,0,0,0.1); }
+  .wf-atc-btn--needs-size.is-ready { background: #111; color: #fff; border-color: #111; }
+  .wf-atc-btn--needs-size.is-ready:hover { background: transparent; color: #111; }
+}
 /* ========================================== */
 /* ⬇️ INICIO BLOQUE WF: BADGE AGOTADO ⬇️ */
 /* ========================================== */
@@ -2608,9 +2911,8 @@ img:not([loading]) { opacity: 1; }
 }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
 
-
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: QUICK ADD 1-CLIC (CUADRADOS) ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID v3 ⬇️ */
 /* ========================================== */
 
 .wf-card-image-wrap {
@@ -2646,56 +2948,99 @@ img:not([loading]) { opacity: 1; }
 }
 .wf-card-image-wrap:hover .product-image_secondary { opacity: 1; }
 
-.wf-quickadd {
+/* ── EL OVERLAY CON SOMBRA ── */
+.wf-gs-overlay {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 30px 10px 15px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
-  transform: translateY(15px);
+  padding: 40px 10px 15px;
   opacity: 0;
+  transform: translateY(15px);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  z-index: 20;
-}
-.wf-quickadd__sizes {
-  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+  align-items: center;
 }
 
-/* BOTONES SIMÉTRICOS A PRUEBA DE DEFORMACIONES */
-.wf-quickadd__size {
-  width: 38px !important;
-  height: 38px !important;
-  min-width: 38px !important;
-  max-width: 38px !important;
-  min-height: 38px !important;
-  max-height: 38px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  line-height: 38px !important; /* Fuerza el texto al centro perfecto */
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
-  border-radius: 4px !important;
+.wf-product-card:hover .wf-gs-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wf-gs-sizes-title {
+  color: #fff;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+/* ── CONTENEDOR FLEXBOX ── */
+.wf-gs-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Separación limpia entre botones */
+  justify-content: center;
+  width: 100%;
+}
+
+/* ── EL FIX MÁGICO: Hacer el formulario invisible al diseño ── */
+.wf-gs-form {
+  display: contents !important; 
+}
+.wf-gs-form--full {
+  width: 100%;
+  display: block !important; 
+}
+
+/* ── BOTONES DE TALLA (LOOK PREMIUM ORIGINAL) ── */
+.wf-gs-size-btn {
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
-  border: 1px solid rgba(0,0,0,0.1) !important;
-  font-size: 0.75rem !important;
-  font-weight: 800 !important;
+  border: none !important;
+  
+  /* AQUÍ CONTROLAS LA FORMA: 
+     Usa 50px para los óvalos originales (tipo píldora)
+     Usa 2px si prefieres los cuadrados elegantes */
+  border-radius: 50px !important; 
+  
+  min-width: 42px; /* Espacio para que respiren las letras */
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra sutil para dar volumen */
 }
-.wf-quickadd__size:hover:not([disabled]) {
-  background: #111 !important; color: #fff !important; transform: scale(1.1);
+
+.wf-gs-size-btn:hover:not([disabled]) {
+  background: #111 !important;
+  color: #fff !important;
+  transform: scale(1.1); /* Efecto Pop */
 }
-.wf-quickadd__btn {
+
+.wf-gs-size-btn[disabled] {
+  opacity: 0.4 !important;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Botón único inferior (Cuando no hay tallas) */
+.wf-gs-add-btn, .wf-gs-oos-btn {
   width: 100%;
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: none !important;
-  border-radius: 4px !important;
+  border-radius: 50px !important; /* Mantenlo igual que las tallas */
   padding: 12px;
   font-size: 0.75rem;
   font-weight: 800;
@@ -2704,50 +3049,27 @@ img:not([loading]) { opacity: 1; }
   cursor: pointer;
   transition: all 0.2s ease !important;
 }
-.wf-quickadd__btn:hover:not([disabled]) {
-  background: #111 !important; color: #fff !important;
-}
-.wf-quickadd__size[disabled], .wf-quickadd__btn[disabled] {
-  opacity: 0.4 !important; text-decoration: line-through; cursor: not-allowed; transform: none !important;
-}
+.wf-gs-add-btn:hover { background: #111 !important; color: #fff !important; }
+.wf-gs-oos-btn { background: rgba(0, 0, 0, 0.5) !important; color: #fff !important; cursor: not-allowed; }
 
-/* ========================================== */
-/* Adaptación Mobile (Doble Toque - Estilo App) */
-/* ========================================== */
+/* Adaptación Mobile (El botón cristalino) */
 @media (max-width: 768px) {
-  /* Ocultar por defecto en móvil */
-  .wf-quickadd {
-    opacity: 0; 
-    transform: translateY(15px);
+  .wf-gs-overlay {
+    opacity: 1; 
+    transform: translateY(0);
     background: transparent; 
     padding-bottom: 12px;
   }
-  
-  /* Se activará con la clase .is-mobile-active (Tap-to-Focus) */
-  .wf-product-card.is-mobile-active .wf-quickadd { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-  
-  /* Oscurece la foto en el primer toque para resaltar las tallas */
-  .wf-product-card.is-mobile-active .product-loop-image::after {
-    background: rgba(0,0,0,0.2) !important;
-  }
-
-  .wf-quickadd__size { 
+  .wf-gs-sizes-title { display: none; } 
+  .wf-gs-size-btn {
     background: rgba(255, 255, 255, 0.85) !important; 
-    backdrop-filter: blur(4px); 
+    backdrop-filter: blur(4px);
   }
 }
 
-/* Permitir que el hover de desktop Y el toque de móvil activen la tarjeta */
-.product-loop-item:hover .wf-quickadd,
-.wf-product-card.is-mobile-active .wf-quickadd {
-  transform: translateY(0);
-  opacity: 1;
-}
-
+/* Modo claro nativo */
 @media (prefers-color-scheme: light) {
-  .wf-quickadd__size { border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: none !important; }
+  .wf-card-info .product-loop-price { color: #555; }
+  .wf-gs-size-btn { border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: none; }
 }
-/* ⬆️ FIN BLOQUE WF: QUICK ADD 1-CLIC (CUADRADOS) ⬆️ */
+/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID v3 ⬆️ */
