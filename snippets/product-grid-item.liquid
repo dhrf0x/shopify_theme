@@ -50,7 +50,7 @@
       {% endunless %}
     </a>
 
-{%- comment -%} DISEÑO UNIFICADO: 1 CLIC (SIEMPRE CUADRADOS) {%- endcomment -%}
+    {%- comment -%} DISEÑO UNIFICADO: 1 CLIC (SIEMPRE CUADRADOS) {%- endcomment -%}
     {% if is_collection_page %}
       <div class="wf-quickadd wf-atc-section">
         <div class="wf-quickadd__sizes wf-atc-sizes" style="padding-bottom: 0;">
@@ -60,7 +60,7 @@
             {%- assign var_title_down = variant.title | downcase -%}
             {%- assign final_title = variant.title -%}
             {%- if var_title_down contains 'default' or var_title_down contains 'unitalla' or var_title_down == 'os' or var_title_down contains 'unica' or var_title_down contains 'única' -%}
-              {%- assign final_title = 'Unitalla' -%}
+              {%- assign final_title = 'U' -%}
             {%- endif -%}
 
             <button type="button" class="wf-quickadd__size js-qa-direct-add {% unless variant.available %}is-oos{% endunless %}"
@@ -116,27 +116,20 @@
     /* ========================================================
        1. ELIMINADOR NUCLEAR DE CAPAS FANTASMA
        ======================================================== */
-    // Este código observa TODOS los clics de la tienda
     document.addEventListener('click', function(e) {
-      // Detectamos dónde hizo clic el usuario
       var isInsideCart = e.target.closest('.off-canvas') || e.target.closest('#cartSidebar');
       var isAddButton = e.target.closest('.js-qa-direct-add') || e.target.closest('a[href="/cart"]');
       var isCloseButton = e.target.closest('.close-button') || e.target.matches('.close-button');
       var isOverlay = e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay');
       
-      // Si hizo clic en la "X" de cerrar, en la capa oscura, o en cualquier lugar fuera del carrito...
       if (isCloseButton || isOverlay || (!isInsideCart && !isAddButton)) {
-        
-        // Esperamos 350ms para que el carrito se esconda suavemente
         setTimeout(function() {
-          // Destruimos la capa blanca bloqueadora
           var overlay = document.querySelector('.js-off-canvas-overlay');
           if (overlay) {
             overlay.style.setProperty('pointer-events', 'none', 'important');
             overlay.style.setProperty('opacity', '0', 'important');
             overlay.style.setProperty('display', 'none', 'important');
           }
-          // Limpiamos al 100% el body para devolver el scroll y los clics
           document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
           document.body.style.removeProperty('overflow');
         }, 350); 
@@ -151,7 +144,7 @@
       if (!btn || btn.disabled) return;
 
       e.preventDefault();
-      e.stopPropagation(); // Corta de tajo cualquier evento nativo del tema
+      e.stopPropagation(); 
       
       var variantId = btn.getAttribute('data-variant');
       if (!variantId) return;
@@ -171,18 +164,15 @@
         btn.innerHTML = '✓';
         setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
 
-        // Actualizamos el mini-carrito y la burbuja roja
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') { window.ajaxCart.load(); }
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
 
-        // Abrimos el sidebar
         setTimeout(function() {
            var cartIcon = document.querySelector('.site-header__cart-toggle, #cart-icon, .js-drawer-open-right, a[href="/cart"]');
            if (cartIcon) {
-             // Revivimos el overlay solo durante la apertura
              var overlay = document.querySelector('.js-off-canvas-overlay');
              if (overlay) {
                overlay.style.removeProperty('pointer-events');
@@ -198,6 +188,37 @@
         btn.innerHTML = 'X';
         setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
       });
+    });
+
+    /* ========================================================
+       3. LÓGICA DE DOBLE TOQUE EN MÓVIL (TAP-TO-FOCUS)
+       ======================================================== */
+    document.addEventListener('click', function(e) {
+      if (window.innerWidth > 768) return; 
+
+      var imgLink = e.target.closest('.product-loop-image');
+      
+      if (imgLink) {
+        var card = imgLink.closest('.wf-product-card');
+        if (card) {
+          if (!card.classList.contains('is-mobile-active')) {
+            e.preventDefault(); // Detiene navegación en el primer clic
+            
+            document.querySelectorAll('.wf-product-card.is-mobile-active').forEach(function(c) {
+              if (c !== card) c.classList.remove('is-mobile-active');
+            });
+            
+            card.classList.add('is-mobile-active'); // Despliega las tallas
+          }
+        }
+      } else {
+        var isSizeBtn = e.target.closest('.js-qa-direct-add');
+        if (!isSizeBtn) {
+          document.querySelectorAll('.wf-product-card.is-mobile-active').forEach(function(c) {
+            c.classList.remove('is-mobile-active');
+          });
+        }
+      }
     });
   }
 </script>
