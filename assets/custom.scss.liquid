@@ -2916,50 +2916,144 @@ img:not([loading]) { opacity: 1; }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
 
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: BOTÓN CARD INFERIOR ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID ⬇️ */
 /* ========================================== */
-.wf-btn-bottom {
+
+/* Estructura base de la tarjeta */
+.wf-card-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.wf-card-info {
+  padding-top: 0.75rem;
+  text-align: left;
+}
+.wf-card-info .product-loop-title {
+  margin-bottom: 0.2rem;
   display: block;
+  font-weight: 600;
+}
+.wf-card-info .product-loop-price {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: rgba(255,255,255,0.6); /* Cambia a color oscuro en light mode */
+}
+.wf-price-sale {
+  color: #E22120 !important;
+  font-weight: 700;
+}
+
+/* Efecto hover en imágenes (crossfade nativo) */
+.product-image_secondary {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.wf-card-image-wrap:hover .product-image_secondary { opacity: 1; }
+
+/* ── EL OVERLAY GYMSHARK ── */
+.wf-gs-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  text-align: center;
-  background-color: #111111 !important;
-  color: #ffffff !important;
-  padding: 0.65rem 1rem !important;
-  font-size: 0.75rem !important;
-  font-weight: 800 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  border: 1px solid #111111 !important;
-  border-radius: 4px !important;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+  padding: 30px 10px 15px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Animación de entrada al hacer hover */
+.wf-product-card:hover .wf-gs-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wf-gs-sizes-title {
+  color: #fff;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.wf-gs-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Píldoras de Talla */
+.wf-gs-size-btn {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #111 !important;
+  border: none !important;
+  border-radius: 50px !important;
+  min-width: 36px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
   cursor: pointer;
-  text-decoration: none !important;
-  transition: background-color 0.2s, color 0.2s, transform 0.1s !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s !important;
 }
 
-.wf-btn-bottom:hover:not([disabled]) {
-  background-color: transparent !important;
-  color: #111111 !important;
+.wf-gs-size-btn:hover:not([disabled]) {
+  background: #111 !important;
+  color: #fff !important;
+  transform: scale(1.1); /* Efecto pop */
 }
 
-.wf-btn-bottom:active:not([disabled]) {
-  transform: scale(0.97);
-}
-
-.wf-btn-bottom[disabled] {
+.wf-gs-size-btn[disabled] {
   opacity: 0.4 !important;
-  cursor: not-allowed !important;
+  text-decoration: line-through;
+  cursor: not-allowed;
 }
 
-/* Adaptación para modo claro (Light Mode) */
-@media (prefers-color-scheme: light) {
-  .wf-btn-bottom {
-    background-color: #111111 !important;
-    color: #ffffff !important;
-    border-color: #111111 !important;
+/* Botones únicos */
+.wf-gs-add-btn, .wf-gs-oos-btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #111 !important;
+  border: none !important;
+  border-radius: 50px !important;
+  padding: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+}
+.wf-gs-add-btn:hover { background: #111 !important; color: #fff !important; }
+.wf-gs-oos-btn { background: rgba(0, 0, 0, 0.5) !important; color: #fff !important; cursor: not-allowed; }
+
+/* Adaptación Mobile (Sin hover) */
+@media (max-width: 768px) {
+  .wf-gs-overlay {
+    opacity: 1; /* Siempre visible */
+    transform: translateY(0);
+    background: transparent; /* Transparente para no oscurecer la foto */
+    padding-bottom: 10px;
   }
-  .wf-btn-bottom:hover:not([disabled]) {
-    background-color: transparent !important;
-    color: #111111 !important;
+  .wf-gs-sizes-title { display: none; } /* Ocultar título para ahorrar espacio */
+  .wf-gs-size-btn {
+    background: rgba(255, 255, 255, 0.7) !important; /* Estilo Glassmorphism */
+    backdrop-filter: blur(4px);
   }
 }
-/* ⬆️ FIN BLOQUE WF: BOTÓN CARD INFERIOR ⬆️ */
+
+/* Adaptación Modo Claro (Light Mode) */
+@media (prefers-color-scheme: light) {
+  .wf-card-info .product-loop-price { color: #555; }
+  .wf-gs-size-btn { border: 1px solid rgba(0,0,0,0.1) !important; }
+}
+/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID ⬆️ */
