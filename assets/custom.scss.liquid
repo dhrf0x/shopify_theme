@@ -2916,24 +2916,50 @@ img:not([loading]) { opacity: 1; }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
 
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: FIX STICKY GLOBAL ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: BOTÓN CARD INFERIOR ⬇️ */
 /* ========================================== */
-
-/* 1. Asegurar que el body tampoco bloquee el sticky (arrastre del código original) */
-html, body {
-  overflow-x: clip !important;
+.wf-btn-bottom {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #111111 !important;
+  color: #ffffff !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border: 1px solid #111111 !important;
+  border-radius: 4px !important;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: background-color 0.2s, color 0.2s, transform 0.1s !important;
 }
 
-/* 2. Volver pegajoso al envoltorio invisible nativo de Shopify */
-#shopify-section-header {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 990 !important;
+.wf-btn-bottom:hover:not([disabled]) {
+  background-color: transparent !important;
+  color: #111111 !important;
 }
 
-/* 3. Limpiar el menú interno para que no haya conflictos de movimiento */
-.header-container:not(.header-overlay) {
-  position: relative !important;
-  top: auto !important;
+.wf-btn-bottom:active:not([disabled]) {
+  transform: scale(0.97);
 }
-/* ⬆️ FIN BLOQUE WF: FIX STICKY GLOBAL ⬆️ */
+
+.wf-btn-bottom[disabled] {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Adaptación para modo claro (Light Mode) */
+@media (prefers-color-scheme: light) {
+  .wf-btn-bottom {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-color: #111111 !important;
+  }
+  .wf-btn-bottom:hover:not([disabled]) {
+    background-color: transparent !important;
+    color: #111111 !important;
+  }
+}
+/* ⬆️ FIN BLOQUE WF: BOTÓN CARD INFERIOR ⬆️ */
