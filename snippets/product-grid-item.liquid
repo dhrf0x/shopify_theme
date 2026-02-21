@@ -13,15 +13,21 @@
   {% assign sold_out = false %}
 {% endif %}
 
+{%- comment -%} VALIDACIÓN: Mostrar botones Gymshark SOLO en /collections/ {%- endcomment -%}
+{% assign is_collection_page = false %}
+{% if template == 'collection' or template.name == 'collection' %}
+  {% assign is_collection_page = true %}
+{% endif %}
+
 <div class="{{ grid_item_width }} product-loop-item wf-product-card">
   
   {%- comment -%} ENVOLTORIO DE IMAGEN {%- endcomment -%}
   <div class="wf-card-image-wrap">
+    
     {% if settings.show_product_badges %}
       {% if sold_out %}
         <div class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</div>
       {% endif %}
-
       {% if on_sale and sold_out == false and discount_percentage > 0 %}
         <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }}</div>
       {% endif %}
@@ -43,13 +49,39 @@
         {% endunless %}
       {% endunless %}
     </a>
+
+    {%- comment -%} OVERLAY HÍBRIDO GYMSHARK (Se oculta en Index automáticamente) {%- endcomment -%}
+    {% if is_collection_page %}
+      <div class="wf-gs-overlay">
+        {% if product.available %}
+          {% if product.variants.size > 1 %}
+            <div class="wf-gs-sizes-title">+ Añadir rápido</div>
+            <div class="wf-gs-sizes">
+              {% for variant in product.variants %}
+                {%- comment -%} NOTA: Al darle la clase wf-atc-btn, un clic aquí lo añade directo al carrito {%- endcomment -%}
+                <button type="button" class="wf-gs-size-btn wf-atc-btn" data-variant="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
+                  {{ variant.title | escape }}
+                </button>
+              {% endfor %}
+            </div>
+          {% else %}
+            <button type="button" class="wf-gs-add-btn wf-atc-btn" data-variant="{{ product.variants.first.id }}">
+              + Añadir al carrito
+            </button>
+          {% endif %}
+        {% else %}
+          <div class="wf-gs-oos-btn">Agotado</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
   </div>
 
-  {%- comment -%} INFORMACIÓN Y BOTÓN {%- endcomment -%}
-  <div class="wf-card-info" style="padding-top: 0.75rem;">
-    <a class="product-loop-title" href="{{ product.url | within: collection }}" style="margin-bottom: 0.2rem; display: block;">{{ product.title }}</a>
+  {%- comment -%} INFORMACIÓN DEL PRODUCTO (Limpia y minimalista) {%- endcomment -%}
+  <div class="wf-card-info">
+    <a class="product-loop-title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
 
-    <a href="{{ product.url | within: collection }}" class="product-loop-price" style="display: block; margin-bottom: 0.75rem;">
+    <a href="{{ product.url | within: collection }}" class="product-loop-price">
       {% if on_sale %}
         <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
         <s><span class="money">{{ product.compare_at_price | money }}</span></s>
@@ -57,7 +89,7 @@
           {% assign sale_price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
           {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
         {% else %}
-          <span class="money">{{ product.price | money }}</span>
+          <span class="money wf-price-sale">{{ product.price | money }}</span>
         {% endif %}
       {% else %}
         {% if product.price_varies %}
@@ -68,21 +100,6 @@
         {% endif %}
       {% endif %}
     </a>
-
-    {%- comment -%} BOTÓN AÑADIR AL CARRITO {%- endcomment -%}
-    <div class="wf-card-actions">
-      {% if product.available %}
-        {% if product.variants.size > 1 %}
-          <a href="{{ product.url | within: collection }}" class="wf-btn-bottom">Ver Opciones</a>
-        {% else %}
-          <button type="button" class="wf-btn-bottom wf-atc-btn" data-variant="{{ product.variants.first.id }}">
-            Añadir al carrito
-          </button>
-        {% endif %}
-      {% else %}
-        <button type="button" class="wf-btn-bottom" disabled>Agotado</button>
-      {% endif %}
-    </div>
   </div>
 
   {% if settings.add_spr_markup %}
