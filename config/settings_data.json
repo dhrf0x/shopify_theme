@@ -488,6 +488,27 @@
           "cta_text": "Ver todos",
           "cta_link": ""
         }
+      },
+      "wf-carousel": {
+        "type": "wf-carousel",
+        "blocks": {
+          "slide_pLeLfr": {
+            "type": "slide",
+            "settings": {
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "slide_pLeLfr"
+        ],
+        "settings": {
+          "title": "Compra por Categoría",
+          "link_text": "Ver todo",
+          "link_url": "shopify://collections/all"
+        }
       }
     },
     "content_for_index": []
