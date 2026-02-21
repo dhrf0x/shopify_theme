@@ -154,9 +154,13 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Grid */
+/* Grid (Full-width para igualar tamaño del carrusel) */
 .wf-tabs__grid {
   margin-bottom: 2rem;
+  max-width: 100% !important; /* Rompe la caja límite de 1200px */
+  padding-left: 1.5rem !important; /* Mismo margen izquierdo que el carrusel */
+  padding-right: 1.5rem !important; /* Mismo margen derecho que el carrusel */
+  width: 100%;
 }
 
 /* CTA */
