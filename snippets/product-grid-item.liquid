@@ -15,16 +15,15 @@
 
 <div class="{{ grid_item_width }} product-loop-item wf-product-card">
   
-  {%- comment -%} ENVOLTORIO PARA LA IMAGEN Y EL OVERLAY {%- endcomment -%}
+  {%- comment -%} ENVOLTORIO DE IMAGEN {%- endcomment -%}
   <div class="wf-card-image-wrap">
-    
     {% if settings.show_product_badges %}
       {% if sold_out %}
         <div class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</div>
       {% endif %}
 
       {% if on_sale and sold_out == false and discount_percentage > 0 %}
-        <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }} </div>
+        <div class="product-badge badge__sale">{{ 'products.product.save' | t: discount: discount_percentage }}</div>
       {% endif %}
     {% endif %}
 
@@ -38,60 +37,53 @@
           data-sizes="auto"
           alt="{{ product.featured_image.alt | escape }}">
 
-        {%- comment -%} Imagen secundaria limpia (el CSS controla el hover) {%- endcomment -%}
         {%- assign secondary_img = product.images[1] -%}
         {% unless secondary_img == blank %}
-          <img
-            class="product-image_secondary"
-            src="{{ secondary_img | img_url: '400x533', crop: 'center' }}"
-            alt="{{ product.title | escape }}"
-            loading="lazy"
-          >
+          <img class="product-image_secondary" src="{{ secondary_img | img_url: '400x533', crop: 'center' }}" alt="{{ product.title | escape }}" loading="lazy">
         {% endunless %}
       {% endunless %}
     </a>
-
-    {%- comment -%} QUICK ADD TO CART OVERLAY (Se desliza al hacer hover) {%- endcomment -%}
-    <div class="wf-quickadd wf-atc-section">
-      <p class="wf-quickadd__hint">Selecciona tu talla</p>
-      <div class="wf-quickadd__sizes wf-atc-sizes">
-        {%- for variant in product.variants -%}
-          <button type="button" class="wf-quickadd__size wf-atc-size {% unless variant.available %}is-oos{% endunless %}"
-                  data-variant="{{ variant.id }}"
-                  {% unless variant.available %}disabled{% endunless %}>
-            {{ variant.title }}
-          </button>
-        {%- endfor -%}
-      </div>
-      <button type="button" class="wf-quickadd__btn wf-atc-btn wf-atc-btn--needs-size" disabled>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        Selecciona tu talla
-      </button>
-    </div>
-
   </div>
 
-  <a class="product-loop-title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+  {%- comment -%} INFORMACIÓN Y BOTÓN {%- endcomment -%}
+  <div class="wf-card-info" style="padding-top: 0.75rem;">
+    <a class="product-loop-title" href="{{ product.url | within: collection }}" style="margin-bottom: 0.2rem; display: block;">{{ product.title }}</a>
 
-  <a href="{{ product.url | within: collection }}" class="product-loop-price">
-    {% if on_sale %}
-      <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-      <s><span class="money">{{ product.compare_at_price | money }}</span></s>
-      {% if product.price_varies %}
-        {% assign sale_price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
-        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+    <a href="{{ product.url | within: collection }}" class="product-loop-price" style="display: block; margin-bottom: 0.75rem;">
+      {% if on_sale %}
+        <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+        <s><span class="money">{{ product.compare_at_price | money }}</span></s>
+        {% if product.price_varies %}
+          {% assign sale_price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
+          {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+        {% else %}
+          <span class="money">{{ product.price | money }}</span>
+        {% endif %}
       {% else %}
-        <span class="money">{{ product.price | money }}</span>
+        {% if product.price_varies %}
+          {% assign price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
+          {{ 'products.general.from_text_html' | t: price: price }}
+        {% else %}
+          <span class="money">{{ product.price | money }}</span>
+        {% endif %}
       {% endif %}
-    {% else %}
-      {% if product.price_varies %}
-        {% assign price = product.price | money | prepend: '<span class="money">' | append: '</span>' %}
-        {{ 'products.general.from_text_html' | t: price: price }}
+    </a>
+
+    {%- comment -%} BOTÓN AÑADIR AL CARRITO {%- endcomment -%}
+    <div class="wf-card-actions">
+      {% if product.available %}
+        {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="wf-btn-bottom">Ver Opciones</a>
+        {% else %}
+          <button type="button" class="wf-btn-bottom wf-atc-btn" data-variant="{{ product.variants.first.id }}">
+            Añadir al carrito
+          </button>
+        {% endif %}
       {% else %}
-        <span class="money">{{ product.price | money }}</span>
+        <button type="button" class="wf-btn-bottom" disabled>Agotado</button>
       {% endif %}
-    {% endif %}
-  </a>
+    </div>
+  </div>
 
   {% if settings.add_spr_markup %}
    <div class="spr-badge__wrap">
