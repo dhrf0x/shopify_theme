@@ -1432,25 +1432,22 @@ a, .pagination a {
 .icon-sphere:before {
   content: "\e9c9";
 }
+/* ─── WF OVERRIDES (append-only, no edits to original above) ─── */
 
-/* ─── OVERRIDES: replaces original theme inline rules ────────── */
-
-/* Fix 1: Off-canvas visibility — Foundation manages this, 
-   original theme's visibility:visible caused dark band on right */
+/* Fix: Off-canvas — Foundation manages visibility, override original */
 .off-canvas.is-closed { visibility: hidden; }
 
-/* Fix 2: Off-canvas z-index to cover announcement bar */
+/* Fix: Off-canvas z-index to cover announcement bar */
 .off-canvas.is-transition-overlap { z-index: 100 !important; }
 
-/* Fix 3: header-container.header-overlay needs higher z-index
-   and no box-shadow/border in transparent state */
+/* Fix: header-container.header-overlay — raise z-index, kill shadow */
 .header-container.header-overlay {
   z-index: 100;
   box-shadow: none !important;
   border-bottom-color: transparent !important;
 }
 
-/* Fix 4: Mobile gender nav items */
+/* Fix: Mobile gender nav items */
 .mobile-menu .wf-mobile-gender > a {
   font-size: $mobile-menu-link-size;
   font-weight: 800;
@@ -1471,12 +1468,9 @@ a, .pagination a {
   .mobile-menu .wf-mobile-divider { background: rgba(0,0,0,0.08); }
 }
 
-/* Fix 5: Product card — hover image swap + 3:4 aspect ratio */
+/* Fix: Product card hover image swap + 3:4 aspect ratio */
 .product-loop-item { margin-bottom: 2.5rem; }
-.product-loop-item .product-loop-image {
-  display: block;
-  position: relative;
-}
+.product-loop-item .product-loop-image { display: block; position: relative; }
 .product-loop-image.secondary-image-enabled {
   position: relative;
   display: block;
@@ -1505,18 +1499,17 @@ a, .pagination a {
 .product-loop-image.secondary-image-enabled:hover img.product-image_secondary { opacity: 1 !important; }
 .product-loop-image.secondary-image-enabled:hover img.product-image_featured   { transform: scale(1.03); }
 
-/* Fix 6: Product card title/price sizing */
+/* Fix: Product card title/price sizing */
 .product-loop-item .product-loop-title {
   font-size: 0.95rem;
   font-weight: 600;
   margin-bottom: 5px;
   line-height: 1.25;
 }
-.product-loop-item .product-loop-price span {
-  font-size: 0.9rem;
-}
+.product-loop-item .product-loop-price span { font-size: 0.9rem; }
 
-║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
+/* ╔═══════════════════════════════════════════════════════════════╗
+   ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
    ║   overflow:clip hero fix + Gymshark search overlay           ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
