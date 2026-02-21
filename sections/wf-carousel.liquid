@@ -18,10 +18,7 @@
     <div class="wf-carousel-track">
       {% for block in section.blocks %}
         
-        {%- comment -%} MAGIA: Vinculamos la tarjeta a un producto real de tu tienda {%- endcomment -%}
         {% assign prod = all_products[block.settings.product] %}
-        
-        {%- comment -%} Si no pones imagen/título/link manual, jala los del producto automáticamente {%- endcomment -%}
         {% assign link_target = block.settings.link | default: prod.url %}
         {% assign slide_title = block.settings.title | default: prod.title %}
         {% assign slide_image = block.settings.image | default: prod.featured_image %}
@@ -29,7 +26,6 @@
         <div class="wf-carousel-slide" {{ block.shopify_attributes }}>
           <div class="wf-carousel-img-wrap">
             
-            {%- comment -%} BOTÓN DE CORAZÓN (Aparece solo si hay un producto seleccionado) {%- endcomment -%}
             {% if prod != blank %}
               <button type="button" class="wf-carousel-heart js-add-to-favs" data-product-handle="{{ prod.handle }}" aria-label="Añadir a favoritos">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -67,41 +63,61 @@
 </div>
 
 <script>
-  // SISTEMA DE FAVORITOS (LOCAL STORAGE)
+  // SISTEMA DE FAVORITOS Y TOAST NOTIFICATION
   document.addEventListener('DOMContentLoaded', function() {
     var favButtons = document.querySelectorAll('#wf-carousel-{{ section.id }} .js-add-to-favs');
-    
-    // 1. Al cargar la página, leemos la memoria y encendemos los corazones guardados
     var favs = JSON.parse(localStorage.getItem('wf_favorites')) || [];
     
+    // Función creadora del Toast
+    function showFavToast(message) {
+      var toast = document.getElementById('wf-fav-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'wf-fav-toast';
+        toast.className = 'wf-fav-toast';
+        document.body.appendChild(toast);
+      }
+      
+      toast.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' + message;
+      
+      // Reiniciamos animación
+      toast.classList.remove('is-visible');
+      void toast.offsetWidth; 
+      toast.classList.add('is-visible');
+
+      // Ocultar después de 3 segundos
+      if (window.favToastTimeout) clearTimeout(window.favToastTimeout);
+      window.favToastTimeout = setTimeout(function() {
+        toast.classList.remove('is-visible');
+      }, 3000);
+    }
+
     favButtons.forEach(function(btn) {
       var handle = btn.getAttribute('data-product-handle');
       if (favs.indexOf(handle) !== -1) {
         btn.classList.add('is-active');
       }
       
-      // 2. Al dar clic, agregamos o quitamos de la memoria
       btn.addEventListener('click', function(e) {
         e.preventDefault();
-        e.stopPropagation(); // Evita que al dar clic al corazón te lleve al producto
+        e.stopPropagation(); 
         
         var currentHandle = this.getAttribute('data-product-handle');
         var currentFavs = JSON.parse(localStorage.getItem('wf_favorites')) || [];
         
         if (currentFavs.indexOf(currentHandle) !== -1) {
-          // Si ya estaba, lo borramos
+          // Remover
           currentFavs = currentFavs.filter(function(h) { return h !== currentHandle; });
           this.classList.remove('is-active');
+          showFavToast('Eliminado de Favoritos');
         } else {
-          // Si no estaba, lo guardamos
+          // Agregar
           currentFavs.push(currentHandle);
           this.classList.add('is-active');
+          showFavToast('Añadido a Favoritos');
         }
         
-        // Guardamos en la memoria interna del celular/compu
         localStorage.setItem('wf_favorites', JSON.stringify(currentFavs));
-        
-        // Avisamos a la tienda que los favoritos cambiaron (Para cuando abramos el carrito)
         window.dispatchEvent(new CustomEvent('wf-favorites-updated'));
       });
     });
