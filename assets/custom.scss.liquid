@@ -2916,10 +2916,9 @@ img:not([loading]) { opacity: 1; }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
 
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID v2 ⬇️ */
 /* ========================================== */
 
-/* Estructura base de la tarjeta */
 .wf-card-image-wrap {
   position: relative;
   overflow: hidden;
@@ -2937,21 +2936,21 @@ img:not([loading]) { opacity: 1; }
 .wf-card-info .product-loop-price {
   display: block;
   margin-bottom: 0.75rem;
-  color: rgba(255,255,255,0.6); /* Cambia a color oscuro en light mode */
+  color: rgba(255,255,255,0.6);
 }
 .wf-price-sale {
   color: #E22120 !important;
   font-weight: 700;
 }
 
-/* Efecto hover en imágenes (crossfade nativo) */
+/* Efecto hover en imágenes */
 .product-image_secondary {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
   opacity: 0; transition: opacity 0.4s ease;
 }
 .wf-card-image-wrap:hover .product-image_secondary { opacity: 1; }
 
-/* ── EL OVERLAY GYMSHARK ── */
+/* ── EL OVERLAY ── */
 .wf-gs-overlay {
   position: absolute;
   bottom: 0;
@@ -2968,7 +2967,6 @@ img:not([loading]) { opacity: 1; }
   align-items: center;
 }
 
-/* Animación de entrada al hacer hover */
 .wf-product-card:hover .wf-gs-overlay {
   opacity: 1;
   transform: translateY(0);
@@ -2983,6 +2981,7 @@ img:not([loading]) { opacity: 1; }
   font-weight: 700;
 }
 
+/* Estructura para los mini-formularios */
 .wf-gs-sizes {
   display: flex;
   flex-wrap: wrap;
@@ -2990,16 +2989,27 @@ img:not([loading]) { opacity: 1; }
   justify-content: center;
   width: 100%;
 }
+.wf-gs-form {
+  margin: 0; 
+  padding: 0; 
+  display: inline-block;
+}
+.wf-gs-form--full {
+  width: 100%;
+}
 
-/* Píldoras de Talla */
+/* ── BOTONES CUADRADOS (SQUARES) ── */
 .wf-gs-size-btn {
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: none !important;
-  border-radius: 50px !important;
-  min-width: 36px;
-  height: 32px;
-  padding: 0 10px;
+  border-radius: 2px !important; /* Esquinas sutiles para aspecto premium */
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   font-size: 0.75rem;
   font-weight: 800;
   cursor: pointer;
@@ -3009,7 +3019,7 @@ img:not([loading]) { opacity: 1; }
 .wf-gs-size-btn:hover:not([disabled]) {
   background: #111 !important;
   color: #fff !important;
-  transform: scale(1.1); /* Efecto pop */
+  transform: scale(1.08); /* Efecto pop al pasar el mouse */
 }
 
 .wf-gs-size-btn[disabled] {
@@ -3018,13 +3028,13 @@ img:not([loading]) { opacity: 1; }
   cursor: not-allowed;
 }
 
-/* Botones únicos */
+/* Botón único inferior (Añadir al carrito / Agotado) */
 .wf-gs-add-btn, .wf-gs-oos-btn {
   width: 100%;
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: none !important;
-  border-radius: 50px !important;
+  border-radius: 2px !important;
   padding: 10px;
   font-size: 0.75rem;
   font-weight: 800;
@@ -3036,24 +3046,23 @@ img:not([loading]) { opacity: 1; }
 .wf-gs-add-btn:hover { background: #111 !important; color: #fff !important; }
 .wf-gs-oos-btn { background: rgba(0, 0, 0, 0.5) !important; color: #fff !important; cursor: not-allowed; }
 
-/* Adaptación Mobile (Sin hover) */
+/* Adaptación Mobile */
 @media (max-width: 768px) {
   .wf-gs-overlay {
-    opacity: 1; /* Siempre visible */
+    opacity: 1; 
     transform: translateY(0);
-    background: transparent; /* Transparente para no oscurecer la foto */
+    background: transparent; 
     padding-bottom: 10px;
   }
-  .wf-gs-sizes-title { display: none; } /* Ocultar título para ahorrar espacio */
+  .wf-gs-sizes-title { display: none; } 
   .wf-gs-size-btn {
-    background: rgba(255, 255, 255, 0.7) !important; /* Estilo Glassmorphism */
+    background: rgba(255, 255, 255, 0.8) !important; 
     backdrop-filter: blur(4px);
   }
 }
 
-/* Adaptación Modo Claro (Light Mode) */
 @media (prefers-color-scheme: light) {
   .wf-card-info .product-loop-price { color: #555; }
   .wf-gs-size-btn { border: 1px solid rgba(0,0,0,0.1) !important; }
 }
-/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID ⬆️ */
+/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID v2 ⬆️ */
