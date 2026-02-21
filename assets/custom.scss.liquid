@@ -2893,8 +2893,9 @@ img:not([loading]) { opacity: 1; }
 
 .product-badge.badge__sold-out {
   position: absolute !important;
-  top: 10px !important;
-  left: 10px !important;
+  top: 0px !important;
+  left: 0px !important;
+  border-radius: 0px !important; /* Le quita el redondeo para que coincida con la esquina perfecta */
   background-color: #E22120 !important; /* Color rojo */
   color: #FFFFFF !important;
   padding: 4px 10px !important;
