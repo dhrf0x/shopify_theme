@@ -1,72 +1,101 @@
-<!-- /templates/customers/login.liquid -->
-
-<div class="row customer-page login-page">
-  <div class="medium-8 large-4 medium-centered large-centered columns text-center">
-
-    <div class="note form-success" id="ResetSuccess" style="display:none;">
-      {{ 'customer.recover_password.success' | t }}
+<div class="wf-split-screen">
+  
+  {%- comment -%} 1. PANEL IZQUIERDO: IMAGEN DE MARCA {%- endcomment -%}
+  <div class="wf-split-image-panel">
+    <div class="wf-split-overlay"></div>
+    
+    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Urban Muscle Lifestyle" loading="lazy">
+    
+    <div class="wf-split-brand-text">
+      <h2>Urban Muscle</h2>
+      <p>Entrena con la élite. Únete a nuestra comunidad.</p>
     </div>
+  </div>
 
-    <div id="CustomerLoginForm" class="form-vertical">
-      {% form 'customer_login' %}
+  {%- comment -%} 2. PANEL DERECHO: FORMULARIOS {%- endcomment -%}
+  <div class="wf-split-form-panel">
+    <div class="wf-form-container">
 
-        <h1 class="page-title">{{ 'customer.login.title' | t }}</h1>
+      <div class="note form-success" id="ResetSuccess" style="display:none;">
+        {{ 'customer.recover_password.success' | t }}
+      </div>
 
-        {{ form.errors | default_errors }}
-
-        <label for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
-        <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="" autocorrect="off" autocapitalize="off" autofocus>
-
-        {% if form.password_needed %}
-          <label for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
-          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="">
-        {% endif %}
-
-        <input type="submit" class="button expanded" value="{{ 'customer.login.sign_in' | t }}">
-
-        <div class="row ">
-          <div  class="small-5 medium-5 large-5 columns text-left">{{ 'layout.customer.create_account' | t | customer_register_link }}</div>
-          {% if form.password_needed %}
-            <div class="small-7 medium-7 large-7 columns text-right"><a href="#recover" id="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a></div>
-          {% endif %}
-        </div>
-      {% endform %}
-    </div>
-
-    <div id="RecoverPasswordForm" style="display: none;">
-
-      <h2 class="page-title">{{ 'customer.recover_password.title' | t }}</h2>
-      <p class="recover-password-subtext">{{ 'customer.recover_password.subtext' | t }}</p>
-
-      <div class="form-vertical">
-        {% form 'recover_customer_password' %}
+      <div id="CustomerLoginForm" class="form-vertical">
+        {% form 'customer_login' %}
+          
+          <div class="wf-form-header">
+            <h1 class="page-title">{{ 'customer.login.title' | t }}</h1>
+            <p>Ingresa tus datos para continuar.</p>
+          </div>
 
           {{ form.errors | default_errors }}
 
-          {% if form.posted_successfully? %}
-            {% assign resetPassword = true %}
+          <div class="wf-input-group">
+            <label for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
+            <input type="email" name="customer[email]" id="CustomerEmail" class="{% if form.errors contains 'email' %} error{% endif %}" placeholder="tu@correo.com" autocorrect="off" autocapitalize="off" autofocus>
+          </div>
+
+          {% if form.password_needed %}
+            <div class="wf-input-group">
+              <label for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
+              <input type="password" value="" name="customer[password]" id="CustomerPassword" class="{% if form.errors contains 'password' %} error{% endif %}" placeholder="••••••••">
+            </div>
           {% endif %}
 
-          <label for="RecoverEmail">{{ 'customer.recover_password.email' | t }}</label>
-          <input type="email" value="" name="email" id="RecoverEmail" placeholder="{{ 'customer.recover_password.enter_email' | t }}" autocorrect="off" autocapitalize="off">
+          <div class="wf-form-actions">
+            <button type="submit" class="wf-btn-primary">{{ 'customer.login.sign_in' | t }}</button>
+          </div>
 
-          <input type="submit" class="button expanded" value="{{ 'customer.recover_password.submit' | t }}">
-          <button type="button" id="HideRecoverPasswordLink">{{ 'customer.recover_password.cancel' | t }}</button>
+          <div class="wf-form-footer">
+            <div class="wf-form-link-wrap">
+              {{ 'layout.customer.create_account' | t | customer_register_link }}
+            </div>
+            {% if form.password_needed %}
+              <div class="wf-form-link-wrap">
+                <a href="#recover" id="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a>
+              </div>
+            {% endif %}
+          </div>
         {% endform %}
       </div>
 
+      <div id="RecoverPasswordForm" style="display: none;">
+        <div class="wf-form-header">
+          <h2 class="page-title">{{ 'customer.recover_password.title' | t }}</h2>
+          <p class="recover-password-subtext">{{ 'customer.recover_password.subtext' | t }}</p>
+        </div>
+
+        <div class="form-vertical">
+          {% form 'recover_customer_password' %}
+            {{ form.errors | default_errors }}
+
+            {% if form.posted_successfully? %}
+              {% assign resetPassword = true %}
+            {% endif %}
+
+            <div class="wf-input-group">
+              <label for="RecoverEmail">{{ 'customer.recover_password.email' | t }}</label>
+              <input type="email" value="" name="email" id="RecoverEmail" placeholder="{{ 'customer.recover_password.enter_email' | t }}" autocorrect="off" autocapitalize="off">
+            </div>
+
+            <div class="wf-form-actions wf-actions-stacked">
+              <button type="submit" class="wf-btn-primary">{{ 'customer.recover_password.submit' | t }}</button>
+              <button type="button" id="HideRecoverPasswordLink" class="wf-btn-secondary">{{ 'customer.recover_password.cancel' | t }}</button>
+            </div>
+          {% endform %}
+        </div>
+      </div>
+
+      {% if shop.checkout.guest_login %}
+        <div class="wf-guest-login">
+          <hr class="wf-divider">
+          <h2 class="wf-guest-title">{{ 'customer.login.guest_title' | t }}</h2>
+          {% form 'guest_login' %}
+            <button type="submit" class="wf-btn-secondary">{{ 'customer.login.guest_continue' | t }}</button>
+          {% endform %}
+        </div>
+      {% endif %}
+
     </div>
-
-    {% if shop.checkout.guest_login %}
-      <hr>
-
-      <h2>{{ 'customer.login.guest_title' | t }}</h2>
-
-      {% form 'guest_login' %}
-        <input type="submit" class="button" value="{{ 'customer.login.guest_continue' | t }}">
-      {% endform %}
-    {% endif %}
-
   </div>
-
 </div>
