@@ -274,11 +274,11 @@
     "header_overlay_page": false,
     "logo_use_image": false,
     "favicon_enable": false,
-    "display_secondary_image": true,
-    "show_product_badges": true,
     "collection_row_mobile": "2",
     "collection_row_tablet": "2",
     "collection_row_desktop": "3",
+    "display_secondary_image": true,
+    "show_product_badges": true,
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -328,9 +328,11 @@
           "label_hombres": "Hombres",
           "link_hombres": "shopify://collections",
           "menu_hombres": "",
+          "collection_hombres": "",
           "label_mujeres": "Mujeres",
           "link_mujeres": "shopify://collections",
-          "menu_mujeres": ""
+          "menu_mujeres": "",
+          "collection_mujeres": ""
         }
       },
       "hero": {
@@ -353,6 +355,7 @@
           "spacing_top": 50,
           "spacing_bottom": 50,
           "background_color": "",
+          "background_image": "shopify://shop_images/April14_Mac.png",
           "video_url": "",
           "background_image_style": "cover",
           "parallax": true,
