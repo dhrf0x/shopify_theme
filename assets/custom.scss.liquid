@@ -3114,18 +3114,11 @@ img:not([loading]) { opacity: 1; }
 }
 .wf-carousel-link:hover { color: #ffffff; }
 
-/* El riel deslizable */
+/* El riel deslizable (Full-width simétrico) */
 .wf-carousel-wrapper {
   width: 100%;
-  padding-left: 1rem; /* Margen por defecto en móviles */
 }
 
-/* Alineación perfecta en pantallas grandes */
-@media (min-width: 1200px) {
-  .wf-carousel-wrapper {
-    padding-left: calc((100vw - 1200px) / 2);
-  }
-}
 .wf-carousel-track {
   display: flex;
   gap: 1rem;
@@ -3134,7 +3127,8 @@ img:not([loading]) { opacity: 1; }
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 2rem; /* Espacio para la sombra */
-  padding-right: 2rem; /* Espacio final */
+  padding-left: 1.5rem; /* Margen simétrico izquierdo */
+  padding-right: 1.5rem; /* Margen simétrico derecho */
   
   /* Ocultar barra de scroll nativa para un look limpio */
   scrollbar-width: none; 
