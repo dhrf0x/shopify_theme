@@ -114,30 +114,7 @@
     window.wfQuickAddDirectInit = true;
 
     /* ========================================================
-       1. ELIMINADOR NUCLEAR DE CAPAS FANTASMA
-       ======================================================== */
-    document.addEventListener('click', function(e) {
-      var isInsideCart = e.target.closest('.off-canvas') || e.target.closest('#cartSidebar');
-      var isAddButton = e.target.closest('.js-qa-direct-add') || e.target.closest('a[href="/cart"]');
-      var isCloseButton = e.target.closest('.close-button') || e.target.matches('.close-button');
-      var isOverlay = e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay');
-      
-      if (isCloseButton || isOverlay || (!isInsideCart && !isAddButton)) {
-        setTimeout(function() {
-          var overlay = document.querySelector('.js-off-canvas-overlay');
-          if (overlay) {
-            overlay.style.setProperty('pointer-events', 'none', 'important');
-            overlay.style.setProperty('opacity', '0', 'important');
-            overlay.style.setProperty('display', 'none', 'important');
-          }
-          document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
-          document.body.style.removeProperty('overflow');
-        }, 350); 
-      }
-    });
-
-    /* ========================================================
-       2. LÓGICA DE AÑADIR AL CARRITO (1-CLIC)
+       1. LÓGICA DE AÑADIR AL CARRITO (1-CLIC)
        ======================================================== */
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.js-qa-direct-add');
@@ -164,30 +141,50 @@
         btn.innerHTML = '✓';
         setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
 
+        // Actualizamos el mini-carrito y burbuja
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') { window.ajaxCart.load(); }
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
 
+        // Abrimos el sidebar simulando el clic nativo
         setTimeout(function() {
            var cartIcon = document.querySelector('.site-header__cart-toggle, #cart-icon, .js-drawer-open-right, a[href="/cart"]');
            if (cartIcon) {
-             var overlay = document.querySelector('.js-off-canvas-overlay');
-             if (overlay) {
-               overlay.style.removeProperty('pointer-events');
-               overlay.style.removeProperty('opacity');
-               overlay.style.removeProperty('display');
-             }
              cartIcon.click();
            }
-        }, 200);
+        }, 150);
 
       })
       .catch(function() {
         btn.innerHTML = 'X';
         setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
       });
+    });
+
+    /* ========================================================
+       2. LIMPIADOR SUAVE (ADIÓS CAPA FANTASMA)
+       ======================================================== */
+    // En lugar de forzar estilos CSS, obligamos al tema a usar su propia lógica de cierre
+    document.addEventListener('click', function(e) {
+      var isOverlay = e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay');
+      
+      if (isOverlay) {
+        // 1. Buscamos la 'X' de tu carrito y simulamos que el usuario le dio clic
+        var closeBtn = document.querySelector('#cartSidebar .close-button, .off-canvas .close-button');
+        if (closeBtn) {
+          closeBtn.click();
+        }
+
+        // 2. Limpieza de emergencia por si el tema se traba (removiendo clases, no inyectando CSS)
+        setTimeout(function() {
+          document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
+          document.querySelectorAll('.off-canvas.is-open').forEach(function(el){
+            el.classList.remove('is-open');
+          });
+        }, 300);
+      }
     });
 
     /* ========================================================
@@ -202,13 +199,13 @@
         var card = imgLink.closest('.wf-product-card');
         if (card) {
           if (!card.classList.contains('is-mobile-active')) {
-            e.preventDefault(); // Detiene navegación en el primer clic
+            e.preventDefault(); 
             
             document.querySelectorAll('.wf-product-card.is-mobile-active').forEach(function(c) {
               if (c !== card) c.classList.remove('is-mobile-active');
             });
             
-            card.classList.add('is-mobile-active'); // Despliega las tallas
+            card.classList.add('is-mobile-active');
           }
         }
       } else {
