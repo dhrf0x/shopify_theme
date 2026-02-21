@@ -2914,3 +2914,26 @@ img:not([loading]) { opacity: 1; }
   }
 }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
+
+/* ========================================== */
+/* ⬇️ INICIO BLOQUE WF: FIX STICKY GLOBAL ⬇️ */
+/* ========================================== */
+
+/* 1. Asegurar que el body tampoco bloquee el sticky (arrastre del código original) */
+html, body {
+  overflow-x: clip !important;
+}
+
+/* 2. Volver pegajoso al envoltorio invisible nativo de Shopify */
+#shopify-section-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 990 !important;
+}
+
+/* 3. Limpiar el menú interno para que no haya conflictos de movimiento */
+.header-container:not(.header-overlay) {
+  position: relative !important;
+  top: auto !important;
+}
+/* ⬆️ FIN BLOQUE WF: FIX STICKY GLOBAL ⬆️ */
