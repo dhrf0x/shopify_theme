@@ -1474,7 +1474,7 @@ a, .pagination a {
 .product-loop-image.secondary-image-enabled {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: #{3} / #{4};
   overflow: hidden;
 }
 .product-loop-image.secondary-image-enabled img.product-image_featured {
@@ -1575,9 +1575,7 @@ h1, h2, h3, h4, h5, h6,
 /* ─── 3. HEADER ──────────────────────────────────────────────── */
 
 /* El JS setea --ann-h al alto de la barra de anuncios */
-:root {
-  #{'--ann-h'}: 0px;
-}
+:root { #{'--ann-h'}: 0px; }
 
 /* NON-overlay: sticky que arranca justo donde termina el anuncio */
 .header-container:not(.header-overlay) {
@@ -1766,7 +1764,7 @@ h1, h2, h3, h4, h5, h6,
 .wf-mega-product:hover { transform: translateY(-3px); }
 .wf-mega-product__img-wrap {
   position: relative;
-  aspect-ratio: 3/4;
+  aspect-ratio: #{3} / #{4};
   overflow: hidden;
   border-radius: 4px;
   background: rgba(255,255,255,0.04);
