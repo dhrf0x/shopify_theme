@@ -492,6 +492,24 @@
       "wf-carousel": {
         "type": "wf-carousel",
         "blocks": {
+          "slide_tNeyKg": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
+          "slide_cH768m": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
+              "title": "Nombre Categoría",
+              "subtext": "NUEVO",
+              "link": ""
+            }
+          },
           "slide_RkAjGQ": {
             "type": "slide",
             "settings": {
@@ -539,6 +557,8 @@
           }
         },
         "block_order": [
+          "slide_tNeyKg",
+          "slide_cH768m",
           "slide_RkAjGQ",
           "slide_7kVcMC",
           "slide_YApHXH",
