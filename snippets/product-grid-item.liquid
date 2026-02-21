@@ -114,3 +114,58 @@
     </div>
   {% endif %}
 </div>
+
+<script>
+  /* Interceptor AJAX para los botones Gymshark */
+  if (!window.wfGymsharkAjax) {
+    window.wfGymsharkAjax = true;
+
+    document.addEventListener('submit', function(e) {
+      if (e.target.matches('.wf-gs-form')) {
+        e.preventDefault(); // Evita la redirección a myshopify.com/cart
+        
+        var form = e.target;
+        var btn = form.querySelector('button');
+        var originalText = btn.innerText;
+
+        // 1. Estado de carga visual
+        btn.innerHTML = '<span style="opacity:0.5;">...</span>';
+        btn.disabled = true;
+
+        // 2. Enviar producto al carrito en segundo plano
+        fetch('/cart/add.js', {
+          method: 'POST',
+          body: new FormData(form)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          // Mostrar éxito en el cuadrito
+          btn.innerHTML = '✓';
+          setTimeout(function() { 
+            btn.innerText = originalText; 
+            btn.disabled = false; 
+          }, 2000);
+
+          // 3. Actualizar la información del carrito usando tu archivo nativo ajax-cart.js
+          if (window.ajaxCart) {
+            window.ajaxCart.load();
+          }
+
+          // 4. Desplegar el sidebar automáticamente
+          // Buscamos el icono del carrito en la barra de navegación y simulamos un clic
+          var cartHeaderIcon = document.querySelector('a[href="/cart"], .js-drawer-open-right');
+          if (cartHeaderIcon) {
+            cartHeaderIcon.click();
+          }
+        })
+        .catch(function(err) {
+          btn.innerText = 'X';
+          setTimeout(function() { 
+            btn.innerText = originalText; 
+            btn.disabled = false; 
+          }, 2000);
+        });
+      }
+    });
+  }
+</script>
