@@ -1575,7 +1575,9 @@ h1, h2, h3, h4, h5, h6,
 /* ─── 3. HEADER ──────────────────────────────────────────────── */
 
 /* El JS setea --ann-h al alto de la barra de anuncios */
-:root { --ann-h: 0px; }
+:root {
+  #{'--ann-h'}: 0px;
+}
 
 /* NON-overlay: sticky que arranca justo donde termina el anuncio */
 .header-container:not(.header-overlay) {
