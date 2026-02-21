@@ -2883,3 +2883,26 @@ img:not([loading]) { opacity: 1; }
   .wf-atc-btn--needs-size.is-ready { background: #111; color: #fff; border-color: #111; }
   .wf-atc-btn--needs-size.is-ready:hover { background: transparent; color: #111; }
 }
+
+/* ========================================== */
+/* ⬇️ INICIO BLOQUE WF: BADGE AGOTADO ⬇️ */
+/* ========================================== */
+.product-loop-item {
+  position: relative; /* Asegura que la etiqueta no se salga de la tarjeta */
+}
+
+.product-badge.badge__sold-out {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  background-color: #E22120 !important; /* Color rojo */
+  color: #FFFFFF !important;
+  padding: 4px 10px !important;
+  font-size: 0.75rem !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  z-index: 10 !important; /* Mantiene la etiqueta por encima de la imagen */
+  border-radius: 3px !important;
+  pointer-events: none; /* Evita que estorbe al hacer clic en el producto */
+}
+/* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
