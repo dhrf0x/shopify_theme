@@ -495,24 +495,25 @@
           "slide_tNeyKg": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
-              "subtext": "NUEVO",
-              "link": ""
+              "product": "camisa-oversize",
+              "title": "",
+              "subtext": "",
+              "link": "shopify://products/camisa-oversize"
             }
           },
           "slide_cH768m": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
-              "subtext": "NUEVO",
+              "product": "jersey-wf-urban-muscle",
+              "title": "",
+              "subtext": "",
               "link": ""
             }
           },
           "slide_RkAjGQ": {
             "type": "slide",
             "settings": {
+              "product": "",
               "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
@@ -522,6 +523,7 @@
           "slide_7kVcMC": {
             "type": "slide",
             "settings": {
+              "product": "",
               "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
@@ -531,6 +533,7 @@
           "slide_YApHXH": {
             "type": "slide",
             "settings": {
+              "product": "",
               "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
@@ -540,6 +543,7 @@
           "slide_byGftc": {
             "type": "slide",
             "settings": {
+              "product": "",
               "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
@@ -549,6 +553,7 @@
           "slide_pLeLfr": {
             "type": "slide",
             "settings": {
+              "product": "",
               "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
               "title": "Nombre Categoría",
               "subtext": "NUEVO",
