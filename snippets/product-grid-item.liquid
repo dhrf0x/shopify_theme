@@ -60,7 +60,7 @@
             {%- assign var_title_down = variant.title | downcase -%}
             {%- assign final_title = variant.title -%}
             {%- if var_title_down contains 'default' or var_title_down contains 'unitalla' or var_title_down == 'os' or var_title_down contains 'unica' or var_title_down contains 'única' -%}
-              {%- assign final_title = 'U' -%}
+              {%- assign final_title = 'Unitalla' -%}
             {%- endif -%}
 
             <button type="button" class="wf-quickadd__size js-qa-direct-add {% unless variant.available %}is-oos{% endunless %}"
