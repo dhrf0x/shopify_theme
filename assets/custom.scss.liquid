@@ -2916,7 +2916,7 @@ img:not([loading]) { opacity: 1; }
 /* ⬆️ FIN BLOQUE WF: BADGE AGOTADO ⬆️ */
 
 /* ========================================== */
-/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID v2 ⬇️ */
+/* ⬇️ INICIO BLOQUE WF: GYMSHARK HYBRID v3 ⬇️ */
 /* ========================================== */
 
 .wf-card-image-wrap {
@@ -2932,11 +2932,13 @@ img:not([loading]) { opacity: 1; }
   margin-bottom: 0.2rem;
   display: block;
   font-weight: 600;
+  font-size: 0.9rem;
 }
 .wf-card-info .product-loop-price {
   display: block;
   margin-bottom: 0.75rem;
   color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
 }
 .wf-price-sale {
   color: #E22120 !important;
@@ -2950,14 +2952,14 @@ img:not([loading]) { opacity: 1; }
 }
 .wf-card-image-wrap:hover .product-image_secondary { opacity: 1; }
 
-/* ── EL OVERLAY ── */
+/* ── EL OVERLAY CON SOMBRA ── */
 .wf-gs-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
-  padding: 30px 10px 15px;
+  padding: 40px 10px 15px;
   opacity: 0;
   transform: translateY(15px);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -2977,65 +2979,73 @@ img:not([loading]) { opacity: 1; }
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   font-weight: 700;
 }
 
-/* Estructura para los mini-formularios */
+/* ── CONTENEDOR FLEXBOX ── */
 .wf-gs-sizes {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px; /* Separación limpia entre botones */
   justify-content: center;
   width: 100%;
 }
+
+/* ── EL FIX MÁGICO: Hacer el formulario invisible al diseño ── */
 .wf-gs-form {
-  margin: 0; 
-  padding: 0; 
-  display: inline-block;
+  display: contents !important; 
 }
 .wf-gs-form--full {
   width: 100%;
+  display: block !important; 
 }
 
-/* ── BOTONES CUADRADOS (SQUARES) ── */
+/* ── BOTONES DE TALLA (LOOK PREMIUM ORIGINAL) ── */
 .wf-gs-size-btn {
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: none !important;
-  border-radius: 2px !important; /* Esquinas sutiles para aspecto premium */
-  width: 38px;
+  
+  /* AQUÍ CONTROLAS LA FORMA: 
+     Usa 50px para los óvalos originales (tipo píldora)
+     Usa 2px si prefieres los cuadrados elegantes */
+  border-radius: 50px !important; 
+  
+  min-width: 42px; /* Espacio para que respiren las letras */
   height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 0 12px;
   font-size: 0.75rem;
   font-weight: 800;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra sutil para dar volumen */
 }
 
 .wf-gs-size-btn:hover:not([disabled]) {
   background: #111 !important;
   color: #fff !important;
-  transform: scale(1.08); /* Efecto pop al pasar el mouse */
+  transform: scale(1.1); /* Efecto Pop */
 }
 
 .wf-gs-size-btn[disabled] {
   opacity: 0.4 !important;
   text-decoration: line-through;
   cursor: not-allowed;
+  transform: none !important;
 }
 
-/* Botón único inferior (Añadir al carrito / Agotado) */
+/* Botón único inferior (Cuando no hay tallas) */
 .wf-gs-add-btn, .wf-gs-oos-btn {
   width: 100%;
   background: rgba(255, 255, 255, 0.95) !important;
   color: #111 !important;
   border: none !important;
-  border-radius: 2px !important;
-  padding: 10px;
+  border-radius: 50px !important; /* Mantenlo igual que las tallas */
+  padding: 12px;
   font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -3046,23 +3056,24 @@ img:not([loading]) { opacity: 1; }
 .wf-gs-add-btn:hover { background: #111 !important; color: #fff !important; }
 .wf-gs-oos-btn { background: rgba(0, 0, 0, 0.5) !important; color: #fff !important; cursor: not-allowed; }
 
-/* Adaptación Mobile */
+/* Adaptación Mobile (El botón cristalino) */
 @media (max-width: 768px) {
   .wf-gs-overlay {
     opacity: 1; 
     transform: translateY(0);
     background: transparent; 
-    padding-bottom: 10px;
+    padding-bottom: 12px;
   }
   .wf-gs-sizes-title { display: none; } 
   .wf-gs-size-btn {
-    background: rgba(255, 255, 255, 0.8) !important; 
+    background: rgba(255, 255, 255, 0.85) !important; 
     backdrop-filter: blur(4px);
   }
 }
 
+/* Modo claro nativo */
 @media (prefers-color-scheme: light) {
   .wf-card-info .product-loop-price { color: #555; }
-  .wf-gs-size-btn { border: 1px solid rgba(0,0,0,0.1) !important; }
+  .wf-gs-size-btn { border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: none; }
 }
-/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID v2 ⬆️ */
+/* ⬆️ FIN BLOQUE WF: GYMSHARK HYBRID v3 ⬆️ */
