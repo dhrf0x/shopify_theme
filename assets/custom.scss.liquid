@@ -3117,10 +3117,15 @@ img:not([loading]) { opacity: 1; }
 /* El riel deslizable */
 .wf-carousel-wrapper {
   width: 100%;
-  /* Padding izquierdo para alinear con el contenedor general de tu tienda */
-  padding-left: max(1rem, calc((100vw - 1200px) / 2)); 
+  padding-left: 1rem; /* Margen por defecto en móviles */
 }
 
+/* Alineación perfecta en pantallas grandes */
+@media (min-width: 1200px) {
+  .wf-carousel-wrapper {
+    padding-left: calc((100vw - 1200px) / 2);
+  }
+}
 .wf-carousel-track {
   display: flex;
   gap: 1rem;
