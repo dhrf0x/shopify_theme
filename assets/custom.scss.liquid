@@ -1437,8 +1437,16 @@ a, .pagination a {
 /* Fix: Off-canvas — Foundation manages visibility, override original */
 .off-canvas.is-closed { visibility: hidden; }
 
-/* Fix: Off-canvas z-index to cover announcement bar */
-.off-canvas.is-transition-overlap { z-index: 100 !important; }
+/* Fix: Off-canvas z-index to cover announcement bar y header sticky */
+.off-canvas.is-transition-overlap,
+.off-canvas.is-open,
+#cartSidebar,
+#mobileMenuSidebar { 
+  z-index: 9999 !important; 
+}
+.js-off-canvas-overlay {
+  z-index: 9998 !important;
+}
 
 /* Fix: header-container.header-overlay — raise z-index, kill shadow */
 .header-container.header-overlay {
