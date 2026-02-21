@@ -1518,15 +1518,16 @@ a, .pagination a {
 
 /* ╔═══════════════════════════════════════════════════════════════╗
    ║   WF URBAN MUSCLE — SISTEMA VISUAL v5.4                      ║
-   ║   overflow:clip hero fix + Gymshark search overlay           ║
+   ║   overflow:clip hero fix +  search overlay           ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
 /* ─── FIX CRÍTICO: overflow en html/body/PageContainer ────────── */
 /* overflow:hidden en #PageContainer crea scroll container con offset */
 /* Solución: clip en html para cortar sin crear scroll container      */
 html {
-  overflow-x: hidden !important;
+  overflow-x: clip !important; /* 'clip' evita el scroll horizontal sin romper el position: sticky */
 }
+
 #PageContainer {
   overflow: clip !important;
   overflow-clip-margin: 0 !important;
