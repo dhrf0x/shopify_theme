@@ -13,7 +13,7 @@
   {% assign sold_out = false %}
 {% endif %}
 
-{%- comment -%} VALIDACIÓN: Mostrar botones Gymshark SOLO en /collections/ {%- endcomment -%}
+{%- comment -%} VALIDACIÓN: Mostrar botones SOLO en /collections/ {%- endcomment -%}
 {% assign is_collection_page = false %}
 {% if template == 'collection' or template.name == 'collection' %}
   {% assign is_collection_page = true %}
@@ -21,9 +21,7 @@
 
 <div class="{{ grid_item_width }} product-loop-item wf-product-card">
   
-  {%- comment -%} ENVOLTORIO DE IMAGEN {%- endcomment -%}
   <div class="wf-card-image-wrap">
-    
     {% if settings.show_product_badges %}
       {% if sold_out %}
         <div class="product-badge badge__sold-out">{{ 'products.product.out_of_stock' | t }}</div>
@@ -50,7 +48,7 @@
       {% endunless %}
     </a>
 
-    {%- comment -%} OVERLAY HÍBRIDO GYMSHARK (Se oculta en Index automáticamente) {%- endcomment -%}
+    {%- comment -%} OVERLAY HÍBRIDO (AHORA CON FORMS NATIVOS) {%- endcomment -%}
     {% if is_collection_page %}
       <div class="wf-gs-overlay">
         {% if product.available %}
@@ -58,16 +56,24 @@
             <div class="wf-gs-sizes-title">+ Añadir rápido</div>
             <div class="wf-gs-sizes">
               {% for variant in product.variants %}
-                {%- comment -%} NOTA: Al darle la clase wf-atc-btn, un clic aquí lo añade directo al carrito {%- endcomment -%}
-                <button type="button" class="wf-gs-size-btn wf-atc-btn" data-variant="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
-                  {{ variant.title | escape }}
-                </button>
+                {%- comment -%} ENVUELTO EN FORM PARA ACTIVAR EL CARRITO LATERAL {%- endcomment -%}
+                <form method="post" action="/cart/add" class="wf-gs-form">
+                  <input type="hidden" name="id" value="{{ variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="wf-gs-size-btn" {% unless variant.available %}disabled{% endunless %} title="{{ variant.title }}">
+                    {{ variant.title | escape }}
+                  </button>
+                </form>
               {% endfor %}
             </div>
           {% else %}
-            <button type="button" class="wf-gs-add-btn wf-atc-btn" data-variant="{{ product.variants.first.id }}">
-              + Añadir al carrito
-            </button>
+            <form method="post" action="/cart/add" class="wf-gs-form wf-gs-form--full">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="wf-gs-add-btn">
+                + Añadir al carrito
+              </button>
+            </form>
           {% endif %}
         {% else %}
           <div class="wf-gs-oos-btn">Agotado</div>
@@ -77,10 +83,8 @@
 
   </div>
 
-  {%- comment -%} INFORMACIÓN DEL PRODUCTO (Limpia y minimalista) {%- endcomment -%}
   <div class="wf-card-info">
     <a class="product-loop-title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-
     <a href="{{ product.url | within: collection }}" class="product-loop-price">
       {% if on_sale %}
         <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
