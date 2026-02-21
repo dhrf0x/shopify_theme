@@ -117,11 +117,40 @@
   if (!window.wfQuickAddDirectInit) {
     window.wfQuickAddDirectInit = true;
 
+    /* ========================================================
+       1. ELIMINADOR DE CAPA FANTASMA (ANTI-BUG)
+       ======================================================== */
+    // Escuchamos si el usuario hace clic fuera del carrito (en el overlay) o en la X
+    document.addEventListener('click', function(e) {
+      var isOverlay = e.target.closest('.js-off-canvas-overlay') || e.target.matches('.js-off-canvas-overlay');
+      var isCloseBtn = e.target.closest('.close-button') || e.target.matches('.close-button');
+      
+      if (isOverlay || isCloseBtn) {
+        // Le damos 400ms al carrito para que haga su animación suave de cierre...
+        setTimeout(function() {
+          // ... y luego matamos la capa blanca forzosamente para liberar la pantalla
+          var overlay = document.querySelector('.js-off-canvas-overlay');
+          if (overlay) {
+            overlay.style.setProperty('pointer-events', 'none', 'important');
+            overlay.style.setProperty('opacity', '0', 'important');
+            overlay.style.setProperty('display', 'none', 'important');
+          }
+          // Limpiamos cualquier bloqueo residual en el cuerpo de la página
+          document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
+        }, 400); 
+      }
+    });
+
+    /* ========================================================
+       2. LÓGICA DE AÑADIR AL CARRITO (1-CLIC)
+       ======================================================== */
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.js-qa-direct-add');
       if (!btn || btn.disabled) return;
 
       e.preventDefault();
+      e.stopPropagation(); // Previene que el tema haga doble clic
+      
       var variantId = btn.getAttribute('data-variant');
       if (!variantId) return;
 
@@ -136,24 +165,38 @@
       })
       .then(function(res) { return res.json(); })
       .then(function(data) {
+        
         btn.innerHTML = '✓';
         setTimeout(function() { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
 
+        // Reconstruimos el interior del carrito
         if (window.ajaxCart && typeof window.ajaxCart.load === 'function') {
           window.ajaxCart.load();
         }
 
+        // Actualizamos la burbuja roja de cantidad
         fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
           var count = document.getElementById('CartCount');
           if (count) { count.textContent = cart.item_count; }
         });
 
+        // Abrimos el sidebar
         setTimeout(function() {
            var cartIcon = document.querySelector('.site-header__cart-toggle, #cart-icon, .js-drawer-open-right, a[href="/cart"]');
-           if (cartIcon && !document.body.classList.contains('is-moved')) {
+           if (cartIcon) {
+             
+             // ANTES de abrir el carrito, "revivimos" el overlay por si lo habíamos matado en la compra anterior
+             var overlay = document.querySelector('.js-off-canvas-overlay');
+             if (overlay) {
+               overlay.style.removeProperty('pointer-events');
+               overlay.style.removeProperty('opacity');
+               overlay.style.removeProperty('display');
+             }
+             
              cartIcon.click();
            }
-        }, 300);
+        }, 200);
+
       })
       .catch(function() {
         btn.innerHTML = 'X';
