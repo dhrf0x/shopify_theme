@@ -14,4 +14,94 @@
       </p>
     {% endif %}
   </div>
+
+  {%- comment -%} ⬇️ INICIO: SECCIÓN DE FAVORITOS EN EL CARRITO ⬇️ {%- endcomment -%}
+  <div id="wf-cart-favorites" class="wf-cart-favorites" style="display: none;">
+    <h3 class="wf-cart-fav-title">Tus Favoritos Guardados</h3>
+    <div id="wf-cart-fav-list" class="wf-cart-fav-list">
+      </div>
+  </div>
+  {%- comment -%} ⬆️ FIN: SECCIÓN DE FAVORITOS ⬆️ {%- endcomment -%}
+
 </div>
+
+<script>
+  /* ========================================================
+     SISTEMA DE FAVORITOS (LECTOR DE MEMORIA Y API DE SHOPIFY)
+     ======================================================== */
+  function renderWFFavorites() {
+    var container = document.getElementById('wf-cart-favorites');
+    var list = document.getElementById('wf-cart-fav-list');
+    if (!container || !list) return;
+
+    var favs = JSON.parse(localStorage.getItem('wf_favorites')) || [];
+
+    // Si no hay favoritos, ocultamos la sección
+    if (favs.length === 0) {
+      container.style.display = 'none';
+      list.innerHTML = '';
+      return;
+    }
+
+    container.style.display = 'block';
+    list.innerHTML = '<div style="font-size: 0.75rem; opacity: 0.5;">Cargando favoritos...</div>';
+
+    // Buscamos los datos de cada producto usando la API de Shopify
+    var fetchPromises = favs.map(function(handle) {
+      return fetch('/products/' + handle + '.js')
+        .then(function(res) { return res.json(); })
+        .catch(function() { return null; });
+    });
+
+    Promise.all(fetchPromises).then(function(products) {
+      list.innerHTML = '';
+      
+      products.forEach(function(product) {
+        if (!product) return;
+        
+        // Formatear precio (Shopify lo devuelve en centavos)
+        var price = (product.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        
+        var html = `
+          <div class="wf-fav-item">
+            <a href="${product.url}" class="wf-fav-img-link">
+              <img src="${product.images[0]}" alt="${product.title}">
+            </a>
+            <div class="wf-fav-info">
+              <a href="${product.url}" class="wf-fav-title">${product.title}</a>
+              <span class="wf-fav-price">${price}</span>
+              <button type="button" class="wf-fav-remove js-remove-fav" data-handle="${product.handle}">Quitar</button>
+            </div>
+          </div>
+        `;
+        list.insertAdjacentHTML('beforeend', html);
+      });
+    });
+  }
+
+  // 1. Cargar favoritos cuando se abre la página
+  document.addEventListener('DOMContentLoaded', renderWFFavorites);
+  
+  // 2. Escuchar si el usuario marca un nuevo corazón para actualizar en tiempo real
+  window.addEventListener('wf-favorites-updated', renderWFFavorites);
+
+  // 3. Funcionalidad del botón "Quitar" dentro del carrito
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('js-remove-fav')) {
+      e.preventDefault();
+      var handle = e.target.getAttribute('data-handle');
+      var favs = JSON.parse(localStorage.getItem('wf_favorites')) || [];
+      
+      // Filtramos y borramos el producto de la memoria
+      favs = favs.filter(function(h) { return h !== handle; });
+      localStorage.setItem('wf_favorites', JSON.stringify(favs));
+      
+      // Actualizamos el carrito
+      renderWFFavorites();
+      
+      // Apagamos el corazón en la tienda (si es que está visible en pantalla)
+      var hearts = document.querySelectorAll('.js-add-to-favs[data-product-handle="'+handle+'"]');
+      hearts.forEach(function(h) { h.classList.remove('is-active'); });
+    }
+  });
+</script>
