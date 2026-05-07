@@ -10,10 +10,9 @@
  {% assign header_overlay = 'header-overlay' %}
 {% endif %}
 
-{% assign logo_id = 'logo.png' %}
-{% if header_overlay != blank %}
-  {% assign logo_id = 'logo-white.png' %}
-{% endif %}
+{% comment -%} El header siempre tiene fondo oscuro (overlay transparente o sticky #111110) {%- endcomment %}
+{% assign logo_id = 'logo-white.png' %}
+
 
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
   <header id="main-header">
