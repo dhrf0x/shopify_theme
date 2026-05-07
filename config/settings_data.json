@@ -583,6 +583,19 @@
           "brand_title": "WF URBAN MUSCLE",
           "brand_subtitle": ""
         }
+      },
+      "page-password": {
+        "type": "page-password",
+        "settings": {
+          "bg_image": "shopify://shop_images/6bc6d063-47e9-4607-add5-9be7d57fd32f.jpg",
+          "brand_title": "Urban Muscle",
+          "brand_subtitle": "Algo grande está por llegar.",
+          "label": "Próximamente",
+          "title": "Estamos preparando algo increíble",
+          "subtitle": "Vuelve pronto. Mientras tanto, déjanos tu email para ser el primero en enterarte.",
+          "email_label": "Tu correo electrónico",
+          "cta_text": "Avísame cuando abran"
+        }
       }
     },
     "content_for_index": []
