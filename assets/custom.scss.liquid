@@ -2651,19 +2651,19 @@ img:not([loading]) { opacity: 1; }
   #main-header .is-dropdown-submenu { background-color: #ffffff !important; border-color: rgba(0,0,0,0.1) !important; }
   #main-header .is-dropdown-submenu a { color: #111111 !important; }
   .wf-gender-nav__link { color: #111111 !important; }
-  .wf-mega-panel { background: #ffffff !important; border-color: rgba(0,0,0,0.08) !important; box-shadow: 0 24px 80px rgba(0,0,0,0.14) !important; }
-  .wf-mega-panel__section--links { border-right-color: rgba(0,0,0,0.08) !important; }
-  .wf-mega-panel__label { color: rgba(0,0,0,0.35) !important; border-bottom-color: rgba(0,0,0,0.08) !important; }
-  .wf-mega-panel__link { color: rgba(0,0,0,0.65) !important; border-bottom-color: rgba(0,0,0,0.06) !important; }
-  .wf-mega-panel__link:hover { color: #111111 !important; }
-  .wf-mega-panel__link::before { background: #111111 !important; }
-  .wf-mega-product__title { color: rgba(0,0,0,0.85) !important; }
-  .wf-mega-product__price { color: rgba(0,0,0,0.5) !important; }
-  .wf-mega-product__img-wrap { background: rgba(0,0,0,0.04) !important; }
-  .wf-mega-backdrop { background: rgba(0,0,0,0.25) !important; }
-  .burger-container #burger .bar { background-color: #111111 !important; }
-  /* Gender nav — modo claro */
-  .wf-gender-nav__link { color: #111111 !important; }
+  /* Igual especificidad que las reglas nested → último gana → dark sobre fondo claro */
+  .header-container:not(.header-overlay) #user-icon,
+  .header-container:not(.header-overlay) #cart-icon            { fill: #111111 !important; }
+  .header-container:not(.header-overlay) .header__search-toggle { color: #111111 !important; }
+  .header-container:not(.header-overlay) .header__search-toggle svg { stroke: #111111 !important; fill: none !important; }
+  .header-container:not(.header-overlay) #header-right-menu a  { color: #111111 !important; }
+  .header-container:not(.header-overlay) .wf-gender-nav__link  { color: #111111 !important; }
+  .header-container:not(.header-overlay) .burger-container #burger .bar { background-color: #111111 !important; }
+  .header-container.header-overlay.is-fixed #user-icon,
+  .header-container.header-overlay.is-fixed #cart-icon         { fill: #111111 !important; }
+  .header-container.header-overlay.is-fixed .header__search-toggle svg { stroke: #111111 !important; fill: none !important; }
+  .header-container.header-overlay.is-fixed .wf-gender-nav__link { color: #111111 !important; }
+  .header-container.header-overlay.is-fixed .burger-container #burger .bar { background-color: #111111 !important; }
   .wf-mega-panel { background: #ffffff !important; border-color: rgba(0,0,0,0.08) !important; }
   .wf-mega-panel__label { color: rgba(0,0,0,0.35) !important; }
   .wf-mega-panel__link { color: rgba(0,0,0,0.65) !important; }
