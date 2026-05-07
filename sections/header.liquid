@@ -292,20 +292,33 @@
 
   } else {
     // OVERLAY: absolute hasta que el anuncio desaparece, luego fixed
-    function onScrollOverlay() {
-      var y = window.scrollY;
-      if (y > annH) {
-        // Anuncio ya fuera de pantalla → header pasa a fixed
-        header.classList.add('is-fixed');
-      } else {
-        // Anuncio visible → header vuelve a absolute (sobre el hero)
-        header.classList.remove('is-fixed');
-      }
+    var WHITE = '#ffffff';
+    var iconIds = ['user-icon', 'cart-icon'];
+
+    function setOverlayIconColors(fixed) {
+      iconIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (fixed) { el.style.setProperty('fill', WHITE, 'important'); }
+        else        { el.style.removeProperty('fill'); }
+      });
+      var searchSvgs = header.querySelectorAll('.header__search-toggle svg');
+      searchSvgs.forEach(function(svg) {
+        if (fixed) { svg.style.setProperty('stroke', WHITE, 'important'); svg.style.setProperty('fill', 'none', 'important'); }
+        else        { svg.style.removeProperty('stroke'); svg.style.removeProperty('fill'); }
+      });
+      var navLinks = header.querySelectorAll('.wf-gender-nav__link, #header-right-menu a');
+      navLinks.forEach(function(l) {
+        if (fixed) { l.style.setProperty('color', WHITE, 'important'); }
+        else        { l.style.removeProperty('color'); }
+      });
+      var bars = header.querySelectorAll('#burger .bar');
+      bars.forEach(function(b) {
+        if (fixed) { b.style.setProperty('background-color', WHITE, 'important'); }
+        else        { b.style.removeProperty('background-color'); }
+      });
     }
-    window.addEventListener('scroll', onScrollOverlay, { passive: true });
-    onScrollOverlay();
-  }
-})();
+
 
 // ── Mega Nav ──────────────────────────────────────────────────────
 (function() {
