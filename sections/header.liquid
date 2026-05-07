@@ -13,7 +13,6 @@
 {% comment -%} El header siempre tiene fondo oscuro (overlay transparente o sticky #111110) {%- endcomment %}
 {% assign logo_id = 'logo-white.png' %}
 
-
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
   <header id="main-header">
     <div class="wf-header-inner">
@@ -319,6 +318,20 @@
       });
     }
 
+    function onScrollOverlay() {
+      var y = window.scrollY;
+      var fixed = y > annH;
+      if (fixed) {
+        header.classList.add('is-fixed');
+      } else {
+        header.classList.remove('is-fixed');
+      }
+      setOverlayIconColors(fixed);
+    }
+    window.addEventListener('scroll', onScrollOverlay, { passive: true });
+    onScrollOverlay();
+  }
+})();
 
 // ── Mega Nav ──────────────────────────────────────────────────────
 (function() {
