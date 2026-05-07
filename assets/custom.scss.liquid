@@ -1591,14 +1591,6 @@ h1, h2, h3, h4, h5, h6,
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   box-shadow: 0 2px 20px rgba(0,0,0,0.35) !important;
   transition: background-color 0.35s ease, box-shadow 0.35s ease;
-  /* Iconos y texto sobre fondo oscuro — máxima especificidad */
-  #user-icon,
-  #cart-icon                          { fill: $color-sections-text !important; }
-  .header__search-toggle              { color: $color-sections-text !important; }
-  .header__search-toggle svg          { stroke: $color-sections-text !important; fill: none !important; }
-  #header-right-menu a                { color: $color-sections-text !important; }
-  .wf-gender-nav__link                { color: $color-sections-text !important; }
-  .burger-container #burger .bar      { background-color: $color-sections-text !important; }
 }
 
 /* Scrolled (non-overlay): color sólido, sin transparencias */
@@ -1616,16 +1608,30 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: 0 2px 20px rgba(0,0,0,0.5) !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   transition: background-color 0.35s ease, box-shadow 0.35s ease;
-  
-  /* Mantener iconos blancos también al hacer scroll en el hero */
-  #user-icon,
-  #cart-icon                          { fill: $color-sections-text !important; }
-  .header__search-toggle              { color: $color-sections-text !important; }
-  .header__search-toggle svg          { stroke: $color-sections-text !important; fill: none !important; }
-  #header-right-menu a                { color: $color-sections-text !important; }
-  .wf-gender-nav__link                { color: $color-sections-text !important; }
-  .burger-container #burger .bar      { background-color: $color-sections-text !important; }
 }
+
+/* ── Iconos blancos en header oscuro (non-overlay y overlay fijo) ──
+   Reglas planas con selector compuesto para máxima especificidad
+   sin usar SCSS nesting que rompe el compilador de Shopify           */
+.header-container:not(.header-overlay) #user-icon,
+.header-container:not(.header-overlay) #cart-icon,
+.header-container.header-overlay.is-fixed #user-icon,
+.header-container.header-overlay.is-fixed #cart-icon { fill: $color-sections-text !important; }
+
+.header-container:not(.header-overlay) .header__search-toggle,
+.header-container.header-overlay.is-fixed .header__search-toggle { color: $color-sections-text !important; }
+
+.header-container:not(.header-overlay) .header__search-toggle svg,
+.header-container.header-overlay.is-fixed .header__search-toggle svg { stroke: $color-sections-text !important; fill: none !important; }
+
+.header-container:not(.header-overlay) #header-right-menu a,
+.header-container.header-overlay.is-fixed #header-right-menu a { color: $color-sections-text !important; }
+
+.header-container:not(.header-overlay) .wf-gender-nav__link,
+.header-container.header-overlay.is-fixed .wf-gender-nav__link { color: $color-sections-text !important; }
+
+.header-container:not(.header-overlay) .burger-container #burger .bar,
+.header-container.header-overlay.is-fixed .burger-container #burger .bar { background-color: $color-sections-text !important; }
 
 /* Layout 3-columnas centrado */
 .wf-header-inner {
