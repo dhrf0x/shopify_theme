@@ -326,7 +326,7 @@
           "main_menu_alignment": "left",
           "header_show_search": true,
           "label_hombres": "Hombres",
-          "link_hombres": "shopify://collections",
+          "link_hombres": "shopify://collections/hombres",
           "menu_hombres": "",
           "collection_hombres": "",
           "label_mujeres": "Mujeres",
