@@ -573,7 +573,7 @@
         "settings": {
           "title": "TOP VENTAS",
           "link_text": "Ver todo",
-          "link_url": "shopify://collections"
+          "link_url": "shopify://collections/all"
         }
       },
       "login-split": {
