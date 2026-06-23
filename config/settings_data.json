@@ -481,7 +481,7 @@
           "label": "Nuevos ingresos",
           "title": "NOVEDADES",
           "subtitle": "",
-          "collection": "test-blank",
+          "collection": "productos-nuevos",
           "products_count": 4,
           "grid": "2",
           "grid_mobile": "2",
