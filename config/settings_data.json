@@ -492,88 +492,53 @@
       "wf-carousel": {
         "type": "wf-carousel",
         "blocks": {
-          "slide_tNeyKg": {
+          "slide_whcaNy": {
             "type": "slide",
             "settings": {
-              "product": "camisa-oversize",
+              "product": "playera-albert-wesker-wf-urban-muscle",
               "title": "",
-              "subtext": "",
-              "link": "shopify://products/camisa-oversize"
+              "subtext": "NUEVO",
+              "link": ""
             }
           },
-          "slide_cH768m": {
+          "slide_RCFbii": {
             "type": "slide",
             "settings": {
-              "product": "jersey-wf-urban-muscle",
+              "product": "playera-powerbuff-girls-wf-urban-muscle",
               "title": "",
-              "subtext": "",
-              "link": ""
-            }
-          },
-          "slide_RkAjGQ": {
-            "type": "slide",
-            "settings": {
-              "product": "",
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
               "subtext": "NUEVO",
               "link": ""
             }
           },
-          "slide_7kVcMC": {
+          "slide_Km4d8Y": {
             "type": "slide",
             "settings": {
-              "product": "",
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
+              "product": "jersey-wf-urban-muscle-skeletor",
+              "title": "",
               "subtext": "NUEVO",
               "link": ""
             }
           },
-          "slide_YApHXH": {
+          "slide_TaazNr": {
             "type": "slide",
             "settings": {
-              "product": "",
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
+              "product": "jersey-he-man-wf-urban-muscle",
+              "title": "",
               "subtext": "NUEVO",
-              "link": ""
-            }
-          },
-          "slide_byGftc": {
-            "type": "slide",
-            "settings": {
-              "product": "",
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
-              "subtext": "NUEVO",
-              "link": ""
-            }
-          },
-          "slide_pLeLfr": {
-            "type": "slide",
-            "settings": {
-              "product": "",
-              "image": "shopify://shop_images/625398742_18091819295004566_2223665263389899008_n.jpg",
-              "title": "Nombre Categoría",
-              "subtext": "NUEVO",
-              "link": ""
+              "link": "shopify://products/jersey-he-man-wf-urban-muscle"
             }
           }
         },
         "block_order": [
-          "slide_tNeyKg",
-          "slide_cH768m",
-          "slide_RkAjGQ",
-          "slide_7kVcMC",
-          "slide_YApHXH",
-          "slide_byGftc",
-          "slide_pLeLfr"
+          "slide_whcaNy",
+          "slide_RCFbii",
+          "slide_Km4d8Y",
+          "slide_TaazNr"
         ],
         "settings": {
           "title": "TOP VENTAS",
           "link_text": "Ver todo",
-          "link_url": "shopify://collections/all"
+          "link_url": "shopify://collections"
         }
       },
       "login-split": {
