@@ -338,8 +338,8 @@
       "hero": {
         "type": "hero",
         "settings": {
-          "title": "WF URBAN MUSCLE",
-          "text": "<p>DROP THUNDERCATS PROXIMAMENTE</p>",
+          "title": "DROP THUNDERCATS",
+          "text": "<p><strong>PROXIMAMENTE</strong></p>",
           "alignment": "left",
           "text_alignment": "center",
           "text_width": "2-3",
