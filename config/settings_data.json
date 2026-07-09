@@ -248,7 +248,7 @@
     "color_header_overlay_cart_count_bg": "#ffffff",
     "color_footer_bg": "#111110",
     "color_footer_title": "#ffffff",
-    "color_footer_text": "rgba(255,255,255,0.65)",
+    "color_footer_text": "#E10909",
     "color_footer_link": "rgba(255,255,255,0.65)",
     "color_footer_copyright": "rgba(255,255,255,0.35)",
     "color_footer_form_input_bg": "rgba(255,255,255,0.08)",
@@ -375,13 +375,6 @@
       "footer": {
         "type": "footer",
         "blocks": {
-          "footer-0": {
-            "type": "footer-menu",
-            "settings": {
-              "title": "Menu",
-              "menu_id": "footer"
-            }
-          },
           "footer-1": {
             "type": "text",
             "settings": {
@@ -400,7 +393,6 @@
           }
         },
         "block_order": [
-          "footer-0",
           "footer-1",
           "footer-2"
         ],
