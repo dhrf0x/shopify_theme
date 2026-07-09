@@ -303,12 +303,20 @@
               "text": "✦ Usa el cupón WFURBAN10 en tu primer compra",
               "link": ""
             }
+          },
+          "message_fzwXeU": {
+            "type": "message",
+            "settings": {
+              "text": "✦ Envío gratis en pedidos mayores a $1,500",
+              "link": ""
+            }
           }
         },
         "block_order": [
           "message_gDNiVY",
           "message_newdrops",
-          "message_cupon"
+          "message_cupon",
+          "message_fzwXeU"
         ],
         "settings": {
           "show_bar": true,
