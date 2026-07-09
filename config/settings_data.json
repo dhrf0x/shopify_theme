@@ -392,7 +392,7 @@
           "footer-2": {
             "type": "newsletter",
             "settings": {
-              "title": "Join the newsletter",
+              "title": "unete para que estes enterado de todo",
               "description": "Drops exclusivos, descuentos y novedades directo a tu correo.",
               "placeholder": "Tu correo electrónico",
               "button_text": "Subscribe"
