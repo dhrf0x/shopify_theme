@@ -385,8 +385,8 @@
           "footer-1": {
             "type": "text",
             "settings": {
-              "title": "Custom Text",
-              "text": "<p>Add some text here.</p>"
+              "title": "Tienda fisica",
+              "text": "<p>Sierra Morena 12</p><p>Colonia Independencia 44340</p><p>Guadalajara Jalisco</p><p><a href=\"https://maps.app.goo.gl/juCtTq4yUCgW8ZF69\" title=\"Maps\">Ubicacion</a></p>"
             }
           },
           "footer-2": {
