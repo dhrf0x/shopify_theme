@@ -293,7 +293,7 @@
           "message_newdrops": {
             "type": "message",
             "settings": {
-              "text": "✦ Nuevos drops disponibles✦ Da Clic",
+              "text": "Nuevos Drops Disponibles- Da Clic",
               "link": "shopify://collections/all"
             }
           }
