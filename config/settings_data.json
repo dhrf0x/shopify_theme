@@ -496,37 +496,37 @@
           "slide_whcaNy": {
             "type": "slide",
             "settings": {
-              "product": "playera-albert-wesker-wf-urban-muscle",
+              "product": "playera-albert-wesker-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "NUEVO",
-              "link": ""
+              "subtext": "POPEYE TITAN SERIES",
+              "link": "shopify://products/playera-albert-wesker-wf-urban-muscle-copia"
             }
           },
           "slide_RCFbii": {
             "type": "slide",
             "settings": {
-              "product": "playera-powerbuff-girls-wf-urban-muscle",
+              "product": "playera-dexter-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "NUEVO",
-              "link": ""
+              "subtext": "GOLLUM TITAN SERIES",
+              "link": "shopify://products/playera-dexter-wf-urban-muscle-copia"
             }
           },
           "slide_Km4d8Y": {
             "type": "slide",
             "settings": {
-              "product": "jersey-wf-urban-muscle-skeletor",
+              "product": "playera-powerbuff-girls-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "NUEVO",
-              "link": ""
+              "subtext": "DRAGON BALL",
+              "link": "shopify://products/playera-powerbuff-girls-wf-urban-muscle-copia"
             }
           },
           "slide_TaazNr": {
             "type": "slide",
             "settings": {
-              "product": "jersey-he-man-wf-urban-muscle",
+              "product": "playera-popeye-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "NUEVO",
-              "link": "shopify://products/jersey-he-man-wf-urban-muscle"
+              "subtext": "TITAN BESTIA TITAN SERIES",
+              "link": "shopify://products/playera-popeye-wf-urban-muscle-copia"
             }
           }
         },
