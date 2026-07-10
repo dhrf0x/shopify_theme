@@ -321,7 +321,7 @@
           "header_show_search": true,
           "label_hombres": "Hombres",
           "link_hombres": "shopify://collections/hombres",
-          "menu_hombres": "",
+          "menu_hombres": "hombres",
           "collection_hombres": "",
           "label_mujeres": "Mujeres",
           "link_mujeres": "shopify://collections/mujeres",
