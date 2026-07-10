@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "meta": {
@@ -6,7 +15,7 @@
     },
     "404": {
       "title": "404 Página no encontrada",
-      "subtext_html": "La página que ha solicitado no existe. Haga clic <a href=\"\/collections\/all\">aquí<\/a> para continuar la compra."
+      "subtext_html": "La página que ha solicitado no existe. Haga clic <a href=\"/collections/all\">aquí</a> para continuar la compra."
     },
     "breadcrumbs": {
       "home": "Inicio",
@@ -72,9 +81,9 @@
       "subtotal": "Subtotal",
       "shipping_at_checkout": "Gastos de envío y descuentos calculado al momento de pagar",
       "update": "Actualizar carrito",
-      "checkout": "Finalizar pedido",
+      "checkout": "Continuar",
       "empty": "Su carrito actualmente está vacío.",
-      "continue_browsing_html": "Continúe explorando <a href=\"\/collections\/all\">aquí<\/a>.",
+      "continue_browsing_html": "Continúe explorando <a href=\"/collections/all\">aquí</a>.",
       "close_cart": "Cerrar carrito",
       "savings_html": "Está ahorrando {{ price }}",
       "reduce_quantity": "Quitar uno a la cantidad de artículos",
@@ -243,10 +252,10 @@
     },
     "onboarding": {
       "modal_title": "Casi allí...",
-      "no_products_html": "No tiene productos en su colección de portada. Este indicador aparecerá hasta que <a href=\"\/admin\/collections?tutorial=Frontpage\">agregue un producto a esta colección<\/a>.",
+      "no_products_html": "No tiene productos en su colección de portada. Este indicador aparecerá hasta que <a href=\"/admin/collections?tutorial=Frontpage\">agregue un producto a esta colección</a>.",
       "add_product": "Añadir un producto",
       "product_title": "Ejemplo título de producto",
-      "no_collections_html": "No tiene colecciones para mostrar aquí. <a href=\"\/admin\/custom_collections\">Agregue algunas colecciones<\/a> que acompañen a la Portada por defecto.",
+      "no_collections_html": "No tiene colecciones para mostrar aquí. <a href=\"/admin/custom_collections\">Agregue algunas colecciones</a> que acompañen a la Portada por defecto.",
       "add_collection": "Añadir una colección",
       "collection_title": "Ejemplo título de colección"
     }
@@ -283,7 +292,7 @@
     "general": {
       "previous_product_html": "&larr; Producto anterior",
       "next_product_html": "Siguiente producto &rarr;",
-      "from_text_html": "<span>De<\/span> {{ price }}",
+      "from_text_html": "<span>De</span> {{ price }}",
       "sale_price": "Precio de oferta",
       "regular_price": "Precio habitual"
     },
@@ -291,7 +300,7 @@
       "sold_out": "Agotado",
       "out_of_stock": "Agotado",
       "on_sale": "En oferta",
-      "on_sale_from_html": "<span>En oferta<\/span> desde {{ price }}",
+      "on_sale_from_html": "<span>En oferta</span> desde {{ price }}",
       "save": "-{{ discount }}%",
       "unavailable": "No disponible",
       "compare_at": " Comparar en",
