@@ -377,6 +377,13 @@
       "footer": {
         "type": "footer",
         "blocks": {
+          "footer_menu_JUqpLn": {
+            "type": "footer-menu",
+            "settings": {
+              "title": "Navegación",
+              "menu_id": "politicas-de-envio"
+            }
+          },
           "trust_x43XyV": {
             "type": "trust",
             "settings": {
@@ -408,6 +415,7 @@
           }
         },
         "block_order": [
+          "footer_menu_JUqpLn",
           "trust_x43XyV",
           "footer-1",
           "footer-2"
