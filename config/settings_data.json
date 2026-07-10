@@ -377,12 +377,16 @@
       "footer": {
         "type": "footer",
         "blocks": {
-          "brand_7zL8bm": {
-            "type": "brand",
+          "trust_x43XyV": {
+            "type": "trust",
             "settings": {
-              "logo": "shopify://shop_images/WhatsApp_Image_2026-07-09_at_7.59.00_PM.jpg",
-              "tagline": "",
-              "show_social": true
+              "title": "¿POR QUÉ ELEGIRNOS?",
+              "badge1_icon": "🚚",
+              "badge1_text": "Envío gratis a partir de 6 pzas",
+              "badge2_icon": "🏪",
+              "badge2_text": "Tienda Fisica En Guadalajara",
+              "badge3_icon": "🔒",
+              "badge3_text": "Pago 100% seguro"
             }
           },
           "footer-1": {
@@ -404,7 +408,7 @@
           }
         },
         "block_order": [
-          "brand_7zL8bm",
+          "trust_x43XyV",
           "footer-1",
           "footer-2"
         ],
