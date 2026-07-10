@@ -279,6 +279,8 @@
     "collection_row_desktop": "3",
     "display_secondary_image": true,
     "show_product_badges": true,
+    "social_instagram_link": "https://www.instagram.com/wtffitwear/",
+    "share_image": "shopify://shop_images/images.jpg",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -377,6 +379,7 @@
         "blocks": {
           "footer-1": {
             "type": "text",
+            "name": "Ubicacion",
             "settings": {
               "title": "Tienda fisica",
               "text": "<p>Sierra Morena 12</p><p>Colonia Independencia 44340</p><p>Guadalajara Jalisco</p><p>+52 3351073245</p><p><a href=\"https://maps.app.goo.gl/juCtTq4yUCgW8ZF69\" title=\"Maps\"><strong>Ubicacion</strong></a></p>"
