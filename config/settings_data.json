@@ -316,7 +316,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "main_menu": "main-menu",
+          "main_menu": "",
           "main_menu_alignment": "center",
           "header_show_search": true,
           "label_hombres": "Hombres",
