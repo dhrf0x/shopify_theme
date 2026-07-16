@@ -319,12 +319,12 @@
           "main_menu": "",
           "main_menu_alignment": "center",
           "header_show_search": true,
-          "label_hombres": "Hombres",
-          "link_hombres": "shopify://collections/hombres",
+          "label_hombres": "Playeras",
+          "link_hombres": "shopify://collections/playeras",
           "menu_hombres": "",
           "collection_hombres": "",
-          "label_mujeres": "Mujeres",
-          "link_mujeres": "shopify://collections/mujeres",
+          "label_mujeres": "Jersey´s",
+          "link_mujeres": "shopify://collections/jersey",
           "menu_mujeres": "",
           "collection_mujeres": ""
         }
