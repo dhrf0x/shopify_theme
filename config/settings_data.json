@@ -350,7 +350,8 @@
           "spacing_bottom": 315,
           "background_color": "",
           "background_image": "shopify://shop_images/WhatsApp_Image_2026-07-23_at_12.09.15_AM.jpg",
-          "video_url": "",
+          "video_url": "https://vimeo.com/1212423039?share=copy&fl=sv&fe=ci",
+          "video_upload": "shopify://shop_images/WhatsApp_Image_2026-07-23_at_12.09.15_AM.jpg",
           "background_image_style": "repeat",
           "parallax": false,
           "darken": 17
