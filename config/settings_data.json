@@ -285,31 +285,39 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
+          "message_nei6DD": {
+            "type": "message",
+            "settings": {
+              "text": "",
+              "link": ""
+            }
+          },
           "message_gDNiVY": {
             "type": "message",
             "settings": {
-              "text": "✦ Envío gratis a partir de 6 pzas ✦",
+              "text": "✦ Envío gratis a todo Mexico a partir de 6 pzas ✦",
               "link": ""
             }
           },
           "message_newdrops": {
             "type": "message",
             "settings": {
-              "text": "Nuevos Drops Disponibles- Da Clic",
-              "link": "shopify://collections/all"
+              "text": "Nuevos Drops Disponibles- Da click",
+              "link": "shopify://products/jersey-thundercats-wf-urban-muscle"
             }
           }
         },
         "block_order": [
+          "message_nei6DD",
           "message_gDNiVY",
           "message_newdrops"
         ],
         "settings": {
           "show_bar": true,
           "ann_visibility": "all",
-          "background_color": "#cc0000",
+          "background_color": "#000000",
           "text_color": "#ffffff",
-          "font_size": 13,
+          "font_size": 16,
           "slide_speed": 5
         }
       },
