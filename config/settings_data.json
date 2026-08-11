@@ -285,6 +285,14 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
+          "message_YDtxe9": {
+            "type": "message",
+            "disabled": true,
+            "settings": {
+              "text": "✦ Envío gratis en pedidos mayores a $999",
+              "link": ""
+            }
+          },
           "message_nei6DD": {
             "type": "message",
             "settings": {
@@ -308,6 +316,7 @@
           }
         },
         "block_order": [
+          "message_YDtxe9",
           "message_nei6DD",
           "message_gDNiVY",
           "message_newdrops"
@@ -585,6 +594,24 @@
         "type": "shopify://apps/mercado-pago-antifraud-plus/blocks/embed-block/b19ea721-f94a-4308-bee5-0057c043bac5",
         "disabled": false,
         "settings": {}
+      },
+      "7186961759184398009": {
+        "type": "shopify://apps/authenticity-lookup/blocks/product-verify-floating/5bc9a8cf-765a-42ef-b0db-63c809045ca9",
+        "disabled": true,
+        "settings": {
+          "button_color": "#007bff",
+          "button_size": 60,
+          "button_bottom": 100,
+          "button_right": 20,
+          "button_icon": "🔍",
+          "panel_title": "Verificar Producto",
+          "enable_qr_scan": true,
+          "input_placeholder": "Ingresar Codigo De Verificacion",
+          "verify_button_text": "Codigo De Verificacion",
+          "scan_button_text": "Scanea Codigo QR",
+          "success_message": "🏅 CERTIFICADO DE AUTENTICIDAD\n\nEdición: [note]\nCódigo único: [code]\n\nEsta pieza forma parte de una colección exclusiva de WF Urban Muscle.\n\nSu autenticidad ha sido confirmada exitosamente.",
+          "fail_message": "Codigo No Valido"
+        }
       }
     }
   }
