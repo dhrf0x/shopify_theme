@@ -584,6 +584,16 @@
       "wf-testimonials": {
         "type": "wf-testimonials",
         "blocks": {
+          "testimonial_tPTMaU": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/Captura_de_pantalla_2026-08-11_172358.png",
+              "rating": 5,
+              "review": "Excelente calidad y llegó súper rápido.",
+              "customer": "Fcomadrazo",
+              "product_name": "Drop Caos Celestial"
+            }
+          },
           "testimonial_akFk7t": {
             "type": "testimonial",
             "settings": {
@@ -626,6 +636,7 @@
           }
         },
         "block_order": [
+          "testimonial_tPTMaU",
           "testimonial_akFk7t",
           "testimonial_3Q967g",
           "testimonial_WBczcG",
