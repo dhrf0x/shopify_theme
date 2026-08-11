@@ -82,7 +82,7 @@
               {% if product.compare_at_price_max > product.price %}
                 <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
                 <s id="ComparePrice">
-                  <span class="money" style="color:#111110 !important; -webkit-text-fill-color:#111110 !important; opacity:1 !important;">{{ current_variant.compare_at_price | money }}</span>
+                  <span class="money">{{ current_variant.compare_at_price | money }}</span>
                 </s>
               {% endif %}
 
