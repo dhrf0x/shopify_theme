@@ -327,15 +327,15 @@
       "header": {
         "type": "header",
         "settings": {
-          "main_menu": "",
-          "main_menu_alignment": "center",
-          "header_show_search": true,
-          "label_hombres": "Playeras",
-          "link_hombres": "shopify://collections/playeras",
+          "main_menu": "main-menu",
+          "main_menu_alignment": "right",
+          "header_show_search": false,
+          "label_hombres": "",
+          "link_hombres": "",
           "menu_hombres": "",
           "collection_hombres": "",
-          "label_mujeres": "Jersey´s",
-          "link_mujeres": "shopify://collections/jersey",
+          "label_mujeres": "",
+          "link_mujeres": "",
           "menu_mujeres": "",
           "collection_mujeres": ""
         }
