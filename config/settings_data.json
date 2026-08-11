@@ -597,10 +597,10 @@
       },
       "7186961759184398009": {
         "type": "shopify://apps/authenticity-lookup/blocks/product-verify-floating/5bc9a8cf-765a-42ef-b0db-63c809045ca9",
-        "disabled": true,
+        "disabled": false,
         "settings": {
           "button_color": "#007bff",
-          "button_size": 60,
+          "button_size": 50,
           "button_bottom": 100,
           "button_right": 20,
           "button_icon": "🔍",
