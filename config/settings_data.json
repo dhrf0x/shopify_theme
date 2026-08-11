@@ -297,30 +297,23 @@
           "message_nei6DD": {
             "type": "message",
             "settings": {
-              "text": "✦Envío a partir de $99✦",
+              "text": "🚚 Envío a todo México $99 | GRATIS desde 5 prendas 📦",
               "link": ""
             }
           },
           "message_gDNiVY": {
             "type": "message",
+            "disabled": true,
             "settings": {
-              "text": "✦ Envío gratis a todo Mexico a partir de 5 pzas ✦",
+              "text": "✦ Envío gratis a todo Mexico a partir de 5 pzas ✦ 📦",
               "link": ""
-            }
-          },
-          "message_newdrops": {
-            "type": "message",
-            "settings": {
-              "text": "Nuevos Drops Disponibles- Da click",
-              "link": "shopify://products/jersey-thundercats-wf-urban-muscle"
             }
           }
         },
         "block_order": [
           "message_YDtxe9",
           "message_nei6DD",
-          "message_gDNiVY",
-          "message_newdrops"
+          "message_gDNiVY"
         ],
         "settings": {
           "show_bar": true,
