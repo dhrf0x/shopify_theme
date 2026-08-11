@@ -580,6 +580,33 @@
           "email_label": "Tu correo electrónico",
           "cta_text": "Avísame cuando abran"
         }
+      },
+      "wf-testimonials": {
+        "type": "wf-testimonials",
+        "blocks": {
+          "testimonial_EycnLc": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/WhatsApp_Image_2026-08-11_at_4.14.10_PM.jpg",
+              "rating": 5,
+              "review": "Una calidad y un servicio excelente",
+              "customer": "Cliente WF",
+              "product_name": "Jersey skeletor"
+            }
+          }
+        },
+        "block_order": [
+          "testimonial_EycnLc"
+        ],
+        "settings": {
+          "heading": "CLIENTES WF",
+          "subheading": "Lo que dicen quienes ya compraron.",
+          "show_arrows": true,
+          "background_color": "#f7f7f7",
+          "card_color": "#ffffff",
+          "text_color": "#111111",
+          "star_color": "#111111"
+        }
       }
     },
     "content_for_index": [],
