@@ -78,6 +78,15 @@
           {% endcomment %}
           <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
 
+            <style>
+  #ComparePrice,
+  #ComparePrice .money {
+    color: #111110 !important;
+    -webkit-text-fill-color: #111110 !important;
+    text-decoration-color: #111110 !important;
+    opacity: 1 !important;
+  }
+</style>
             <div class="product__price__wrap">
               {% if product.compare_at_price_max > product.price %}
                 <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
