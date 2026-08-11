@@ -584,6 +584,16 @@
       "wf-testimonials": {
         "type": "wf-testimonials",
         "blocks": {
+          "testimonial_akFk7t": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/Captura_de_pantalla_2026-08-11_172038.png",
+              "rating": 5,
+              "review": "Ve nada mas esa playera tan perrona",
+              "customer": "Ambar",
+              "product_name": "Drop Caos Celestial"
+            }
+          },
           "testimonial_3Q967g": {
             "type": "testimonial",
             "settings": {
@@ -616,6 +626,7 @@
           }
         },
         "block_order": [
+          "testimonial_akFk7t",
           "testimonial_3Q967g",
           "testimonial_WBczcG",
           "testimonial_EycnLc"
