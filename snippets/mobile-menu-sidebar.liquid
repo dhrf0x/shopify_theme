@@ -24,41 +24,7 @@
       </li>
     {% endif %}
 
-    {%- comment -%} ── HOMBRES ── {%- endcomment -%}
-    {%- if men_label != blank -%}
-      {%- if men_links.size > 0 -%}
-        <li class="wf-mobile-gender">
-          <a href="{{ men_href }}">{{ men_label }}</a>
-          <ul class="menu vertical nested">
-            {%- for link in men_links -%}
-              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </li>
-      {%- else -%}
-        <li class="wf-mobile-gender">
-          <a href="{{ men_href }}">{{ men_label }}</a>
-        </li>
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- comment -%} ── MUJERES ── {%- endcomment -%}
-    {%- if women_label != blank -%}
-      {%- if women_links.size > 0 -%}
-        <li class="wf-mobile-gender">
-          <a href="{{ women_href }}">{{ women_label }}</a>
-          <ul class="menu vertical nested">
-            {%- for link in women_links -%}
-              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </li>
-      {%- else -%}
-        <li class="wf-mobile-gender">
-          <a href="{{ women_href }}">{{ women_label }}</a>
-        </li>
-      {%- endif -%}
-    {%- endif -%}
+    
 
     {%- comment -%} ── DIVISOR visual si hay nav de género ── {%- endcomment -%}
     {%- if men_label != blank or women_label != blank -%}
