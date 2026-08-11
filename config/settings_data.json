@@ -584,6 +584,26 @@
       "wf-testimonials": {
         "type": "wf-testimonials",
         "blocks": {
+          "testimonial_3Q967g": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/WhatsApp_Image_2026-08-11_at_4.14.10_PM_1.jpg",
+              "rating": 5,
+              "review": "Pasadotas de lanza",
+              "customer": "Cliente WF",
+              "product_name": "Playera Drop Titan Series"
+            }
+          },
+          "testimonial_WBczcG": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/WhatsApp_Image_2026-08-11_at_4.14.10_PM_4.jpg",
+              "rating": 5,
+              "review": "Seguire al pendiente para ver que nuevos modelos salen",
+              "customer": "Cliente WF",
+              "product_name": "Jerseys"
+            }
+          },
           "testimonial_EycnLc": {
             "type": "testimonial",
             "settings": {
@@ -596,6 +616,8 @@
           }
         },
         "block_order": [
+          "testimonial_3Q967g",
+          "testimonial_WBczcG",
           "testimonial_EycnLc"
         ],
         "settings": {
