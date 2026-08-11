@@ -246,13 +246,13 @@
     "color_header_overlay_dropdown_bg": "rgba(15,15,13,0.92)",
     "color_header_overlay_dropdown_menu": "#f0f0ee",
     "color_header_overlay_cart_count_bg": "#ffffff",
-    "color_footer_bg": "#111110",
+    "color_footer_bg": "#000000",
     "color_footer_title": "#ffffff",
-    "color_footer_text": "#E10909",
-    "color_footer_link": "rgba(255,255,255,0.65)",
-    "color_footer_copyright": "rgba(255,255,255,0.35)",
-    "color_footer_form_input_bg": "rgba(255,255,255,0.08)",
-    "color_footer_form_input_border": "rgba(255,255,255,0.14)",
+    "color_footer_text": "#f5f5f5",
+    "color_footer_link": "#ffffff",
+    "color_footer_copyright": "#ffffff",
+    "color_footer_form_input_bg": "#333330",
+    "color_footer_form_input_border": "#777772",
     "color_footer_form_input_text": "#ffffff",
     "color_footer_form_btn_bg": "#ffffff",
     "color_footer_form_btn_text": "#111110",
@@ -393,11 +393,11 @@
       "footer": {
         "type": "footer",
         "blocks": {
-          "footer_menu_JUqpLn": {
+          "footer_menu_3GdeYx": {
             "type": "footer-menu",
             "settings": {
-              "title": "Politicas De Envio",
-              "menu_id": "politicas-de-envio"
+              "title": "Politicas de la tienda",
+              "menu_id": "footer"
             }
           },
           "trust_x43XyV": {
@@ -431,7 +431,7 @@
           }
         },
         "block_order": [
-          "footer_menu_JUqpLn",
+          "footer_menu_3GdeYx",
           "trust_x43XyV",
           "footer-1",
           "footer-2"
