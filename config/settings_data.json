@@ -584,6 +584,16 @@
       "wf-testimonials": {
         "type": "wf-testimonials",
         "blocks": {
+          "testimonial_3ATNtW": {
+            "type": "testimonial",
+            "settings": {
+              "image": "shopify://shop_images/Captura_de_pantalla_2026-08-11_172646.png",
+              "rating": 5,
+              "review": "Una belleza estas de compresion de Invencible",
+              "customer": "Aldo A",
+              "product_name": "Drop Invincible"
+            }
+          },
           "testimonial_tPTMaU": {
             "type": "testimonial",
             "settings": {
@@ -636,6 +646,7 @@
           }
         },
         "block_order": [
+          "testimonial_3ATNtW",
           "testimonial_tPTMaU",
           "testimonial_akFk7t",
           "testimonial_3Q967g",
