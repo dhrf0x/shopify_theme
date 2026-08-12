@@ -509,7 +509,19 @@
 
   .wf-product-accordion__content p {
     margin: 0 0 10px;
+  }@media (prefers-color-scheme: dark) {
+  .wf-product-accordion,
+  .wf-product-accordion summary,
+  .wf-product-accordion summary span,
+  .wf-product-accordion__content,
+  .wf-product-accordion__content * {
+    color: #ffffff !important;
   }
+
+  .wf-product-accordion details {
+    border-color: #666666 !important;
+  }
+}
 </style>
         <div class="product-description rte" itemprop="description">
           {{ product.description }}
