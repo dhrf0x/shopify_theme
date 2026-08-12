@@ -57,6 +57,7 @@ rp: {{ rp_products.size }} | primero: {{ rp_products.first.title }} | imagen: {{
                       src="{{ p.featured_image | img_url: '480x600', crop: 'center' }}"
                       alt="{{ p.title | escape }}"
                       class="rp-gymshark__img rp-gymshark__img--primary"
+                      style="opacity:1 !important; visibility:visible !important; display:block !important;"
                       loading="lazy"
                     >
                     {% if p.images.size > 1 %}
