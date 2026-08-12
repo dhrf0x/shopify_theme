@@ -25,41 +25,11 @@
         {% endunless %}
       {% endfor %}
     {% endunless %}
-
-    {% comment %} ——— Construye lista de productos ——— {% endcomment %}
-    {% assign rp_products = '' | split: '' %}
-
-    {% if found_a_collection %}
-      {% for p in collection.products %}
-        {% unless p.handle == product.handle %}
-{% assign one_product = collection.products | slice: forloop.index0, 1 %}
-{% assign rp_products = rp_products | concat: one_product %}
-          
-          {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
-        {% endunless %}
-      {% endfor %}
-    {% endif %}
-
-    {% comment %}
-      Fallback: si no hay colección o tiene pocos productos,
-      completa con los últimos productos de la tienda
-    {% endcomment %}
-    {% if rp_products.size < related_products_number %}
-      {% assign needed = related_products_number | minus: rp_products.size %}
-      {% assign collected_handles = '' %}
-      {% for p in rp_products %}
-        {% assign collected_handles = collected_handles | append: p.handle | append: ',' %}
-      {% endfor %}
-      {% assign collected_handles = collected_handles | append: product.handle %}
-
-      {% for p in collections.all.products %}
-        {% unless collected_handles contains p.handle %}
-{% assign one_product = collections.all.products | slice: forloop.index0, 1 %}
-{% assign rp_products = rp_products | concat: one_product %}
-          {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
-        {% endunless %}
-      {% endfor %}
-    {% endif %}
+{% if found_a_collection %}
+  {% assign rp_products = collection.products | reject: 'handle', product.handle %}
+{% else %}
+  {% assign rp_products = collections.all.products | reject: 'handle', product.handle %}
+{% endif %}
 <p style="color:red;font-weight:bold;">
 DEBUG | encontrada: {{ found_a_collection }} |
 colección: {{ collection.title }} |
