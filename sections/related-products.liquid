@@ -32,7 +32,9 @@
     {% if found_a_collection %}
       {% for p in collection.products %}
         {% unless p.handle == product.handle %}
-          {% assign rp_products = rp_products | push: p %}
+{% assign one_product = collection.products | slice: forloop.index0, 1 %}
+{% assign rp_products = rp_products | concat: one_product %}
+          
           {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
         {% endunless %}
       {% endfor %}
@@ -52,7 +54,8 @@
 
       {% for p in collections.all.products %}
         {% unless collected_handles contains p.handle %}
-          {% assign rp_products = rp_products | push: p %}
+{% assign one_product = collections.all.products | slice: forloop.index0, 1 %}
+{% assign rp_products = rp_products | concat: one_product %}
           {% if rp_products.size >= related_products_number %}{% break %}{% endif %}
         {% endunless %}
       {% endfor %}
