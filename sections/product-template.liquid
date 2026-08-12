@@ -294,6 +294,65 @@
     }
   }
 </style>
+<div class="wf-product-accordion">
+  <details>
+    <summary>
+      <span>📦 Envíos</span>
+      <span class="wf-product-accordion__plus">+</span>
+    </summary>
+
+    <div class="wf-product-accordion__content">
+      <p><strong>Entrega estimada de 2 a 5 días hábiles.</strong></p>
+      <p>Realizamos envíos a todo México.</p>
+      <p>En productos de preventa, revisa el tiempo de entrega indicado en la descripción del producto.</p>
+    </div>
+  </details>
+</div>
+
+<style>
+  .wf-product-accordion {
+    margin: 18px 0;
+    color: #111111;
+  }
+
+  .wf-product-accordion details {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .wf-product-accordion summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    list-style: none;
+  }
+
+  .wf-product-accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .wf-product-accordion__plus {
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .wf-product-accordion details[open] .wf-product-accordion__plus {
+    transform: rotate(45deg);
+  }
+
+  .wf-product-accordion__content {
+    padding: 0 4px 18px;
+    line-height: 1.6;
+  }
+
+  .wf-product-accordion__content p {
+    margin: 0 0 10px;
+  }
+</style>
         <div class="product-description rte" itemprop="description">
           {{ product.description }}
         </div>
