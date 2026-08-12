@@ -30,12 +30,7 @@
 {% else %}
   {% assign rp_products = collections.all.products | reject: 'handle', product.handle %}
 {% endif %}
-<p style="color:red;font-weight:bold;">
-DEBUG | encontrada: {{ found_a_collection }} |
-colección: {{ collection.title }} |
-productos colección: {{ collection.products.size }} |
-rp: {{ rp_products.size }} | primero: {{ rp_products.first.title }} | imagen: {{ rp_products.first.featured_image | img_url: '480x600' }}
-</p>
+
     {% if rp_products.size > 0 %}
       <section class="rp-gymshark js-animate-appear-show">
         <div class="rp-gymshark__header">
