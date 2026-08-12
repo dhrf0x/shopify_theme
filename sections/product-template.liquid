@@ -338,6 +338,76 @@
     <p>• Se recomienda secar al aire libre.</p>
   </div>
 </details>
+{% assign wf_tags = product.tags | join: '|' | downcase %}
+
+{% assign wf_tipo = '' %}
+{% assign wf_largo_total = '' %}
+{% assign wf_largo_cuello = '' %}
+{% assign wf_ancho = '' %}
+
+{% if wf_tags contains 'jersey' %}
+  {% assign wf_tipo = 'Jersey' %}
+  {% assign wf_largo_total = '72 cm' %}
+  {% assign wf_largo_cuello = '62 cm' %}
+  {% assign wf_ancho = '50 cm' %}
+
+{% elsif wf_tags contains 'compresion' %}
+  {% assign wf_tipo = 'Playera de compresión' %}
+  {% assign wf_largo_total = '62 cm' %}
+  {% assign wf_largo_cuello = '54 cm' %}
+  {% assign wf_ancho = '48 cm' %}
+
+{% elsif wf_tags contains 'playeras' %}
+  {% assign wf_tipo = 'Playera' %}
+  {% assign wf_largo_total = '75 cm' %}
+  {% assign wf_largo_cuello = '66 cm' %}
+  {% assign wf_ancho = '54 cm' %}
+{% endif %}
+
+{% if wf_tipo != blank %}
+  <details>
+    <summary>
+      <span>📏 Guía de medidas</span>
+      <span class="wf-product-accordion__plus">+</span>
+    </summary>
+
+    <div class="wf-product-accordion__content">
+      <p><strong>Medidas — {{ wf_tipo }}</strong></p>
+
+      <table style="width:100%; border-collapse:collapse; margin:12px 0;">
+        <tr>
+          <td style="padding:10px; border:1px solid #dddddd;">
+            <strong>Largo total</strong>
+          </td>
+          <td style="padding:10px; border:1px solid #dddddd; text-align:center;">
+            {{ wf_largo_total }}
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:10px; border:1px solid #dddddd;">
+            <strong>Largo desde cuello</strong>
+          </td>
+          <td style="padding:10px; border:1px solid #dddddd; text-align:center;">
+            {{ wf_largo_cuello }}
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:10px; border:1px solid #dddddd;">
+            <strong>Ancho de pecho</strong>
+          </td>
+          <td style="padding:10px; border:1px solid #dddddd; text-align:center;">
+            {{ wf_ancho }}
+          </td>
+        </tr>
+      </table>
+
+      <p><strong>UNITALLA</strong></p>
+      <p>Medidas tomadas en centímetros. Puede existir una variación aproximada de 1 a 2 cm.</p>
+    </div>
+  </details>
+{% endif %}
 </div>
 
 
