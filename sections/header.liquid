@@ -195,7 +195,7 @@
       var bars = header.querySelectorAll('#burger .bar');
       bars.forEach(function(b) {
         if (fixed) { b.style.setProperty('background-color', WHITE, 'important'); }
-        else        { b.style.removeProperty('background-color'); }
+       else { b.style.setProperty('background-color', WHITE, 'important'); }
       });
     }
 
