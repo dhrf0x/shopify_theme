@@ -12,7 +12,13 @@
 
 {% comment -%} El header siempre tiene fondo oscuro (overlay transparente o sticky #111110) {%- endcomment %}
 {% assign logo_id = 'logo-white.png' %}
-
+<style>
+@media (prefers-color-scheme: dark) {
+  #burger .bar {
+    background: #ffffff !important;
+  }
+}
+</style>
 <div class="header-container {{ header_overlay }} js-animate-appear-show" data-section-id="{{ section.id }}" data-section-type="header">
   <header id="main-header">
     <div class="wf-header-inner">
