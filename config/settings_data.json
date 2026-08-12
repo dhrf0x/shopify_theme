@@ -279,9 +279,12 @@
     "collection_row_desktop": "3",
     "display_secondary_image": true,
     "show_product_badges": true,
+    "add_spr_markup": false,
     "cart_notes_enable": true,
     "social_instagram_link": "",
     "share_image": "shopify://shop_images/WhatsApp_Image_2026-07-22_at_11.43.19_PM.jpg",
+    "share_pinterest": false,
+    "share_google": false,
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -441,7 +444,7 @@
           "images_width": "50",
           "display_product_vendor": false,
           "enable_lightbox": true,
-          "show_share_buttons": false
+          "show_share_buttons": true
         }
       },
       "related-products": {
@@ -450,7 +453,7 @@
           "show_related_products": true,
           "related_title": "TAMBIÉN TE PUEDE GUSTAR",
           "related_subtitle": "Creemos que estos productos combinan perfectamente.",
-          "related_products_number": "3"
+          "related_products_number": "5"
         }
       },
       "collection-header": {
