@@ -134,6 +134,90 @@
           </form>
         </div>
 
+        <div class="wf-product-trust">
+  <div class="wf-product-trust__item">
+    <div class="wf-product-trust__icon">🎨</div>
+    <div>
+      <strong>Diseños inspirados en anime y cultura urbana.</strong>
+      <p>Prendas creadas para quienes quieren vestir algo diferente.</p>
+    </div>
+  </div>
+
+  <div class="wf-product-trust__item">
+    <div class="wf-product-trust__icon">⭐</div>
+    <div>
+      <strong>Tela suave y cómoda.</strong>
+      <p>Ideal para uso diario, con buen ajuste y acabado.</p>
+    </div>
+  </div>
+
+  <div class="wf-product-trust__item">
+    <div class="wf-product-trust__icon">🚚</div>
+    <div>
+      <strong>Entrega estimada de 2 a 5 días hábiles.</strong>
+      <p>Realizamos envíos a todo México.</p>
+    </div>
+  </div>
+
+  <div class="wf-product-trust__item">
+    <div class="wf-product-trust__icon">🛡️</div>
+    <div>
+      <strong>Compra con confianza.</strong>
+      <p>Cambios y devoluciones disponibles conforme a nuestras políticas.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .wf-product-trust {
+    margin: 24px 0;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    color: #111111;
+  }
+
+  .wf-product-trust__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .wf-product-trust__item:last-child {
+    border-bottom: 0;
+  }
+
+  .wf-product-trust__icon {
+    font-size: 24px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  .wf-product-trust__item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  .wf-product-trust__item p {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wf-product-trust__item {
+      padding: 14px;
+    }
+
+    .wf-product-trust__icon {
+      font-size: 22px;
+    }
+  }
+</style>
+
         <div class="product-description rte" itemprop="description">
           {{ product.description }}
         </div>
