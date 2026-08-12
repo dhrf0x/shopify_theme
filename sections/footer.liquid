@@ -3,7 +3,17 @@
   Bloques editables: logo, texto, menu, newsletter, redes sociales, badge de confianza
   Subir a: sections/footer.liquid
 {%- endcomment -%}
-
+<style>
+@media (prefers-color-scheme: dark) {
+  #site-footer,
+  #site-footer a,
+  #site-footer p,
+  #site-footer span,
+  #site-footer li {
+    color: #ffffff !important;
+  }
+}
+</style>
 <footer id="site-footer" data-section-id="{{ section.id }}" data-section-type="footer">
 
   {%- comment -%}── Fila superior: bloques configurables ──{%- endcomment -%}
