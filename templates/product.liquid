@@ -31,6 +31,18 @@
     </div>
   {% endif %}
 </div>
+<style>
+@media (prefers-color-scheme: dark) {
+  #judgeme_product_reviews .jdgm-rev__author,
+  #judgeme_product_reviews .jdgm-rev__timestamp,
+  #judgeme_product_reviews .jdgm-rev__title,
+  #judgeme_product_reviews .jdgm-rev__body,
+  #judgeme_product_reviews .jdgm-rev__body p,
+  #judgeme_product_reviews .jdgm-rev__reply-content {
+    color: #ffffff !important;
+  }
+}
+</style>
 
 {% if product.metafields.judgeme.review_widget_data %}
   <script>
