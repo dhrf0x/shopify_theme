@@ -2,7 +2,7 @@
   <div class="wf-hero-slider__track">
 
     {% for block in section.blocks %}
-      {% if block.settings.image != blank or block.settings.video != blank %}
+      {% if block.settings.image != blank or block.settings.mobile_image != blank or block.settings.video != blank or block.settings.mobile_video != blank %}
         <div
           class="wf-hero-slider__slide{% if forloop.first %} is-active{% endif %}"
           data-slide="{{ forloop.index0 }}"
