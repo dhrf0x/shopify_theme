@@ -39,25 +39,6 @@
       class="wf-hero-slider__image"
     >
 
-  {% elsif block.settings.mobile_video != blank %}
-
-    {{ block.settings.mobile_video | video_tag:
-      autoplay: true,
-      loop: true,
-      muted: true,
-      controls: false,
-      playsinline: true
-    }}
-
-  {% elsif block.settings.mobile_image != blank %}
-
-    <img
-      src="{{ block.settings.mobile_image | img_url: '1200x' }}"
-      alt="{{ block.settings.mobile_image.alt | escape }}"
-      loading="eager"
-      class="wf-hero-slider__image"
-    >
-
   {% endif %}
 
 </div>
