@@ -86,6 +86,17 @@
     text-decoration-color: #ed0808ff !important;
     opacity: 1 !important;
   }
+  @media (prefers-color-scheme: dark) {
+  .wf-unitalla,
+  .wf-unitalla div,
+  .wf-unitalla a {
+    color: #ffffff !important;
+  }
+
+  .wf-unitalla > div:nth-of-type(2) {
+    border-color: #ffffff !important;
+  }
+}
 </style>
             <div class="product__price__wrap">
               {% if product.compare_at_price_max > product.price %}
@@ -122,7 +133,7 @@
                 {% endfor %}
               {% endif %}
             </div>
-<div style="margin: 14px 0;">
+<div class="wf-unitalla" style="margin: 14px 0;">
   <div style="font-size: 13px; font-weight: 700; margin-bottom: 7px;">
     TALLA
   </div>
