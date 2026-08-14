@@ -2,7 +2,7 @@
   <div class="wf-hero-slider__track">
 
     {% for block in section.blocks %}
-      {% if block.settings.image != blank %}
+      {% if block.settings.image != blank or block.settings.video != blank %}
         <div
           class="wf-hero-slider__slide{% if forloop.first %} is-active{% endif %}"
           data-slide="{{ forloop.index0 }}"
@@ -13,21 +13,49 @@
             <a href="{{ block.settings.link }}" class="wf-hero-slider__link">
           {% endif %}
 
-          <picture>
-            {% if block.settings.mobile_image != blank %}
-              <source
-                media="(max-width: 749px)"
-                srcset="{{ block.settings.mobile_image | img_url: '1200x' }}"
-              >
-            {% endif %}
+          {% if block.settings.video != blank %}
 
-            <img
-              src="{{ block.settings.image | img_url: '2000x' }}"
-              alt="{{ block.settings.image.alt | escape }}"
-              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-              class="wf-hero-slider__image"
-            >
-          </picture>
+  <div class="wf-hero-slider__video wf-hero-slider__video--desktop{% if block.settings.mobile_video != blank %} has-mobile-video{% endif %}">
+    {{ block.settings.video | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      playsinline: true
+    }}
+  </div>
+
+  {% if block.settings.mobile_video != blank %}
+    <div class="wf-hero-slider__video wf-hero-slider__video--mobile">
+      {{ block.settings.mobile_video | video_tag:
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        playsinline: true
+      }}
+    </div>
+  {% endif %}
+
+{% else %}
+
+  <picture>
+    {% if block.settings.mobile_image != blank %}
+      <source
+        media="(max-width: 749px)"
+        srcset="{{ block.settings.mobile_image | img_url: '1200x' }}"
+      >
+    {% endif %}
+
+    <img
+      src="{{ block.settings.image | img_url: '2000x' }}"
+      alt="{{ block.settings.image.alt | escape }}"
+      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+      class="wf-hero-slider__image"
+    >
+  </picture>
+
+{% endif %}
 
           {% if block.settings.link != blank %}
             </a>
@@ -101,7 +129,25 @@
     width: 100%;
     height: auto;
   }
+#wf-hero-slider-{{ section.id }} .wf-hero-slider__video video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
+#wf-hero-slider-{{ section.id }} .wf-hero-slider__video--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__video--desktop.has-mobile-video {
+    display: none;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__video--mobile {
+    display: block;
+  }
+}
   #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow {
     position: absolute;
     top: 50%;
@@ -258,6 +304,16 @@
           "label": "Imagen celular"
         },
         {
+  "type": "video",
+  "id": "video",
+  "label": "Video computadora"
+},
+{
+  "type": "video",
+  "id": "mobile_video",
+  "label": "Video celular"
+},
+{
           "type": "url",
           "id": "link",
           "label": "Enlace al hacer clic"
