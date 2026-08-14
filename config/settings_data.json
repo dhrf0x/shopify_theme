@@ -680,9 +680,9 @@
           "slide_bwFrjn": {
             "type": "slide",
             "settings": {
-              "video": "shopify://files/videos/WhatsApp Video 2026-08-14 at 11.05.06 AM.mp4",
-              "mobile_video": "shopify://files/videos/lv_0_20260812222725.mp4",
-              "link": "shopify://collections/playeras"
+              "image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM_1.jpg",
+              "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM.jpg",
+              "link": ""
             }
           }
         },
