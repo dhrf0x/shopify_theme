@@ -677,14 +677,6 @@
               "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
             }
           },
-          "slide_eWN9kE": {
-            "type": "slide",
-            "settings": {
-              "image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM_1.jpg",
-              "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM.jpg",
-              "link": ""
-            }
-          },
           "slide_bwFrjn": {
             "type": "slide",
             "settings": {
@@ -696,7 +688,6 @@
         },
         "block_order": [
           "slide_NQLpqW",
-          "slide_eWN9kE",
           "slide_bwFrjn"
         ],
         "settings": {}
