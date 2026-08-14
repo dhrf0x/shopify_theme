@@ -674,8 +674,8 @@
             "settings": {
               "video": "shopify://files/videos/WhatsApp Video 2026-08-14 at 11.05.06 AM.mp4",
               "mobile_video": "shopify://files/videos/lv_0_20260812222725.mp4",
-              "desktop_link": "https://wfurbanmuscle.mx/collections/playeras/products/playera-gollum-wf-urban-muscle",
-              "mobile_link": "https://wfurbanmuscle.mx/collections/jersey"
+              "desktop_link": "shopify://products/playera-gollum-wf-urban-muscle",
+              "mobile_link": "shopify://collections/jersey"
             }
           }
         },
