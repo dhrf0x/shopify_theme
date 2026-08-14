@@ -50,7 +50,7 @@
     <img
       src="{{ block.settings.image | img_url: '2000x' }}"
       alt="{{ block.settings.image.alt | escape }}"
-      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+      loading="eager"
       class="wf-hero-slider__image"
     >
   </picture>
