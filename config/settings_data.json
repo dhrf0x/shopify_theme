@@ -681,7 +681,8 @@
             "type": "slide",
             "settings": {
               "video": "shopify://files/videos/WhatsApp Video 2026-08-14 at 11.05.06 AM.mp4",
-              "link": ""
+              "mobile_video": "shopify://files/videos/lv_0_20260812222725.mp4",
+              "link": "shopify://collections/playeras"
             }
           },
           "slide_N96fnV": {
