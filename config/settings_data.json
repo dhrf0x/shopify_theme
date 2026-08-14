@@ -669,6 +669,22 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
+          "slide_pWBGiM": {
+            "type": "slide",
+            "settings": {
+              "mobile_video": "shopify://files/videos/WhatsApp Video 2026-08-11 at 4.14.10 PM.mp4",
+              "desktop_link": "",
+              "mobile_link": "shopify://products/playera-titanbestia-wf-urban-muscle"
+            }
+          },
+          "slide_hKiEmz": {
+            "type": "slide",
+            "settings": {
+              "mobile_video": "shopify://files/videos/lv_0_20260812142408.mp4",
+              "desktop_link": "",
+              "mobile_link": "shopify://products/jersey-naruto-wf-urban-muscle-copia"
+            }
+          },
           "slide_NJcryr": {
             "type": "slide",
             "settings": {
@@ -680,6 +696,8 @@
           }
         },
         "block_order": [
+          "slide_pWBGiM",
+          "slide_hKiEmz",
           "slide_NJcryr"
         ],
         "settings": {}
