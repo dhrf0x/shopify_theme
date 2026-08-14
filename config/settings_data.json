@@ -672,6 +672,20 @@
           "slide_eWN9kE": {
             "type": "slide",
             "settings": {
+              "image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM_1.jpg",
+              "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM.jpg",
+              "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
+            }
+          },
+          "slide_bwFrjn": {
+            "type": "slide",
+            "settings": {
+              "link": ""
+            }
+          },
+          "slide_N96fnV": {
+            "type": "slide",
+            "settings": {
               "image": "shopify://shop_images/WhatsApp_Image_2026-07-22_at_11.43.19_PM.jpg",
               "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-07-23_at_12.09.15_AM_72f8c984-d550-49f7-9b8e-415edf06d603.jpg",
               "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
@@ -679,7 +693,9 @@
           }
         },
         "block_order": [
-          "slide_eWN9kE"
+          "slide_eWN9kE",
+          "slide_bwFrjn",
+          "slide_N96fnV"
         ],
         "settings": {}
       }
