@@ -18,9 +18,10 @@
   >
 {% endif %}
 
-{% if block.settings.video != blank %}
+<div class="wf-hero-slider__video wf-hero-slider__video--desktop{% if block.settings.mobile_video != blank or block.settings.mobile_image != blank %} has-mobile-video{% endif %}">
 
-  <div class="wf-hero-slider__video wf-hero-slider__video--desktop{% if block.settings.mobile_video != blank %} has-mobile-video{% endif %}">
+  {% if block.settings.video != blank %}
+
     {{ block.settings.video | video_tag:
       autoplay: true,
       loop: true,
@@ -28,29 +29,8 @@
       controls: false,
       playsinline: true
     }}
-  </div>
 
-  {% if block.settings.mobile_video != blank %}
-    <div class="wf-hero-slider__video wf-hero-slider__video--mobile">
-      {{ block.settings.mobile_video | video_tag:
-        autoplay: true,
-        loop: true,
-        muted: true,
-        controls: false,
-        playsinline: true
-      }}
-    </div>
-  {% endif %}
-
-{% else %}
-
-  <picture>
-    {% if block.settings.mobile_image != blank %}
-      <source
-        media="(max-width: 749px)"
-        srcset="{{ block.settings.mobile_image | img_url: '1200x' }}"
-      >
-    {% endif %}
+  {% elsif block.settings.image != blank %}
 
     <img
       src="{{ block.settings.image | img_url: '2000x' }}"
@@ -58,8 +38,55 @@
       loading="eager"
       class="wf-hero-slider__image"
     >
-  </picture>
 
+  {% elsif block.settings.mobile_video != blank %}
+
+    {{ block.settings.mobile_video | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      playsinline: true
+    }}
+
+  {% elsif block.settings.mobile_image != blank %}
+
+    <img
+      src="{{ block.settings.mobile_image | img_url: '1200x' }}"
+      alt="{{ block.settings.mobile_image.alt | escape }}"
+      loading="eager"
+      class="wf-hero-slider__image"
+    >
+
+  {% endif %}
+
+</div>
+
+{% if block.settings.mobile_video != blank or block.settings.mobile_image != blank %}
+  <div class="wf-hero-slider__video wf-hero-slider__video--mobile">
+
+    {% if block.settings.mobile_video != blank %}
+
+      {{ block.settings.mobile_video | video_tag:
+        autoplay: true,
+        loop: true,
+        muted: true,
+        controls: false,
+        playsinline: true
+      }}
+
+    {% elsif block.settings.mobile_image != blank %}
+
+      <img
+        src="{{ block.settings.mobile_image | img_url: '1200x' }}"
+        alt="{{ block.settings.mobile_image.alt | escape }}"
+        loading="eager"
+        class="wf-hero-slider__image"
+      >
+
+    {% endif %}
+
+  </div>
 {% endif %}
 
 {% if block.settings.desktop_link != blank or block.settings.mobile_link != blank %}
