@@ -669,6 +669,14 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
+          "slide_k8TfC7": {
+            "type": "slide",
+            "settings": {
+              "mobile_video": "shopify://files/videos/WhatsApp Video 2026-01-11 at 1.53.15 PM.mp4",
+              "desktop_link": "",
+              "mobile_link": ""
+            }
+          },
           "slide_NJcryr": {
             "type": "slide",
             "settings": {
@@ -680,6 +688,7 @@
           }
         },
         "block_order": [
+          "slide_k8TfC7",
           "slide_NJcryr"
         ],
         "settings": {}
