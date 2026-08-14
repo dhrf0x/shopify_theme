@@ -1,0 +1,282 @@
+<section id="wf-hero-slider-{{ section.id }}" class="wf-hero-slider">
+  <div class="wf-hero-slider__track">
+
+    {% for block in section.blocks %}
+      {% if block.settings.image != blank %}
+        <div
+          class="wf-hero-slider__slide{% if forloop.first %} is-active{% endif %}"
+          data-slide="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="wf-hero-slider__link">
+          {% endif %}
+
+          <picture>
+            {% if block.settings.mobile_image != blank %}
+              <source
+                media="(max-width: 749px)"
+                srcset="{{ block.settings.mobile_image | img_url: '1200x' }}"
+              >
+            {% endif %}
+
+            <img
+              src="{{ block.settings.image | img_url: '2000x' }}"
+              alt="{{ block.settings.image.alt | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              class="wf-hero-slider__image"
+            >
+          </picture>
+
+          {% if block.settings.link != blank %}
+            </a>
+          {% endif %}
+
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <button
+      class="wf-hero-slider__arrow wf-hero-slider__arrow--prev"
+      type="button"
+      aria-label="Anterior"
+    >
+      ‹
+    </button>
+
+    <button
+      class="wf-hero-slider__arrow wf-hero-slider__arrow--next"
+      type="button"
+      aria-label="Siguiente"
+    >
+      ›
+    </button>
+
+    <div class="wf-hero-slider__dots">
+      {% for block in section.blocks %}
+        <button
+          type="button"
+          class="wf-hero-slider__dot{% if forloop.first %} is-active{% endif %}"
+          data-dot="{{ forloop.index0 }}"
+          aria-label="Ir a imagen {{ forloop.index }}"
+        ></button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  #wf-hero-slider-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__track {
+    position: relative;
+    width: 100%;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__slide {
+    display: none;
+    width: 100%;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__slide.is-active {
+    display: block;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__link {
+    display: block;
+    width: 100%;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.45);
+    color: #fff;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow--prev {
+    left: 14px;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow--next {
+    right: 14px;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__dots {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-hero-slider__dot.is-active {
+    background: #fff;
+  }
+
+  @media screen and (max-width: 749px) {
+    #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow {
+      width: 34px;
+      height: 34px;
+      font-size: 25px;
+    }
+
+    #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow--prev {
+      left: 8px;
+    }
+
+    #wf-hero-slider-{{ section.id }} .wf-hero-slider__arrow--next {
+      right: 8px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var slider = document.getElementById('wf-hero-slider-{{ section.id }}');
+  if (!slider) return;
+
+  var slides = slider.querySelectorAll('.wf-hero-slider__slide');
+  var dots = slider.querySelectorAll('.wf-hero-slider__dot');
+  var prev = slider.querySelector('.wf-hero-slider__arrow--prev');
+  var next = slider.querySelector('.wf-hero-slider__arrow--next');
+
+  if (slides.length < 1) return;
+
+  var current = 0;
+  var timer;
+
+  function showSlide(index) {
+    if (index >= slides.length) index = 0;
+    if (index < 0) index = slides.length - 1;
+
+    slides.forEach(function(slide) {
+      slide.classList.remove('is-active');
+    });
+
+    dots.forEach(function(dot) {
+      dot.classList.remove('is-active');
+    });
+
+    slides[index].classList.add('is-active');
+
+    if (dots[index]) {
+      dots[index].classList.add('is-active');
+    }
+
+    current = index;
+  }
+
+  function startAuto() {
+    if (slides.length <= 1) return;
+
+    clearInterval(timer);
+
+    timer = setInterval(function() {
+      showSlide(current + 1);
+    }, 5000);
+  }
+
+  if (next) {
+    next.addEventListener('click', function() {
+      showSlide(current + 1);
+      startAuto();
+    });
+  }
+
+  if (prev) {
+    prev.addEventListener('click', function() {
+      showSlide(current - 1);
+      startAuto();
+    });
+  }
+
+  dots.forEach(function(dot, index) {
+    dot.addEventListener('click', function() {
+      showSlide(index);
+      startAuto();
+    });
+  });
+
+  startAuto();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "WF Hero Slider",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Imagen",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen computadora"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Imagen celular"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace al hacer clic"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WF Hero Slider",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
