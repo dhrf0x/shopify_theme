@@ -18,7 +18,7 @@
   >
 {% endif %}
 
-          {% if block.settings.video != blank %}
+{% if block.settings.video != blank %}
 
   <div class="wf-hero-slider__video wf-hero-slider__video--desktop{% if block.settings.mobile_video != blank %} has-mobile-video{% endif %}">
     {{ block.settings.video | video_tag:
