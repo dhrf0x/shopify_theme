@@ -9,9 +9,14 @@
           {{ block.shopify_attributes }}
         >
 
-          {% if block.settings.link != blank %}
-            <a href="{{ block.settings.link }}" class="wf-hero-slider__link">
-          {% endif %}
+          {% if block.settings.desktop_link != blank or block.settings.mobile_link != blank %}
+  <a
+    href="{{ block.settings.desktop_link | default: block.settings.mobile_link }}"
+    class="wf-hero-slider__link"
+    data-desktop-link="{{ block.settings.desktop_link }}"
+    data-mobile-link="{{ block.settings.mobile_link }}"
+  >
+{% endif %}
 
           {% if block.settings.video != blank %}
 
@@ -57,9 +62,9 @@
 
 {% endif %}
 
-          {% if block.settings.link != blank %}
-            </a>
-          {% endif %}
+{% if block.settings.desktop_link != blank or block.settings.mobile_link != blank %}
+  </a>
+{% endif %}
 
         </div>
       {% endif %}
@@ -222,7 +227,27 @@
   var dots = slider.querySelectorAll('.wf-hero-slider__dot');
   var prev = slider.querySelector('.wf-hero-slider__arrow--prev');
   var next = slider.querySelector('.wf-hero-slider__arrow--next');
+var links = slider.querySelectorAll('.wf-hero-slider__link');
 
+function updateLinks() {
+  var isMobile = window.matchMedia('(max-width: 749px)').matches;
+
+  links.forEach(function(link) {
+    var desktopLink = link.getAttribute('data-desktop-link');
+    var mobileLink = link.getAttribute('data-mobile-link');
+
+    var targetLink = isMobile
+      ? (mobileLink || desktopLink)
+      : (desktopLink || mobileLink);
+
+    if (targetLink) {
+      link.setAttribute('href', targetLink);
+    }
+  });
+}
+
+updateLinks();
+window.addEventListener('resize', updateLinks);
   if (slides.length < 1) return;
 
   var current = 0;
