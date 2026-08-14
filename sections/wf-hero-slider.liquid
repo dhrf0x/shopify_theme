@@ -120,6 +120,37 @@
 </section>
 
 <style>
+  #wf-hero-slider-{{ section.id }} .wf-drop-countdown {
+  width: 100%;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #111111 !important;
+color: #ffffff !important;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+#wf-hero-slider-{{ section.id }} .wf-drop-countdown strong {
+  font-size: 18px;
+color: #ffffff !important;
+}
+
+@media screen and (max-width: 749px) {
+  #wf-hero-slider-{{ section.id }} .wf-drop-countdown {
+    padding: 9px 8px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  #wf-hero-slider-{{ section.id }} .wf-drop-countdown strong {
+    font-size: 15px;
+  }
+}
   #wf-hero-slider-{{ section.id }} {
     position: relative;
     width: 100%;
@@ -239,7 +270,35 @@
 (function() {
   var slider = document.getElementById('wf-hero-slider-{{ section.id }}');
   if (!slider) return;
+var countdown = slider.querySelector('.wf-drop-countdown');
+var countdownTime = document.getElementById('wf-drop-countdown-time-{{ section.id }}');
 
+if (countdown && countdownTime) {
+  var targetDate = new Date(countdown.getAttribute('data-target')).getTime();
+
+  function updateCountdown() {
+    var now = new Date().getTime();
+    var distance = targetDate - now;
+
+    if (distance <= 0) {
+      countdown.innerHTML = '<strong>🔥 DROP YA DISPONIBLE</strong>';
+      clearInterval(countdownInterval);
+      return;
+    }
+
+    var hours = Math.floor(distance / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownTime.textContent =
+      String(hours).padStart(2, '0') + ':' +
+      String(minutes).padStart(2, '0') + ':' +
+      String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  var countdownInterval = setInterval(updateCountdown, 1000);
+}
   var slides = slider.querySelectorAll('.wf-hero-slider__slide');
   var dots = slider.querySelectorAll('.wf-hero-slider__dot');
   var prev = slider.querySelector('.wf-hero-slider__arrow--prev');
