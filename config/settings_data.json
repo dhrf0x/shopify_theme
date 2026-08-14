@@ -669,14 +669,6 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
-          "slide_Nrypdf": {
-            "type": "slide",
-            "settings": {
-              "image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM_1.jpg",
-              "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-08-14_at_10.59.38_AM.jpg",
-              "link": ""
-            }
-          },
           "slide_NQLpqW": {
             "type": "slide",
             "settings": {
@@ -687,7 +679,6 @@
           }
         },
         "block_order": [
-          "slide_Nrypdf",
           "slide_NQLpqW"
         ],
         "settings": {}
