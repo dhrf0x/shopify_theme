@@ -549,12 +549,12 @@
 
         <div class="wf-field">
           <label for="wf-height-{{ section.id }}">Estatura (cm)</label>
-          <input id="wf-height-{{ section.id }}" data-role="height" type="number" min="140" max="210" value="173" inputmode="numeric">
+          <input id="wf-height-{{ section.id }}" data-role="height" type="text" value="173" inputmode="numeric" pattern="[0-9]*">
         </div>
 
         <div class="wf-field">
           <label for="wf-weight-{{ section.id }}">Peso (kg)</label>
-          <input id="wf-weight-{{ section.id }}" data-role="weight" type="number" min="40" max="160" value="90" inputmode="numeric">
+          <input id="wf-weight-{{ section.id }}" data-role="weight" type="text" value="90" inputmode="numeric" pattern="[0-9]*">
         </div>
 
         <div class="wf-field">
