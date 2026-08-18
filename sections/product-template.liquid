@@ -449,6 +449,40 @@ Este modelo se maneja en una sola talla.
           </td>
         </tr>
       </table>
+      {% assign wf_tipo_normalizado = wf_tipo | downcase %}
+
+<div style="margin:20px 0;">
+  
+  {% if wf_tipo_normalizado contains 'jersey' %}
+
+    <img
+      src="https://cdn.shopify.com/s/files/1/0719/2651/3846/files/WhatsApp_Image_2026-08-18_at_13.40.07_2.jpg?v=1787082053"
+      alt="Guía de medidas Jersey WF Urban Muscle"
+      loading="lazy"
+      style="width:100%; height:auto; display:block; border-radius:10px;"
+    >
+
+  {% elsif wf_tipo_normalizado contains 'compres' %}
+
+    <img
+      src="https://cdn.shopify.com/s/files/1/0719/2651/3846/files/WhatsApp_Image_2026-08-18_at_13.40.07_1.jpg?v=1787082053"
+      alt="Guía de medidas Playera de Compresión WF Urban Muscle"
+      loading="lazy"
+      style="width:100%; height:auto; display:block; border-radius:10px;"
+    >
+
+  {% elsif wf_tipo_normalizado contains 'playera' %}
+
+    <img
+      src="https://cdn.shopify.com/s/files/1/0719/2651/3846/files/WhatsApp_Image_2026-08-18_at_13.40.07.jpg?v=1787082053"
+      alt="Guía de medidas Playera WF Urban Muscle"
+      loading="lazy"
+      style="width:100%; height:auto; display:block; border-radius:10px;"
+    >
+
+  {% endif %}
+
+</div>
 
       <p><strong>UNITALLA</strong></p>
       <p>Medidas tomadas en centímetros. Puede existir una variación aproximada de 1 a 2 cm.</p>
