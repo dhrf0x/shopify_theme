@@ -1,52 +1,512 @@
 {% comment %}
-  WF Urban Muscle - Simulador de ajuste v2
-  Diseño responsivo mejorado para PC y celular
+  WF Urban Muscle - Simulador de ajuste v3
+  Formulario vertical para evitar conflictos con estilos del tema.
 {% endcomment %}
 
 <section id="wf-fit-simulator-{{ section.id }}" class="wf-fit-sim" data-wf-simulator>
   <style>
-    #wf-fit-simulator-{{ section.id }}{--wf-bg:#fff;--wf-card:#fff;--wf-soft:#f5f5f5;--wf-text:#111;--wf-muted:#6b6b6b;--wf-border:#dedede;--wf-green:#17813e;--wf-green-bg:#e9f7ee;--wf-yellow:#9a6f00;--wf-yellow-bg:#fff6d5;--wf-orange:#b45309;--wf-orange-bg:#fff0df;--wf-red:#b42318;--wf-red-bg:#ffe9e7;--wf-body:#e4e4e4;--wf-body-line:#9a9a9a;--wf-shirt:#111;--wf-shirt-text:#fff;color:var(--wf-text);background:var(--wf-bg);padding:32px 16px 40px}
-    @media(prefers-color-scheme:dark){#wf-fit-simulator-{{ section.id }}{--wf-bg:#0d0d0d;--wf-card:#151515;--wf-soft:#1e1e1e;--wf-text:#f5f5f5;--wf-muted:#b7b7b7;--wf-border:#343434;--wf-green:#73e3a0;--wf-green-bg:#102a1c;--wf-yellow:#f0d466;--wf-yellow-bg:#31290e;--wf-orange:#f2a35d;--wf-orange-bg:#341d0c;--wf-red:#ff8b82;--wf-red-bg:#351312;--wf-body:#2b2b2b;--wf-body-line:#6f6f6f;--wf-shirt:#f3f3f3;--wf-shirt-text:#111}}
-    #wf-fit-simulator-{{ section.id }} *{box-sizing:border-box}
-    #wf-fit-simulator-{{ section.id }} .wf-shell{max-width:980px;margin:0 auto}
-    #wf-fit-simulator-{{ section.id }} .wf-head{text-align:center;margin-bottom:20px}
-    #wf-fit-simulator-{{ section.id }} .wf-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--wf-muted);margin-bottom:7px}
-    #wf-fit-simulator-{{ section.id }} .wf-title{margin:0;font-size:clamp(26px,3vw,36px);line-height:1.1;color:var(--wf-text);font-weight:800}
-    #wf-fit-simulator-{{ section.id }} .wf-subtitle{max-width:680px;margin:9px auto 0;color:var(--wf-muted);font-size:14px;line-height:1.5}
-    #wf-fit-simulator-{{ section.id }} .wf-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 auto 18px}
-    #wf-fit-simulator-{{ section.id }} .wf-legend-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--wf-border);background:var(--wf-card);border-radius:999px;padding:7px 10px;font-size:12px;color:var(--wf-text);white-space:nowrap}
-    #wf-fit-simulator-{{ section.id }} .wf-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none;background:currentColor}
-    #wf-fit-simulator-{{ section.id }} .wf-green-text{color:var(--wf-green)}#wf-fit-simulator-{{ section.id }} .wf-yellow-text{color:var(--wf-yellow)}#wf-fit-simulator-{{ section.id }} .wf-orange-text{color:var(--wf-orange)}#wf-fit-simulator-{{ section.id }} .wf-red-text{color:var(--wf-red)}
-    #wf-fit-simulator-{{ section.id }} .wf-layout{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:18px;align-items:stretch}
-    #wf-fit-simulator-{{ section.id }} .wf-card{background:var(--wf-card);border:1px solid var(--wf-border);border-radius:20px;box-shadow:0 10px 28px rgba(0,0,0,.05);overflow:hidden}
-    #wf-fit-simulator-{{ section.id }} .wf-form-card{padding:22px}
-    #wf-fit-simulator-{{ section.id }} .wf-card-title{margin:0 0 4px;font-size:17px;font-weight:800;color:var(--wf-text)}
-    #wf-fit-simulator-{{ section.id }} .wf-card-copy{margin:0 0 18px;font-size:13px;color:var(--wf-muted)}
-    #wf-fit-simulator-{{ section.id }} .wf-field{margin:0 0 14px;width:100%}
-    #wf-fit-simulator-{{ section.id }} .wf-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    #wf-fit-simulator-{{ section.id }} label,#wf-fit-simulator-{{ section.id }} legend{display:block!important;width:auto!important;margin:0 0 6px!important;padding:0!important;font-size:13px!important;line-height:1.3!important;font-weight:750!important;color:var(--wf-text)!important;text-transform:none!important;letter-spacing:0!important}
-    #wf-fit-simulator-{{ section.id }} fieldset{border:0!important;margin:0 0 14px!important;padding:0!important;min-width:0!important}
-    #wf-fit-simulator-{{ section.id }} select,#wf-fit-simulator-{{ section.id }} input[type="number"]{appearance:auto!important;-webkit-appearance:auto!important;display:block!important;width:100%!important;max-width:none!important;min-width:0!important;height:46px!important;min-height:46px!important;margin:0!important;padding:0 12px!important;border:1px solid var(--wf-border)!important;border-radius:11px!important;background:var(--wf-bg)!important;color:var(--wf-text)!important;font-size:15px!important;line-height:46px!important;box-shadow:none!important}
-    #wf-fit-simulator-{{ section.id }} select:focus,#wf-fit-simulator-{{ section.id }} input[type="number"]:focus{outline:2px solid var(--wf-text)!important;outline-offset:2px!important}
-    #wf-fit-simulator-{{ section.id }} .wf-radio-row{display:flex!important;flex-wrap:wrap;gap:9px}
-    #wf-fit-simulator-{{ section.id }} .wf-choice{display:inline-flex!important;align-items:center!important;gap:7px!important;margin:0!important;padding:9px 12px!important;border:1px solid var(--wf-border);border-radius:10px;background:var(--wf-soft);color:var(--wf-text);font-size:13px!important;font-weight:650!important;cursor:pointer}
-    #wf-fit-simulator-{{ section.id }} input[type="radio"],#wf-fit-simulator-{{ section.id }} input[type="checkbox"]{width:16px!important;height:16px!important;margin:0!important;flex:none!important;accent-color:#111}
-    #wf-fit-simulator-{{ section.id }} .wf-check{display:flex!important;align-items:center!important;gap:8px!important;width:100%;padding:11px 12px!important;margin:0!important;border:1px solid var(--wf-border);border-radius:11px;background:var(--wf-soft);cursor:pointer;font-size:13px!important;font-weight:650!important}
-    #wf-fit-simulator-{{ section.id }} .wf-button{display:block!important;width:100%!important;min-height:48px!important;margin:4px 0 0!important;padding:12px 16px!important;border:1px solid var(--wf-text)!important;border-radius:12px!important;background:var(--wf-text)!important;color:var(--wf-bg)!important;font-size:14px!important;line-height:1.2!important;font-weight:800!important;text-align:center!important;cursor:pointer!important;box-shadow:none!important}
-    #wf-fit-simulator-{{ section.id }} .wf-visual-card{min-height:100%;display:flex;flex-direction:column}
-    #wf-fit-simulator-{{ section.id }} .wf-visual-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:17px 18px 10px;flex-wrap:wrap}
-    #wf-fit-simulator-{{ section.id }} .wf-visual-title{font-size:15px;font-weight:800;color:var(--wf-text)}
-    #wf-fit-simulator-{{ section.id }} .wf-status{display:inline-flex;align-items:center;gap:7px;border:1px solid currentColor;border-radius:999px;padding:7px 10px;font-size:12px;line-height:1;font-weight:800;white-space:nowrap}
-    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="green"]{color:var(--wf-green);background:var(--wf-green-bg)}#wf-fit-simulator-{{ section.id }} .wf-status[data-signal="yellow"]{color:var(--wf-yellow);background:var(--wf-yellow-bg)}#wf-fit-simulator-{{ section.id }} .wf-status[data-signal="orange"]{color:var(--wf-orange);background:var(--wf-orange-bg)}#wf-fit-simulator-{{ section.id }} .wf-status[data-signal="red"]{color:var(--wf-red);background:var(--wf-red-bg)}
-    #wf-fit-simulator-{{ section.id }} .wf-visual-wrap{margin:0 18px;border:1px solid var(--wf-border);border-radius:16px;background:var(--wf-soft);overflow:hidden;min-height:420px;display:flex;align-items:center;justify-content:center;padding:8px}
-    #wf-fit-simulator-{{ section.id }} .wf-svg{width:100%;max-width:360px;height:auto;display:block}
-    #wf-fit-simulator-{{ section.id }} .wf-result{margin:12px 18px 18px;padding:14px 15px;border:1px solid var(--wf-border);border-radius:14px;background:var(--wf-card)}
-    #wf-fit-simulator-{{ section.id }} .wf-result h3{margin:0 0 5px;font-size:17px;color:var(--wf-text);font-weight:800}
-    #wf-fit-simulator-{{ section.id }} .wf-result p{margin:4px 0;font-size:13px;line-height:1.45;color:var(--wf-text)}
-    #wf-fit-simulator-{{ section.id }} .wf-result .wf-muted,#wf-fit-simulator-{{ section.id }} .wf-muted{color:var(--wf-muted)}
-    #wf-fit-simulator-{{ section.id }} .wf-note{max-width:760px;margin:16px auto 0;text-align:center;font-size:11px;line-height:1.45;color:var(--wf-muted)}
-    @media(max-width:820px){#wf-fit-simulator-{{ section.id }}{padding:24px 12px 30px}#wf-fit-simulator-{{ section.id }} .wf-layout{grid-template-columns:1fr}#wf-fit-simulator-{{ section.id }} .wf-visual-wrap{min-height:360px}}
-    @media(max-width:480px){#wf-fit-simulator-{{ section.id }} .wf-two{grid-template-columns:1fr}#wf-fit-simulator-{{ section.id }} .wf-form-card{padding:16px}#wf-fit-simulator-{{ section.id }} .wf-visual-top{padding:14px 14px 9px}#wf-fit-simulator-{{ section.id }} .wf-visual-wrap{margin:0 14px;min-height:320px}#wf-fit-simulator-{{ section.id }} .wf-result{margin:10px 14px 14px}}
+    #wf-fit-simulator-{{ section.id }}{
+      --wf-bg:#ffffff;
+      --wf-card:#ffffff;
+      --wf-soft:#f6f6f6;
+      --wf-text:#111111;
+      --wf-muted:#686868;
+      --wf-border:#dddddd;
+      --wf-green:#17813e;
+      --wf-green-bg:#e9f7ee;
+      --wf-yellow:#9a6f00;
+      --wf-yellow-bg:#fff6d5;
+      --wf-orange:#b45309;
+      --wf-orange-bg:#fff0df;
+      --wf-red:#b42318;
+      --wf-red-bg:#ffe9e7;
+      --wf-body:#e4e4e4;
+      --wf-body-line:#999999;
+      --wf-shirt:#111111;
+      --wf-shirt-text:#ffffff;
+      display:block !important;
+      width:100% !important;
+      clear:both !important;
+      background:var(--wf-bg);
+      color:var(--wf-text);
+      padding:30px 16px 40px !important;
+    }
+
+    @media(prefers-color-scheme:dark){
+      #wf-fit-simulator-{{ section.id }}{
+        --wf-bg:#0d0d0d;
+        --wf-card:#161616;
+        --wf-soft:#202020;
+        --wf-text:#f5f5f5;
+        --wf-muted:#b8b8b8;
+        --wf-border:#363636;
+        --wf-green:#73e3a0;
+        --wf-green-bg:#102a1c;
+        --wf-yellow:#f0d466;
+        --wf-yellow-bg:#31290e;
+        --wf-orange:#f2a35d;
+        --wf-orange-bg:#341d0c;
+        --wf-red:#ff8b82;
+        --wf-red-bg:#351312;
+        --wf-body:#2b2b2b;
+        --wf-body-line:#707070;
+        --wf-shirt:#f3f3f3;
+        --wf-shirt-text:#111111;
+      }
+    }
+
+    #wf-fit-simulator-{{ section.id }} *,
+    #wf-fit-simulator-{{ section.id }} *::before,
+    #wf-fit-simulator-{{ section.id }} *::after{
+      box-sizing:border-box !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-shell{
+      display:block !important;
+      width:100% !important;
+      max-width:980px !important;
+      margin:0 auto !important;
+      padding:0 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-head{
+      display:block !important;
+      width:100% !important;
+      text-align:center !important;
+      margin:0 0 18px !important;
+      padding:0 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-eyebrow{
+      display:block !important;
+      width:100% !important;
+      margin:0 0 6px !important;
+      font-size:12px !important;
+      font-weight:800 !important;
+      letter-spacing:.12em !important;
+      text-transform:uppercase !important;
+      color:var(--wf-muted) !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-title{
+      display:block !important;
+      width:100% !important;
+      margin:0 !important;
+      padding:0 !important;
+      font-size:clamp(27px,3.2vw,38px) !important;
+      line-height:1.1 !important;
+      font-weight:850 !important;
+      color:var(--wf-text) !important;
+      text-align:center !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-subtitle{
+      display:block !important;
+      width:100% !important;
+      max-width:700px !important;
+      margin:9px auto 0 !important;
+      padding:0 !important;
+      font-size:14px !important;
+      line-height:1.5 !important;
+      color:var(--wf-muted) !important;
+      text-align:center !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-legend{
+      display:flex !important;
+      width:100% !important;
+      justify-content:center !important;
+      align-items:center !important;
+      flex-wrap:wrap !important;
+      gap:8px !important;
+      margin:0 0 18px !important;
+      padding:0 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-legend-chip{
+      display:inline-flex !important;
+      width:auto !important;
+      align-items:center !important;
+      gap:7px !important;
+      border:1px solid var(--wf-border) !important;
+      background:var(--wf-card) !important;
+      border-radius:999px !important;
+      padding:7px 10px !important;
+      margin:0 !important;
+      font-size:12px !important;
+      line-height:1.2 !important;
+      color:var(--wf-text) !important;
+      white-space:nowrap !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-dot{
+      display:inline-block !important;
+      width:10px !important;
+      height:10px !important;
+      min-width:10px !important;
+      border-radius:50% !important;
+      background:currentColor !important;
+      padding:0 !important;
+      margin:0 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-green-text{color:var(--wf-green) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-yellow-text{color:var(--wf-yellow) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-orange-text{color:var(--wf-orange) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-red-text{color:var(--wf-red) !important}
+
+    #wf-fit-simulator-{{ section.id }} .wf-layout{
+      display:grid !important;
+      grid-template-columns:minmax(300px,.9fr) minmax(360px,1.1fr) !important;
+      gap:20px !important;
+      width:100% !important;
+      align-items:start !important;
+      margin:0 !important;
+      padding:0 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-card{
+      display:block !important;
+      width:100% !important;
+      min-width:0 !important;
+      margin:0 !important;
+      padding:0 !important;
+      background:var(--wf-card) !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:20px !important;
+      overflow:hidden !important;
+      box-shadow:0 10px 28px rgba(0,0,0,.05) !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-form-card{
+      display:block !important;
+      width:100% !important;
+      padding:22px !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-form-intro{
+      display:block !important;
+      width:100% !important;
+      margin:0 0 20px !important;
+      padding:0 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-card-title{
+      display:block !important;
+      width:100% !important;
+      margin:0 0 5px !important;
+      padding:0 !important;
+      font-size:20px !important;
+      line-height:1.2 !important;
+      font-weight:850 !important;
+      color:var(--wf-text) !important;
+      text-align:left !important;
+      white-space:normal !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-card-copy{
+      display:block !important;
+      width:100% !important;
+      margin:0 !important;
+      padding:0 !important;
+      font-size:13px !important;
+      line-height:1.5 !important;
+      color:var(--wf-muted) !important;
+      text-align:left !important;
+      white-space:normal !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-field{
+      display:block !important;
+      width:100% !important;
+      min-width:0 !important;
+      max-width:none !important;
+      float:none !important;
+      clear:both !important;
+      margin:0 0 15px !important;
+      padding:0 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} label,
+    #wf-fit-simulator-{{ section.id }} legend{
+      display:block !important;
+      width:100% !important;
+      max-width:none !important;
+      float:none !important;
+      clear:both !important;
+      margin:0 0 7px !important;
+      padding:0 !important;
+      font-size:13px !important;
+      line-height:1.3 !important;
+      font-weight:800 !important;
+      color:var(--wf-text) !important;
+      text-align:left !important;
+      text-transform:none !important;
+      letter-spacing:0 !important;
+      white-space:normal !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} fieldset{
+      display:block !important;
+      width:100% !important;
+      min-width:0 !important;
+      max-width:none !important;
+      float:none !important;
+      clear:both !important;
+      border:0 !important;
+      margin:0 0 15px !important;
+      padding:0 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} select,
+    #wf-fit-simulator-{{ section.id }} input[type="number"]{
+      -webkit-appearance:auto !important;
+      appearance:auto !important;
+      display:block !important;
+      width:100% !important;
+      min-width:100% !important;
+      max-width:100% !important;
+      float:none !important;
+      clear:both !important;
+      height:48px !important;
+      min-height:48px !important;
+      margin:0 !important;
+      padding:0 12px !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:11px !important;
+      background:var(--wf-bg) !important;
+      color:var(--wf-text) !important;
+      font-size:15px !important;
+      line-height:normal !important;
+      text-align:left !important;
+      box-shadow:none !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} select:focus,
+    #wf-fit-simulator-{{ section.id }} input[type="number"]:focus{
+      outline:2px solid var(--wf-text) !important;
+      outline-offset:2px !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-radio-row{
+      display:flex !important;
+      width:100% !important;
+      flex-wrap:wrap !important;
+      gap:9px !important;
+      margin:0 !important;
+      padding:0 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-choice{
+      display:inline-flex !important;
+      width:auto !important;
+      align-items:center !important;
+      justify-content:flex-start !important;
+      gap:7px !important;
+      margin:0 !important;
+      padding:10px 13px !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:10px !important;
+      background:var(--wf-soft) !important;
+      color:var(--wf-text) !important;
+      font-size:13px !important;
+      font-weight:650 !important;
+      cursor:pointer !important;
+      clear:none !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} input[type="radio"],
+    #wf-fit-simulator-{{ section.id }} input[type="checkbox"]{
+      display:inline-block !important;
+      width:16px !important;
+      height:16px !important;
+      min-width:16px !important;
+      max-width:16px !important;
+      margin:0 !important;
+      padding:0 !important;
+      float:none !important;
+      flex:none !important;
+      accent-color:#111111 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-check{
+      display:flex !important;
+      width:100% !important;
+      align-items:center !important;
+      justify-content:flex-start !important;
+      gap:8px !important;
+      margin:0 !important;
+      padding:11px 12px !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:11px !important;
+      background:var(--wf-soft) !important;
+      color:var(--wf-text) !important;
+      cursor:pointer !important;
+      font-size:13px !important;
+      font-weight:650 !important;
+      clear:both !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-button{
+      display:block !important;
+      width:100% !important;
+      min-width:100% !important;
+      max-width:100% !important;
+      min-height:49px !important;
+      float:none !important;
+      clear:both !important;
+      margin:5px 0 0 !important;
+      padding:13px 16px !important;
+      border:1px solid var(--wf-text) !important;
+      border-radius:12px !important;
+      background:var(--wf-text) !important;
+      color:var(--wf-bg) !important;
+      font-size:14px !important;
+      line-height:1.2 !important;
+      font-weight:850 !important;
+      text-align:center !important;
+      cursor:pointer !important;
+      box-shadow:none !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-visual-card{
+      display:block !important;
+      width:100% !important;
+      min-width:0 !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-visual-top{
+      display:flex !important;
+      width:100% !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+      gap:10px !important;
+      flex-wrap:wrap !important;
+      margin:0 !important;
+      padding:17px 18px 10px !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-visual-title{
+      display:block !important;
+      width:auto !important;
+      margin:0 !important;
+      padding:0 !important;
+      font-size:15px !important;
+      font-weight:850 !important;
+      color:var(--wf-text) !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status{
+      display:inline-flex !important;
+      width:auto !important;
+      align-items:center !important;
+      gap:7px !important;
+      border:1px solid currentColor !important;
+      border-radius:999px !important;
+      padding:7px 10px !important;
+      margin:0 !important;
+      font-size:12px !important;
+      line-height:1 !important;
+      font-weight:850 !important;
+      white-space:nowrap !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="green"]{color:var(--wf-green) !important;background:var(--wf-green-bg) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="yellow"]{color:var(--wf-yellow) !important;background:var(--wf-yellow-bg) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="orange"]{color:var(--wf-orange) !important;background:var(--wf-orange-bg) !important}
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="red"]{color:var(--wf-red) !important;background:var(--wf-red-bg) !important}
+
+    #wf-fit-simulator-{{ section.id }} .wf-visual-wrap{
+      display:flex !important;
+      width:auto !important;
+      min-height:420px !important;
+      align-items:center !important;
+      justify-content:center !important;
+      margin:0 18px !important;
+      padding:8px !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:16px !important;
+      background:var(--wf-soft) !important;
+      overflow:hidden !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-svg{
+      display:block !important;
+      width:100% !important;
+      max-width:360px !important;
+      height:auto !important;
+      margin:0 auto !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result{
+      display:block !important;
+      width:auto !important;
+      margin:12px 18px 18px !important;
+      padding:14px 15px !important;
+      border:1px solid var(--wf-border) !important;
+      border-radius:14px !important;
+      background:var(--wf-card) !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result h3{
+      display:block !important;
+      width:100% !important;
+      margin:0 0 5px !important;
+      padding:0 !important;
+      font-size:17px !important;
+      line-height:1.2 !important;
+      color:var(--wf-text) !important;
+      font-weight:850 !important;
+      text-align:left !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result p{
+      display:block !important;
+      width:100% !important;
+      margin:4px 0 !important;
+      padding:0 !important;
+      font-size:13px !important;
+      line-height:1.45 !important;
+      color:var(--wf-text) !important;
+      text-align:left !important;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result .wf-muted,
+    #wf-fit-simulator-{{ section.id }} .wf-muted{color:var(--wf-muted) !important}
+
+    #wf-fit-simulator-{{ section.id }} .wf-note{
+      display:block !important;
+      width:100% !important;
+      max-width:760px !important;
+      margin:16px auto 0 !important;
+      padding:0 !important;
+      text-align:center !important;
+      font-size:11px !important;
+      line-height:1.45 !important;
+      color:var(--wf-muted) !important;
+      clear:both !important;
+    }
+
+    @media(max-width:820px){
+      #wf-fit-simulator-{{ section.id }}{padding:24px 12px 30px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-layout{grid-template-columns:1fr !important}
+      #wf-fit-simulator-{{ section.id }} .wf-visual-wrap{min-height:350px !important}
+    }
+
+    @media(max-width:480px){
+      #wf-fit-simulator-{{ section.id }} .wf-form-card{padding:16px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-title{font-size:27px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-subtitle{font-size:13px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-visual-top{padding:14px 14px 9px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-visual-wrap{margin:0 14px !important;min-height:320px !important}
+      #wf-fit-simulator-{{ section.id }} .wf-result{margin:10px 14px 14px !important}
+    }
   </style>
 
   <div class="wf-shell">
@@ -65,51 +525,305 @@
 
     <div class="wf-layout">
       <div class="wf-card wf-form-card">
-        <h2 class="wf-card-title">Cuéntanos un poco de ti</h2>
-        <p class="wf-card-copy">Con estos datos estimamos cómo podría quedarte la prenda.</p>
+        <div class="wf-form-intro">
+          <h2 class="wf-card-title">Cuéntanos un poco de ti</h2>
+          <p class="wf-card-copy">Con estos datos estimamos cómo podría quedarte la prenda.</p>
+        </div>
 
-        <div class="wf-field"><label for="wf-garment-{{ section.id }}">Prenda</label><select id="wf-garment-{{ section.id }}" data-role="garment"><option value="jersey">Jersey</option><option value="playera">Playera</option><option value="compresion">Playera de compresión</option></select></div>
-        <div class="wf-field"><label for="wf-sex-{{ section.id }}">¿Para quién es?</label><select id="wf-sex-{{ section.id }}" data-role="sex"><option value="hombre">Hombre</option><option value="mujer">Mujer</option></select></div>
-        <div class="wf-two"><div class="wf-field"><label for="wf-height-{{ section.id }}">Estatura (cm)</label><input id="wf-height-{{ section.id }}" data-role="height" type="number" min="140" max="210" value="173" inputmode="numeric"></div><div class="wf-field"><label for="wf-weight-{{ section.id }}">Peso (kg)</label><input id="wf-weight-{{ section.id }}" data-role="weight" type="number" min="40" max="160" value="90" inputmode="numeric"></div></div>
-        <div class="wf-field"><label for="wf-build-{{ section.id }}">Complexión</label><select id="wf-build-{{ section.id }}" data-role="build"><option value="delgada">Delgada</option><option value="media" selected>Media</option><option value="musculosa">Musculosa / atlética</option><option value="ancha">Ancha / robusta</option></select></div>
-        <fieldset><legend>¿Normalmente necesitas 2XL o más?</legend><div class="wf-radio-row"><label class="wf-choice"><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="no" checked> No</label><label class="wf-choice"><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="si"> Sí</label></div></fieldset>
-        <div class="wf-field" data-role="length-block"><label for="wf-length-{{ section.id }}">¿Cómo te gusta el largo?</label><select id="wf-length-{{ section.id }}" data-role="length-preference"><option value="normal">Largo normal</option><option value="boxy">Más corta / tipo boxy fit</option></select></div>
-        <div class="wf-field"><label class="wf-check"><input data-role="arms-up" type="checkbox"> Simular brazos arriba</label></div>
+        <div class="wf-field">
+          <label for="wf-garment-{{ section.id }}">Prenda</label>
+          <select id="wf-garment-{{ section.id }}" data-role="garment">
+            <option value="jersey">Jersey</option>
+            <option value="playera">Playera</option>
+            <option value="compresion">Playera de compresión</option>
+          </select>
+        </div>
+
+        <div class="wf-field">
+          <label for="wf-sex-{{ section.id }}">¿Para quién es?</label>
+          <select id="wf-sex-{{ section.id }}" data-role="sex">
+            <option value="hombre">Hombre</option>
+            <option value="mujer">Mujer</option>
+          </select>
+        </div>
+
+        <div class="wf-field">
+          <label for="wf-height-{{ section.id }}">Estatura (cm)</label>
+          <input id="wf-height-{{ section.id }}" data-role="height" type="number" min="140" max="210" value="173" inputmode="numeric">
+        </div>
+
+        <div class="wf-field">
+          <label for="wf-weight-{{ section.id }}">Peso (kg)</label>
+          <input id="wf-weight-{{ section.id }}" data-role="weight" type="number" min="40" max="160" value="90" inputmode="numeric">
+        </div>
+
+        <div class="wf-field">
+          <label for="wf-build-{{ section.id }}">Complexión</label>
+          <select id="wf-build-{{ section.id }}" data-role="build">
+            <option value="delgada">Delgada</option>
+            <option value="media" selected>Media</option>
+            <option value="musculosa">Musculosa / atlética</option>
+            <option value="ancha">Ancha / robusta</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>¿Normalmente necesitas 2XL o más?</legend>
+          <div class="wf-radio-row">
+            <label class="wf-choice"><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="no" checked> No</label>
+            <label class="wf-choice"><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="si"> Sí</label>
+          </div>
+        </fieldset>
+
+        <div class="wf-field" data-role="length-block">
+          <label for="wf-length-{{ section.id }}">¿Cómo te gusta el largo?</label>
+          <select id="wf-length-{{ section.id }}" data-role="length-preference">
+            <option value="normal">Largo normal</option>
+            <option value="boxy">Más corta / tipo boxy fit</option>
+          </select>
+        </div>
+
+        <div class="wf-field">
+          <label class="wf-check"><input data-role="arms-up" type="checkbox"> Simular brazos arriba</label>
+        </div>
+
         <button data-role="calculate" class="wf-button" type="button">Ver cómo me quedaría</button>
       </div>
 
       <div class="wf-card wf-visual-card">
-        <div class="wf-visual-top"><span class="wf-visual-title">Vista aproximada</span><span class="wf-status" data-role="badge" data-signal="green"><span class="wf-dot"></span><span data-role="badge-text">APTA · HOLGADA</span></span></div>
+        <div class="wf-visual-top">
+          <span class="wf-visual-title">Vista aproximada</span>
+          <span class="wf-status" data-role="badge" data-signal="green">
+            <span class="wf-dot"></span>
+            <span data-role="badge-text">APTA · HOLGADA</span>
+          </span>
+        </div>
+
         <div class="wf-visual-wrap">
           <svg class="wf-svg" viewBox="0 0 300 440" role="img" aria-label="Simulación aproximada del ajuste">
             <g data-svg="person" style="transform-origin:150px 95px;transition:transform .3s ease">
               <circle cx="150" cy="52" r="27" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
-              <circle cx="141" cy="49" r="2.8" fill="var(--wf-text)"/><circle cx="159" cy="49" r="2.8" fill="var(--wf-text)"/>
-              <path data-svg="brow-left" d="M136 44 Q141 41 146 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/><path data-svg="brow-right" d="M154 44 Q159 41 164 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/><path data-svg="mouth" d="M138 59 Q150 73 162 59" fill="none" stroke="var(--wf-text)" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M136 78 L136 98 L164 98 L164 78" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/><path data-svg="body" d="M112 100 Q150 88 188 100 L200 220 Q196 298 183 355 L117 355 Q104 298 100 220 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/><path data-svg="left-arm" d="M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/><path data-svg="right-arm" d="M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/><path d="M117 350 L142 350 L139 430 L111 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/><path d="M158 350 L183 350 L189 430 L161 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <circle cx="141" cy="49" r="2.8" fill="var(--wf-text)"/>
+              <circle cx="159" cy="49" r="2.8" fill="var(--wf-text)"/>
+              <path data-svg="brow-left" d="M136 44 Q141 41 146 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/>
+              <path data-svg="brow-right" d="M154 44 Q159 41 164 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/>
+              <path data-svg="mouth" d="M138 59 Q150 73 162 59" fill="none" stroke="var(--wf-text)" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M136 78 L136 98 L164 98 L164 78" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="body" d="M112 100 Q150 88 188 100 L200 220 Q196 298 183 355 L117 355 Q104 298 100 220 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="left-arm" d="M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="right-arm" d="M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path d="M117 350 L142 350 L139 430 L111 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path d="M158 350 L183 350 L189 430 L161 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
             </g>
+
             <rect data-svg="exposed" x="110" y="270" width="80" height="0" rx="8" fill="var(--wf-card)" stroke="var(--wf-border)"/>
-            <g data-svg="shirt-group" style="transform-origin:150px 105px;transition:transform .3s ease"><path d="M112 101 L88 122 L105 154 L116 145 L116 270 Q150 280 184 270 L184 145 L195 154 L212 122 L188 101 Q150 89 112 101 Z" fill="var(--wf-shirt)" stroke="var(--wf-text)" stroke-width="3" stroke-linejoin="round"/><path d="M136 99 Q150 117 164 99" fill="none" stroke="var(--wf-shirt-text)" stroke-width="3"/><text x="150" y="183" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="15" font-weight="700">WF</text><text data-svg="garment-label" x="150" y="203" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="10">JERSEY</text></g>
+
+            <g data-svg="shirt-group" style="transform-origin:150px 105px;transition:transform .3s ease">
+              <path d="M112 101 L88 122 L105 154 L116 145 L116 270 Q150 280 184 270 L184 145 L195 154 L212 122 L188 101 Q150 89 112 101 Z" fill="var(--wf-shirt)" stroke="var(--wf-text)" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M136 99 Q150 117 164 99" fill="none" stroke="var(--wf-shirt-text)" stroke-width="3"/>
+              <text x="150" y="183" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="15" font-weight="700">WF</text>
+              <text data-svg="garment-label" x="150" y="203" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="10">JERSEY</text>
+            </g>
           </svg>
         </div>
-        <div class="wf-result" aria-live="polite"><h3 data-role="headline">Te quedará holgada</h3><p data-role="message">Existe buen margen de torso y largo.</p><p data-role="movement"></p><p data-role="extra" class="wf-muted"></p></div>
+
+        <div class="wf-result" aria-live="polite">
+          <h3 data-role="headline">Te quedará holgada</h3>
+          <p data-role="message">Existe buen margen de torso y largo.</p>
+          <p data-role="movement"></p>
+          <p data-role="extra" class="wf-muted"></p>
+        </div>
       </div>
     </div>
+
     <p class="wf-note">{{ section.settings.note | escape }}</p>
   </div>
 
   <script>
     (function(){
-      var root=document.getElementById('wf-fit-simulator-{{ section.id }}');if(!root||root.dataset.initialized==='true')return;root.dataset.initialized='true';
-      function q(s){return root.querySelector(s)}function qa(s){return Array.prototype.slice.call(root.querySelectorAll(s))}
-      var garment=q('[data-role="garment"]'),sex=q('[data-role="sex"]'),height=q('[data-role="height"]'),weight=q('[data-role="weight"]'),build=q('[data-role="build"]'),lengthPreference=q('[data-role="length-preference"]'),armsUp=q('[data-role="arms-up"]'),calculate=q('[data-role="calculate"]');
+      var root=document.getElementById('wf-fit-simulator-{{ section.id }}');
+      if(!root||root.dataset.initialized==='true')return;
+      root.dataset.initialized='true';
+
+      function q(s){return root.querySelector(s)}
+      function qa(s){return Array.prototype.slice.call(root.querySelectorAll(s))}
+
+      var garment=q('[data-role="garment"]'),
+          sex=q('[data-role="sex"]'),
+          height=q('[data-role="height"]'),
+          weight=q('[data-role="weight"]'),
+          build=q('[data-role="build"]'),
+          lengthPreference=q('[data-role="length-preference"]'),
+          armsUp=q('[data-role="arms-up"]'),
+          calculate=q('[data-role="calculate"]');
+
       var garmentLength={jersey:71,playera:74,compresion:60};
-      function make(level,signal,badge,headline,message,movement,extra){return{level:level,signal:signal,badge:badge,headline:headline,message:message,movement:movement||'',extra:extra||''}}
-      function evaluate(){var g=garment.value,s=sex.value,h=Number(height.value)||173,w=Number(weight.value)||90,b=build.value,boxy=lengthPreference.value==='boxy',plusEl=q('[data-role="plus"]:checked'),plus=plusEl&&plusEl.value==='si';if(plus)return make('no','red','NO RECOMENDADA','Nuestra unitalla no es compatible con tu perfil','Si normalmente necesitas 2XL o más, no recomendamos esta prenda.');if(w>=100)return make('no','red','NO RECOMENDADA','Esta prenda está fuera de nuestro rango','Con 100 kg o más no recomendamos nuestras prendas unitalla actuales.');if(g==='compresion'){if(h>=185&&w>=95)return make('no','red','NO RECOMENDADA','La compresión tendría demasiada tensión','No recomendamos llevar la tela a ese nivel de estiramiento.');var a=s==='mujer'?1:0;if(b==='media'){if(w<=80+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido dentro de un rango cómodo.');if(w<=92+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La tela trabaja bastante, pero la prenda sigue siendo apta.','','La sublimación puede aclararse ligeramente en zonas de tensión.');return make('limit','orange','AL LÍMITE','Puede entrar, pero está cerca del límite','El estiramiento será considerable.')}if(b==='delgada'){if(w<=86+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','La tela tiene buen margen.');if(w<=92+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La compresión será marcada.');return make('limit','orange','AL LÍMITE','Puede entrar, pero con bastante tensión','Está cerca de su límite.')}if(b==='musculosa'){if(w<=84+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','Quedará ceñida especialmente en pecho, hombros y brazos.');if(w<=91+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá mayor tensión en la parte superior.');return make('limit','orange','AL LÍMITE','Puede entrar, pero bastante forzada','Está cerca de su límite de tensión.')}if(w<=76+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido.');if(w<=85+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá bastante tensión sobre el torso.');return make('no','red','NO RECOMENDADA','No recomendamos esta compresión','La tela tendría que trabajar con demasiada tensión.')}if(h>=185&&w>=95)return make('no','red','NO RECOMENDADA','El ajuste no sería funcional','La combinación de estatura y peso deja poco margen de largo y torso.','Al levantar los brazos existe alto riesgo de descubrir abdomen o cadera.');if(h>=186){if(!boxy)return make('no','red','NO RECOMENDADA POR LARGO','Probablemente te quede demasiado corta','A partir de 1.86 m el largo se vuelve un punto crítico.','Al levantar los brazos puede subir considerablemente.');var limits={delgada:88,media:84,musculosa:86,ancha:76},max=limits[b];if(s==='mujer')max+=2;if(h>=192)max-=4;if(w<=max)return make('boxy','yellow','APTA · BOXY FIT','Sí puede funcionarte','Quedará corta, aproximadamente hacia la cadera.','Al levantar los brazos subirá más de lo habitual.');return make('no','red','NO RECOMENDADA','No hay suficiente margen','Aunque aceptes un fit corto, el torso quedaría demasiado comprometido.')}if(h>=182){if(w>=95)return make('no','red','NO RECOMENDADA','Quedaría corta y comprometida','No recomendamos este ajuste.');if(w>=90)return make('tight-short','orange','AJUSTE COMPROMETIDO','Sí puede entrar, pero con poco margen','Ya no la consideraríamos holgada.','Puede subir hacia la cadera al levantar los brazos.');if(w>=85)return make('regular-short','yellow','APTA · MÁS CORTA','Sí puede funcionarte','El torso tiene margen, pero el largo será más cercano a la cadera.')}var f=s==='mujer'?2:0;if(b==='delgada'){if(w<=92+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');if(w<=96+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen cómodo.');return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá poca holgura.')}if(b==='media'){if(w<=92+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');if(w<=96+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen.');return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','La prenda quedará más próxima al cuerpo.')}if(b==='musculosa'){if(w<=90+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada a regular','Puede marcar más hombros y brazos.');if(w<=95+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Habrá menos espacio en la parte superior.');return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Estás cerca del límite cómodo.')}if(h<=175&&w<=82+f)return make('loose','green','APTA · MUY HOLGADA','Te quedará muy holgada','Existe bastante margen en esta prenda.');if(w<=87+f)return make('regular','green','APTA · REGULAR','Te quedará regular','La prenda tiene suficiente amplitud.');if(w<=92+f)return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá menos amplitud en torso y abdomen.');return make('no','red','NO RECOMENDADA','No recomendamos esta prenda','Hay poco margen para un ajuste cómodo.')}
-      function face(level){var m=q('[data-svg="mouth"]'),bl=q('[data-svg="brow-left"]'),br=q('[data-svg="brow-right"]');if(level==='loose'){m.setAttribute('d','M138 59 Q150 73 162 59');bl.setAttribute('d','M136 44 Q141 41 146 44');br.setAttribute('d','M154 44 Q159 41 164 44');return}if(['regular','boxy','regular-short','tight','compression-normal','compression-strong'].indexOf(level)!==-1){m.setAttribute('d','M140 61 Q150 69 160 61');bl.setAttribute('d','M136 44 Q141 42 146 44');br.setAttribute('d','M154 44 Q159 42 164 44');return}if(level==='tight-short'||level==='limit'){m.setAttribute('d','M141 62 Q150 66 159 62');bl.setAttribute('d','M136 43 Q141 43 146 43');br.setAttribute('d','M154 43 Q159 43 164 43');return}m.setAttribute('d','M140 67 Q150 57 160 67');bl.setAttribute('d','M136 46 Q141 40 146 41');br.setAttribute('d','M154 41 Q159 40 164 46')}
-      function avatar(r){var h=Number(height.value)||173,w=Number(weight.value)||90,b=build.value,s=sex.value,g=garment.value,moving=armsUp.checked,bmi=w/Math.pow(h/100,2),sh=0,wa=0,hi=0;if(b==='delgada'){sh=-6;wa=-8;hi=-4}if(b==='musculosa')sh=11;if(b==='ancha'){sh=6;wa=12;hi=9}if(s==='mujer'){sh-=3;wa-=2;hi+=8}var mass=Math.max(-8,Math.min(24,(bmi-23)*1.5)),shoulder=38+mass*.30+sh,waist=35+mass*.45+wa,hip=34+mass*.38+hi,sl=150-shoulder,sr=150+shoulder,wl=150-waist,wr=150+waist,hl=150-hip,hr=150+hip;q('[data-svg="body"]').setAttribute('d','M'+sl+' 100 Q150 88 '+sr+' 100 L'+wr+' 220 Q'+hr+' 300 183 355 L117 355 Q'+hl+' 300 '+wl+' 220 Z');q('[data-svg="person"]').style.transform='scale(1,'+(.90+((h-140)/70)*.18)+')';var x=1,y=1;if(r.level==='loose')x=1.12;if(r.level==='regular')x=1.02;if(r.level==='tight')x=.94;if(r.level==='regular-short'){x=1;y=.90}if(r.level==='tight-short'){x=.92;y=.88}if(r.level==='boxy'){x=1.05;y=.82}if(r.level==='compression-normal'){x=.88;y=.94}if(r.level==='compression-strong'){x=.81;y=.94}if(r.level==='limit'){x=.77;y=.92}if(r.level==='no'){x=.75;y=.88}y*=garmentLength[g]/74;var rise=0;if(moving){rise=10;if(h>=182)rise+=9;if(h>=186)rise+=12;if(w>=90)rise+=7;if(w>=95)rise+=10;if(b==='ancha')rise+=5;if(r.level==='no')rise+=10}q('[data-svg="shirt-group"]').style.transform='translateY(-'+rise+'px) scale('+x+','+y+')';q('[data-svg="garment-label"]').textContent=g==='jersey'?'JERSEY':g==='playera'?'PLAYERA':'COMPRESIÓN';q('[data-svg="exposed"]').setAttribute('y',270-rise);q('[data-svg="exposed"]').setAttribute('height',Math.max(0,rise));q('[data-svg="left-arm"]').setAttribute('d',moving?'M113 112 Q90 88 75 35 L88 30 Q107 70 124 105 Z':'M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z');q('[data-svg="right-arm"]').setAttribute('d',moving?'M187 112 Q210 88 225 35 L212 30 Q193 70 176 105 Z':'M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z')}
-      function render(){var r=evaluate();q('[data-role="badge"]').setAttribute('data-signal',r.signal);q('[data-role="badge-text"]').textContent=r.badge;q('[data-role="headline"]').textContent=r.headline;q('[data-role="message"]').textContent=r.message;q('[data-role="movement"]').textContent=r.movement;q('[data-role="extra"]').textContent=r.extra||(garment.value==='compresion'?'En compresión, que termine cerca de la cadera es normal.':'');q('[data-role="length-block"]').style.opacity=garment.value==='compresion'?'.48':'1';face(r.level);avatar(r)}
-      [garment,sex,height,weight,build,lengthPreference,armsUp].forEach(function(el){el.addEventListener('input',render);el.addEventListener('change',render)});qa('[data-role="plus"]').forEach(function(el){el.addEventListener('change',render)});calculate.addEventListener('click',render);render();
+
+      function make(level,signal,badge,headline,message,movement,extra){
+        return{level:level,signal:signal,badge:badge,headline:headline,message:message,movement:movement||'',extra:extra||''}
+      }
+
+      function evaluate(){
+        var g=garment.value,s=sex.value,h=Number(height.value)||173,w=Number(weight.value)||90,b=build.value,
+            boxy=lengthPreference.value==='boxy',plusEl=q('[data-role="plus"]:checked'),plus=plusEl&&plusEl.value==='si';
+
+        if(plus)return make('no','red','NO RECOMENDADA','Nuestra unitalla no es compatible con tu perfil','Si normalmente necesitas 2XL o más, no recomendamos esta prenda.');
+        if(w>=100)return make('no','red','NO RECOMENDADA','Esta prenda está fuera de nuestro rango','Con 100 kg o más no recomendamos nuestras prendas unitalla actuales.');
+
+        if(g==='compresion'){
+          if(h>=185&&w>=95)return make('no','red','NO RECOMENDADA','La compresión tendría demasiada tensión','No recomendamos llevar la tela a ese nivel de estiramiento.');
+          var a=s==='mujer'?1:0;
+          if(b==='media'){
+            if(w<=80+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido dentro de un rango cómodo.');
+            if(w<=92+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La tela trabaja bastante, pero la prenda sigue siendo apta.','','La sublimación puede aclararse ligeramente en zonas de tensión.');
+            return make('limit','orange','AL LÍMITE','Puede entrar, pero está cerca del límite','El estiramiento será considerable.');
+          }
+          if(b==='delgada'){
+            if(w<=86+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','La tela tiene buen margen.');
+            if(w<=92+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La compresión será marcada.');
+            return make('limit','orange','AL LÍMITE','Puede entrar, pero con bastante tensión','Está cerca de su límite.');
+          }
+          if(b==='musculosa'){
+            if(w<=84+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','Quedará ceñida especialmente en pecho, hombros y brazos.');
+            if(w<=91+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá mayor tensión en la parte superior.');
+            return make('limit','orange','AL LÍMITE','Puede entrar, pero bastante forzada','Está cerca de su límite de tensión.');
+          }
+          if(w<=76+a)return make('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido.');
+          if(w<=85+a)return make('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá bastante tensión sobre el torso.');
+          return make('no','red','NO RECOMENDADA','No recomendamos esta compresión','La tela tendría que trabajar con demasiada tensión.');
+        }
+
+        if(h>=185&&w>=95)return make('no','red','NO RECOMENDADA','El ajuste no sería funcional','La combinación de estatura y peso deja poco margen de largo y torso.','Al levantar los brazos existe alto riesgo de descubrir abdomen o cadera.');
+
+        if(h>=186){
+          if(!boxy)return make('no','red','NO RECOMENDADA POR LARGO','Probablemente te quede demasiado corta','A partir de 1.86 m el largo se vuelve un punto crítico.','Al levantar los brazos puede subir considerablemente.');
+          var limits={delgada:88,media:84,musculosa:86,ancha:76};
+          var max=limits[b];
+          if(s==='mujer')max+=2;
+          if(h>=192)max-=4;
+          if(w<=max)return make('boxy','yellow','APTA · BOXY FIT','Sí puede funcionarte','Quedará corta, aproximadamente hacia la cadera.','Al levantar los brazos subirá más de lo habitual.');
+          return make('no','red','NO RECOMENDADA','No hay suficiente margen','Aunque aceptes un fit corto, el torso quedaría demasiado comprometido.');
+        }
+
+        if(h>=182){
+          if(w>=95)return make('no','red','NO RECOMENDADA','Quedaría corta y comprometida','No recomendamos este ajuste.');
+          if(w>=90)return make('tight-short','orange','AJUSTE COMPROMETIDO','Sí puede entrar, pero con poco margen','Ya no la consideraríamos holgada.','Puede subir hacia la cadera al levantar los brazos.');
+          if(w>=85)return make('regular-short','yellow','APTA · MÁS CORTA','Sí puede funcionarte','El torso tiene margen, pero el largo será más cercano a la cadera.');
+        }
+
+        var f=s==='mujer'?2:0;
+        if(b==='delgada'){
+          if(w<=92+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');
+          if(w<=96+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen cómodo.');
+          return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá poca holgura.');
+        }
+        if(b==='media'){
+          if(w<=92+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');
+          if(w<=96+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen.');
+          return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','La prenda quedará más próxima al cuerpo.');
+        }
+        if(b==='musculosa'){
+          if(w<=90+f)return make('loose','green','APTA · HOLGADA','Te quedará holgada a regular','Puede marcar más hombros y brazos.');
+          if(w<=95+f)return make('regular','green','APTA · REGULAR','Te quedará regular','Habrá menos espacio en la parte superior.');
+          return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Estás cerca del límite cómodo.');
+        }
+        if(h<=175&&w<=82+f)return make('loose','green','APTA · MUY HOLGADA','Te quedará muy holgada','Existe bastante margen en esta prenda.');
+        if(w<=87+f)return make('regular','green','APTA · REGULAR','Te quedará regular','La prenda tiene suficiente amplitud.');
+        if(w<=92+f)return make('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá menos amplitud en torso y abdomen.');
+        return make('no','red','NO RECOMENDADA','No recomendamos esta prenda','Hay poco margen para un ajuste cómodo.');
+      }
+
+      function face(level){
+        var m=q('[data-svg="mouth"]'),bl=q('[data-svg="brow-left"]'),br=q('[data-svg="brow-right"]');
+        if(level==='loose'){
+          m.setAttribute('d','M138 59 Q150 73 162 59');
+          bl.setAttribute('d','M136 44 Q141 41 146 44');
+          br.setAttribute('d','M154 44 Q159 41 164 44');
+          return;
+        }
+        if(['regular','boxy','regular-short','tight','compression-normal','compression-strong'].indexOf(level)!==-1){
+          m.setAttribute('d','M140 61 Q150 69 160 61');
+          bl.setAttribute('d','M136 44 Q141 42 146 44');
+          br.setAttribute('d','M154 44 Q159 42 164 44');
+          return;
+        }
+        if(level==='tight-short'||level==='limit'){
+          m.setAttribute('d','M141 62 Q150 66 159 62');
+          bl.setAttribute('d','M136 43 Q141 43 146 43');
+          br.setAttribute('d','M154 43 Q159 43 164 43');
+          return;
+        }
+        m.setAttribute('d','M140 67 Q150 57 160 67');
+        bl.setAttribute('d','M136 46 Q141 40 146 41');
+        br.setAttribute('d','M154 41 Q159 40 164 46');
+      }
+
+      function avatar(r){
+        var h=Number(height.value)||173,w=Number(weight.value)||90,b=build.value,s=sex.value,g=garment.value,moving=armsUp.checked;
+        var bmi=w/Math.pow(h/100,2),sh=0,wa=0,hi=0;
+        if(b==='delgada'){sh=-6;wa=-8;hi=-4}
+        if(b==='musculosa'){sh=11}
+        if(b==='ancha'){sh=6;wa=12;hi=9}
+        if(s==='mujer'){sh-=3;wa-=2;hi+=8}
+
+        var mass=Math.max(-8,Math.min(24,(bmi-23)*1.5));
+        var shoulder=38+mass*.30+sh,waist=35+mass*.45+wa,hip=34+mass*.38+hi;
+        var sl=150-shoulder,sr=150+shoulder,wl=150-waist,wr=150+waist,hl=150-hip,hr=150+hip;
+        q('[data-svg="body"]').setAttribute('d','M'+sl+' 100 Q150 88 '+sr+' 100 L'+wr+' 220 Q'+hr+' 300 183 355 L117 355 Q'+hl+' 300 '+wl+' 220 Z');
+        q('[data-svg="person"]').style.transform='scale(1,'+(.90+((h-140)/70)*.18)+')';
+
+        var x=1,y=1;
+        if(r.level==='loose')x=1.12;
+        if(r.level==='regular')x=1.02;
+        if(r.level==='tight')x=.94;
+        if(r.level==='regular-short'){x=1;y=.90}
+        if(r.level==='tight-short'){x=.92;y=.88}
+        if(r.level==='boxy'){x=1.05;y=.82}
+        if(r.level==='compression-normal'){x=.88;y=.94}
+        if(r.level==='compression-strong'){x=.81;y=.94}
+        if(r.level==='limit'){x=.77;y=.92}
+        if(r.level==='no'){x=.75;y=.88}
+        y*=garmentLength[g]/74;
+
+        var rise=0;
+        if(moving){
+          rise=10;
+          if(h>=182)rise+=9;
+          if(h>=186)rise+=12;
+          if(w>=90)rise+=7;
+          if(w>=95)rise+=10;
+          if(b==='ancha')rise+=5;
+          if(r.level==='no')rise+=10;
+        }
+
+        q('[data-svg="shirt-group"]').style.transform='translateY(-'+rise+'px) scale('+x+','+y+')';
+        q('[data-svg="garment-label"]').textContent=g==='jersey'?'JERSEY':g==='playera'?'PLAYERA':'COMPRESIÓN';
+        q('[data-svg="exposed"]').setAttribute('y',270-rise);
+        q('[data-svg="exposed"]').setAttribute('height',Math.max(0,rise));
+        q('[data-svg="left-arm"]').setAttribute('d',moving?'M113 112 Q90 88 75 35 L88 30 Q107 70 124 105 Z':'M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z');
+        q('[data-svg="right-arm"]').setAttribute('d',moving?'M187 112 Q210 88 225 35 L212 30 Q193 70 176 105 Z':'M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z');
+      }
+
+      function render(){
+        var r=evaluate();
+        q('[data-role="badge"]').setAttribute('data-signal',r.signal);
+        q('[data-role="badge-text"]').textContent=r.badge;
+        q('[data-role="headline"]').textContent=r.headline;
+        q('[data-role="message"]').textContent=r.message;
+        q('[data-role="movement"]').textContent=r.movement;
+        q('[data-role="extra"]').textContent=r.extra||(garment.value==='compresion'?'En compresión, que termine cerca de la cadera es normal.':'');
+        q('[data-role="length-block"]').style.opacity=garment.value==='compresion'?'.48':'1';
+        face(r.level);
+        avatar(r);
+      }
+
+      [garment,sex,height,weight,build,lengthPreference,armsUp].forEach(function(el){
+        el.addEventListener('input',render);
+        el.addEventListener('change',render);
+      });
+      qa('[data-role="plus"]').forEach(function(el){el.addEventListener('change',render)});
+      calculate.addEventListener('click',render);
+      render();
     })();
   </script>
 </section>
@@ -118,10 +832,29 @@
 {
   "name":"Simulador de ajuste WF",
   "settings":[
-    {"type":"text","id":"title","label":"Título","default":"¿Cómo podría quedarte?"},
-    {"type":"text","id":"subtitle","label":"Subtítulo","default":"Ingresa tus datos y obtén una recomendación aproximada de ajuste antes de elegir tu prenda."},
-    {"type":"text","id":"note","label":"Nota inferior","default":"La simulación es orientativa. Dos personas con la misma estatura y peso pueden tener proporciones distintas."}
+    {
+      "type":"text",
+      "id":"title",
+      "label":"Título",
+      "default":"¿Cómo podría quedarte?"
+    },
+    {
+      "type":"text",
+      "id":"subtitle",
+      "label":"Subtítulo",
+      "default":"Ingresa tus datos y obtén una recomendación aproximada de ajuste antes de elegir tu prenda."
+    },
+    {
+      "type":"text",
+      "id":"note",
+      "label":"Nota inferior",
+      "default":"La simulación es orientativa. Dos personas con la misma estatura y peso pueden tener proporciones distintas."
+    }
   ],
-  "presets":[{"name":"Simulador de ajuste WF"}]
+  "presets":[
+    {
+      "name":"Simulador de ajuste WF"
+    }
+  ]
 }
 {% endschema %}
