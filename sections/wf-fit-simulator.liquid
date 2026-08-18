@@ -1,0 +1,800 @@
+{% comment %}
+  WF Urban Muscle - Simulador de ajuste
+  Sección personalizada para Shopify.
+{% endcomment %}
+
+<section
+  id="wf-fit-simulator-{{ section.id }}"
+  class="wf-fit-simulator"
+  data-wf-simulator
+>
+  <style>
+    #wf-fit-simulator-{{ section.id }} {
+      --wf-bg: #ffffff;
+      --wf-panel: #f6f6f6;
+      --wf-text: #111111;
+      --wf-muted: #666666;
+      --wf-border: #d7d7d7;
+      --wf-body: #dedede;
+      --wf-body-line: #8b8b8b;
+      --wf-shirt: #111111;
+      --wf-shirt-text: #ffffff;
+      --wf-green: #16803c;
+      --wf-green-bg: #e8f6ed;
+      --wf-yellow: #946b00;
+      --wf-yellow-bg: #fff5cc;
+      --wf-orange: #b45309;
+      --wf-orange-bg: #ffedd5;
+      --wf-red: #b42318;
+      --wf-red-bg: #fee4e2;
+      color: var(--wf-text);
+      background: var(--wf-bg);
+      padding: 26px 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #wf-fit-simulator-{{ section.id }} {
+        --wf-bg: #0b0b0b;
+        --wf-panel: #171717;
+        --wf-text: #f5f5f5;
+        --wf-muted: #b8b8b8;
+        --wf-border: #353535;
+        --wf-body: #292929;
+        --wf-body-line: #777777;
+        --wf-shirt: #f3f3f3;
+        --wf-shirt-text: #111111;
+        --wf-green: #72e6a1;
+        --wf-green-bg: #102b1d;
+        --wf-yellow: #f0d461;
+        --wf-yellow-bg: #30280f;
+        --wf-orange: #f6a65b;
+        --wf-orange-bg: #331c0c;
+        --wf-red: #ff8b82;
+        --wf-red-bg: #351311;
+      }
+    }
+
+    #wf-fit-simulator-{{ section.id }} * {
+      box-sizing: border-box;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-wrap {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-title {
+      margin: 0 0 6px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.15;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-subtitle {
+      margin: 0;
+      color: var(--wf-muted);
+      font-size: 14px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-legend {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-legend-item {
+      border: 1px solid var(--wf-border);
+      border-radius: 12px;
+      padding: 10px;
+      background: var(--wf-panel);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex: none;
+      background: currentColor;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-green-text { color: var(--wf-green); }
+    #wf-fit-simulator-{{ section.id }} .wf-yellow-text { color: var(--wf-yellow); }
+    #wf-fit-simulator-{{ section.id }} .wf-orange-text { color: var(--wf-orange); }
+    #wf-fit-simulator-{{ section.id }} .wf-red-text { color: var(--wf-red); }
+
+    #wf-fit-simulator-{{ section.id }} .wf-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-card {
+      background: var(--wf-panel);
+      border: 1px solid var(--wf-border);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-field {
+      margin-bottom: 15px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} label,
+    #wf-fit-simulator-{{ section.id }} legend {
+      display: block;
+      font-size: 14px;
+      font-weight: 650;
+      margin-bottom: 6px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} select,
+    #wf-fit-simulator-{{ section.id }} input[type="number"] {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--wf-border);
+      background: var(--wf-bg);
+      color: var(--wf-text);
+      font-size: 16px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} select:focus,
+    #wf-fit-simulator-{{ section.id }} input[type="number"]:focus {
+      outline: 2px solid var(--wf-text);
+      outline-offset: 2px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-radio-row {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-radio-row label,
+    #wf-fit-simulator-{{ section.id }} .wf-check-label {
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+      font-weight: 500;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-button {
+      width: 100%;
+      border: 1px solid var(--wf-text);
+      border-radius: 13px;
+      padding: 13px 16px;
+      background: var(--wf-text);
+      color: var(--wf-bg);
+      font-weight: 750;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-button:hover {
+      opacity: .88;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status {
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-weight: 750;
+      font-size: 12px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="green"] {
+      color: var(--wf-green);
+      background: var(--wf-green-bg);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="yellow"] {
+      color: var(--wf-yellow);
+      background: var(--wf-yellow-bg);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="orange"] {
+      color: var(--wf-orange);
+      background: var(--wf-orange-bg);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-status[data-signal="red"] {
+      color: var(--wf-red);
+      background: var(--wf-red-bg);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-visual {
+      background: var(--wf-bg);
+      border: 1px solid var(--wf-border);
+      border-radius: 18px;
+      padding: 8px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-svg {
+      display: block;
+      width: 100%;
+      max-height: 520px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result {
+      margin-top: 10px;
+      border: 1px solid var(--wf-border);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--wf-panel);
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result h3 {
+      font-size: 18px;
+      margin: 0 0 7px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result p {
+      font-size: 14px;
+      margin: 5px 0;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-result .wf-muted,
+    #wf-fit-simulator-{{ section.id }} .wf-muted {
+      color: var(--wf-muted);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-measures {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-measure {
+      border: 1px solid var(--wf-border);
+      background: var(--wf-panel);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      color: var(--wf-text);
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-measure strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    #wf-fit-simulator-{{ section.id }} .wf-note {
+      font-size: 12px;
+      color: var(--wf-muted);
+      margin: 14px 0 0;
+    }
+
+    @media (max-width: 760px) {
+      #wf-fit-simulator-{{ section.id }} {
+        padding: 20px 12px;
+      }
+
+      #wf-fit-simulator-{{ section.id }} .wf-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #wf-fit-simulator-{{ section.id }} .wf-legend {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #wf-fit-simulator-{{ section.id }} .wf-two {
+        grid-template-columns: 1fr;
+      }
+
+      #wf-fit-simulator-{{ section.id }} .wf-measures {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      #wf-fit-simulator-{{ section.id }} .wf-legend {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <div class="wf-wrap">
+    <header>
+      <h2 class="wf-title">{{ section.settings.title | escape }}</h2>
+      <p class="wf-subtitle">{{ section.settings.subtitle | escape }}</p>
+    </header>
+
+    <div class="wf-legend" aria-label="Semáforo de recomendación">
+      <div class="wf-legend-item"><span class="wf-dot wf-green-text"></span><strong>Verde:</strong>&nbsp;recomendable</div>
+      <div class="wf-legend-item"><span class="wf-dot wf-yellow-text"></span><strong>Amarillo:</strong>&nbsp;sí queda, con consideración</div>
+      <div class="wf-legend-item"><span class="wf-dot wf-orange-text"></span><strong>Naranja:</strong>&nbsp;cerca del límite</div>
+      <div class="wf-legend-item"><span class="wf-dot wf-red-text"></span><strong>Rojo:</strong>&nbsp;no recomendada</div>
+    </div>
+
+    <div class="wf-grid">
+      <div class="wf-card">
+        <div class="wf-field">
+          <label>Prenda</label>
+          <select data-role="garment">
+            <option value="jersey">Jersey</option>
+            <option value="playera">Playera</option>
+            <option value="compresion">Playera de compresión</option>
+          </select>
+        </div>
+
+        <div class="wf-field">
+          <label>¿Para quién es?</label>
+          <select data-role="sex">
+            <option value="hombre">Hombre</option>
+            <option value="mujer">Mujer</option>
+          </select>
+        </div>
+
+        <div class="wf-two">
+          <div class="wf-field">
+            <label>Estatura (cm)</label>
+            <input data-role="height" type="number" min="140" max="210" value="173" inputmode="numeric">
+          </div>
+
+          <div class="wf-field">
+            <label>Peso (kg)</label>
+            <input data-role="weight" type="number" min="40" max="160" value="90" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="wf-field">
+          <label>Complexión</label>
+          <select data-role="build">
+            <option value="delgada">Delgada</option>
+            <option value="media" selected>Media</option>
+            <option value="musculosa">Musculosa / atlética</option>
+            <option value="ancha">Ancha / robusta</option>
+          </select>
+        </div>
+
+        <fieldset class="wf-field" style="border:0;padding:0;margin-left:0;margin-right:0">
+          <legend>¿Normalmente necesitas 2XL o más?</legend>
+          <div class="wf-radio-row">
+            <label><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="no" checked> No</label>
+            <label><input type="radio" data-role="plus" name="wf-plus-{{ section.id }}" value="si"> Sí</label>
+          </div>
+        </fieldset>
+
+        <div class="wf-field" data-role="length-block">
+          <label>¿Cómo te gusta el largo?</label>
+          <select data-role="length-preference">
+            <option value="normal">Largo normal</option>
+            <option value="boxy">Más corta / tipo boxy fit</option>
+          </select>
+        </div>
+
+        <div class="wf-field">
+          <label class="wf-check-label"><input data-role="arms-up" type="checkbox"> Simular brazos arriba</label>
+        </div>
+
+        <button data-role="calculate" class="wf-button" type="button">Ver cómo me quedaría</button>
+      </div>
+
+      <div>
+        <div class="wf-result-top">
+          <strong>Vista aproximada</strong>
+          <span class="wf-status" data-role="badge" data-signal="green">
+            <span class="wf-dot"></span>
+            <span data-role="badge-text">APTA · HOLGADA</span>
+          </span>
+        </div>
+
+        <div class="wf-visual">
+          <svg class="wf-svg" viewBox="0 0 300 440" role="img" aria-label="Simulación aproximada del ajuste">
+            <g data-svg="person" style="transform-origin:150px 95px;transition:transform .3s ease">
+              <circle cx="150" cy="52" r="27" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <circle cx="141" cy="49" r="2.8" fill="var(--wf-text)"/>
+              <circle cx="159" cy="49" r="2.8" fill="var(--wf-text)"/>
+              <path data-svg="brow-left" d="M136 44 Q141 41 146 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/>
+              <path data-svg="brow-right" d="M154 44 Q159 41 164 44" fill="none" stroke="var(--wf-text)" stroke-width="2" stroke-linecap="round"/>
+              <path data-svg="mouth" d="M138 59 Q150 73 162 59" fill="none" stroke="var(--wf-text)" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M136 78 L136 98 L164 98 L164 78" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="body" d="M112 100 Q150 88 188 100 L200 220 Q196 298 183 355 L117 355 Q104 298 100 220 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="left-arm" d="M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path data-svg="right-arm" d="M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path d="M117 350 L142 350 L139 430 L111 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+              <path d="M158 350 L183 350 L189 430 L161 430 Z" fill="var(--wf-body)" stroke="var(--wf-body-line)" stroke-width="2"/>
+            </g>
+
+            <rect data-svg="exposed" x="110" y="270" width="80" height="0" rx="8" fill="var(--wf-panel)" stroke="var(--wf-border)"/>
+
+            <g data-svg="shirt-group" style="transform-origin:150px 105px;transition:transform .3s ease">
+              <path d="M112 101 L88 122 L105 154 L116 145 L116 270 Q150 280 184 270 L184 145 L195 154 L212 122 L188 101 Q150 89 112 101 Z" fill="var(--wf-shirt)" stroke="var(--wf-text)" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M136 99 Q150 117 164 99" fill="none" stroke="var(--wf-shirt-text)" stroke-width="3"/>
+              <text x="150" y="183" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="15" font-weight="700">WF</text>
+              <text data-svg="garment-label" x="150" y="203" text-anchor="middle" fill="var(--wf-shirt-text)" font-size="10">JERSEY</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="wf-result" aria-live="polite">
+          <h3 data-role="headline">Te quedará holgada</h3>
+          <p data-role="message">Existe buen margen de torso y largo.</p>
+          <p data-role="movement"></p>
+          <p data-role="extra" class="wf-muted"></p>
+        </div>
+      </div>
+    </div>
+
+    {% if section.settings.show_measurements %}
+      <div class="wf-measures">
+        <div class="wf-measure"><strong>Jersey</strong>Ancho 60 cm · Largo 71 cm · Desde cuello 62.5 cm</div>
+        <div class="wf-measure"><strong>Playera</strong>Ancho 58 cm · Largo 74 cm · Desde cuello 67 cm</div>
+        <div class="wf-measure"><strong>Compresión</strong>Ancho 46 cm · Largo 60 cm · Desde cuello 55 cm</div>
+      </div>
+    {% endif %}
+
+    <p class="wf-note">{{ section.settings.note | escape }}</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wf-fit-simulator-{{ section.id }}');
+      if (!root || root.dataset.initialized === 'true') return;
+      root.dataset.initialized = 'true';
+
+      function q(selector) { return root.querySelector(selector); }
+      function qa(selector) { return Array.prototype.slice.call(root.querySelectorAll(selector)); }
+
+      var garment = q('[data-role="garment"]');
+      var sex = q('[data-role="sex"]');
+      var height = q('[data-role="height"]');
+      var weight = q('[data-role="weight"]');
+      var build = q('[data-role="build"]');
+      var lengthPreference = q('[data-role="length-preference"]');
+      var armsUp = q('[data-role="arms-up"]');
+      var calculate = q('[data-role="calculate"]');
+
+      var garmentLength = {
+        jersey: 71,
+        playera: 74,
+        compresion: 60
+      };
+
+      function makeResult(level, signal, badge, headline, message, movement, extra) {
+        return {
+          level: level,
+          signal: signal,
+          badge: badge,
+          headline: headline,
+          message: message,
+          movement: movement || '',
+          extra: extra || ''
+        };
+      }
+
+      function evaluate() {
+        var g = garment.value;
+        var s = sex.value;
+        var h = Number(height.value) || 173;
+        var w = Number(weight.value) || 90;
+        var b = build.value;
+        var boxy = lengthPreference.value === 'boxy';
+        var plusEl = q('[data-role="plus"]:checked');
+        var plus = plusEl && plusEl.value === 'si';
+
+        if (plus) {
+          return makeResult('no','red','NO RECOMENDADA','Nuestra unitalla no es compatible con tu perfil','Si normalmente necesitas 2XL o más, no recomendamos esta prenda.');
+        }
+
+        if (w >= 100) {
+          return makeResult('no','red','NO RECOMENDADA','Esta prenda está fuera de nuestro rango','Con 100 kg o más no recomendamos nuestras prendas unitalla actuales.');
+        }
+
+        if (g === 'compresion') {
+          if (h >= 185 && w >= 95) {
+            return makeResult('no','red','NO RECOMENDADA','La compresión tendría demasiada tensión','No recomendamos llevar la tela a ese nivel de estiramiento.');
+          }
+
+          var adj = s === 'mujer' ? 1 : 0;
+
+          if (b === 'media') {
+            if (w <= 80 + adj) return makeResult('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido dentro de un rango cómodo.');
+            if (w <= 92 + adj) return makeResult('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La tela trabaja bastante, pero la prenda sigue siendo apta.','','La sublimación puede aclararse ligeramente en zonas de tensión.');
+            return makeResult('limit','orange','AL LÍMITE','Puede entrar, pero está cerca del límite','El estiramiento será considerable.');
+          }
+
+          if (b === 'delgada') {
+            if (w <= 86 + adj) return makeResult('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','La tela tiene buen margen.');
+            if (w <= 92 + adj) return makeResult('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','La compresión será marcada.');
+            return makeResult('limit','orange','AL LÍMITE','Puede entrar, pero con bastante tensión','Está cerca de su límite.');
+          }
+
+          if (b === 'musculosa') {
+            if (w <= 84 + adj) return makeResult('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','Quedará ceñida especialmente en pecho, hombros y brazos.');
+            if (w <= 91 + adj) return makeResult('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá mayor tensión en la parte superior.');
+            return makeResult('limit','orange','AL LÍMITE','Puede entrar, pero bastante forzada','Está cerca de su límite de tensión.');
+          }
+
+          if (w <= 76 + adj) return makeResult('compression-normal','green','APTA · COMPRESIÓN NORMAL','Sí te queda bien','El ajuste será ceñido.');
+          if (w <= 85 + adj) return makeResult('compression-strong','yellow','APTA · COMPRESIÓN FUERTE','Sí te queda','Habrá bastante tensión sobre el torso.');
+          return makeResult('no','red','NO RECOMENDADA','No recomendamos esta compresión','La tela tendría que trabajar con demasiada tensión.');
+        }
+
+        if (h >= 185 && w >= 95) {
+          return makeResult('no','red','NO RECOMENDADA','El ajuste no sería funcional','La combinación de estatura y peso deja poco margen de largo y torso.','Al levantar los brazos existe alto riesgo de descubrir abdomen o cadera.');
+        }
+
+        if (h >= 186) {
+          if (!boxy) {
+            return makeResult('no','red','NO RECOMENDADA POR LARGO','Probablemente te quede demasiado corta','A partir de 1.86 m el largo se vuelve un punto crítico.','Al levantar los brazos puede subir considerablemente.');
+          }
+
+          var limits = { delgada:88, media:84, musculosa:86, ancha:76 };
+          var maxWeight = limits[b];
+          if (s === 'mujer') maxWeight += 2;
+          if (h >= 192) maxWeight -= 4;
+
+          if (w <= maxWeight) {
+            return makeResult('boxy','yellow','APTA · BOXY FIT','Sí puede funcionarte','Quedará corta, aproximadamente hacia la cadera.','Al levantar los brazos subirá más de lo habitual.');
+          }
+
+          return makeResult('no','red','NO RECOMENDADA','No hay suficiente margen','Aunque aceptes un fit corto, el torso quedaría demasiado comprometido.');
+        }
+
+        if (h >= 182) {
+          if (w >= 95) return makeResult('no','red','NO RECOMENDADA','Quedaría corta y comprometida','No recomendamos este ajuste.');
+          if (w >= 90) return makeResult('tight-short','orange','AJUSTE COMPROMETIDO','Sí puede entrar, pero con poco margen','Ya no la consideraríamos holgada.','Puede subir hacia la cadera al levantar los brazos.');
+          if (w >= 85) return makeResult('regular-short','yellow','APTA · MÁS CORTA','Sí puede funcionarte','El torso tiene margen, pero el largo será más cercano a la cadera.');
+        }
+
+        var femaleAdjustment = s === 'mujer' ? 2 : 0;
+
+        if (b === 'delgada') {
+          if (w <= 92 + femaleAdjustment) return makeResult('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');
+          if (w <= 96 + femaleAdjustment) return makeResult('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen cómodo.');
+          return makeResult('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá poca holgura.');
+        }
+
+        if (b === 'media') {
+          if (w <= 92 + femaleAdjustment) return makeResult('loose','green','APTA · HOLGADA','Te quedará holgada','Existe buen margen de torso y largo.');
+          if (w <= 96 + femaleAdjustment) return makeResult('regular','green','APTA · REGULAR','Te quedará regular','Todavía existe margen.');
+          return makeResult('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','La prenda quedará más próxima al cuerpo.');
+        }
+
+        if (b === 'musculosa') {
+          if (w <= 90 + femaleAdjustment) return makeResult('loose','green','APTA · HOLGADA','Te quedará holgada a regular','Puede marcar más hombros y brazos.');
+          if (w <= 95 + femaleAdjustment) return makeResult('regular','green','APTA · REGULAR','Te quedará regular','Habrá menos espacio en la parte superior.');
+          return makeResult('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Estás cerca del límite cómodo.');
+        }
+
+        if (h <= 175 && w <= 82 + femaleAdjustment) {
+          return makeResult('loose','green','APTA · MUY HOLGADA','Te quedará muy holgada','Existe bastante margen en esta prenda.');
+        }
+
+        if (w <= 87 + femaleAdjustment) return makeResult('regular','green','APTA · REGULAR','Te quedará regular','La prenda tiene suficiente amplitud.');
+        if (w <= 92 + femaleAdjustment) return makeResult('tight','yellow','APTA · AJUSTADA','Sí te queda, pero ajustada','Habrá menos amplitud en torso y abdomen.');
+
+        return makeResult('no','red','NO RECOMENDADA','No recomendamos esta prenda','Hay poco margen para un ajuste cómodo.');
+      }
+
+      function updateFace(level) {
+        var mouth = q('[data-svg="mouth"]');
+        var left = q('[data-svg="brow-left"]');
+        var right = q('[data-svg="brow-right"]');
+
+        if (level === 'loose') {
+          mouth.setAttribute('d','M138 59 Q150 73 162 59');
+          left.setAttribute('d','M136 44 Q141 41 146 44');
+          right.setAttribute('d','M154 44 Q159 41 164 44');
+          return;
+        }
+
+        if (['regular','boxy','regular-short','tight','compression-normal','compression-strong'].indexOf(level) !== -1) {
+          mouth.setAttribute('d','M140 61 Q150 69 160 61');
+          left.setAttribute('d','M136 44 Q141 42 146 44');
+          right.setAttribute('d','M154 44 Q159 42 164 44');
+          return;
+        }
+
+        if (level === 'tight-short' || level === 'limit') {
+          mouth.setAttribute('d','M141 62 Q150 66 159 62');
+          left.setAttribute('d','M136 43 Q141 43 146 43');
+          right.setAttribute('d','M154 43 Q159 43 164 43');
+          return;
+        }
+
+        mouth.setAttribute('d','M140 67 Q150 57 160 67');
+        left.setAttribute('d','M136 46 Q141 40 146 41');
+        right.setAttribute('d','M154 41 Q159 40 164 46');
+      }
+
+      function updateAvatar(result) {
+        var h = Number(height.value) || 173;
+        var w = Number(weight.value) || 90;
+        var b = build.value;
+        var s = sex.value;
+        var g = garment.value;
+        var moving = armsUp.checked;
+
+        var bmi = w / Math.pow(h / 100, 2);
+        var shoulderAdd = 0;
+        var waistAdd = 0;
+        var hipAdd = 0;
+
+        if (b === 'delgada') { shoulderAdd = -6; waistAdd = -8; hipAdd = -4; }
+        if (b === 'musculosa') { shoulderAdd = 11; }
+        if (b === 'ancha') { shoulderAdd = 6; waistAdd = 12; hipAdd = 9; }
+        if (s === 'mujer') { shoulderAdd -= 3; waistAdd -= 2; hipAdd += 8; }
+
+        var mass = Math.max(-8, Math.min(24, (bmi - 23) * 1.5));
+        var shoulder = 38 + mass * 0.30 + shoulderAdd;
+        var waist = 35 + mass * 0.45 + waistAdd;
+        var hip = 34 + mass * 0.38 + hipAdd;
+
+        var sl = 150 - shoulder;
+        var sr = 150 + shoulder;
+        var wl = 150 - waist;
+        var wr = 150 + waist;
+        var hl = 150 - hip;
+        var hr = 150 + hip;
+
+        q('[data-svg="body"]').setAttribute(
+          'd',
+          'M' + sl + ' 100 Q150 88 ' + sr + ' 100 L' + wr + ' 220 Q' + hr + ' 300 183 355 L117 355 Q' + hl + ' 300 ' + wl + ' 220 Z'
+        );
+
+        q('[data-svg="person"]').style.transform = 'scale(1,' + (0.90 + ((h - 140) / 70) * 0.18) + ')';
+
+        var widthScale = 1;
+        var verticalScale = 1;
+
+        if (result.level === 'loose') widthScale = 1.12;
+        if (result.level === 'regular') widthScale = 1.02;
+        if (result.level === 'tight') widthScale = 0.94;
+        if (result.level === 'regular-short') { widthScale = 1; verticalScale = 0.90; }
+        if (result.level === 'tight-short') { widthScale = 0.92; verticalScale = 0.88; }
+        if (result.level === 'boxy') { widthScale = 1.05; verticalScale = 0.82; }
+        if (result.level === 'compression-normal') { widthScale = 0.88; verticalScale = 0.94; }
+        if (result.level === 'compression-strong') { widthScale = 0.81; verticalScale = 0.94; }
+        if (result.level === 'limit') { widthScale = 0.77; verticalScale = 0.92; }
+        if (result.level === 'no') { widthScale = 0.75; verticalScale = 0.88; }
+
+        verticalScale *= garmentLength[g] / 74;
+
+        var rise = 0;
+        if (moving) {
+          rise = 10;
+          if (h >= 182) rise += 9;
+          if (h >= 186) rise += 12;
+          if (w >= 90) rise += 7;
+          if (w >= 95) rise += 10;
+          if (b === 'ancha') rise += 5;
+          if (result.level === 'no') rise += 10;
+        }
+
+        q('[data-svg="shirt-group"]').style.transform =
+          'translateY(-' + rise + 'px) scale(' + widthScale + ',' + verticalScale + ')';
+
+        q('[data-svg="garment-label"]').textContent =
+          g === 'jersey' ? 'JERSEY' : g === 'playera' ? 'PLAYERA' : 'COMPRESIÓN';
+
+        q('[data-svg="exposed"]').setAttribute('y', 270 - rise);
+        q('[data-svg="exposed"]').setAttribute('height', Math.max(0, rise));
+
+        q('[data-svg="left-arm"]').setAttribute(
+          'd',
+          moving
+            ? 'M113 112 Q90 88 75 35 L88 30 Q107 70 124 105 Z'
+            : 'M112 112 Q84 132 73 205 L87 210 Q101 151 120 132 Z'
+        );
+
+        q('[data-svg="right-arm"]').setAttribute(
+          'd',
+          moving
+            ? 'M187 112 Q210 88 225 35 L212 30 Q193 70 176 105 Z'
+            : 'M188 112 Q216 132 227 205 L213 210 Q199 151 180 132 Z'
+        );
+      }
+
+      function render() {
+        var result = evaluate();
+
+        var badge = q('[data-role="badge"]');
+        badge.setAttribute('data-signal', result.signal);
+
+        q('[data-role="badge-text"]').textContent = result.badge;
+        q('[data-role="headline"]').textContent = result.headline;
+        q('[data-role="message"]').textContent = result.message;
+        q('[data-role="movement"]').textContent = result.movement;
+        q('[data-role="extra"]').textContent =
+          result.extra ||
+          (garment.value === 'compresion'
+            ? 'En compresión, que termine cerca de la cadera es normal.'
+            : '');
+
+        q('[data-role="length-block"]').style.opacity =
+          garment.value === 'compresion' ? '0.45' : '1';
+
+        updateFace(result.level);
+        updateAvatar(result);
+      }
+
+      [garment, sex, height, weight, build, lengthPreference, armsUp].forEach(function (el) {
+        el.addEventListener('input', render);
+        el.addEventListener('change', render);
+      });
+
+      qa('[data-role="plus"]').forEach(function (el) {
+        el.addEventListener('change', render);
+      });
+
+      calculate.addEventListener('click', render);
+      render();
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Simulador de ajuste WF",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "¿Cómo podría quedarte?"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Simulador orientativo de ajuste — WF Urban Muscle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_measurements",
+      "label": "Mostrar medidas de las prendas",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Nota inferior",
+      "default": "La simulación es orientativa. Dos personas con la misma estatura y peso pueden tener proporciones distintas."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simulador de ajuste WF"
+    }
+  ]
+}
+{% endschema %}
