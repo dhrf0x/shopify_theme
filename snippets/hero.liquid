@@ -87,6 +87,16 @@
     width: 90%;
     z-index: 30;
   }
+  #{{ section_id }} .wf-countdown-overlay #ctb_placeholder,
+#{{ section_id }} .wf-countdown-overlay #ctb_placeholder > div {
+  position: static !important;
+  bottom: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  width: 100% !important;
+}
 </style>
 {% if snippet_instance.settings.parallax and snippet_instance.settings.enable_custom_styles %}
   {% assign parallax_class = 'section__content_parallax' %}
