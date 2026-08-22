@@ -674,8 +674,8 @@
             "settings": {
               "image": "shopify://shop_images/WhatsApp_Image_2026-08-21_at_11.08.55_PM.jpg",
               "mobile_image": "shopify://shop_images/WhatsApp_Image_2026-08-21_at_11.08.55_PM_1.jpg",
-              "desktop_link": "",
-              "mobile_link": ""
+              "desktop_link": "shopify://collections/productos-nuevos",
+              "mobile_link": "shopify://collections/productos-nuevos"
             }
           },
           "slide_wBayVh": {
