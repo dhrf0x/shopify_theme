@@ -707,6 +707,62 @@
       "wf-clientes-reales": {
         "type": "wf-clientes-reales",
         "blocks": {
+          "cliente_zQFaRh": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/lv_0_20260812142408_132ccc11-6b68-4181-995b-2ba7510cad1f.mp4",
+              "username": "",
+              "link": ""
+            }
+          },
+          "cliente_FdGgxa": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/WhatsApp Video 2026-08-11 at 4.14.10 PM.mp4",
+              "username": "",
+              "link": "shopify://collections/playeras-3x2"
+            }
+          },
+          "cliente_AyjXXC": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134037_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-sanemi-wf-urban-muscle"
+            }
+          },
+          "cliente_hBR87m": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134140_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
+            }
+          },
+          "cliente_i4nUiP": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134032_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-he-man-wf-urban-muscle"
+            }
+          },
+          "cliente_nrF9En": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134132_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
+            }
+          },
+          "cliente_EYrCaM": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134135_Instagram.jpg",
+              "username": "",
+              "link": ""
+            }
+          },
           "cliente_GwtYWr": {
             "type": "cliente",
             "settings": {
@@ -717,6 +773,13 @@
           }
         },
         "block_order": [
+          "cliente_zQFaRh",
+          "cliente_FdGgxa",
+          "cliente_AyjXXC",
+          "cliente_hBR87m",
+          "cliente_i4nUiP",
+          "cliente_nrF9En",
+          "cliente_EYrCaM",
           "cliente_GwtYWr"
         ],
         "settings": {
