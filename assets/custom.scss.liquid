@@ -3467,3 +3467,11 @@ main.main-content { padding: 0 !important; }
   .wf-divider { border-color: rgba(0,0,0,0.1); }
 }
 /* ⬆️ FIN BLOQUE WF: SPLIT LOGIN PAGE ⬆️ */
+
+/* Hamburguesa negra: solo celular + modo claro */
+@media screen and (max-width: 767px) and (prefers-color-scheme: light) {
+  .burger-container #burger .bar {
+    background: #000000 !important;
+    background-color: #000000 !important;
+  }
+}
