@@ -707,6 +707,38 @@
       "wf-clientes-reales": {
         "type": "wf-clientes-reales",
         "blocks": {
+          "cliente_AA7AEF": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/VID-20260826-WA0027.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
+            }
+          },
+          "cliente_xXHcU4": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/2026-07-23-195432227.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-villanos-powerpuff-wf-urban-muscle"
+            }
+          },
+          "cliente_P38Cpp": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/VID-20260819-WA0048.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-goku-saga-buu-wf-urban-muscle"
+            }
+          },
+          "cliente_kTKmAb": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/VID-20260725-WA0013.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-kokushibo-wf-urban-muscle-copia"
+            }
+          },
           "cliente_zQFaRh": {
             "type": "cliente",
             "settings": {
@@ -773,6 +805,10 @@
           }
         },
         "block_order": [
+          "cliente_AA7AEF",
+          "cliente_xXHcU4",
+          "cliente_P38Cpp",
+          "cliente_kTKmAb",
           "cliente_zQFaRh",
           "cliente_FdGgxa",
           "cliente_AyjXXC",
