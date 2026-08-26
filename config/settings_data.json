@@ -703,6 +703,32 @@
           "slide_HUgVVp"
         ],
         "settings": {}
+      },
+      "wf-clientes-reales": {
+        "type": "wf-clientes-reales",
+        "blocks": {
+          "cliente_GwtYWr": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260826_134039_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
+            }
+          }
+        },
+        "block_order": [
+          "cliente_GwtYWr"
+        ],
+        "settings": {
+          "heading": "CLIENTES REALES 🔥",
+          "subheading": "Así se ve WF Urban Muscle fuera de la pantalla.",
+          "show_badge": true,
+          "autoplay": true,
+          "speed": 5,
+          "bottom_text": "Etiquétanos en Instagram y podrías aparecer aquí.",
+          "padding_top": 40,
+          "padding_bottom": 40
+        }
       }
     },
     "content_for_index": [],
