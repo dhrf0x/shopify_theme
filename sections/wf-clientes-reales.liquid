@@ -61,7 +61,7 @@
               {% elsif block.settings.image != blank %}
 
   <img
-    src="{{ block.settings.image | image_url: width: 1200 }}"
+    src="{{ block.settings.image | img_url: '1200x' }}"
     alt="Cliente usando WF Urban Muscle"
     class="wfcr-media-el"
     loading="lazy"
