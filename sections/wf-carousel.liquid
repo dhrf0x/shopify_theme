@@ -13,7 +13,17 @@
 
     </div>
   </div>
+<style>
+  #wf-carousel-{{ section.id }} .wf-carousel-title {
+    color: #111111 !important;
+  }
 
+  @media (prefers-color-scheme: dark) {
+    #wf-carousel-{{ section.id }} .wf-carousel-title {
+      color: #ffffff !important;
+    }
+  }
+</style>
   <div class="wf-carousel-wrapper">
     <div class="wf-carousel-track">
       {% for block in section.blocks %}
