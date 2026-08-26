@@ -517,37 +517,37 @@
           "slide_whcaNy": {
             "type": "slide",
             "settings": {
-              "product": "playera-popeye-wf-urban-muscle",
+              "product": "jersey-vegeta-saga-buu-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "POPEYE TITAN SERIES",
-              "link": "shopify://products/playera-popeye-wf-urban-muscle"
+              "subtext": "JERSEY VEGETA SAGA BUU",
+              "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
             }
           },
           "slide_RCFbii": {
             "type": "slide",
             "settings": {
-              "product": "playera-gollum-wf-urban-muscle",
+              "product": "jersey-he-man-wf-urban-muscle",
               "title": "",
-              "subtext": "GOLLUM TITAN SERIES",
-              "link": "shopify://products/playera-gollum-wf-urban-muscle"
+              "subtext": "JERSEY HE-MAN",
+              "link": "shopify://products/jersey-he-man-wf-urban-muscle"
             }
           },
           "slide_Km4d8Y": {
             "type": "slide",
             "settings": {
-              "product": "playera-dragonball-wf-urban-muscle",
+              "product": "jersey-thundercats-wf-urban-muscle",
               "title": "",
-              "subtext": "DRAGON BALL",
-              "link": "shopify://products/playera-dragonball-wf-urban-muscle"
+              "subtext": "JERSEY THUNDERCATS",
+              "link": "shopify://products/jersey-thundercats-wf-urban-muscle"
             }
           },
           "slide_TaazNr": {
             "type": "slide",
             "settings": {
-              "product": "playera-titanbestia-wf-urban-muscle",
+              "product": "compresion-invicible-wf-urban-muscle",
               "title": "Playera Titan Bestia WF Urban Muscle",
-              "subtext": "TITAN BESTIA TITAN SERIES",
-              "link": "shopify://products/playera-titanbestia-wf-urban-muscle"
+              "subtext": "COMPRESION INVINCIBLE",
+              "link": "shopify://products/compresion-invicible-wf-urban-muscle"
             }
           }
         },
