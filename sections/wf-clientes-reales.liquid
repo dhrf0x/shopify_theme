@@ -59,14 +59,13 @@
                 }}
 
               {% elsif block.settings.image != blank %}
-<div style="color:red;font-size:14px;word-break:break-all;">{{ block.settings.image | json }}</div>
   <img
-    src="{{ block.settings.image | img_url: '1200x' }}"
+    src="{{ block.settings.image }}"
     alt="Cliente usando WF Urban Muscle"
     class="wfcr-media-el"
     loading="lazy"
-    width="{{ block.settings.image.width }}"
-    height="{{ block.settings.image.height }}"
+    width="1080"
+height="1920"
   >
               {% else %}
 
