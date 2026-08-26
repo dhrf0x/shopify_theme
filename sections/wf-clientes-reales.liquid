@@ -1,0 +1,1092 @@
+<section
+  id="wf-clientes-{{ section.id }}"
+  class="wf-clientes-reales"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-speed="{{ section.settings.speed | times: 1000 }}"
+>
+  <div class="wfcr-container">
+
+    <div class="wfcr-header">
+      {% if section.settings.heading != blank %}
+        <h2 class="wfcr-title">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="wfcr-subtitle">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="wfcr-slider-wrap">
+
+      <button
+        class="wfcr-arrow wfcr-prev"
+        type="button"
+        aria-label="Ver cliente anterior"
+      >
+        ‹
+      </button>
+
+      <div class="wfcr-track">
+
+        {% for block in section.blocks %}
+          <article
+            class="wfcr-card"
+            {{ block.shopify_attributes }}
+          >
+
+            {% if block.settings.link != blank %}
+              <a
+                href="{{ block.settings.link }}"
+                class="wfcr-card-link"
+                aria-label="Ver producto"
+              >
+            {% endif %}
+
+            <div class="wfcr-media">
+
+              {% if block.settings.video != blank %}
+
+                {{
+                  block.settings.video
+                  | video_tag:
+                    autoplay: false,
+                    loop: true,
+                    muted: true,
+                    controls: false,
+                    playsinline: true,
+                    preload: 'metadata',
+                    class: 'wfcr-media-el'
+                }}
+
+              {% elsif block.settings.image != blank %}
+
+                {{
+                  block.settings.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'wfcr-media-el',
+                    widths: '320, 480, 640, 800, 1000, 1200',
+                    sizes: '(max-width: 749px) 74vw, (max-width: 1100px) 230px, 260px'
+                }}
+
+              {% else %}
+
+                <div class="wfcr-empty">
+                  <span>Agrega una foto o video</span>
+                </div>
+
+              {% endif %}
+
+              {% if block.settings.username != blank %}
+                <div class="wfcr-user">
+                  <span class="wfcr-instagram-icon">◎</span>
+                  <span>@{{ block.settings.username | remove: '@' }}</span>
+                </div>
+              {% endif %}
+
+              {% if section.settings.show_badge %}
+                <div class="wfcr-badge">
+                  CLIENTE REAL
+                </div>
+              {% endif %}
+
+            </div>
+
+            {% if block.settings.link != blank %}
+              </a>
+            {% endif %}
+
+          </article>
+        {% endfor %}
+
+      </div>
+
+      <button
+        class="wfcr-arrow wfcr-next"
+        type="button"
+        aria-label="Ver siguiente cliente"
+      >
+        ›
+      </button>
+
+    </div>
+
+    {% if section.settings.bottom_text != blank %}
+      <div class="wfcr-bottom">
+        {{ section.settings.bottom_text }}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+  #wf-clientes-{{ section.id }} {
+    /*
+      IMPORTANTE:
+      No forzamos blanco ni negro.
+      La sección hereda automáticamente los colores del tema.
+    */
+    color: inherit;
+    color-scheme: inherit;
+    background: transparent;
+
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+
+    box-sizing: border-box;
+  }
+
+  #wf-clientes-{{ section.id }} *,
+  #wf-clientes-{{ section.id }} *::before,
+  #wf-clientes-{{ section.id }} *::after {
+    box-sizing: border-box;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* -------------------- */
+  /* ENCABEZADO           */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-header {
+    width: 100%;
+    text-align: center;
+    padding: 0 clamp(16px, 4vw, 40px);
+    margin-bottom: 22px;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-title {
+    margin: 0;
+
+    color: inherit;
+
+    font-family: inherit;
+    font-size: clamp(25px, 2.7vw, 38px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-subtitle {
+    max-width: 680px;
+    margin: 9px auto 0;
+
+    color: inherit;
+    opacity: .72;
+
+    font-family: inherit;
+    font-size: clamp(13px, 1.2vw, 15px);
+    line-height: 1.45;
+  }
+
+  /* -------------------- */
+  /* CARRUSEL             */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-slider-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-track {
+    display: flex;
+    align-items: stretch;
+
+    gap: 14px;
+
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding:
+      4px
+      clamp(42px, 5vw, 70px)
+      16px;
+
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* -------------------- */
+  /* TARJETAS             */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-card {
+    flex: 0 0 clamp(215px, 18.5vw, 270px);
+
+    min-width: 0;
+
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-card-link {
+    display: block;
+
+    color: inherit;
+    text-decoration: none;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-media {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 9 / 16;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    /*
+      Fondo neutro que funciona
+      tanto en claro como oscuro.
+    */
+    background: rgba(127, 127, 127, .10);
+
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, .06),
+      0 8px 24px rgba(0, 0, 0, .06);
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-media-el {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    border: 0;
+  }
+
+  #wf-clientes-{{ section.id }} video.wfcr-media-el {
+    background: #111;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-empty {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: inherit;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(127,127,127,.08),
+        rgba(127,127,127,.18)
+      );
+  }
+
+  /* -------------------- */
+  /* USUARIO INSTAGRAM    */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-user {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    max-width: calc(100% - 24px);
+
+    padding: 7px 10px;
+
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 999px;
+
+    background: rgba(0,0,0,.58);
+    color: #fff;
+
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-instagram-icon {
+    flex: 0 0 auto;
+
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  /* -------------------- */
+  /* CLIENTE REAL         */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-badge {
+    position: absolute;
+
+    left: 50%;
+    bottom: 12px;
+
+    z-index: 3;
+
+    transform: translateX(-50%);
+
+    padding: 7px 11px;
+
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 999px;
+
+    background: rgba(0,0,0,.62);
+    color: #fff;
+
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: .10em;
+    white-space: nowrap;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  }
+
+  /* -------------------- */
+  /* FLECHAS              */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    z-index: 10;
+
+    transform: translateY(-50%);
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 50%;
+
+    background: rgba(0,0,0,.76);
+    color: #fff;
+
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Arial, sans-serif;
+    font-size: 31px;
+    font-weight: 300;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 14px rgba(0,0,0,.18);
+
+    transition:
+      transform .2s ease,
+      background .2s ease,
+      opacity .2s ease;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-arrow:hover {
+    background: rgba(0,0,0,.92);
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-arrow:active {
+    transform: translateY(-50%) scale(.94);
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-arrow:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-prev {
+    left: 8px;
+  }
+
+  #wf-clientes-{{ section.id }} .wfcr-next {
+    right: 8px;
+  }
+
+  /* -------------------- */
+  /* TEXTO INFERIOR       */
+  /* -------------------- */
+
+  #wf-clientes-{{ section.id }} .wfcr-bottom {
+    padding: 5px 20px 0;
+
+    text-align: center;
+
+    color: inherit;
+    opacity: .68;
+
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* ================================================== */
+  /* MONITORES GRANDES                                  */
+  /* ================================================== */
+
+  @media screen and (min-width: 1400px) {
+
+    #wf-clientes-{{ section.id }} .wfcr-card {
+      flex-basis: 270px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-track {
+      gap: 17px;
+    }
+
+  }
+
+  /* ================================================== */
+  /* LAPTOP / COMPUTADORA                               */
+  /* ================================================== */
+
+  @media screen and (min-width: 1000px) and (max-width: 1399px) {
+
+    #wf-clientes-{{ section.id }} .wfcr-card {
+      flex-basis: 235px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-track {
+      gap: 14px;
+    }
+
+  }
+
+  /* ================================================== */
+  /* TABLETS                                            */
+  /* ================================================== */
+
+  @media screen and (min-width: 750px) and (max-width: 999px) {
+
+    #wf-clientes-{{ section.id }} .wfcr-card {
+      flex-basis: 220px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-track {
+      gap: 13px;
+
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-arrow {
+      width: 40px;
+      height: 40px;
+    }
+
+  }
+
+  /* ================================================== */
+  /* CELULARES                                          */
+  /* ================================================== */
+
+  @media screen and (max-width: 749px) {
+
+    #wf-clientes-{{ section.id }} {
+      padding-top: calc({{ section.settings.padding_top }}px * .8);
+      padding-bottom: calc({{ section.settings.padding_bottom }}px * .8);
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-header {
+      margin-bottom: 17px;
+
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-title {
+      font-size: clamp(23px, 7vw, 29px);
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-subtitle {
+      max-width: 92%;
+
+      font-size: 13px;
+    }
+
+    /*
+      74vw hace que aparezca una Story completa
+      y parte de la siguiente.
+    */
+    #wf-clientes-{{ section.id }} .wfcr-card {
+      flex: 0 0 74vw;
+
+      max-width: 290px;
+      min-width: 225px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-track {
+      gap: 11px;
+
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 13px;
+    }
+
+    /*
+      En móvil no necesitamos flechas.
+      Se desliza directamente con el dedo.
+    */
+    #wf-clientes-{{ section.id }} .wfcr-arrow {
+      display: none;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-media {
+      border-radius: 14px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-user {
+      top: 10px;
+      left: 10px;
+
+      max-width: calc(100% - 20px);
+
+      font-size: 11px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-badge {
+      bottom: 10px;
+
+      font-size: 9px;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-bottom {
+      padding-top: 4px;
+
+      font-size: 12px;
+    }
+
+  }
+
+  /* ================================================== */
+  /* CELULARES MUY PEQUEÑOS                             */
+  /* ================================================== */
+
+  @media screen and (max-width: 360px) {
+
+    #wf-clientes-{{ section.id }} .wfcr-card {
+      flex-basis: 76vw;
+
+      min-width: 215px;
+    }
+
+  }
+
+  /* ================================================== */
+  /* USUARIOS QUE PREFIEREN MENOS MOVIMIENTO            */
+  /* ================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #wf-clientes-{{ section.id }} .wfcr-track {
+      scroll-behavior: auto;
+    }
+
+    #wf-clientes-{{ section.id }} .wfcr-arrow {
+      transition: none;
+    }
+
+  }
+</style>
+
+<script>
+(function() {
+
+  function initWFClientes(section) {
+
+    if (!section) return;
+
+    if (section.dataset.wfcrInit === 'true') return;
+
+    section.dataset.wfcrInit = 'true';
+
+    const track = section.querySelector('.wfcr-track');
+    const next = section.querySelector('.wfcr-next');
+    const prev = section.querySelector('.wfcr-prev');
+
+    if (!track) return;
+
+    function getMoveAmount() {
+
+      const card = track.querySelector('.wfcr-card');
+
+      if (!card) return 280;
+
+      const styles = window.getComputedStyle(track);
+
+      const gap =
+        parseFloat(styles.columnGap) ||
+        parseFloat(styles.gap) ||
+        0;
+
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function moveNext() {
+
+      const maxScroll =
+        track.scrollWidth - track.clientWidth;
+
+      if (track.scrollLeft >= maxScroll - 20) {
+
+        track.scrollTo({
+          left: 0,
+          behavior: 'smooth'
+        });
+
+      } else {
+
+        track.scrollBy({
+          left: getMoveAmount(),
+          behavior: 'smooth'
+        });
+
+      }
+
+    }
+
+    function movePrev() {
+
+      const move = getMoveAmount();
+
+      if (track.scrollLeft <= 20) {
+
+        track.scrollTo({
+          left: track.scrollWidth,
+          behavior: 'smooth'
+        });
+
+      } else {
+
+        track.scrollBy({
+          left: -move,
+          behavior: 'smooth'
+        });
+
+      }
+
+    }
+
+    if (next) {
+      next.addEventListener('click', moveNext);
+    }
+
+    if (prev) {
+      prev.addEventListener('click', movePrev);
+    }
+
+    /* ---------------------------- */
+    /* REPRODUCCIÓN DE VIDEOS       */
+    /* ---------------------------- */
+
+    const videos =
+      track.querySelectorAll('video');
+
+    if (
+      videos.length &&
+      'IntersectionObserver' in window
+    ) {
+
+      const videoObserver =
+        new IntersectionObserver(
+          function(entries) {
+
+            entries.forEach(function(entry) {
+
+              const video = entry.target;
+
+              if (
+                entry.isIntersecting &&
+                entry.intersectionRatio >= 0.58
+              ) {
+
+                video.muted = true;
+
+                const playPromise = video.play();
+
+                if (
+                  playPromise !== undefined &&
+                  playPromise.catch
+                ) {
+
+                  playPromise.catch(function() {});
+
+                }
+
+              } else {
+
+                video.pause();
+
+              }
+
+            });
+
+          },
+          {
+            threshold: [0, 0.58, 1]
+          }
+        );
+
+      videos.forEach(function(video) {
+
+        video.muted = true;
+
+        video.setAttribute(
+          'playsinline',
+          ''
+        );
+
+        videoObserver.observe(video);
+
+      });
+
+    }
+
+    /* ---------------------------- */
+    /* MOVIMIENTO AUTOMÁTICO        */
+    /* ---------------------------- */
+
+    const autoplay =
+      section.dataset.autoplay === 'true';
+
+    const speed =
+      parseInt(
+        section.dataset.speed || '5000',
+        10
+      );
+
+    const reducedMotion =
+      window.matchMedia &&
+      window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+
+    if (
+      autoplay &&
+      !reducedMotion &&
+      track.children.length > 1
+    ) {
+
+      let timer = null;
+
+      function stopAutoplay() {
+
+        if (timer) {
+
+          clearInterval(timer);
+
+          timer = null;
+
+        }
+
+      }
+
+      function startAutoplay() {
+
+        stopAutoplay();
+
+        timer = setInterval(
+          moveNext,
+          speed
+        );
+
+      }
+
+      startAutoplay();
+
+      /*
+        En computadora se detiene
+        cuando el usuario pone el mouse encima.
+      */
+
+      section.addEventListener(
+        'mouseenter',
+        stopAutoplay
+      );
+
+      section.addEventListener(
+        'mouseleave',
+        startAutoplay
+      );
+
+      /*
+        En celular se detiene
+        mientras el usuario desliza.
+      */
+
+      section.addEventListener(
+        'touchstart',
+        stopAutoplay,
+        { passive: true }
+      );
+
+      section.addEventListener(
+        'touchend',
+        function() {
+
+          window.setTimeout(
+            startAutoplay,
+            1500
+          );
+
+        },
+        { passive: true }
+      );
+
+      /*
+        Si el usuario cambia de pestaña,
+        dejamos de mover el carrusel.
+      */
+
+      document.addEventListener(
+        'visibilitychange',
+        function() {
+
+          if (document.hidden) {
+
+            stopAutoplay();
+
+          } else {
+
+            startAutoplay();
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+
+  function startWFClientes() {
+
+    const section =
+      document.getElementById(
+        'wf-clientes-{{ section.id }}'
+      );
+
+    initWFClientes(section);
+
+  }
+
+  if (
+    document.readyState === 'loading'
+  ) {
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      startWFClientes
+    );
+
+  } else {
+
+    startWFClientes();
+
+  }
+
+  /*
+    Esto permite que también funcione
+    correctamente dentro del editor
+    visual de Shopify.
+  */
+
+  document.addEventListener(
+    'shopify:section:load',
+    function(event) {
+
+      const section =
+        event.target.matches &&
+        event.target.matches(
+          '.wf-clientes-reales'
+        )
+          ? event.target
+          : event.target.querySelector(
+              '.wf-clientes-reales'
+            );
+
+      if (section) {
+
+        section.dataset.wfcrInit = 'false';
+
+        initWFClientes(section);
+
+      }
+
+    }
+  );
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Clientes reales WF",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "CLIENTES REALES 🔥"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Así se ve WF Urban Muscle fuera de la pantalla."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Mostrar Cliente real",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Movimiento automático",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Tiempo entre movimientos",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Texto inferior",
+      "default": "Etiquétanos en Instagram y podrías aparecer aquí."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Espacio superior",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Espacio inferior",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cliente",
+      "name": "Cliente",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto o captura de Story"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "username",
+          "label": "Usuario de Instagram",
+          "info": "Puedes escribirlo con o sin @"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace al producto (opcional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Clientes reales WF",
+      "blocks": [
+        {
+          "type": "cliente"
+        },
+        {
+          "type": "cliente"
+        },
+        {
+          "type": "cliente"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
