@@ -3468,10 +3468,10 @@ main.main-content { padding: 0 !important; }
 }
 /* ⬆️ FIN BLOQUE WF: SPLIT LOGIN PAGE ⬆️ */
 
-/* Hamburguesa negra: solo celular + modo claro */
+/* Hamburguesa negra - solo celular + modo claro */
 @media screen and (max-width: 767px) and (prefers-color-scheme: light) {
-  .burger-container #burger .bar {
-    background: #000000 !important;
-    background-color: #000000 !important;
+  .burger-container #burger {
+    filter: invert(1) !important;
+    -webkit-filter: invert(1) !important;
   }
 }
