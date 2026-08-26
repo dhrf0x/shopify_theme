@@ -59,14 +59,17 @@
                 }}
 
               {% elsif block.settings.image != blank %}
-  <img
-    src="{{ block.settings.image }}"
-    alt="Cliente usando WF Urban Muscle"
-    class="wfcr-media-el"
-    loading="lazy"
-    width="1080"
-height="1920"
-  >
+  <div
+  class="wfcr-media-el"
+  style="
+    background-image: url('{{ block.settings.image }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  "
+  role="img"
+  aria-label="Cliente usando WF Urban Muscle"
+></div>
               {% else %}
 
                 <div class="wfcr-empty">
