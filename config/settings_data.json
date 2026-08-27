@@ -893,15 +893,15 @@
         "settings": {
           "enable_on_product_images": true,
           "custom_class": "",
-          "zoom_level": 3,
+          "zoom_level": 4,
           "lens_size": 150,
           "lens_shape": "circle",
           "lens_border_color": "#000000",
           "lens_border_width": 2,
           "smooth_move": true,
-          "disable_on_mobile": true,
+          "disable_on_mobile": false,
           "mobile_max_width": 768,
-          "show_on_touch": false
+          "show_on_touch": true
         }
       }
     }
