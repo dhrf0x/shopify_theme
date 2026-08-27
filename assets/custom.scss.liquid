@@ -3868,3 +3868,58 @@ main.main-content { padding: 0 !important; }
     font-size: 10px !important;
   }
 }
+/* ===== WF - FLECHAS CARRUSEL CARRITO ===== */
+
+#cartSidebar .wf-cart-recommendations-carousel {
+  position: relative !important;
+  width: 100% !important;
+}
+
+#cartSidebar .wf-cart-rec-arrow {
+  position: absolute !important;
+  top: 48px !important;
+  z-index: 20 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 1px solid #111111 !important;
+  border-radius: 50% !important;
+
+  background: #ffffff !important;
+  color: #111111 !important;
+  -webkit-text-fill-color: #111111 !important;
+
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  cursor: pointer !important;
+  opacity: .95 !important;
+}
+
+#cartSidebar .wf-cart-rec-prev {
+  left: 3px !important;
+}
+
+#cartSidebar .wf-cart-rec-next {
+  right: 3px !important;
+}
+
+/* Celular */
+@media screen and (max-width: 767px) {
+  #cartSidebar .wf-cart-rec-arrow {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 22px !important;
+    top: 43px !important;
+  }
+}

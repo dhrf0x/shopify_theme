@@ -79,7 +79,30 @@
     TAMBIÉN TE PUEDE GUSTAR
   </div>
 
-  <div id="wfCartRecommendationsList" class="wf-cart-recommendations-list"></div>
+  <div class="wf-cart-recommendations-carousel">
+
+    <button
+      type="button"
+      class="wf-cart-rec-arrow wf-cart-rec-prev"
+      aria-label="Anterior"
+    >
+      ‹
+    </button>
+
+    <div
+      id="wfCartRecommendationsList"
+      class="wf-cart-recommendations-list"
+    ></div>
+
+    <button
+      type="button"
+      class="wf-cart-rec-arrow wf-cart-rec-next"
+      aria-label="Siguiente"
+    >
+      ›
+    </button>
+
+  </div>
 </div>
         {% endraw %}{% if settings.cart_notes_enable %}{% raw %}
           <div class="row columns">
