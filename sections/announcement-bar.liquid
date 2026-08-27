@@ -31,108 +31,110 @@
   style="background:{{ _bg }};color:{{ _color }};font-size:{{ _size }}px;"
   data-speed="{{ _speed }}">
 
-  {%- comment -%} Todos los slides apilados, JS controla cuál es visible ─ {%- endcomment -%}
-  <div class="wf-ann__stage">
-    {%- assign _first = true -%}
-    {%- for block in section.blocks -%}
-      {%- assign msg = block.settings.text | strip -%}
-      {%- if msg != blank -%}
-        <span class="wf-ann__slide{% if _first %} is-active{% endif %}"
-              {{ block.shopify_attributes }}>
-          {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}" style="color:inherit;text-decoration:underline dotted;">{{ msg }}</a>
-          {%- else -%}{{ msg }}{%- endif -%}
-        </span>
-        {%- assign _first = false -%}
-      {%- endif -%}
-    {%- endfor -%}
+  <div class="wf-ann__viewport">
+  <div class="wf-ann__track" style="--wf-marquee-duration: {{ _speed | times: 6 }}s;">
+
+    {% for repeat in (1..3) %}
+      <div class="wf-ann__group"{% if repeat > 1 %} aria-hidden="true"{% endif %}>
+
+        {% for block in section.blocks %}
+          {% assign msg = block.settings.text | strip %}
+
+          {% if msg != blank %}
+            <span class="wf-ann__item"{% if repeat == 1 %} {{ block.shopify_attributes }}{% endif %}>
+
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}">{{ msg }}</a>
+              {% else %}
+                {{ msg }}
+              {% endif %}
+
+            </span>
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+    {% endfor %}
+
   </div>
+</div>
 
 </div>
 
 <style>
-/* ── Contenedor ── */
 #wf-ann-{{ _sid }} {
   position: relative;
   width: 100%;
   min-height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   box-sizing: border-box;
   z-index: 10;
   font-weight: 600;
   letter-spacing: 0.05em;
-  text-align: center;
-  overflow: hidden;
 }
 
-/* ── Stage: área centrada con altura fija ── */
-#wf-ann-{{ _sid }} .wf-ann__stage {
-  position: relative;
+#wf-ann-{{ _sid }} .wf-ann__viewport {
   width: 100%;
   height: 38px;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
-/* ── Slides: apilados, invisibles por defecto ── */
-#wf-ann-{{ _sid }} .wf-ann__slide {
-  position: absolute;
-  inset: 0;
+#wf-ann-{{ _sid }} .wf-ann__track {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 20px;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
+  width: max-content;
+  flex-shrink: 0;
+  will-change: transform;
+  animation: wfAnnMarquee-{{ _sid }}
+    var(--wf-marquee-duration, 30s)
+    linear
+    infinite;
 }
 
-/* ── Slide activo ── */
-#wf-ann-{{ _sid }} .wf-ann__slide.is-active {
-  opacity: 1;
-  pointer-events: auto;
+#wf-ann-{{ _sid }} .wf-ann__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
-</style>
 
-<script>
-(function() {
-  var bar    = document.getElementById('wf-ann-{{ _sid }}');
-  if (!bar) return;
+#wf-ann-{{ _sid }} .wf-ann__item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0 28px;
+  height: 38px;
+}
 
-  var slides = bar.querySelectorAll('.wf-ann__slide');
-  if (slides.length < 2) return; /* 1 slide: el CSS ya lo muestra con is-active */
+#wf-ann-{{ _sid }} .wf-ann__item::after {
+  content: "•";
+  margin-left: 56px;
+  opacity: .55;
+}
 
-  var total   = slides.length;
-  var current = 0;
-  var speed   = parseInt(bar.getAttribute('data-speed'), 10) * 1000 || 5000;
+#wf-ann-{{ _sid }} .wf-ann__item a {
+  color: inherit;
+  text-decoration: none;
+}
 
-  function next() {
-    slides[current].classList.remove('is-active');
-    current = (current + 1) % total;
-    slides[current].classList.add('is-active');
+@keyframes wfAnnMarquee-{{ _sid }} {
+  from {
+    transform: translateX(0);
   }
 
-  var timer = setInterval(next, speed);
+  to {
+    transform: translateX(-33.333333%);
+  }
+}
 
-  /* Reiniciar si Shopify recarga la sección (editor) */
-  document.addEventListener('shopify:section:load', function(e) {
-    if (!e.detail || e.detail.sectionId !== '{{ _sid }}') return;
-    clearInterval(timer);
-    var b = document.getElementById('wf-ann-{{ _sid }}');
-    if (!b) return;
-    slides  = b.querySelectorAll('.wf-ann__slide');
-    total   = slides.length;
-    current = 0;
-    slides.forEach(function(s, i) {
-      s.classList.toggle('is-active', i === 0);
-    });
-    if (total > 1) timer = setInterval(next, speed);
-  });
-})();
-</script>
+@media (hover: hover) {
+  #wf-ann-{{ _sid }} .wf-ann__track:hover {
+    animation-play-state: paused;
+  }
+}
+</style>
 
 {%- endif -%}
 
