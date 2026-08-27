@@ -158,7 +158,21 @@
         </div>
         {% endraw %}{% if additional_checkout_buttons %}
           <div class="row columns additional_checkout_buttons">{{ content_for_additional_checkout_buttons }}</div>
-        {% endif %}{% raw %}
+        {% endif %}
+
+{% if shop.enabled_payment_types.size > 0 %}
+  <div class="wf-cart-payment-methods">
+    <div class="wf-cart-payment-title">🔒 PAGO SEGURO</div>
+
+    <div class="wf-cart-payment-icons">
+      {% for type in shop.enabled_payment_types %}
+        {{ type | payment_type_svg_tag: class: 'wf-cart-payment-icon' }}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% raw %}
       </div>
     </form>
   {% endraw %}
