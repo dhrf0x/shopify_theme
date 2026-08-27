@@ -323,7 +323,7 @@
           "ann_visibility": "all",
           "background_color": "#000000",
           "text_color": "#ffffff",
-          "font_size": 16,
+          "font_size": 13,
           "slide_speed": 5
         }
       },
