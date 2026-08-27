@@ -1,11 +1,11 @@
 <section id="wf-hero-slider-{{ section.id }}" class="wf-hero-slider">
 <div
   class="wf-drop-countdown"
-  data-target="2026-08-22T00:00:00-06:00"
+  2026-08-29T00:00:00-06:00
 style="display:flex!important; position:absolute!important; left:0!important; z-index:9999!important; width:100%!important; padding:10px 14px!important; justify-content:center!important; align-items:center!important; gap:10px!important;"
 
   >
-    <span>🔥 NUEVO DROP GOKU Y SANEMI</span>
+    <span>🔥 PRÓXIMO DROP: GOJO</span>
     <strong id="wf-drop-countdown-time-{{ section.id }}">00:00:00</strong>
   </div>
 
@@ -288,7 +288,7 @@ if (countdown && countdownTime) {
     var distance = targetDate - now;
 
     if (distance <= 0) {
-      countdown.innerHTML = '<strong>🔥 DROP YA DISPONIBLE</strong>';
+      countdown.innerHTML = '<strong>🔥 GOJO YA DISPONIBLE</strong>';
       clearInterval(countdownInterval);
       return;
     }
