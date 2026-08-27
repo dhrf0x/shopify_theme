@@ -289,6 +289,14 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
+          "message_4Vkq6J": {
+            "type": "message",
+            "disabled": true,
+            "settings": {
+              "text": "✦ Envío gratis en pedidos mayores a $999",
+              "link": ""
+            }
+          },
           "message_YDtxe9": {
             "type": "message",
             "settings": {
@@ -312,6 +320,7 @@
           }
         },
         "block_order": [
+          "message_4Vkq6J",
           "message_YDtxe9",
           "message_nei6DD",
           "message_gDNiVY"
