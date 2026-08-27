@@ -731,23 +731,6 @@
               "link": "shopify://products/jersey-villanos-powerpuff-wf-urban-muscle"
             }
           },
-          "cliente_P38Cpp": {
-            "type": "cliente",
-            "disabled": true,
-            "settings": {
-              "video": "shopify://files/videos/VID-20260819-WA0048.mp4",
-              "username": "",
-              "link": "shopify://products/jersey-goku-saga-buu-wf-urban-muscle"
-            }
-          },
-          "cliente_kTKmAb": {
-            "type": "cliente",
-            "settings": {
-              "video": "shopify://files/videos/VID-20260725-WA0013.mp4",
-              "username": "",
-              "link": "shopify://products/jersey-kokushibo-wf-urban-muscle-copia"
-            }
-          },
           "cliente_zQFaRh": {
             "type": "cliente",
             "disabled": true,
@@ -766,12 +749,28 @@
               "link": "shopify://products/playera-titanbestia-wf-urban-muscle"
             }
           },
+          "cliente_kTKmAb": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/VID-20260725-WA0013.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-kokushibo-wf-urban-muscle-copia"
+            }
+          },
           "cliente_AyjXXC": {
             "type": "cliente",
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134037_Instagram.jpg",
               "username": "",
               "link": "shopify://products/jersey-sanemi-wf-urban-muscle"
+            }
+          },
+          "cliente_P38Cpp": {
+            "type": "cliente",
+            "settings": {
+              "video": "shopify://files/videos/VID-20260819-WA0048.mp4",
+              "username": "",
+              "link": "shopify://products/jersey-goku-saga-buu-wf-urban-muscle"
             }
           },
           "cliente_hBR87m": {
@@ -818,11 +817,11 @@
         "block_order": [
           "cliente_AA7AEF",
           "cliente_xXHcU4",
-          "cliente_P38Cpp",
-          "cliente_kTKmAb",
           "cliente_zQFaRh",
           "cliente_FdGgxa",
+          "cliente_kTKmAb",
           "cliente_AyjXXC",
+          "cliente_P38Cpp",
           "cliente_hBR87m",
           "cliente_i4nUiP",
           "cliente_nrF9En",
