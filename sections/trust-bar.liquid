@@ -61,6 +61,23 @@ padding:25px 15px;
 }
 </style>
 
+@media (prefers-color-scheme: dark) {
+  .wf-trust-bar{
+    background:#111111 !important;
+    color:#ffffff !important;
+    border-top:1px solid #2a2a2a;
+    border-bottom:1px solid #2a2a2a;
+  }
+
+  .wf-trust-bar *{
+    color:#ffffff !important;
+  }
+
+  .wf-trust-item svg{
+    fill:#ffffff;
+  }
+}
+
 {% schema %}
 {
   "name": "Trust Bar",
