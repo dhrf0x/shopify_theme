@@ -203,4 +203,75 @@
     }
   });
 })();
+// WF - Aplicar código de descuento desde carrito lateral
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('#wfCartDiscountApply');
+  if (!btn) return;
+
+  e.preventDefault();
+
+  var box = btn.closest('.wf-cart-discount');
+  var input = box.querySelector('.wf-cart-discount-input');
+  var code = input.value.trim();
+
+  var status = box.querySelector('.wf-cart-discount-status');
+
+  if (!status) {
+    status = document.createElement('div');
+    status.className = 'wf-cart-discount-status';
+    box.appendChild(status);
+  }
+
+  if (!code) {
+    status.textContent = 'Escribe un código de descuento.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'APLICANDO...';
+  status.textContent = '';
+
+  var root = (window.Shopify && Shopify.routes)
+    ? Shopify.routes.root
+    : '/';
+
+  fetch(root + 'cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      discount: code
+    })
+  })
+  .then(function(response) {
+    if (!response.ok) throw new Error('Error');
+    return response.json();
+  })
+  .then(function(data) {
+  var applied = data.discount_codes &&
+    data.discount_codes.some(function(d) {
+      return d.code &&
+        d.code.toLowerCase() === code.toLowerCase() &&
+        d.applicable !== false;
+    });
+
+  if (applied) {
+    status.textContent = '✓ Código aplicado';
+    status.classList.add('is-success');
+  } else {
+    status.textContent = 'Código no válido o no aplica a este carrito.';
+    status.classList.remove('is-success');
+  }
+})
+  .catch(function() {
+    status.textContent = 'No se pudo aplicar el código.';
+    status.classList.remove('is-success');
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.textContent = 'APLICAR';
+  });
+});
 </script>

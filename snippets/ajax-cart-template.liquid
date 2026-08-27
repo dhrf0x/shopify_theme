@@ -102,6 +102,22 @@
             {{ 'cart.general.order_currency' | t: shop_currency: shop.currency }}
           {% endif %}
           {% raw %}</p>
+          <div class="wf-cart-discount">
+  <div class="wf-cart-discount-title">¿TIENES UN CÓDIGO DE DESCUENTO?</div>
+
+  <div class="wf-cart-discount-row">
+    <input
+      type="text"
+      name="discount"
+      class="wf-cart-discount-input"
+      placeholder="Código de descuento"
+      autocomplete="off"
+    >
+      <button type="button" class="wf-cart-discount-btn" id="wfCartDiscountApply">
+  APLICAR
+</button>
+  </div>
+</div>
         <div class="row columns text-center">
           <button type="submit" class="button cart__checkout expanded" name="checkout" style="background:#ffffff !important; color:#111110 !important; -webkit-text-fill-color:#111110 !important; border:1px solid #ffffff !important;">
             {% endraw %}{{ 'cart.general.checkout' | t }}{% raw %}
