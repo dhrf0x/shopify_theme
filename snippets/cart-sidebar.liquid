@@ -392,4 +392,31 @@ if (wfCartSidebar) {
     subtree: true
   });
 }
+// WF - Flechas del carrusel de recomendaciones
+document.addEventListener('click', function(e) {
+  var prev = e.target.closest('.wf-cart-rec-prev');
+  var next = e.target.closest('.wf-cart-rec-next');
+
+  if (!prev && !next) return;
+
+  var list = document.getElementById('wfCartRecommendationsList');
+  if (!list) return;
+
+  var card = list.querySelector('.wf-cart-recommendation-card');
+  var amount = card ? card.offsetWidth + 8 : 120;
+
+  if (prev) {
+    list.scrollBy({
+      left: -amount,
+      behavior: 'smooth'
+    });
+  }
+
+  if (next) {
+    list.scrollBy({
+      left: amount,
+      behavior: 'smooth'
+    });
+  }
+});
 </script>
