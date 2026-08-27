@@ -886,11 +886,6 @@
         "type": "shopify://apps/hextom-timer-bar/blocks/ctb-embeded-block/f7b88b6e-2e87-46bc-87a9-3e3638a24fa9",
         "disabled": true,
         "settings": {}
-      },
-      "13615385223509461694": {
-        "type": "shopify://apps/magic-zoom-plus/blocks/magiczoomplus/893db416-6d9e-4ad6-b769-71d9cdd734fe",
-        "disabled": true,
-        "settings": {}
       }
     }
   }
