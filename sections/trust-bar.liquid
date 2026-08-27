@@ -1,0 +1,74 @@
+<div class="wf-trust-bar">
+  <div class="wf-trust-item">
+    <div class="wf-trust-icon">⭐</div>
+    <h3>+7,000</h3>
+    <p>Pedidos entregados</p>
+  </div>
+
+  <div class="wf-trust-item">
+    <div class="wf-trust-icon">📅</div>
+    <h3>+6 años</h3>
+    <p>De experiencia</p>
+  </div>
+
+  <div class="wf-trust-item">
+    <div class="wf-trust-icon">🚚</div>
+    <h3>Todo México</h3>
+    <p>Envíos rápidos</p>
+  </div>
+
+  <div class="wf-trust-item">
+    <div class="wf-trust-icon">🔒</div>
+    <h3>Pago seguro</h3>
+    <p>Mercado Pago, PayPal y Tarjeta</p>
+  </div>
+</div>
+
+<style>
+.wf-trust-bar{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  padding:30px 20px;
+  background:#fff;
+  border-top:1px solid #eee;
+  border-bottom:1px solid #eee;
+  text-align:center;
+}
+
+.wf-trust-item h3{
+  margin:8px 0 4px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.wf-trust-item p{
+  margin:0;
+  font-size:14px;
+  color:#666;
+}
+
+.wf-trust-icon{
+  font-size:30px;
+}
+
+@media(max-width:768px){
+.wf-trust-bar{
+grid-template-columns:repeat(2,1fr);
+gap:25px;
+padding:25px 15px;
+}
+}
+</style>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Trust Bar"
+    }
+  ]
+}
+{% endschema %}
