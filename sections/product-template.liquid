@@ -26,7 +26,12 @@
             <div class="product-image__slide" data-img-id="{{image.id}}">
               {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
               {% if section.settings.enable_lightbox %}
-              <a class="product__image__item" title="{{ image.alt | escape }}" href="{{ image | img_url: 'master' }}">
+              <a
+  class="product__image__item"
+  data-fancybox="product-gallery"
+  data-caption="{{ image.alt | escape }}"
+  title="{{ image.alt | escape }}"
+  href="{{ image | img_url: 'master' }}">
               {% else %}
               <div class="product__image__item">
               {% endif %}
