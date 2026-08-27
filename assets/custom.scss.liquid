@@ -3700,3 +3700,43 @@ main.main-content { padding: 0 !important; }
   visibility: visible !important;
   white-space: nowrap !important;
 }
+/* WF - Instrucciones del carrito compactas */
+#cartSidebar #CartSpecialInstructions {
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 9px 10px !important;
+  margin: 4px 0 10px !important;
+
+  background: #111111 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+
+  border: 1px solid rgba(255,255,255,.28) !important;
+  border-radius: 5px !important;
+
+  font-size: 12px !important;
+  line-height: 20px !important;
+
+  resize: none !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Día y noche */
+@media (prefers-color-scheme: light) {
+  #cartSidebar #CartSpecialInstructions {
+    background: #111111 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #cartSidebar #CartSpecialInstructions {
+    background: #111111 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
