@@ -117,3 +117,90 @@
     }
   });
 </script>
+<script>
+(function () {
+  const FREE_SHIPPING = 200000; // $2,000 MXN en centavos
+
+  function formatMoney(cents) {
+    return new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      maximumFractionDigits: 0
+    }).format(cents / 100);
+  }
+
+  async function updateWFShippingProgress() {
+    const box = document.getElementById('wfShippingProgress');
+    const message = document.getElementById('wfShippingMessage');
+    const fill = document.getElementById('wfShippingBarFill');
+
+    if (!box || !message || !fill) return;
+
+    try {
+      const response = await fetch('/cart.js', {
+        credentials: 'same-origin'
+      });
+
+      const cart = await response.json();
+      const total = cart.total_price || 0;
+
+      if (cart.item_count === 0) {
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'block';
+
+      if (total >= FREE_SHIPPING) {
+        message.innerHTML = '🎉 ¡Ya tienes <strong>ENVÍO GRATIS!</strong>';
+        fill.style.width = '100%';
+      } else {
+        const remaining = FREE_SHIPPING - total;
+        const progress = Math.min((total / FREE_SHIPPING) * 100, 100);
+
+        message.innerHTML =
+          '🚚 Envío <strong>$99</strong> · Te faltan <strong>' +
+          formatMoney(remaining) +
+          '</strong> para ENVÍO GRATIS';
+
+        fill.style.width = progress + '%';
+      }
+    } catch (error) {
+      console.log('WF Shipping Progress:', error);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    updateWFShippingProgress();
+
+    const cartSidebar = document.getElementById('cartSidebar');
+
+    if (cartSidebar) {
+      let timer;
+
+      const observer = new MutationObserver(function (mutations) {
+        const cartChanged = mutations.some(function (mutation) {
+          const target = mutation.target;
+
+          return !(
+            target.nodeType === 1 &&
+            target.closest &&
+            target.closest('#wfShippingProgress')
+          );
+        });
+
+        if (cartChanged) {
+          clearTimeout(timer);
+          timer = setTimeout(updateWFShippingProgress, 250);
+        }
+      });
+
+      observer.observe(cartSidebar, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+  });
+})();
+</script>
