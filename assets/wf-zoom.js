@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("WF Zoom cargado");
 
-  console.log(document.querySelectorAll('[data-fancybox="product-gallery"]'));
+  if (typeof Fancybox === "undefined") {
+    alert("Fancybox NO cargó");
+  } else {
+    alert("Fancybox SÍ cargó");
+  }
+
 });
