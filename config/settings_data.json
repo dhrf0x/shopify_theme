@@ -887,10 +887,22 @@
         "disabled": true,
         "settings": {}
       },
-      "8194784159926722659": {
-        "type": "shopify://apps/gg-product-gallery/blocks/app-embed-block/09c0440b-b921-435c-a2f5-3fc8f53b0424",
+      "8350846261180586927": {
+        "type": "shopify://apps/image-zoom/blocks/app-embed/019a4977-037e-7f5c-9744-b1948ba73ead",
         "disabled": false,
-        "settings": {}
+        "settings": {
+          "enable_on_product_images": true,
+          "custom_class": "",
+          "zoom_level": 3,
+          "lens_size": 150,
+          "lens_shape": "circle",
+          "lens_border_color": "#000000",
+          "lens_border_width": 2,
+          "smooth_move": true,
+          "disable_on_mobile": true,
+          "mobile_max_width": 768,
+          "show_on_touch": false
+        }
       }
     }
   }
