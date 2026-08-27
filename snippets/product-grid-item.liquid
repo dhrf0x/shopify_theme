@@ -198,8 +198,7 @@
       if (imgLink) {
         var card = imgLink.closest('.wf-product-card');
         if (card) {
-          if (!card.classList.contains('is-mobile-active')) {
-            e.preventDefault(); 
+          if (!card.classList.contains('is-mobile-active')) { 
             
             document.querySelectorAll('.wf-product-card.is-mobile-active').forEach(function(c) {
               if (c !== card) c.classList.remove('is-mobile-active');
