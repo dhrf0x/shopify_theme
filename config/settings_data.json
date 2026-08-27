@@ -291,16 +291,15 @@
         "blocks": {
           "message_YDtxe9": {
             "type": "message",
-            "disabled": true,
             "settings": {
-              "text": "✦ Envío gratis en pedidos mayores a $999",
+              "text": "🔥 STOCK LIMITADO · ASEGURA TU MODELO FAVORITO",
               "link": ""
             }
           },
           "message_nei6DD": {
             "type": "message",
             "settings": {
-              "text": "🚚 Envío a todo México $99 | GRATIS en compras desde $2,000 📦",
+              "text": "🚚 ENVÍO A TODO MÉXICO $99 · GRATIS EN COMPRAS DESDE $2,000 📦",
               "link": ""
             }
           },
