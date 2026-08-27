@@ -274,4 +274,122 @@ document.addEventListener('click', function(e) {
     btn.textContent = 'APLICAR';
   });
 });
+// WF - Recomendaciones dentro del carrito
+function loadWFCartRecommendations() {
+  var box = document.getElementById('wfCartRecommendations');
+  var list = document.getElementById('wfCartRecommendationsList');
+
+  if (!box || !list) return;
+
+  var root = (window.Shopify && Shopify.routes)
+    ? Shopify.routes.root
+    : '/';
+
+  fetch(root + 'cart.js')
+    .then(function(response) {
+      if (!response.ok) throw new Error('No se pudo leer el carrito');
+      return response.json();
+    })
+    .then(function(cart) {
+      if (!cart.items || !cart.items.length) {
+        box.style.display = 'none';
+        return null;
+      }
+
+      var currentProductIds = cart.items.map(function(item) {
+        return item.product_id;
+      });
+
+      var productId = cart.items[0].product_id;
+
+      return fetch(
+        root + 'recommendations/products.json?product_id=' +
+        productId +
+        '&limit=6&intent=related'
+      )
+      .then(function(response) {
+        if (!response.ok) throw new Error('No se pudieron cargar recomendaciones');
+        return response.json();
+      })
+      .then(function(data) {
+        var products = (data.products || []).filter(function(product) {
+          return currentProductIds.indexOf(product.id) === -1;
+        }).slice(0, 3);
+
+        if (!products.length) {
+          box.style.display = 'none';
+          return;
+        }
+
+        list.innerHTML = '';
+
+        products.forEach(function(product) {
+          var image = product.featured_image || '';
+          var url = product.url || (root + 'products/' + product.handle);
+
+          var price = new Intl.NumberFormat('es-MX', {
+            style: 'currency',
+            currency: 'MXN',
+            minimumFractionDigits: 0
+          }).format(product.price / 100);
+
+          var card = document.createElement('div');
+          card.className = 'wf-cart-recommendation-card';
+
+          card.innerHTML =
+            '<a href="' + url + '" class="wf-cart-recommendation-image">' +
+              '<img src="' + image + '" alt="' + product.title + '">' +
+            '</a>' +
+            '<div class="wf-cart-recommendation-info">' +
+              '<a href="' + url + '" class="wf-cart-recommendation-name">' +
+                product.title +
+              '</a>' +
+              '<div class="wf-cart-recommendation-price">' + price + '</div>' +
+            '</div>';
+
+          list.appendChild(card);
+        });
+
+        box.style.display = 'block';
+      });
+    })
+    .catch(function() {
+      if (box) box.style.display = 'none';
+    });
+}
+
+loadWFCartRecommendations();
+// Volver a cargar recomendaciones cuando cambie el carrito
+var wfRecTimer;
+
+var wfRecObserver = new MutationObserver(function(mutations) {
+  var cartReallyChanged = mutations.some(function(mutation) {
+    var el = mutation.target.nodeType === 1
+      ? mutation.target
+      : mutation.target.parentElement;
+
+    return !(
+      el &&
+      el.closest &&
+      el.closest('#wfCartRecommendations')
+    );
+  });
+
+  if (!cartReallyChanged) return;
+
+  clearTimeout(wfRecTimer);
+
+  wfRecTimer = setTimeout(function() {
+    loadWFCartRecommendations();
+  }, 400);
+});
+
+var wfCartSidebar = document.getElementById('cartSidebar');
+
+if (wfCartSidebar) {
+  wfRecObserver.observe(wfCartSidebar, {
+    childList: true,
+    subtree: true
+  });
+}
 </script>

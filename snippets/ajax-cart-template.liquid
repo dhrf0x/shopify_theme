@@ -74,7 +74,13 @@
           </div>
         </div>
         {{/items}}
+<div id="wfCartRecommendations" class="wf-cart-recommendations" style="display:none;">
+  <div class="wf-cart-recommendations-title">
+    TAMBIÉN TE PUEDE GUSTAR
+  </div>
 
+  <div id="wfCartRecommendationsList" class="wf-cart-recommendations-list"></div>
+</div>
         {% endraw %}{% if settings.cart_notes_enable %}{% raw %}
           <div class="row columns">
             <label for="CartSpecialInstructions">{% endraw %}{{ 'cart.general.note' | t }}{% raw %}</label>
