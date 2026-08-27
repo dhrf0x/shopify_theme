@@ -353,6 +353,9 @@ var ajaxCart = (function(module, $) {
 
   cartCallback = function(cart) {
     $body.trigger('afterCartLoad.ajaxCart', cart);
+    if (cart.item_count === 0) {
+  $('#cartSidebar').foundation('close');
+}
 
     if (window.Shopify && Shopify.StorefrontExpressButtons) {
       Shopify.StorefrontExpressButtons.initialize();
