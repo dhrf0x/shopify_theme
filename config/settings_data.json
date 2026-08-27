@@ -519,7 +519,7 @@
             "settings": {
               "product": "jersey-vegeta-saga-buu-wf-urban-muscle-copia",
               "title": "",
-              "subtext": "",
+              "subtext": "agotado",
               "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
             }
           },
@@ -528,7 +528,7 @@
             "settings": {
               "product": "jersey-he-man-wf-urban-muscle",
               "title": "",
-              "subtext": "",
+              "subtext": "agotado",
               "link": "shopify://products/jersey-he-man-wf-urban-muscle"
             }
           },
@@ -537,7 +537,7 @@
             "settings": {
               "product": "jersey-thundercats-wf-urban-muscle",
               "title": "",
-              "subtext": "",
+              "subtext": "agotado",
               "link": "shopify://products/jersey-thundercats-wf-urban-muscle"
             }
           },
@@ -545,8 +545,8 @@
             "type": "slide",
             "settings": {
               "product": "compresion-invicible-wf-urban-muscle",
-              "title": "Playera Titan Bestia WF Urban Muscle",
-              "subtext": "",
+              "title": "",
+              "subtext": "$410",
               "link": "shopify://products/compresion-invicible-wf-urban-muscle"
             }
           }
