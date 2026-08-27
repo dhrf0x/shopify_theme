@@ -3555,3 +3555,126 @@ main.main-content { padding: 0 !important; }
     transform: scale(1.015);
   }
 }
+/* ===== WF CÓDIGO DE DESCUENTO - CARRITO ===== */
+
+#cartSidebar .wf-cart-discount {
+  width: 100%;
+  margin: 12px 0 10px;
+}
+
+#cartSidebar .wf-cart-discount-title {
+  color: #ffffff !important;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 7px;
+  text-align: left;
+}
+
+#cartSidebar .wf-cart-discount-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+#cartSidebar .wf-cart-discount-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto !important;
+  height: 38px !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  border: 1px solid rgba(255,255,255,.25) !important;
+  border-radius: 5px !important;
+  background: #111111 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 13px !important;
+  line-height: 38px !important;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+#cartSidebar .wf-cart-discount-input::placeholder {
+  color: rgba(255,255,255,.55) !important;
+  -webkit-text-fill-color: rgba(255,255,255,.55) !important;
+}
+
+#cartSidebar .wf-cart-discount-input:focus {
+  border-color: #ffffff !important;
+  outline: none !important;
+}
+
+#cartSidebar .wf-cart-discount-btn {
+  flex: 0 0 88px;
+  width: 88px !important;
+  height: 38px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  border-radius: 5px !important;
+  background: #ffffff !important;
+  color: #111111 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 38px !important;
+  text-align: center;
+  cursor: pointer;
+}
+
+#cartSidebar .wf-cart-discount-status {
+  min-height: 0;
+  margin-top: 5px;
+  color: #ff9a9a !important;
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+#cartSidebar .wf-cart-discount-status:empty {
+  display: none;
+}
+
+#cartSidebar .wf-cart-discount-status.is-success {
+  color: #7dffae !important;
+}
+
+/* Evita que modo claro/oscuro cambie el campo */
+@media (prefers-color-scheme: light) {
+  #cartSidebar .wf-cart-discount-input {
+    background: #111111 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #cartSidebar .wf-cart-discount-input {
+    background: #111111 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+/* Celular */
+@media screen and (max-width: 767px) {
+  #cartSidebar .wf-cart-discount-title {
+    font-size: 11px;
+  }
+
+  #cartSidebar .wf-cart-discount-input {
+    height: 36px !important;
+    font-size: 12px !important;
+    line-height: 36px !important;
+  }
+
+  #cartSidebar .wf-cart-discount-btn {
+    flex-basis: 82px;
+    width: 82px !important;
+    height: 36px !important;
+    font-size: 11px !important;
+    line-height: 36px !important;
+  }
+}
