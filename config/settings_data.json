@@ -886,6 +886,11 @@
         "type": "shopify://apps/hextom-timer-bar/blocks/ctb-embeded-block/f7b88b6e-2e87-46bc-87a9-3e3638a24fa9",
         "disabled": true,
         "settings": {}
+      },
+      "1900010302808700452": {
+        "type": "shopify://apps/super-pinch-zoom/blocks/star_rating/ab7c7f82-c7c7-4520-9f92-6394fd695a86",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
