@@ -3475,3 +3475,39 @@ main.main-content { padding: 0 !important; }
     -webkit-filter: invert(1) !important;
   }
 }
+/* ==================================================
+   WF - PROGRESO DE ENVÍO EN CARRITO
+================================================== */
+
+#cartSidebar .wf-shipping-progress {
+  margin: 0 16px 14px;
+  padding: 12px 14px;
+  background: #111111;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+#cartSidebar .wf-shipping-message {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  margin-bottom: 9px;
+}
+
+#cartSidebar .wf-shipping-bar {
+  width: 100%;
+  height: 7px;
+  background: rgba(255,255,255,0.22);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#cartSidebar .wf-shipping-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: #e53935;
+  border-radius: 20px;
+  transition: width 0.35s ease;
+}
