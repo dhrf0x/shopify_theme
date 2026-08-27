@@ -314,7 +314,7 @@ function loadWFCartRecommendations() {
       .then(function(data) {
         var products = (data.products || []).filter(function(product) {
           return currentProductIds.indexOf(product.id) === -1;
-        }).slice(0, 3);
+        }).slice(0, 6);
 
         if (!products.length) {
           box.style.display = 'none';
