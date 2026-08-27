@@ -3511,3 +3511,47 @@ main.main-content { padding: 0 !important; }
   border-radius: 20px;
   transition: width 0.35s ease;
 }
+/* =========================================
+   WF - AVISO UNITALLA DESTACADO
+========================================= */
+
+.wf-unitalla-destacado {
+  margin: 12px 0 14px;
+  padding: 13px 15px;
+  background: #111111;
+  color: #ffffff !important;
+  border-radius: 8px;
+  text-align: center;
+  box-sizing: border-box;
+  animation: wfUnitallaPulse 2.8s ease-in-out infinite;
+}
+
+.wf-unitalla-titulo {
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: .3px;
+}
+
+.wf-unitalla-subtitulo {
+  color: #ffffff !important;
+  font-size: 13px;
+  margin: 4px 0 7px;
+  opacity: .88;
+}
+
+.wf-unitalla-destacado a {
+  color: #ffffff !important;
+  font-weight: 700;
+  text-decoration: underline !important;
+}
+
+@keyframes wfUnitallaPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
