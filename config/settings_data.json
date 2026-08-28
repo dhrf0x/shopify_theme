@@ -714,6 +714,30 @@
       "wf-clientes-reales": {
         "type": "wf-clientes-reales",
         "blocks": {
+          "cliente_9Mdj3a": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260827_175328_Gallery_1.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
+            }
+          },
+          "cliente_fakgwk": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260827_175331_Gallery_1.jpg",
+              "username": "",
+              "link": "shopify://collections/hombres"
+            }
+          },
+          "cliente_9UyB6m": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260827_175309_Gallery_1.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-powerpuff-girls-wf-urban-muscle"
+            }
+          },
           "cliente_AA7AEF": {
             "type": "cliente",
             "settings": {
@@ -724,29 +748,26 @@
           },
           "cliente_xXHcU4": {
             "type": "cliente",
-            "disabled": true,
             "settings": {
-              "video": "shopify://files/videos/2026-07-23-195432227.mp4",
+              "image": "shopify://shop_images/Screenshot_20260827_175317_Gallery_1.jpg",
               "username": "",
-              "link": "shopify://products/jersey-villanos-powerpuff-wf-urban-muscle"
+              "link": "shopify://products/playera-caos-celestial-wf-urban-muscle-copia"
             }
           },
           "cliente_zQFaRh": {
             "type": "cliente",
-            "disabled": true,
             "settings": {
-              "video": "shopify://files/videos/lv_0_20260812142408_132ccc11-6b68-4181-995b-2ba7510cad1f.mp4",
+              "image": "shopify://shop_images/Screenshot_20260827_175314_Gallery_1.jpg",
               "username": "",
-              "link": "shopify://products/jersey-naruto-wf-urban-muscle-copia"
+              "link": "shopify://products/compresion-invicible-wf-urban-muscle"
             }
           },
           "cliente_FdGgxa": {
             "type": "cliente",
-            "disabled": true,
             "settings": {
-              "video": "shopify://files/videos/WhatsApp Video 2026-08-11 at 4.14.10 PM.mp4",
+              "image": "shopify://shop_images/Screenshot_20260827_175336_Gallery_1.jpg",
               "username": "",
-              "link": "shopify://products/playera-titanbestia-wf-urban-muscle"
+              "link": "shopify://products/jersey-power-rangers-wf-urban-muscle"
             }
           },
           "cliente_kTKmAb": {
@@ -815,6 +836,9 @@
           }
         },
         "block_order": [
+          "cliente_9Mdj3a",
+          "cliente_fakgwk",
+          "cliente_9UyB6m",
           "cliente_AA7AEF",
           "cliente_xXHcU4",
           "cliente_zQFaRh",
@@ -838,6 +862,10 @@
           "padding_top": 10,
           "padding_bottom": 10
         }
+      },
+      "trust-bar": {
+        "type": "trust-bar",
+        "settings": {}
       }
     },
     "content_for_index": [],
@@ -886,23 +914,6 @@
         "type": "shopify://apps/hextom-timer-bar/blocks/ctb-embeded-block/f7b88b6e-2e87-46bc-87a9-3e3638a24fa9",
         "disabled": true,
         "settings": {}
-      },
-      "8350846261180586927": {
-        "type": "shopify://apps/image-zoom/blocks/app-embed/019a4977-037e-7f5c-9744-b1948ba73ead",
-        "disabled": true,
-        "settings": {
-          "enable_on_product_images": true,
-          "custom_class": "",
-          "zoom_level": 4,
-          "lens_size": 150,
-          "lens_shape": "circle",
-          "lens_border_color": "#000000",
-          "lens_border_width": 2,
-          "smooth_move": true,
-          "disable_on_mobile": false,
-          "mobile_max_width": 768,
-          "show_on_touch": true
-        }
       }
     }
   }
