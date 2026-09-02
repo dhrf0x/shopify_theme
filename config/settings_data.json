@@ -697,8 +697,9 @@
           "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "desktop_link": "shopify://products/playera-gollum-wf-urban-muscle",
-              "mobile_link": "shopify://collections/jersey"
+              "image": "shopify://shop_images/file_00000000c7f881fb8dc9751a091d5839.png",
+              "desktop_link": "shopify://products/jersey-sanemi-wf-urban-muscle",
+              "mobile_link": ""
             }
           }
         },
