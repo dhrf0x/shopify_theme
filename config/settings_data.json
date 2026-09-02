@@ -679,8 +679,6 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_00000000f23081fbacbf4d735e6e2f29.png",
-              "mobile_image": "shopify://shop_images/file_000000002e7c81fbb64abed9b441a056.png",
               "desktop_link": "shopify://products/jersey-goyo-wf-urban-muscle",
               "mobile_link": "shopify://products/jersey-goyo-wf-urban-muscle"
             }
@@ -688,8 +686,10 @@
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
-              "desktop_link": "shopify://products/jersey-kokushibo-wf-urban-muscle-copia",
-              "mobile_link": "shopify://collections/productos-nuevos"
+              "image": "shopify://shop_images/file_00000000674481fb958398e2bcf5bbc1_1.png",
+              "mobile_image": "shopify://shop_images/file_000000000da481fbb82dd1298fca6955.png",
+              "desktop_link": "",
+              "mobile_link": ""
             }
           },
           "slide_HUgVVp": {
