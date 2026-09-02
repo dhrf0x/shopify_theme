@@ -679,6 +679,7 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
+              "image": "shopify://shop_images/file_000000006f8c81fb8c0d5d5f7834f411.png",
               "mobile_image": "shopify://shop_images/file_00000000582881fb975411089bb6a4bc.png",
               "desktop_link": "shopify://products/jersey-goyo-wf-urban-muscle",
               "mobile_link": "shopify://products/jersey-goyo-wf-urban-muscle"
@@ -687,7 +688,7 @@
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_00000000fd8881fb80c4ad84fe98caf6.png",
+              "image": "shopify://shop_images/file_00000000fd8881fb80c4ad84fe98caf6_1_c6267e57-284c-45c2-8523-838b8874858a.png",
               "mobile_image": "shopify://shop_images/file_000000000da481fbb82dd1298fca6955.png",
               "desktop_link": "",
               "mobile_link": ""
@@ -696,7 +697,7 @@
           "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_000000007b9481fbba8b706d35b1f117_265436c6-777d-4b79-9937-70a24570f39a.png",
+              "image": "shopify://shop_images/file_000000007b9481fbba8b706d35b1f117_1_1a9b8a23-c147-4061-a3ee-a25156de879c.png",
               "mobile_image": "shopify://shop_images/file_00000000983c81fb8306473a710e994c_0704e7fd-44e4-4e40-81b5-bc4ff2423b23.png",
               "desktop_link": "shopify://products/jersey-sanemi-wf-urban-muscle",
               "mobile_link": "shopify://products/jersey-sanemi-wf-urban-muscle"
