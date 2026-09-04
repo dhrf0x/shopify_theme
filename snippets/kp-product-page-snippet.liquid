@@ -1,15 +1,90 @@
-<!-- Trigger/Open The Modal -->
-<div style="margin-top:10px;margin-bottom:10px;">
+<!-- Kueski Pay Widget -->
+<div style="margin-top:10px; margin-bottom:10px;">
   <kueskipay-widget
+    id="wf-kueski-widget"
     data-kpay-widget-type="product"
-    data-kpay-color-scheme="white"
-    data-kpay-widget-font-size=“12"
+    data-kpay-color-scheme="black"
+    data-kpay-widget-font-size="12"
     data-kpay-widget-text-align="left"
     data-kpay-widget-amount="{{ product.price }}"
     data-kpay-widget-product-name="{{ product.title }}">
   </kueskipay-widget>
 </div>
-<script id="kpay-advertising-script"
- src="https://cdn.kueskipay.com/widgets.js?authorization=972f913e-d4d3-4dcb-a863-780ced3b03d1&sandbox=false&integration=shopify&version=v1.0">
+
+<script>
+(function () {
+  function getBackgroundColor(element) {
+    while (element) {
+      var bg = window.getComputedStyle(element).backgroundColor;
+
+      if (
+        bg &&
+        bg !== 'rgba(0, 0, 0, 0)' &&
+        bg !== 'transparent'
+      ) {
+        return bg;
+      }
+
+      element = element.parentElement;
+    }
+
+    return 'rgb(255, 255, 255)';
+  }
+
+  function isDarkBackground(rgb) {
+    var values = rgb.match(/\d+/g);
+
+    if (!values || values.length < 3) return false;
+
+    var r = parseInt(values[0]);
+    var g = parseInt(values[1]);
+    var b = parseInt(values[2]);
+
+    var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    return brightness < 128;
+  }
+
+  function updateKueskiColor() {
+    var widget = document.getElementById('wf-kueski-widget');
+
+    if (!widget) return;
+
+    var bg = getBackgroundColor(widget.parentElement);
+
+    if (isDarkBackground(bg)) {
+      widget.setAttribute('data-kpay-color-scheme', 'white');
+    } else {
+      widget.setAttribute('data-kpay-color-scheme', 'black');
+    }
+  }
+
+  updateKueskiColor();
+
+  window.addEventListener('load', updateKueskiColor);
+  window.addEventListener('resize', updateKueskiColor);
+
+  var observer = new MutationObserver(function () {
+    setTimeout(updateKueskiColor, 100);
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class', 'style', 'data-theme']
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class', 'style', 'data-theme']
+  });
+})();
 </script>
-<script type="">new KueskipayAdvertising().init()</script>
+
+<script
+  id="kpay-advertising-script"
+  src="https://cdn.kueskipay.com/widgets.js?authorization=972f913e-d4d3-4dcb-a863-780ced3b03d1&sandbox=false&integration=shopify">
+</script>
+
+<script>
+  new KueskipayAdvertising().init();
+</script>
