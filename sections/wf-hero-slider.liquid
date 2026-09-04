@@ -81,6 +81,7 @@ style="display:flex!important; position:absolute!important; left:0!important; z-
 {% endif %}
 
 {% if block.settings.desktop_link != blank or block.settings.mobile_link != blank %}
+  <span class="wf-hero-cta">COMPRAR AHORA →</span>
   </a>
 {% endif %}
 
@@ -271,6 +272,42 @@ color: #ffffff !important;
       right: 8px;
     }
   }
+  /* CTA HERO - WF URBAN MUSCLE */
+.wf-hero-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 45px;
+  transform: translateX(-50%);
+  z-index: 20;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 13px 28px;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  line-height: 1;
+  white-space: nowrap;
+
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+@media screen and (max-width: 749px) {
+  .wf-hero-cta {
+    bottom: 30px;
+    padding: 12px 22px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+}
 </style>
 
 <script>
