@@ -914,6 +914,11 @@
         "type": "shopify://apps/hextom-timer-bar/blocks/ctb-embeded-block/f7b88b6e-2e87-46bc-87a9-3e3638a24fa9",
         "disabled": true,
         "settings": {}
+      },
+      "11704864806307981657": {
+        "type": "shopify://apps/kueski-pay/blocks/widget-embed/7d6d94e0-6ce7-439c-b75d-704e092d3cb9",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
