@@ -1,0 +1,15 @@
+<!-- Trigger/Open The Modal -->
+<div style="margin-top:10px;margin-bottom:10px;">
+  <kueskipay-widget
+    data-kpay-widget-type="product"
+    data-kpay-color-scheme="white"
+    data-kpay-widget-font-size=“12"
+    data-kpay-widget-text-align="left"
+    data-kpay-widget-amount="{{ product.price }}"
+    data-kpay-widget-product-name="{{ product.title }}">
+  </kueskipay-widget>
+</div>
+<script id="kpay-advertising-script"
+ src="https://cdn.kueskipay.com/widgets.js?authorization=972f913e-d4d3-4dcb-a863-780ced3b03d1&sandbox=false&integration=shopify&version=v1.0">
+</script>
+<script type="">new KueskipayAdvertising().init()</script>
