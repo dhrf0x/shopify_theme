@@ -325,7 +325,7 @@ if (countdown && countdownTime) {
     var distance = targetDate - now;
 
     if (distance <= 0) {
-      countdown.style.display = 'gojo ya disponible';
+      countdown.style.display = 'none';
       clearInterval(countdownInterval);
       return;
     }
