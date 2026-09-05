@@ -173,7 +173,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     updateWFShippingProgress();
 
-    const cartSidebar = document.getElementById('cartSidebar');
+    const cartSidebar = document.getElementById('cartSidebarContainer');
 
     if (cartSidebar) {
       let timer;
@@ -384,7 +384,7 @@ var wfRecObserver = new MutationObserver(function(mutations) {
   }, 400);
 });
 
-var wfCartSidebar = document.getElementById('cartSidebar');
+var wfCartSidebar = document.getElementById('cartSidebarContainer');
 
 if (wfCartSidebar) {
   wfRecObserver.observe(wfCartSidebar, {
