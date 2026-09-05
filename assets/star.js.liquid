@@ -486,7 +486,7 @@ star.init = function () {
 star.cartSidebarInit = function () {
   {% if settings.ajax_cart_method == "drawer" %}
     $('#cartSidebar').on('opened.zf.offcanvas', function() {
-      ajaxCart.load();
+      // ajaxCart.load();
       $('.header-container, .page-wrapper, .announcement-bar').addClass('content_pushed-left');
     });
 
