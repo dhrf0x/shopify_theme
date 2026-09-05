@@ -26,7 +26,7 @@
       <!-- ① LEFT: burger (mobile) + nav de género (desktop) -->
       <div class="wf-header__left">
         <!-- Burger solo en mobile/tablet -->
-        <div class="burger-container hide-for-large" data-open="mobileMenuSidebar">
+        <div class="burger-container hide-for-large" data-toggle="mobileMenuSidebar">
           <div id="burger">
             <div class="bar topBar"></div>
             <div class="bar btmBar"></div>
@@ -118,7 +118,7 @@
           </li>
           {% endif %}
 
-          <li class="menu-item menu-item_cart header__cart" {% if settings.ajax_cart_method == "drawer" %}data-open="cartSidebar"{% endif %}>
+          <li class="menu-item menu-item_cart header__cart" {% if settings.ajax_cart_method == "drawer" %}data-toggle="cartSidebar"{% endif %}>
             <a class="menu-item-link" {% if settings.ajax_cart_method != "drawer" %}href="/cart"{% endif %}>
               <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M55.06,38.32a2,2,0,0,0,1.77-1.64l3.77-21.17a2,2,0,0,0-1.88-2.35L12.12,11,6.63,6.46A2,2,0,1,0,4.09,9.54l5.53,4.55,7.81,25.52-2.59,4.93A3.55,3.55,0,0,0,18,49.74h2.71a4.64,4.64,0,1,0,5.74,0H46a4.64,4.64,0,1,0,5.74,0h4.68a2,2,0,0,0,0-4H18.73l2.13-4Z"/></svg>
               <div class="header__cart-count {% if cart.item_count == 0 %}hidden-count{% endif %}">
