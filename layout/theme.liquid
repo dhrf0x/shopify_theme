@@ -95,9 +95,13 @@
         ajaxCart.load();
       });
 
-      jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
-        $('#cartSidebar').foundation('open');
-      });
+jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
+  var $cartSidebar = $('#cartSidebar');
+
+  if (!$cartSidebar.hasClass('is-open')) {
+    $cartSidebar.foundation('open');
+  }
+});
     </script>
   {% endif %}
   <!-- BOTÓN WHATSAPP WF -->
