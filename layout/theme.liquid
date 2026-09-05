@@ -92,6 +92,7 @@
           cartCostSelector: '#CartCost',
           moneyFormat: {{ shop.money_format | json }}
         });
+        ajaxCart.load();
       });
 
       jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
