@@ -919,6 +919,11 @@
         "type": "shopify://apps/kueski-pay/blocks/widget-embed/7d6d94e0-6ce7-439c-b75d-704e092d3cb9",
         "disabled": false,
         "settings": {}
+      },
+      "11532412952436166569": {
+        "type": "shopify://apps/loox-reviews/blocks/loox-inject/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
