@@ -163,7 +163,29 @@
       });
     });
 
-   
+    /* ========================================================
+       2. LIMPIADOR SUAVE (ADIÓS CAPA FANTASMA)
+       ======================================================== */
+    // En lugar de forzar estilos CSS, obligamos al tema a usar su propia lógica de cierre
+    document.addEventListener('click', function(e) {
+      var isOverlay = e.target.matches('.js-off-canvas-overlay') || e.target.closest('.js-off-canvas-overlay');
+      
+      if (isOverlay) {
+        // 1. Buscamos la 'X' de tu carrito y simulamos que el usuario le dio clic
+        var closeBtn = document.querySelector('#cartSidebar .close-button, .off-canvas .close-button');
+        if (closeBtn) {
+          closeBtn.click();
+        }
+
+        // 2. Limpieza de emergencia por si el tema se traba (removiendo clases, no inyectando CSS)
+        setTimeout(function() {
+          document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
+          document.querySelectorAll('.off-canvas.is-open').forEach(function(el){
+            el.classList.remove('is-open');
+          });
+        }, 300);
+      }
+    });
 
     /* ========================================================
        3. LÓGICA DE DOBLE TOQUE EN MÓVIL (TAP-TO-FOCUS)
