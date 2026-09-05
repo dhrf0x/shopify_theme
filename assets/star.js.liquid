@@ -485,11 +485,26 @@ star.init = function () {
 
 star.cartSidebarInit = function () {
   {% if settings.ajax_cart_method == "drawer" %}
-    $('#cartSidebar').on('opened.zf.offcanvas', function() {
-      ajaxCart.load();
-      $('.header-container, .page-wrapper, .announcement-bar').addClass('content_pushed-left');
-    });
+  $('#cartSidebar').on('opened.zf.offcanvas', function() {
+  var $cartSidebar = $(this);
 
+  ajaxCart.load();
+
+  $cartSidebar
+    .removeClass('is-closed')
+    .css('visibility', 'visible');
+
+  setTimeout(function() {
+    if ($cartSidebar.hasClass('is-open')) {
+      $cartSidebar
+        .removeClass('is-closed')
+        .css('visibility', 'visible');
+    }
+  }, 150);
+
+  $('.header-container, .page-wrapper, .announcement-bar')
+    .addClass('content_pushed-left');
+});
     $('#cartSidebar').on('closed.zf.offcanvas', function () {
       $('.header-container, .page-wrapper, .announcement-bar').removeClass('content_pushed-left');
     });
