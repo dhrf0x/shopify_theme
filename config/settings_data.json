@@ -883,12 +883,22 @@
         "disabled": false,
         "settings": {}
       },
+      "11532412952436166569": {
+        "type": "shopify://apps/loox-reviews/blocks/loox-inject/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+        "disabled": false,
+        "settings": {}
+      },
+      "11704864806307981657": {
+        "type": "shopify://apps/kueski-pay/blocks/widget-embed/7d6d94e0-6ce7-439c-b75d-704e092d3cb9",
+        "disabled": true,
+        "settings": {}
+      },
       "7186961759184398009": {
         "type": "shopify://apps/authenticity-lookup/blocks/product-verify-floating/5bc9a8cf-765a-42ef-b0db-63c809045ca9",
         "disabled": false,
         "settings": {
           "button_color": "#007bff",
-          "button_size": 50,
+          "button_size": 40,
           "button_bottom": 100,
           "button_right": 20,
           "button_icon": "🔍",
@@ -900,16 +910,6 @@
           "success_message": "🏅 CERTIFICADO DE AUTENTICIDAD\n\nEdición: [note]\nCódigo único: [code]\n\nEsta pieza forma parte de una colección exclusiva de WF Urban Muscle.\n\nSu autenticidad ha sido confirmada exitosamente.",
           "fail_message": "Codigo No Valido"
         }
-      },
-      "11532412952436166569": {
-        "type": "shopify://apps/loox-reviews/blocks/loox-inject/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
-        "disabled": false,
-        "settings": {}
-      },
-      "11704864806307981657": {
-        "type": "shopify://apps/kueski-pay/blocks/widget-embed/7d6d94e0-6ce7-439c-b75d-704e092d3cb9",
-        "disabled": true,
-        "settings": {}
       }
     }
   }
