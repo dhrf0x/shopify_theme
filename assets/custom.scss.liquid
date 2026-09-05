@@ -4004,11 +4004,12 @@ main.main-content { padding: 0 !important; }
     padding-bottom: 80px !important;
   }
 }
-/* WF - carrito siempre encima del overlay */
-#cartSidebar {
-  z-index: 12 !important;
+/* WF - FORZAR CARRITO POR ENCIMA DE TODO */
+#cartSidebar.off-canvas {
+  position: fixed !important;
+  z-index: 999999 !important;
 }
 
 .js-off-canvas-overlay {
-  z-index: 11 !important;
+  z-index: 999998 !important;
 }
