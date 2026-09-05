@@ -289,6 +289,13 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
+          "message_68rkFD": {
+            "type": "message",
+            "settings": {
+              "text": "TODO ES UNITALLA — VERIFICA ANTES DE COMPRAR",
+              "link": "https://wfurbanmuscle.mx/pages/encuentra-tu-ajuste"
+            }
+          },
           "message_4Vkq6J": {
             "type": "message",
             "settings": {
@@ -319,6 +326,7 @@
           }
         },
         "block_order": [
+          "message_68rkFD",
           "message_4Vkq6J",
           "message_YDtxe9",
           "message_nei6DD",
