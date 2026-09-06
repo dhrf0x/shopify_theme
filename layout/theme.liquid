@@ -3,7 +3,8 @@
 <!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
 <head>
-  <script>
+  <!-- WF - Fix overlay fantasma del carrito + menú móvil -->
+<script>
 (function () {
   function wfForceCleanOverlay() {
     document.querySelectorAll('.js-off-canvas-overlay').forEach(function (el) {
@@ -14,39 +15,63 @@
     document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
   }
 
+  function wfCloseOffCanvas(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (window.jQuery && jQuery(el).foundation) {
+      jQuery(el).foundation('close');
+    } else {
+      el.classList.remove('is-open');
+      el.setAttribute('aria-hidden', 'true');
+    }
+  }
+
   function wfInitOverlayFix() {
     if (!window.jQuery) {
-      // Foundation/jQuery aún no cargan, reintentar
       return setTimeout(wfInitOverlayFix, 100);
     }
 
     var $ = window.jQuery;
 
-    // Limpia cuando Foundation abre/cierra el off-canvas del carrito
+    // ── Fix del CARRITO (igual que antes) ──
     $(document).on('closed.zf.offcanvas opened.zf.offcanvas', '#cartSidebar', function () {
       setTimeout(wfForceCleanOverlay, 350);
     });
 
-    // Limpia después de cada recarga AJAX del carrito (agregar/quitar producto)
     $(document.body).on('afterCartLoad.ajaxCart', function () {
       setTimeout(wfForceCleanOverlay, 400);
     });
 
-    // Red de seguridad: si el usuario toca el body y el overlay sigue
-    // atascado sin que el carrito esté realmente abierto, lo limpiamos.
+    // Red de seguridad SOLO para el carrito: ya no es global,
+    // así no interfiere con el menú móvil.
     document.addEventListener('click', function (e) {
-      var overlayVisible = document.querySelector('.js-off-canvas-overlay.is-overlay-fixed, .js-off-canvas-overlay.is-visible');
       var cartOpen = document.querySelector('#cartSidebar.is-open');
-      if (overlayVisible && !cartOpen) {
+      var clickedInsideCart = e.target.closest('#cartSidebar, [data-toggle="cartSidebar"]');
+      var overlayStuck = document.querySelector('.js-off-canvas-overlay.is-overlay-fixed, .js-off-canvas-overlay.is-visible');
+
+      if (overlayStuck && !cartOpen && !clickedInsideCart) {
         wfForceCleanOverlay();
       }
     }, true);
+
+    // ── Fix del MENÚ MÓVIL: cerrar al hacer clic fuera ──
+    document.addEventListener('click', function (e) {
+      var menu = document.getElementById('mobileMenuSidebar');
+      if (!menu || !menu.classList.contains('is-open')) return;
+
+      var clickedInsideMenu = e.target.closest('#mobileMenuSidebar');
+      var clickedBurger = e.target.closest('[data-toggle="mobileMenuSidebar"]');
+
+      if (!clickedInsideMenu && !clickedBurger) {
+        wfCloseOffCanvas('mobileMenuSidebar');
+      }
+    });
   }
 
   wfInitOverlayFix();
 
-  // Expuesto por si necesitas forzarlo manualmente desde la consola
   window.wfForceCleanOverlay = wfForceCleanOverlay;
+  window.wfCloseOffCanvas = wfCloseOffCanvas;
 })();
 </script>
   <meta charset="utf-8">
