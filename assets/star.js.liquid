@@ -488,8 +488,6 @@ star.cartSidebarInit = function () {
   $('#cartSidebar').on('opened.zf.offcanvas', function() {
   var $cartSidebar = $(this);
 
-  ajaxCart.load();
-
   $cartSidebar
     .removeClass('is-closed')
     .css('visibility', 'visible');
