@@ -3,6 +3,52 @@
 <!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
 <head>
+  <script>
+(function () {
+  function wfForceCleanOverlay() {
+    document.querySelectorAll('.js-off-canvas-overlay').forEach(function (el) {
+      el.classList.remove('is-overlay-fixed', 'is-visible');
+      el.style.display = 'none';
+      el.style.pointerEvents = 'none';
+    });
+    document.body.classList.remove('is-moved', 'is-transition-overlap', 'cart-open');
+  }
+
+  function wfInitOverlayFix() {
+    if (!window.jQuery) {
+      // Foundation/jQuery aún no cargan, reintentar
+      return setTimeout(wfInitOverlayFix, 100);
+    }
+
+    var $ = window.jQuery;
+
+    // Limpia cuando Foundation abre/cierra el off-canvas del carrito
+    $(document).on('closed.zf.offcanvas opened.zf.offcanvas', '#cartSidebar', function () {
+      setTimeout(wfForceCleanOverlay, 350);
+    });
+
+    // Limpia después de cada recarga AJAX del carrito (agregar/quitar producto)
+    $(document.body).on('afterCartLoad.ajaxCart', function () {
+      setTimeout(wfForceCleanOverlay, 400);
+    });
+
+    // Red de seguridad: si el usuario toca el body y el overlay sigue
+    // atascado sin que el carrito esté realmente abierto, lo limpiamos.
+    document.addEventListener('click', function (e) {
+      var overlayVisible = document.querySelector('.js-off-canvas-overlay.is-overlay-fixed, .js-off-canvas-overlay.is-visible');
+      var cartOpen = document.querySelector('#cartSidebar.is-open');
+      if (overlayVisible && !cartOpen) {
+        wfForceCleanOverlay();
+      }
+    }, true);
+  }
+
+  wfInitOverlayFix();
+
+  // Expuesto por si necesitas forzarlo manualmente desde la consola
+  window.wfForceCleanOverlay = wfForceCleanOverlay;
+})();
+</script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
