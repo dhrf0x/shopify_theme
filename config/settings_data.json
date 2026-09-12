@@ -695,6 +695,7 @@
           },
           "slide_wBayVh": {
             "type": "slide",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/file_000000002a1881fba262897dc1a4e61d.png",
               "mobile_image": "shopify://shop_images/file_000000000b3081fba230f001c07704c0.png",
@@ -704,7 +705,6 @@
           },
           "slide_HUgVVp": {
             "type": "slide",
-            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/file_00000000e07c81f5be09d08fbcb3b2c9_1.png",
               "mobile_image": "shopify://shop_images/file_00000000471c81f5a5a8b1bf903a83f6_1.png",
