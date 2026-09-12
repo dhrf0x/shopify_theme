@@ -706,10 +706,10 @@
             "type": "slide",
             "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/file_00000000504481fba84e4bcf0731d66d.png",
-              "mobile_image": "shopify://shop_images/file_0000000012bc81fbb96dfba58a8ff0c1.png",
-              "desktop_link": "shopify://products/jersey-sanemi-wf-urban-muscle",
-              "mobile_link": "shopify://products/jersey-sanemi-wf-urban-muscle"
+              "image": "shopify://shop_images/file_00000000e07c81f5be09d08fbcb3b2c9_1.png",
+              "mobile_image": "shopify://shop_images/file_00000000471c81f5a5a8b1bf903a83f6_1.png",
+              "desktop_link": "",
+              "mobile_link": ""
             }
           }
         },
