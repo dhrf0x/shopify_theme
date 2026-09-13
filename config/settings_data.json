@@ -705,6 +705,7 @@
           },
           "slide_HUgVVp": {
             "type": "slide",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/file_00000000cd7c81f5878b5acbe8cf1c96.png",
               "mobile_image": "shopify://shop_images/file_00000000471c81f5a5a8b1bf903a83f6_1.png",
