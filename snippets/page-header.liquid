@@ -15,7 +15,7 @@
 {% endif %}
 
 {% if snippet_instance.settings.enable_custom_styles %}
-  {% include 'section-styles', instance_settings: snippet_instance.settings, instance_settings.background_image: bg_image %}
+  {% include 'section-styles', instance_settings: snippet_instance.settings, background_image: bg_image %}
 {% endif %}
 
 {% assign bg_image_style = snippet_instance.settings.background_image_style %}
@@ -40,3 +40,15 @@
     </div>
   </div>
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% include 'section-styles', instance_settings: snippet_instance.settings,
+    instance_settings.background_image: bg_image %}"
+  to: "{% include 'section-styles', instance_settings: snippet_instance.settings,
+    background_image: bg_image %}"
+  position: 681..785
+{% endcomment %}
