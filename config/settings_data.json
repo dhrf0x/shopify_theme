@@ -695,20 +695,18 @@
           },
           "slide_wBayVh": {
             "type": "slide",
-            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/file_000000002a1881fba262897dc1a4e61d.png",
-              "mobile_image": "shopify://shop_images/file_000000000b3081fba230f001c07704c0.png",
+              "image": "shopify://shop_images/file_00000000847081f5b6cb934b09a2fc79.png",
+              "mobile_image": "shopify://shop_images/file_00000000f5dc81f59efe7e8ff232bad3.png",
               "desktop_link": "",
               "mobile_link": ""
             }
           },
           "slide_HUgVVp": {
             "type": "slide",
-            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/file_00000000cd7c81f5878b5acbe8cf1c96.png",
-              "mobile_image": "shopify://shop_images/file_00000000471c81f5a5a8b1bf903a83f6_1.png",
+              "image": "shopify://shop_images/file_0000000022e481f5afd66b8c7bbef358.png",
+              "mobile_image": "shopify://shop_images/file_000000003b5481f5812364505d7e5c86.png",
               "desktop_link": "shopify://products/jersey-buu-wf-urban-muscle",
               "mobile_link": "shopify://products/jersey-buu-wf-urban-muscle"
             }
