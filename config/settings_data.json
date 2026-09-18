@@ -320,7 +320,7 @@
           "message_gDNiVY": {
             "type": "message",
             "settings": {
-              "text": "🔥 PLAYERAS 3X$850 | OFERTAS-PLAYERA UM",
+              "text": "🔥 PLAYERAS 3X2 | LLÉVATE 3 POR $640",
               "link": "shopify://collections/playeras-3x2"
             }
           }
@@ -687,17 +687,17 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_0000000093f481f5a4dd08e173d3e4a8.png",
-              "mobile_image": "shopify://shop_images/file_00000000644881f5b4a5f33c07be910f.png",
-              "desktop_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle",
-              "mobile_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle"
+              "image": "shopify://shop_images/file_0000000037c481fbada8ea86a233e6df.png",
+              "mobile_image": "shopify://shop_images/file_000000003fc881fb9249749310a5f74c.png",
+              "desktop_link": "shopify://products/jersey-goyo-wf-urban-muscle",
+              "mobile_link": "shopify://products/jersey-goyo-wf-urban-muscle"
             }
           },
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_000000006ea081f5a7b5765119e0f660.png",
-              "mobile_image": "shopify://shop_images/file_00000000030081f58bd7caccc30d966a.png",
+              "image": "shopify://shop_images/file_00000000847081f5b6cb934b09a2fc79.png",
+              "mobile_image": "shopify://shop_images/file_00000000f5dc81f59efe7e8ff232bad3.png",
               "desktop_link": "",
               "mobile_link": ""
             }
@@ -705,10 +705,10 @@
           "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_0000000022e481f5afd66b8c7bbef358.png",
-              "mobile_image": "shopify://shop_images/file_000000003b5481f5812364505d7e5c86.png",
-              "desktop_link": "",
-              "mobile_link": ""
+              "image": "shopify://shop_images/file_0000000073e481f5bf72188c39b12d90.png",
+              "mobile_image": "shopify://shop_images/file_00000000e49c81f5a46c25d50376258f.png",
+              "desktop_link": "shopify://products/jersey-buu-wf-urban-muscle",
+              "mobile_link": "shopify://products/jersey-buu-wf-urban-muscle"
             }
           }
         },
