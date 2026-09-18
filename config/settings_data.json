@@ -707,8 +707,8 @@
             "settings": {
               "image": "shopify://shop_images/file_0000000022e481f5afd66b8c7bbef358.png",
               "mobile_image": "shopify://shop_images/file_000000003b5481f5812364505d7e5c86.png",
-              "desktop_link": "shopify://products/jersey-buu-wf-urban-muscle",
-              "mobile_link": "shopify://products/jersey-buu-wf-urban-muscle"
+              "desktop_link": "",
+              "mobile_link": ""
             }
           }
         },
