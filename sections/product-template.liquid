@@ -419,6 +419,12 @@
   {% assign wf_largo_total = '74 cm' %}
   {% assign wf_largo_cuello = '67 cm' %}
   {% assign wf_ancho = '58 cm' %}
+
+  {% elsif wf_tags contains 'tank' %}
+  {% assign wf_tipo = 'Playera Tank' %}
+  {% assign wf_largo_total = '71 cm' %}
+  {% assign wf_largo_cuello = '63 cm' %}
+  {% assign wf_ancho = '58 cm' %}
 {% endif %}
 
 {% if wf_tipo != blank %}
