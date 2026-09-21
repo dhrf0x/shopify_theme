@@ -723,20 +723,68 @@
       "wf-clientes-reales": {
         "type": "wf-clientes-reales",
         "blocks": {
+          "cliente_46pD9x": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164504_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-goyo-wf-urban-muscle"
+            }
+          },
+          "cliente_UCWecE": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164344_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-burbuja-powerpuff-girls-wf-urban-muscle"
+            }
+          },
+          "cliente_Lwp6gR": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164415_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-power-rangers-wf-urban-muscle"
+            }
+          },
+          "cliente_yeiw8P": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164354_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-goyo-wf-urban-muscle"
+            }
+          },
+          "cliente_Jin8GN": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164359_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/compresion-invicible-wf-urban-muscle"
+            }
+          },
+          "cliente_GcQa8e": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164327_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-goku-saga-buu-wf-urban-muscle"
+            }
+          },
+          "cliente_xQdJNd": {
+            "type": "cliente",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot_20260921_164531_Instagram.jpg",
+              "username": "",
+              "link": "shopify://products/jersey-goyo-wf-urban-muscle"
+            }
+          },
           "cliente_9Mdj3a": {
             "type": "cliente",
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260827_175328_Gallery_1.jpg",
               "username": "",
               "link": "shopify://products/jersey-bellota-powerpuff-girls-wf-urban-muscle"
-            }
-          },
-          "cliente_fakgwk": {
-            "type": "cliente",
-            "settings": {
-              "image": "shopify://shop_images/Screenshot_20260827_175331_Gallery_1.jpg",
-              "username": "",
-              "link": "shopify://collections/hombres"
             }
           },
           "cliente_9UyB6m": {
@@ -753,14 +801,6 @@
               "video": "shopify://files/videos/VID-20260826-WA0027.mp4",
               "username": "",
               "link": "shopify://products/jersey-vegeta-saga-buu-wf-urban-muscle-copia"
-            }
-          },
-          "cliente_xXHcU4": {
-            "type": "cliente",
-            "settings": {
-              "image": "shopify://shop_images/Screenshot_20260827_175317_Gallery_1.jpg",
-              "username": "",
-              "link": "shopify://products/playera-caos-celestial-wf-urban-muscle-copia"
             }
           },
           "cliente_zQFaRh": {
@@ -845,11 +885,16 @@
           }
         },
         "block_order": [
+          "cliente_46pD9x",
+          "cliente_UCWecE",
+          "cliente_Lwp6gR",
+          "cliente_yeiw8P",
+          "cliente_Jin8GN",
+          "cliente_GcQa8e",
+          "cliente_xQdJNd",
           "cliente_9Mdj3a",
-          "cliente_fakgwk",
           "cliente_9UyB6m",
           "cliente_AA7AEF",
-          "cliente_xXHcU4",
           "cliente_zQFaRh",
           "cliente_FdGgxa",
           "cliente_kTKmAb",
