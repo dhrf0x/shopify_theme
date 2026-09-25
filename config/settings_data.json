@@ -707,10 +707,10 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_00000000328c81f584bb125023be27da.png",
-              "mobile_image": "shopify://shop_images/file_00000000da6481f59085c4e618c8e0c9.png",
-              "desktop_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle",
-              "mobile_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle"
+              "image": "shopify://shop_images/file_000000001670822f9a5d7b82913f3c14.png",
+              "mobile_image": "shopify://shop_images/file_00000000a2c4820db216820110cb9e03.png",
+              "desktop_link": "shopify://collections/playera-tank",
+              "mobile_link": "shopify://collections/playera-tank"
             }
           }
         },
