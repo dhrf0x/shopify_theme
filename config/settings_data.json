@@ -685,13 +685,13 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
-          "slide_HaHp9E": {
+          "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_00000000328c81f584bb125023be27da.png",
-              "mobile_image": "shopify://shop_images/file_00000000da6481f59085c4e618c8e0c9.png",
-              "desktop_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle",
-              "mobile_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle"
+              "image": "shopify://shop_images/file_000000005f2481f5a1694a33c9dea2e1_2.png",
+              "mobile_image": "shopify://shop_images/file_00000000c85c81f5b9bec0f9b1e80414_2.png",
+              "desktop_link": "",
+              "mobile_link": ""
             }
           },
           "slide_wBayVh": {
@@ -703,20 +703,20 @@
               "mobile_link": "shopify://products/jersey-astroboy-wf-urban-muscle"
             }
           },
-          "slide_HUgVVp": {
+          "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_000000005f2481f5a1694a33c9dea2e1_2.png",
-              "mobile_image": "shopify://shop_images/file_00000000c85c81f5b9bec0f9b1e80414_2.png",
-              "desktop_link": "",
-              "mobile_link": ""
+              "image": "shopify://shop_images/file_00000000328c81f584bb125023be27da.png",
+              "mobile_image": "shopify://shop_images/file_00000000da6481f59085c4e618c8e0c9.png",
+              "desktop_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle",
+              "mobile_link": "shopify://products/playera-tank-goku-ui-wf-urban-muscle"
             }
           }
         },
         "block_order": [
-          "slide_HaHp9E",
+          "slide_HUgVVp",
           "slide_wBayVh",
-          "slide_HUgVVp"
+          "slide_HaHp9E"
         ],
         "settings": {}
       },
