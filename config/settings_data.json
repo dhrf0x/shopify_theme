@@ -956,6 +956,11 @@
           "success_message": "🏅 CERTIFICADO DE AUTENTICIDAD\n\nEdición: [note]\nCódigo único: [code]\n\nEsta pieza forma parte de una colección exclusiva de WF Urban Muscle.\n\nSu autenticidad ha sido confirmada exitosamente.",
           "fail_message": "Codigo No Valido"
         }
+      },
+      "6584037165345061981": {
+        "type": "shopify://apps/vicify-preorder-and-presale/blocks/block/3a0c6224-bb5f-496e-8d39-b1f8c7a11010",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
