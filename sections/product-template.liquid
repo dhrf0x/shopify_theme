@@ -65,6 +65,36 @@
     <div class="{{ product_info_grid }} product-card">
       <div class="product-info__container">
         <h1 class="product-title" itemprop="name">{{ product.title }}</h1>
+        {% assign wf_stock = product.selected_or_first_available_variant.inventory_quantity %}
+
+{% if product.selected_or_first_available_variant.inventory_management == 'shopify' and wf_stock > 0 and wf_stock <= 10 %}
+
+  <div class="wf-low-stock-top">
+    {% if wf_stock == 1 %}
+      🔥 ¡ÚLTIMA PIEZA DISPONIBLE!
+    {% elsif wf_stock <= 3 %}
+      🔥 ¡ÚLTIMAS {{ wf_stock }} PIEZAS!
+    {% else %}
+      🔥 ¡SOLO QUEDAN {{ wf_stock }} PIEZAS!
+    {% endif %}
+  </div>
+
+  <style>
+    .wf-low-stock-top {
+      display: inline-block;
+      margin: 8px 0 12px 0;
+      padding: 8px 14px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      background: #fff0f0;
+      border: 1px solid #e53935;
+      border-radius: 5px;
+      color: #111;
+    }
+  </style>
+
+{% endif %}
         {% if section.settings.display_product_vendor %}
           <div class="product-vendor">{{ product.vendor | link_to_vendor }}</div>
         {% endif %}
