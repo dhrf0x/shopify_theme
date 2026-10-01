@@ -168,6 +168,40 @@
               <label for="Quantity" class="quantity-selector ">{{ 'products.product.quantity' | t }}</label>
               <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
             </div>
+{% assign wf_stock = product.selected_or_first_available_variant.inventory_quantity %}
+
+{% if product.selected_or_first_available_variant.inventory_management == 'shopify' and wf_stock > 0 and wf_stock <= 10 %}
+  <div class="wf-low-stock">
+    <span class="wf-low-stock-dot"></span>
+
+    {% if wf_stock == 1 %}
+      ¡Última pieza disponible!
+    {% elsif wf_stock <= 3 %}
+      ¡Últimas {{ wf_stock }} piezas!
+    {% else %}
+      Solo quedan {{ wf_stock }} piezas
+    {% endif %}
+  </div>
+
+  <style>
+    .wf-low-stock {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 10px 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .wf-low-stock-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e53935;
+      display: inline-block;
+    }
+  </style>
+{% endif %}
 
             <button type="submit" name="add" id="AddToCart" class="button">
               <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
