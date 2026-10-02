@@ -322,7 +322,7 @@ var ajaxCart = (function(module, $) {
         img: prodImg,
         name: cartItem.product_title,
         variation: cartItem.variant_title,
-        properties: cartItem.properties,
+properties: Object.keys(cartItem.properties || {}).reduce(function(obj, key) { if (key.charAt(0) !== '_') { obj[key] = cartItem.properties[key]; } return obj; }, {}),
         itemAdd: cartItem.quantity + 1,
         itemMinus: cartItem.quantity - 1,
         itemQty: cartItem.quantity,
