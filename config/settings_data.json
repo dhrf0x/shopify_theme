@@ -957,16 +957,10 @@
           "fail_message": "Codigo No Valido"
         }
       },
-      "18272643779398082604": {
-        "type": "shopify://apps/timesact-pre-order/blocks/app-embed-v2/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
+      "7800736727063894098": {
+        "type": "shopify://apps/rez-preorder-back-in-stock/blocks/rez/0da60196-81b6-4270-afac-c9294e1641ba",
         "disabled": false,
-        "settings": {
-          "debug_mode": false,
-          "add_to_cart_text": "AGREGAR AL CARRITO",
-          "sold_out_text": "AGOTADO",
-          "unavailable_text": "NO DISPONIBLE",
-          "use_custom_script": false
-        }
+        "settings": {}
       }
     }
   }
