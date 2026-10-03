@@ -697,9 +697,10 @@
           },
           "slide_wBayVh": {
             "type": "slide",
+            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/file_000000003d9081f5b0c17c25a0c9ed58.png",
-              "mobile_image": "shopify://shop_images/file_00000000f14c81f5bc103f15b32995cc.png",
+              "image": "shopify://shop_images/file_000000002b9c81f58b392659090385ec.png",
+              "mobile_image": "shopify://shop_images/file_00000000da6081f5bb6f56b66ab6a3f3.png",
               "desktop_link": "",
               "mobile_link": ""
             }
