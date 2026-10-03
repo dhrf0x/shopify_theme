@@ -551,10 +551,11 @@
           "slide_Km4d8Y": {
             "type": "slide",
             "settings": {
-              "product": "jersey-team-wf-urban-muscle",
+              "product": "mystery-box",
+              "image": "shopify://shop_images/file_0000000002b081f5a6dea20573bf237a_9ea829a5-9d6d-458e-880a-f3360ed057a1.png",
               "title": "",
               "subtext": "comprar",
-              "link": "shopify://products/jersey-team-wf-urban-muscle"
+              "link": "shopify://products/mystery-box"
             }
           },
           "slide_TaazNr": {
