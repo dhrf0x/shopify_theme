@@ -520,8 +520,8 @@
           "title": "¡lo mas nuevo¡",
           "subtitle": "",
           "collection": "productos-nuevos",
-          "products_count": 8,
-          "grid": "4",
+          "products_count": 10,
+          "grid": "5",
           "grid_mobile": "2",
           "cta_text": "Ver todos",
           "cta_link": ""
