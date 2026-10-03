@@ -686,15 +686,6 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
-          "slide_HUgVVp": {
-            "type": "slide",
-            "settings": {
-              "image": "shopify://shop_images/file_000000005f2481f5a1694a33c9dea2e1_2.png",
-              "mobile_image": "shopify://shop_images/file_00000000c85c81f5b9bec0f9b1e80414_2.png",
-              "desktop_link": "shopify://collections/jersey",
-              "mobile_link": "shopify://collections/jersey"
-            }
-          },
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
@@ -702,6 +693,15 @@
               "mobile_image": "shopify://shop_images/file_00000000da6081f5bb6f56b66ab6a3f3.png",
               "desktop_link": "shopify://collections/productos-nuevos",
               "mobile_link": "shopify://collections/productos-nuevos"
+            }
+          },
+          "slide_HUgVVp": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/file_000000005f2481f5a1694a33c9dea2e1_2.png",
+              "mobile_image": "shopify://shop_images/file_00000000c85c81f5b9bec0f9b1e80414_2.png",
+              "desktop_link": "shopify://collections/jersey",
+              "mobile_link": "shopify://collections/jersey"
             }
           },
           "slide_HaHp9E": {
@@ -715,8 +715,8 @@
           }
         },
         "block_order": [
-          "slide_HUgVVp",
           "slide_wBayVh",
+          "slide_HUgVVp",
           "slide_HaHp9E"
         ],
         "settings": {}
