@@ -685,13 +685,13 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
-          "slide_wBayVh": {
+          "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_000000002b9c81f58b392659090385ec.png",
-              "mobile_image": "shopify://shop_images/file_00000000da6081f5bb6f56b66ab6a3f3.png",
-              "desktop_link": "shopify://collections/productos-nuevos",
-              "mobile_link": "shopify://collections/productos-nuevos"
+              "image": "shopify://shop_images/file_00000000c24481f4a71e3f5343e2c696_1.png",
+              "mobile_image": "shopify://shop_images/file_00000000993c820ea46866a8fd1df473_1.png",
+              "desktop_link": "",
+              "mobile_link": ""
             }
           },
           "slide_HaHp9E": {
@@ -703,20 +703,20 @@
               "mobile_link": ""
             }
           },
-          "slide_HUgVVp": {
+          "slide_wBayVh": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/file_00000000c24481f4a71e3f5343e2c696_1.png",
-              "mobile_image": "shopify://shop_images/file_00000000993c820ea46866a8fd1df473_1.png",
-              "desktop_link": "",
-              "mobile_link": ""
+              "image": "shopify://shop_images/file_000000002b9c81f58b392659090385ec.png",
+              "mobile_image": "shopify://shop_images/file_00000000da6081f5bb6f56b66ab6a3f3.png",
+              "desktop_link": "shopify://collections/productos-nuevos",
+              "mobile_link": "shopify://collections/productos-nuevos"
             }
           }
         },
         "block_order": [
-          "slide_wBayVh",
+          "slide_HUgVVp",
           "slide_HaHp9E",
-          "slide_HUgVVp"
+          "slide_wBayVh"
         ],
         "settings": {}
       },
