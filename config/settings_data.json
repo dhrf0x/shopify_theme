@@ -685,15 +685,6 @@
       "wf-hero-slider": {
         "type": "wf-hero-slider",
         "blocks": {
-          "slide_HUgVVp": {
-            "type": "slide",
-            "settings": {
-              "image": "shopify://shop_images/file_00000000c24481f4a71e3f5343e2c696_1.png",
-              "mobile_image": "shopify://shop_images/file_00000000993c820ea46866a8fd1df473_1.png",
-              "desktop_link": "",
-              "mobile_link": ""
-            }
-          },
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
@@ -708,15 +699,24 @@
             "settings": {
               "image": "shopify://shop_images/file_00000000e93481f89e820c3398777930_1.png",
               "mobile_image": "shopify://shop_images/file_0000000049fc81f4b3b0a88b0279d9ff.png",
-              "desktop_link": "shopify://collections/playera-tank",
-              "mobile_link": "shopify://collections/playera-tank"
+              "desktop_link": "",
+              "mobile_link": ""
+            }
+          },
+          "slide_HUgVVp": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/file_00000000c24481f4a71e3f5343e2c696_1.png",
+              "mobile_image": "shopify://shop_images/file_00000000993c820ea46866a8fd1df473_1.png",
+              "desktop_link": "",
+              "mobile_link": ""
             }
           }
         },
         "block_order": [
-          "slide_HUgVVp",
           "slide_wBayVh",
-          "slide_HaHp9E"
+          "slide_HaHp9E",
+          "slide_HUgVVp"
         ],
         "settings": {}
       },
