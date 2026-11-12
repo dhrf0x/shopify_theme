@@ -706,8 +706,8 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/banner_1920x1861_71914b3b-32d6-42ea-910b-f6e98b8af2e0.png",
-              "mobile_image": "shopify://shop_images/banner_900x1599_4e8a5bcb-5efe-4f92-9519-4259bef0a2f7.png",
+              "image": "shopify://shop_images/promos_shopify_1920x1861_2.png",
+              "mobile_image": "shopify://shop_images/promos_shopify_900x1599_1.png",
               "desktop_link": "shopify://collections/shorts",
               "mobile_link": "shopify://collections/shorts"
             }
