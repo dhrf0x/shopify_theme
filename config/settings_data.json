@@ -319,6 +319,7 @@
           },
           "message_gDNiVY": {
             "type": "message",
+            "disabled": true,
             "settings": {
               "text": "🔥 BUEN FIN LLEGO A WF URBAN MUSCLE | REVISA LAS PROMOCIONES",
               "link": "shopify://collections"
