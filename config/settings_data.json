@@ -939,9 +939,14 @@
         "disabled": true,
         "settings": {}
       },
+      "7800736727063894098": {
+        "type": "shopify://apps/rez-preorder-back-in-stock/blocks/rez/0da60196-81b6-4270-afac-c9294e1641ba",
+        "disabled": false,
+        "settings": {}
+      },
       "7186961759184398009": {
         "type": "shopify://apps/authenticity-lookup/blocks/product-verify-floating/5bc9a8cf-765a-42ef-b0db-63c809045ca9",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "button_color": "#007bff",
           "button_size": 40,
@@ -956,11 +961,6 @@
           "success_message": "🏅 CERTIFICADO DE AUTENTICIDAD\n\nEdición: [note]\nCódigo único: [code]\n\nEsta pieza forma parte de una colección exclusiva de WF Urban Muscle.\n\nSu autenticidad ha sido confirmada exitosamente.",
           "fail_message": "Codigo No Valido"
         }
-      },
-      "7800736727063894098": {
-        "type": "shopify://apps/rez-preorder-back-in-stock/blocks/rez/0da60196-81b6-4270-afac-c9294e1641ba",
-        "disabled": false,
-        "settings": {}
       }
     }
   }
