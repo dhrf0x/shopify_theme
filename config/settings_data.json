@@ -283,6 +283,8 @@
     "cart_notes_enable": true,
     "social_instagram_link": "",
     "share_image": "shopify://shop_images/WhatsApp_Image_2026-07-09_at_7.59.00_PM.png",
+    "share_on_facebook": false,
+    "share_twitter": false,
     "share_pinterest": false,
     "share_google": false,
     "sections": {
