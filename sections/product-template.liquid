@@ -732,7 +732,25 @@
   </div>
   {% endif %}
 </div>
-
+<script>
+  window.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.product__image__item');
+    if (!a || !window.Fancybox) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    var seen = {}, items = [], start = 0;
+    document.querySelectorAll('a.product__image__item').forEach(function (x) {
+      if (x.closest('.slick-cloned')) return;
+      var h = x.getAttribute('href');
+      if (seen[h]) return;
+      seen[h] = 1;
+      if (h === a.getAttribute('href')) start = items.length;
+      items.push({ src: h, type: 'image', caption: x.getAttribute('data-caption') || '' });
+    });
+    Fancybox.show(items, { startIndex: start });
+  }, true);
+</script>
 {% schema %}
 {
   "name": "Product Page",
