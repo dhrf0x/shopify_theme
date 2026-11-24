@@ -576,7 +576,23 @@
     </div>
   </details>
 {% endif %}
-<div id="looxReviews" data-product-id="{{ product.id }}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>
+<div class="wf-reviews-wrap" id="wfReviewsWrap">
+  <div id="looxReviews" data-product-id="{{ product.id }}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>
+</div>
+<button type="button" class="wf-reviews-more" id="wfReviewsMore" onclick="document.getElementById('wfReviewsWrap').classList.add('is-open');this.style.display='none';">Ver más reseñas ↓</button>
+<style>
+  .wf-reviews-wrap{max-height:1500px;overflow:hidden;position:relative;}
+  .wf-reviews-wrap:after{content:'';position:absolute;left:0;right:0;bottom:0;height:180px;background:linear-gradient(rgba(240,240,240,0),#f0f0f0);pointer-events:none;}
+  .wf-reviews-wrap.is-open{max-height:none;}
+  .wf-reviews-wrap.is-open:after{display:none;}
+  .wf-reviews-more{display:block;margin:10px auto 30px;padding:14px 28px;background:#111;color:#fff;border:0;border-radius:30px;font-weight:700;font-size:15px;letter-spacing:.5px;cursor:pointer;}
+</style>
+<script>
+  setTimeout(function(){
+    var w=document.getElementById('wfReviewsWrap'),b=document.getElementById('wfReviewsMore');
+    if(w && b && w.scrollHeight<=1500){w.classList.add('is-open');b.style.display='none';}
+  },3500);
+</script>
 <div style="margin-top:30px; margin-bottom:8px;">
   <h3 style="margin:0; font-size:22px; font-weight:800;">
     PREGUNTAS FRECUENTES
