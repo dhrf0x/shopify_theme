@@ -43,7 +43,7 @@
         </div>
 
         <div class="rp-gymshark__grid rp-gymshark__grid--{{ related_products_number }}">
-          {% for p in rp_products %}
+          {% for p in rp_products limit: 8 %}
             <div class="rp-gymshark__item">
               <a href="{{ p.url }}" class="rp-gymshark__link">
                 <div class="rp-gymshark__img-wrap">
