@@ -698,6 +698,7 @@
           },
           "slide_wBayVh": {
             "type": "slide",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/banner-aot-desktop-1920x750_2.jpg",
               "mobile_image": "shopify://shop_images/aot_900x1599_1dbad2c6-904e-4f78-8763-3088e823d2f2.png",
@@ -707,6 +708,7 @@
           },
           "slide_HaHp9E": {
             "type": "slide",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/banner-shorts-desktop-1920x750_1.jpg",
               "mobile_image": "shopify://shop_images/banner_900x1599_4e8a5bcb-5efe-4f92-9519-4259bef0a2f7.png",
