@@ -691,7 +691,7 @@
             "type": "slide",
             "settings": {
               "image": "shopify://shop_images/banner-goliath-desktop-1920x750_1.jpg",
-              "mobile_image": "shopify://shop_images/goliath_blanco_vertical.jpg",
+              "mobile_video": "shopify://files/videos/WTF_unitalla_900x1599.mp4",
               "desktop_link": "shopify://collections/productos-nuevos",
               "mobile_link": "shopify://collections/productos-nuevos"
             }
