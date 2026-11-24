@@ -968,7 +968,7 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "@media (min-width: 990px) {.wf-hero-slider__image {height: 80vh !important; max-height: 80vh !important; width: 100% !important; object-fit: cover !important; object-position: center top !important; }}"
+      "@media (min-width: 990px) {.wf-hero-slider__image {height: 65vh !important; max-height: 65vh !important; width: 100% !important; object-fit: cover !important; object-position: center top !important; }}"
     ]
   }
 }
