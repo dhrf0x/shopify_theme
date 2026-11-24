@@ -690,7 +690,7 @@
           "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/goliath_blanco_cuadrada.jpg",
+              "image": "shopify://shop_images/banner-goliath-desktop-1920x750_1.jpg",
               "mobile_image": "shopify://shop_images/goliath_blanco_vertical.jpg",
               "desktop_link": "shopify://collections/productos-nuevos",
               "mobile_link": "shopify://collections/productos-nuevos"
@@ -699,7 +699,7 @@
           "slide_wBayVh": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/banner-aot-desktop-1920x750_1.jpg",
+              "image": "shopify://shop_images/banner-aot-desktop-1920x750_2.jpg",
               "mobile_image": "shopify://shop_images/aot_900x1599_1dbad2c6-904e-4f78-8763-3088e823d2f2.png",
               "desktop_link": "shopify://collections/productos-nuevos",
               "mobile_link": "shopify://collections/productos-nuevos"
@@ -708,7 +708,7 @@
           "slide_HaHp9E": {
             "type": "slide",
             "settings": {
-              "image": "shopify://shop_images/banner_1920x1861_71914b3b-32d6-42ea-910b-f6e98b8af2e0.png",
+              "image": "shopify://shop_images/banner-shorts-desktop-1920x750_1.jpg",
               "mobile_image": "shopify://shop_images/banner_900x1599_4e8a5bcb-5efe-4f92-9519-4259bef0a2f7.png",
               "desktop_link": "shopify://collections/shorts",
               "mobile_link": "shopify://collections/shorts"
