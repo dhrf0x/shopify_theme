@@ -700,7 +700,7 @@
           "slide_HUgVVp": {
             "type": "slide",
             "settings": {
-              "video": "shopify://files/videos/WTF_ligero_unitalla_1920x750.mp4",
+              "video": "shopify://files/videos/WTF_banner_HTF_1920x750_sab.mp4",
               "mobile_video": "shopify://files/videos/WTF_ligero_unitalla_900x1599.mp4",
               "desktop_link": "shopify://collections/productos-nuevos",
               "mobile_link": "shopify://collections/productos-nuevos"
@@ -978,7 +978,7 @@
               "tag": "PRÓXIMAMENTE",
               "date": "SABADO 28 A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "prox-htf",
+              "drop_tag": "htf",
               "link": ""
             }
           },
@@ -991,7 +991,7 @@
               "tag": "PRÓXIMAMENTE",
               "date": "SABADO 28 A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "prox-htf",
+              "drop_tag": "htf",
               "link": ""
             }
           },
@@ -1004,7 +1004,7 @@
               "tag": "PRÓXIMAMENTE",
               "date": "SABADO 28 A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "prox-htf",
+              "drop_tag": "htf",
               "link": ""
             }
           },
