@@ -522,8 +522,8 @@
           "title": "¡lo mas nuevo¡",
           "subtitle": "",
           "collection": "productos-nuevos",
-          "products_count": 10,
-          "grid": "5",
+          "products_count": 4,
+          "grid": "2",
           "grid_mobile": "2",
           "cta_text": "Ver todos",
           "cta_link": ""
@@ -729,6 +729,7 @@
         "blocks": {
           "cliente_46pD9x": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164504_Instagram.jpg",
               "username": "",
@@ -737,6 +738,7 @@
           },
           "cliente_UCWecE": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164344_Instagram.jpg",
               "username": "",
@@ -745,6 +747,7 @@
           },
           "cliente_Lwp6gR": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164415_Instagram.jpg",
               "username": "",
@@ -753,6 +756,7 @@
           },
           "cliente_yeiw8P": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164354_Instagram.jpg",
               "username": "",
@@ -761,6 +765,7 @@
           },
           "cliente_Jin8GN": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20261013_012641_Instagram.jpg",
               "username": "",
@@ -769,6 +774,7 @@
           },
           "cliente_GcQa8e": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164327_Instagram.jpg",
               "username": "",
@@ -777,6 +783,7 @@
           },
           "cliente_xQdJNd": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260921_164531_Instagram.jpg",
               "username": "",
@@ -785,6 +792,7 @@
           },
           "cliente_9Mdj3a": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20261013_012646_Instagram.jpg",
               "username": "",
@@ -793,6 +801,7 @@
           },
           "cliente_9UyB6m": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20261013_012816_Instagram.jpg",
               "username": "",
@@ -801,6 +810,7 @@
           },
           "cliente_AA7AEF": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "video": "shopify://files/videos/VID-20260826-WA0027.mp4",
               "username": "",
@@ -809,6 +819,7 @@
           },
           "cliente_zQFaRh": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260827_175314_Gallery_1.jpg",
               "username": "",
@@ -817,6 +828,7 @@
           },
           "cliente_FdGgxa": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260827_175336_Gallery_1.jpg",
               "username": "",
@@ -825,6 +837,7 @@
           },
           "cliente_kTKmAb": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "video": "shopify://files/videos/VID-20260725-WA0013.mp4",
               "username": "",
@@ -833,6 +846,7 @@
           },
           "cliente_AyjXXC": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134037_Instagram.jpg",
               "username": "",
@@ -841,6 +855,7 @@
           },
           "cliente_P38Cpp": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20261013_012804_Instagram.jpg",
               "username": "",
@@ -849,6 +864,7 @@
           },
           "cliente_hBR87m": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134140_Instagram.jpg",
               "username": "",
@@ -857,6 +873,7 @@
           },
           "cliente_i4nUiP": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134032_Instagram.jpg",
               "username": "",
@@ -865,6 +882,7 @@
           },
           "cliente_nrF9En": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134132_Instagram.jpg",
               "username": "",
@@ -873,6 +891,7 @@
           },
           "cliente_EYrCaM": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134135_Instagram.jpg",
               "username": "",
@@ -881,6 +900,7 @@
           },
           "cliente_GwtYWr": {
             "type": "cliente",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Screenshot_20260826_134039_Instagram.jpg",
               "username": "",
