@@ -1,0 +1,183 @@
+{% comment %}
+  Sección "Próximamente" · WTF Fitwear / WF Urban Muscle
+  Tarjetas de lanzamientos que vienen (no son productos). Se editan desde Personalizar.
+{% endcomment %}
+
+<section class="wtf-prox wtf-prox--{{ section.id }}">
+  <div class="wtf-prox__head">
+    <span class="wtf-prox__bar"></span>
+    <div>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="wtf-prox__title">{{ section.settings.heading }} <span>{{ section.settings.heading_red }}</span></h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="wtf-prox__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="wtf-prox__grid">
+    {%- for block in section.blocks -%}
+      {%- assign link = block.settings.link | default: section.settings.default_link | default: 'https://www.instagram.com/wtffitwear' -%}
+      <div class="wtf-prox__card" {{ block.shopify_attributes }}>
+        <div class="wtf-prox__img">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'wtf-prox__ph' }}
+          {%- endif -%}
+          <span class="wtf-prox__tag">{{ block.settings.tag | default: 'PRÓXIMAMENTE' }}</span>
+          {%- if block.settings.date != blank -%}
+            <span class="wtf-prox__date">{{ block.settings.date }}</span>
+          {%- endif -%}
+        </div>
+        <div class="wtf-prox__info">
+          <h3 class="wtf-prox__name">{{ block.settings.title }}</h3>
+          {%- if block.settings.text != blank -%}<p class="wtf-prox__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if section.settings.show_form -%}
+            {%- assign drop_tag = block.settings.drop_tag | default: block.settings.title | handleize -%}
+            {%- assign form_id = 'prox-form-' | append: block.id -%}
+            {%- form 'customer', id: form_id, class: 'wtf-prox__form' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter, proximamente, prox-{{ drop_tag }}">
+              {%- if form.posted_successfully? -%}
+                <p class="wtf-prox__ok" data-prox-ok="{{ block.id }}">✓ Listo, te avisamos por correo en cuanto salga.</p>
+              {%- endif -%}
+              <div class="wtf-prox__row" data-prox-row="{{ block.id }}">
+                <input class="wtf-prox__input" type="email" name="contact[email]" required autocomplete="email" placeholder="Tu correo" aria-label="Tu correo">
+                <button class="wtf-prox__send" type="submit" data-prox-id="{{ block.id }}">{{ block.settings.button_label | default: 'Avísame' }}</button>
+              </div>
+              {%- if form.errors -%}<p class="wtf-prox__err">Revisa tu correo e inténtalo de nuevo.</p>{%- endif -%}
+            {%- endform -%}
+          {%- elsif block.settings.button_label != blank -%}
+            <a class="wtf-prox__btn" href="{{ link }}" target="_blank" rel="noopener">{{ block.settings.button_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .wtf-prox--{{ section.id }} { background: #0b0b0b; color: #fff; padding: {{ section.settings.padding }}px 4%; }
+  .wtf-prox--{{ section.id }} .wtf-prox__head { display: flex; gap: 14px; align-items: stretch; margin-bottom: 24px; }
+  .wtf-prox--{{ section.id }} .wtf-prox__bar { width: 6px; background: #d32029; border-radius: 3px; flex: none; }
+  .wtf-prox--{{ section.id }} .wtf-prox__title {
+    margin: 0; font-size: clamp(28px, 4vw, 52px); font-weight: 900; text-transform: uppercase;
+    letter-spacing: .01em; line-height: 1; color: #fff; font-stretch: condensed;
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__title span { color: #d32029; }
+  .wtf-prox--{{ section.id }} .wtf-prox__sub { margin: 8px 0 0; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(16px, 1.6vw, 22px); color: #cfcfcf; }
+  .wtf-prox--{{ section.id }} .wtf-prox__grid { display: grid; grid-template-columns: repeat({{ section.settings.columns }}, 1fr); gap: 18px; }
+  .wtf-prox--{{ section.id }} .wtf-prox__card { background: #151515; border: 1px solid #262626; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .wtf-prox--{{ section.id }} .wtf-prox__img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #1c1c1c; }
+  .wtf-prox--{{ section.id }} .wtf-prox__img img,
+  .wtf-prox--{{ section.id }} .wtf-prox__ph { width: 100%; height: 100%; object-fit: cover; display: block;
+    {% if section.settings.darken %}filter: brightness(.62) saturate(.9);{% endif %} }
+  .wtf-prox--{{ section.id }} .wtf-prox__tag {
+    position: absolute; top: 12px; left: 12px; background: #d32029; color: #fff; font-weight: 800;
+    font-size: 12px; letter-spacing: .12em; padding: 7px 14px; border-radius: 999px;
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__date {
+    position: absolute; bottom: 12px; left: 12px; border: 1px solid #fff; color: #fff; font-weight: 700;
+    font-size: 12px; letter-spacing: .1em; padding: 6px 12px; border-radius: 999px; text-transform: uppercase;
+    background: rgba(0,0,0,.35);
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__info { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .wtf-prox--{{ section.id }} .wtf-prox__name { margin: 0; font-size: 18px; font-weight: 900; text-transform: uppercase; color: #fff; }
+  .wtf-prox--{{ section.id }} .wtf-prox__text { margin: 0; font-size: 14px; color: #a9a9a9; }
+  .wtf-prox--{{ section.id }} .wtf-prox__btn {
+    margin-top: auto; align-self: flex-start; display: inline-block; padding: 10px 20px; border-radius: 999px;
+    border: 1.5px solid #fff; color: #fff; text-decoration: none; font-weight: 800; font-size: 13px;
+    letter-spacing: .08em; text-transform: uppercase; transition: background .2s, color .2s;
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__btn:hover { background: #fff; color: #0b0b0b; }
+
+  .wtf-prox--{{ section.id }} .wtf-prox__form { margin-top: auto; }
+  .wtf-prox--{{ section.id }} .wtf-prox__row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .wtf-prox--{{ section.id }} .wtf-prox__input {
+    flex: 1 1 150px; min-width: 0; padding: 11px 14px; border-radius: 999px; border: 1px solid #3a3a3a;
+    background: #0b0b0b; color: #fff; font-size: 14px;
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__input::placeholder { color: #8a8a8a; }
+  .wtf-prox--{{ section.id }} .wtf-prox__send {
+    flex: 0 0 auto; padding: 11px 18px; border-radius: 999px; border: 0; background: #d32029; color: #fff;
+    font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+  }
+  .wtf-prox--{{ section.id }} .wtf-prox__ok { margin: 0; color: #fff; font-weight: 700; font-size: 14px; }
+  .wtf-prox--{{ section.id }} .wtf-prox__err { margin: 6px 0 0; color: #ff6b72; font-size: 13px; }
+
+  @media (max-width: 749px) {
+    .wtf-prox--{{ section.id }} .wtf-prox__grid {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px;
+      margin: 0 -4%; padding: 0 4% 6px; -webkit-overflow-scrolling: touch;
+    }
+    .wtf-prox--{{ section.id }} .wtf-prox__card { flex: 0 0 72%; scroll-snap-align: start; }
+    .wtf-prox--{{ section.id }} .wtf-prox__name { font-size: 16px; }
+    .wtf-prox--{{ section.id }} .wtf-prox__send { flex: 1 1 100%; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.querySelector('.wtf-prox--{{ section.id }}');
+    if (!root) return;
+    var key = 'wtfProxSent';
+    root.querySelectorAll('[data-prox-id]').forEach(function (b) {
+      b.addEventListener('click', function () { try { sessionStorage.setItem(key, b.getAttribute('data-prox-id')); } catch (e) {} });
+    });
+    var sent = null;
+    try { sent = sessionStorage.getItem(key); } catch (e) {}
+    var oks = root.querySelectorAll('[data-prox-ok]');
+    if (!oks.length) return;
+    oks.forEach(function (ok) {
+      var id = ok.getAttribute('data-prox-ok');
+      if (sent && id !== sent) { ok.remove(); }
+      else {
+        var row = root.querySelector('[data-prox-row="' + id + '"]');
+        if (row) row.style.display = 'none';
+        if (id === sent) ok.closest('.wtf-prox__card').scrollIntoView({ block: 'center' });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Próximamente WTF",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título (parte blanca)", "default": "Lo que" },
+    { "type": "text", "id": "heading_red", "label": "Título (parte roja)", "default": "viene" },
+    { "type": "text", "id": "subheading", "label": "Frase debajo del título", "default": "Próximos drops de WF Urban Muscle" },
+    { "type": "url", "id": "default_link", "label": "Enlace de los botones (si la tarjeta no tiene uno propio)", "info": "Si lo dejas vacío, los botones llevan a tu Instagram." },
+    { "type": "checkbox", "id": "show_form", "label": "Mostrar formulario de correo «Avísame»", "info": "Los correos se guardan en Clientes con la etiqueta prox-nombre-del-drop.", "default": true },
+    { "type": "checkbox", "id": "darken", "label": "Oscurecer las fotos (efecto misterio)", "default": true },
+    { "type": "range", "id": "columns", "label": "Tarjetas por fila en computadora", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "range", "id": "padding", "label": "Espacio arriba y abajo", "min": 16, "max": 96, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "drop",
+      "name": "Lanzamiento",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto o render" },
+        { "type": "text", "id": "title", "label": "Nombre", "default": "Nuevo drop" },
+        { "type": "text", "id": "text", "label": "Descripción corta (opcional)" },
+        { "type": "text", "id": "tag", "label": "Etiqueta roja", "default": "PRÓXIMAMENTE" },
+        { "type": "text", "id": "date", "label": "Fecha (opcional, ej. SÁBADO 00:00)" },
+        { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Avísame" },
+        { "type": "text", "id": "drop_tag", "label": "Etiqueta del drop (opcional)", "info": "Ej. titanes. Si lo dejas vacío se usa el nombre. Los clientes quedan con la etiqueta prox-titanes." },
+        { "type": "url", "id": "link", "label": "Enlace del botón (solo si el formulario está apagado)" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "drop", "settings": { "title": "Pants WF", "text": "Muy pronto en tienda" } },
+      { "type": "drop", "settings": { "title": "Conjunto anime", "text": "Muy pronto en tienda" } },
+      { "type": "drop", "settings": { "title": "Ataque de Titanes", "text": "Colección con NFC" } }
+    ]
+  }
+}
+{% endschema %}
