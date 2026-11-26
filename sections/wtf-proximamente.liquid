@@ -63,10 +63,10 @@
   .wtf-prox--{{ section.id }} .wtf-prox__bar { width: 6px; background: #d32029; border-radius: 3px; flex: none; }
   .wtf-prox--{{ section.id }} .wtf-prox__title {
     margin: 0; font-size: clamp(28px, 4vw, 52px); font-weight: 900; text-transform: uppercase;
-    letter-spacing: .01em; line-height: 1; color: #fff; font-stretch: condensed;
+    letter-spacing: .01em; line-height: 1; color: #fff !important; font-stretch: condensed;
   }
-  .wtf-prox--{{ section.id }} .wtf-prox__title span { color: #d32029; }
-  .wtf-prox--{{ section.id }} .wtf-prox__sub { margin: 8px 0 0; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(16px, 1.6vw, 22px); color: #cfcfcf; }
+  .wtf-prox--{{ section.id }} .wtf-prox__title span { color: #d32029 !important; }
+  .wtf-prox--{{ section.id }} .wtf-prox__sub { margin: 8px 0 0; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(16px, 1.6vw, 22px); color: #cfcfcf !important; }
   .wtf-prox--{{ section.id }} .wtf-prox__grid { display: grid; grid-template-columns: repeat({{ section.settings.columns }}, 1fr); gap: 18px; }
   .wtf-prox--{{ section.id }} .wtf-prox__card { background: #151515; border: 1px solid #262626; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
   .wtf-prox--{{ section.id }} .wtf-prox__img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #1c1c1c; }
@@ -74,17 +74,17 @@
   .wtf-prox--{{ section.id }} .wtf-prox__ph { width: 100%; height: 100%; object-fit: cover; display: block;
     {% if section.settings.darken %}filter: brightness(.62) saturate(.9);{% endif %} }
   .wtf-prox--{{ section.id }} .wtf-prox__tag {
-    position: absolute; top: 12px; left: 12px; background: #d32029; color: #fff; font-weight: 800;
+    position: absolute; top: 12px; left: 12px; background: #d32029; color: #fff !important; font-weight: 800;
     font-size: 12px; letter-spacing: .12em; padding: 7px 14px; border-radius: 999px;
   }
   .wtf-prox--{{ section.id }} .wtf-prox__date {
-    position: absolute; bottom: 12px; left: 12px; border: 1px solid #fff; color: #fff; font-weight: 700;
+    position: absolute; bottom: 12px; left: 12px; border: 1px solid #fff; color: #fff !important; font-weight: 700;
     font-size: 12px; letter-spacing: .1em; padding: 6px 12px; border-radius: 999px; text-transform: uppercase;
     background: rgba(0,0,0,.35);
   }
   .wtf-prox--{{ section.id }} .wtf-prox__info { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .wtf-prox--{{ section.id }} .wtf-prox__name { margin: 0; font-size: 18px; font-weight: 900; text-transform: uppercase; color: #fff; }
-  .wtf-prox--{{ section.id }} .wtf-prox__text { margin: 0; font-size: 14px; color: #a9a9a9; }
+  .wtf-prox--{{ section.id }} .wtf-prox__name { margin: 0; font-size: 18px; font-weight: 900; text-transform: uppercase; color: #fff !important; }
+  .wtf-prox--{{ section.id }} .wtf-prox__text { margin: 0; font-size: 14px; color: #a9a9a9 !important; }
   .wtf-prox--{{ section.id }} .wtf-prox__btn {
     margin-top: auto; align-self: flex-start; display: inline-block; padding: 10px 20px; border-radius: 999px;
     border: 1.5px solid #fff; color: #fff; text-decoration: none; font-weight: 800; font-size: 13px;
@@ -96,14 +96,14 @@
   .wtf-prox--{{ section.id }} .wtf-prox__row { display: flex; gap: 8px; flex-wrap: wrap; }
   .wtf-prox--{{ section.id }} .wtf-prox__input {
     flex: 1 1 150px; min-width: 0; padding: 11px 14px; border-radius: 999px; border: 1px solid #3a3a3a;
-    background: #0b0b0b; color: #fff; font-size: 14px;
+    background: #0b0b0b !important; color: #fff !important; font-size: 14px;
   }
   .wtf-prox--{{ section.id }} .wtf-prox__input::placeholder { color: #8a8a8a; }
   .wtf-prox--{{ section.id }} .wtf-prox__send {
-    flex: 0 0 auto; padding: 11px 18px; border-radius: 999px; border: 0; background: #d32029; color: #fff;
+    flex: 0 0 auto; padding: 11px 18px; border-radius: 999px; border: 0; background: #d32029 !important; color: #fff !important;
     font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
   }
-  .wtf-prox--{{ section.id }} .wtf-prox__ok { margin: 0; color: #fff; font-weight: 700; font-size: 14px; }
+  .wtf-prox--{{ section.id }} .wtf-prox__ok { margin: 0; color: #fff !important; font-weight: 700; font-size: 14px; }
   .wtf-prox--{{ section.id }} .wtf-prox__err { margin: 6px 0 0; color: #ff6b72; font-size: 13px; }
 
   @media (max-width: 749px) {
