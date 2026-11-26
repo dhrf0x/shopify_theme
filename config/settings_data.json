@@ -532,6 +532,15 @@
       "wf-carousel": {
         "type": "wf-carousel",
         "blocks": {
+          "slide_8gciAe": {
+            "type": "slide",
+            "settings": {
+              "product": "jersey-mojojojo-powerpuff-wf-urban-muscle",
+              "title": "",
+              "subtext": "comprar",
+              "link": "shopify://products/jersey-mojojojo-powerpuff-wf-urban-muscle"
+            }
+          },
           "slide_whcaNy": {
             "type": "slide",
             "settings": {
@@ -570,6 +579,7 @@
           }
         },
         "block_order": [
+          "slide_8gciAe",
           "slide_whcaNy",
           "slide_RCFbii",
           "slide_Km4d8Y",
