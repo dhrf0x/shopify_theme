@@ -1,0 +1,67 @@
+{% comment %}
+  Sección de video para la página de inicio · WTF Fitwear / WF Urban Muscle
+  Video de computadora + video opcional para celular, título y botón.
+{% endcomment %}
+
+<section class="wtf-video wtf-video--{{ section.id }}">
+  <div class="wtf-video__media">
+    {%- if section.settings.video != blank -%}
+      <div class="wtf-video__desktop{% if section.settings.video_mobile != blank %} wtf-video__desktop--has-mobile{% endif %}">
+        {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata', class: 'wtf-video__el' }}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.video_mobile != blank -%}
+      <div class="wtf-video__mobile">
+        {{ section.settings.video_mobile | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata', class: 'wtf-video__el' }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank or section.settings.button_label != blank -%}
+      <div class="wtf-video__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="wtf-video__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a class="wtf-video__button" href="{{ section.settings.button_link | default: '/collections/all' }}">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .wtf-video--{{ section.id }} { margin: {{ section.settings.margin }}px 0; }
+  .wtf-video--{{ section.id }} .wtf-video__media { position: relative; width: 100%; overflow: hidden; background: #0b0b0b; }
+  .wtf-video--{{ section.id }} .wtf-video__el { display: block; width: 100%; height: auto; }
+  .wtf-video--{{ section.id }} .wtf-video__mobile { display: none; }
+  .wtf-video--{{ section.id }} .wtf-video__content {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 4%;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .wtf-video--{{ section.id }} .wtf-video__heading { margin: 0; color: #fff; font-size: clamp(22px, 3vw, 44px); text-transform: uppercase; letter-spacing: .02em; }
+  .wtf-video--{{ section.id }} .wtf-video__button {
+    display: inline-block; padding: 12px 26px; background: #d32029; color: #fff; text-decoration: none;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .05em; border-radius: 999px;
+  }
+  @media (max-width: 749px) {
+    .wtf-video--{{ section.id }} .wtf-video__desktop--has-mobile { display: none; }
+    .wtf-video--{{ section.id }} .wtf-video__mobile { display: block; }
+    .wtf-video--{{ section.id }} .wtf-video__content { justify-content: center; text-align: center; padding: 18px 6%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Video WTF",
+  "tag": "section",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Video para computadora (1920×750)" },
+    { "type": "video", "id": "video_mobile", "label": "Video para celular (900×1599)", "info": "Opcional. Si lo dejas vacío, en celular se muestra el de computadora." },
+    { "type": "text", "id": "heading", "label": "Título (opcional)" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón (opcional)", "default": "Ver todos los diseños" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+    { "type": "range", "id": "margin", "label": "Espacio arriba y abajo", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [ { "name": "Video WTF" } ]
+}
+{% endschema %}
