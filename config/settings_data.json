@@ -955,6 +955,79 @@
           "button_link": "shopify://collections/jersey",
           "margin": 16
         }
+      },
+      "wtf-proximamente": {
+        "type": "wtf-proximamente",
+        "blocks": {
+          "drop_WLCPXz": {
+            "type": "drop",
+            "settings": {
+              "image": "shopify://shop_images/WF_proximamente_reno_azul_1.jpg",
+              "title": "Lumpy",
+              "text": "HAPPY TREE FRIENDS",
+              "tag": "PRÓXIMAMENTE",
+              "date": "SABADO 28 A LAS 00:00HRS",
+              "button_label": "Avísame",
+              "drop_tag": "htf",
+              "link": ""
+            }
+          },
+          "wtf-proximamente-0": {
+            "type": "drop",
+            "settings": {
+              "image": "shopify://shop_images/WF_proximamente_HTF_conejo_2.jpg",
+              "title": "CUDDLES",
+              "text": "HAPPY TREE FRIENDS",
+              "tag": "PRÓXIMAMENTE",
+              "date": "SABADO 28 A LAS 00:00HRS",
+              "button_label": "Avísame",
+              "drop_tag": "htf",
+              "link": ""
+            }
+          },
+          "wtf-proximamente-1": {
+            "type": "drop",
+            "settings": {
+              "image": "shopify://shop_images/WF_proximamente_HTF_rosa_1.jpg",
+              "title": "GIGGLES",
+              "text": "HAPPY TREE FRIENDS",
+              "tag": "PRÓXIMAMENTE",
+              "date": "SABADO 28 A LAS 00:00HRS",
+              "button_label": "Avísame",
+              "drop_tag": "htf",
+              "link": ""
+            }
+          },
+          "wtf-proximamente-2": {
+            "type": "drop",
+            "settings": {
+              "image": "shopify://shop_images/WF_proximamente_dragon_ball_namek.jpg",
+              "title": "DRAGON BALL",
+              "text": "GOKU NAMEK",
+              "tag": "PRÓXIMAMENTE",
+              "date": "SABADO 28 A LAS 00:00HRS",
+              "button_label": "Avísame",
+              "drop_tag": "dragonballnamek",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "drop_WLCPXz",
+          "wtf-proximamente-0",
+          "wtf-proximamente-1",
+          "wtf-proximamente-2"
+        ],
+        "settings": {
+          "heading": "Lo que",
+          "heading_red": "viene",
+          "subheading": "Próximos drops de WF Urban Muscle",
+          "default_link": "",
+          "show_form": true,
+          "darken": true,
+          "columns": 4,
+          "padding": 48
+        }
       }
     },
     "content_for_index": [],

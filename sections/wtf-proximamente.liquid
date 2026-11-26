@@ -22,7 +22,7 @@
       <div class="wtf-prox__card" {{ block.shopify_attributes }}>
         <div class="wtf-prox__img">
           {%- if block.settings.image != blank -%}
-            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            <img class="wtf-prox__photo" src="{{ block.settings.image | image_url: width: 900 }}" alt="{{ block.settings.title | escape }}" width="1080" height="1350">
           {%- else -%}
             {{ 'product-1' | placeholder_svg_tag: 'wtf-prox__ph' }}
           {%- endif -%}
@@ -70,9 +70,11 @@
   .wtf-prox--{{ section.id }} .wtf-prox__grid { display: grid; grid-template-columns: repeat({{ section.settings.columns }}, 1fr); gap: 18px; }
   .wtf-prox--{{ section.id }} .wtf-prox__card { background: #151515; border: 1px solid #262626; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
   .wtf-prox--{{ section.id }} .wtf-prox__img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #1c1c1c; }
-  .wtf-prox--{{ section.id }} .wtf-prox__img img,
-  .wtf-prox--{{ section.id }} .wtf-prox__ph { width: 100%; height: 100%; object-fit: cover; display: block;
-    {% if section.settings.darken %}filter: brightness(.62) saturate(.9);{% endif %} }
+  .wtf-prox--{{ section.id }} .wtf-prox__img img.wtf-prox__photo,
+  .wtf-prox--{{ section.id }} .wtf-prox__ph {
+    position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+    max-width: none !important; object-fit: cover; display: block !important; opacity: 1 !important; visibility: visible !important;
+    {% if section.settings.darken %}filter: brightness(.78) saturate(.95);{% else %}filter: none;{% endif %} }
   .wtf-prox--{{ section.id }} .wtf-prox__tag {
     position: absolute; top: 12px; left: 12px; background: #d32029; color: #fff !important; font-weight: 800;
     font-size: 12px; letter-spacing: .12em; padding: 7px 14px; border-radius: 999px;
