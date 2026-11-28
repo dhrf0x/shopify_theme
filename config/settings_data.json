@@ -972,52 +972,52 @@
           "drop_WLCPXz": {
             "type": "drop",
             "settings": {
-              "image": "shopify://shop_images/WF_proximamente_reno_azul_1.jpg",
-              "title": "Lumpy",
-              "text": "HAPPY TREE FRIENDS",
+              "image": "shopify://shop_images/WF_proximamente_misterio.jpg",
+              "title": "",
+              "text": "",
               "tag": "PRÓXIMAMENTE",
-              "date": "SABADO 28 A LAS 00:00HRS",
+              "date": "SABADO 05 DIC A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "htf",
+              "drop_tag": "",
               "link": ""
             }
           },
           "wtf-proximamente-0": {
             "type": "drop",
             "settings": {
-              "image": "shopify://shop_images/WF_proximamente_HTF_conejo_2.jpg",
-              "title": "CUDDLES",
-              "text": "HAPPY TREE FRIENDS",
+              "image": "shopify://shop_images/WF_proximamente_misterio.jpg",
+              "title": "",
+              "text": "",
               "tag": "PRÓXIMAMENTE",
-              "date": "SABADO 28 A LAS 00:00HRS",
+              "date": "SABADO 05 DIC A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "htf",
+              "drop_tag": "",
               "link": ""
             }
           },
           "wtf-proximamente-1": {
             "type": "drop",
             "settings": {
-              "image": "shopify://shop_images/WF_proximamente_HTF_rosa_1.jpg",
-              "title": "GIGGLES",
-              "text": "HAPPY TREE FRIENDS",
+              "image": "shopify://shop_images/WF_proximamente_misterio.jpg",
+              "title": "",
+              "text": "",
               "tag": "PRÓXIMAMENTE",
-              "date": "SABADO 28 A LAS 00:00HRS",
+              "date": "SABADO 05 DIC A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "htf",
+              "drop_tag": "",
               "link": ""
             }
           },
           "wtf-proximamente-2": {
             "type": "drop",
             "settings": {
-              "image": "shopify://shop_images/WF_proximamente_dragon_ball_namek.jpg",
-              "title": "DRAGON BALL",
-              "text": "GOKU NAMEK",
+              "image": "shopify://shop_images/WF_proximamente_misterio.jpg",
+              "title": "",
+              "text": "",
               "tag": "PRÓXIMAMENTE",
-              "date": "SABADO 28 A LAS 00:00HRS",
+              "date": "SABADO 05 DIC A LAS 00:00HRS",
               "button_label": "Avísame",
-              "drop_tag": "prox-dragonball",
+              "drop_tag": "",
               "link": ""
             }
           }
