@@ -522,8 +522,8 @@
           "title": "¡lo mas nuevo¡",
           "subtitle": "",
           "collection": "productos-nuevos",
-          "products_count": 4,
-          "grid": "4",
+          "products_count": 6,
+          "grid": "3",
           "grid_mobile": "2",
           "cta_text": "Ver todos",
           "cta_link": ""
